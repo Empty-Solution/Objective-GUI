@@ -1,7 +1,7 @@
 ﻿using OG.Style.Abstraction;
 using UnityEngine;
 
-namespace OG.Element.Legacy;
+namespace OG.Element.Legacy.Tools;
 
 internal class InternalLegacyGuiStyleTool
 {

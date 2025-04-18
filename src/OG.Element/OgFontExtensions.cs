@@ -1,3 +1,4 @@
+using OG.Element.Legacy.Tools;
 using OG.Style.Abstraction;
 using UnityEngine;
 
@@ -5,9 +6,6 @@ namespace OG.Element;
 
 public static class OgFontExtensions
 {
-    private static readonly GUIStyle unityStyle = new();
-    private static readonly GUIContent tempContent = new();
-
     public static Vector2 GetCharPositionInString(this Font font, string text, int characterIndex, IOgTextStyle textStyle, Rect textRect)
     {
         if(font == null || string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length)
@@ -84,8 +82,9 @@ public static class OgFontExtensions
 
     private static Vector2 GetAlignmentOffset(string text, Rect textRect, IOgTextStyle textStyle)
     {
-        textStyle.FillUnityStyle(unityStyle);
-        tempContent.text = text;
+        GUIStyle unityStyle = InternalLegacyGuiStyleTool.GetUnityStyle(textStyle);
+        GUIContent tempContent = InternalLegacyGuiContentTool.GetContent(text);
+
         Vector2 size = unityStyle.CalcSize(tempContent);
 
         float offsetX = textStyle.Alignment switch
@@ -95,7 +94,7 @@ public static class OgFontExtensions
             TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight => textRect.xMax - size.x,
             _ => 0f
         };
-
+        
         float offsetY = textStyle.Alignment switch
         {
             TextAnchor.UpperLeft or TextAnchor.UpperCenter or TextAnchor.UpperRight => textRect.yMin,
