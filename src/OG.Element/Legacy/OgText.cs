@@ -1,6 +1,7 @@
 ﻿using OG.Common.Abstraction;
 using OG.Common.Scoping.Abstraction;
 using OG.Element.Abstraction;
+using OG.Element.Legacy.Tools;
 using OG.Style.Abstraction;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public abstract class OgText<TElement, TStyle, TScope>(string name, TStyle style
 {
     public string Text { get; set; } = text;
 
-    protected override void DoStyledElement(OgEvent reason, Rect rect, TStyle style) => DoTextElement(reason, rect, InternalLegacyGuiTool.GetUnityStyle(style), Text);
+    protected override void DoStyledElement(OgEvent reason, Rect rect, TStyle style) => DoTextElement(reason, rect, InternalLegacyGuiStyleTool.GetUnityStyle(style), Text);
 
     protected abstract void DoTextElement(OgEvent reason, Rect rect, GUIStyle style, string text);
 }

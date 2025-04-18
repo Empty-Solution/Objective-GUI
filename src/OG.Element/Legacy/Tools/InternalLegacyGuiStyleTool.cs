@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace OG.Element.Legacy;
 
-internal class InternalLegacyGuiTool
+internal class InternalLegacyGuiStyleTool
 {
     private static readonly GUIStyle tempStyle = new();
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace OG.Element;
 
-public static class FontExtensions
+public static class OgFontExtensions
 {
     private static readonly GUIStyle unityStyle = new();
     private static readonly GUIContent tempContent = new();

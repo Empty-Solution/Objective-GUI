@@ -11,5 +11,5 @@ public class OgField<TElement, TStyle, TScope>(string name, TStyle style, string
     where TElement : IOgElement where TScope : IOgTransformScope where TStyle : IOgTextStyle
 {
     protected override string DoChangeValueElement(OgEvent reason, Rect rect, TStyle style, string original) =>
-        GUI.TextField(rect, original, maxLength, InternalLegacyGuiTool.GetUnityStyle(style));
+        GUI.TextField(rect, original, maxLength, InternalLegacyGuiStyleTool.GetUnityStyle(style));
 }
