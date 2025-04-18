@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Style.Abstraction\OG.Style.Abstraction.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>..\..\Dependencies\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+</Project>
+

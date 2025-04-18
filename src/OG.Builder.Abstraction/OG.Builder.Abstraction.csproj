@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Common.Abstraction\OG.Common.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Common.Scoping.Abstraction\OG.Common.Scoping.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Style.Abstraction\OG.Style.Abstraction.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="DK.Common.DataTypes.Abstraction">
+            <HintPath>..\..\Dependencies\DK.Common.DataTypes.Abstraction.dll</HintPath>
+        </Reference>
+        <Reference Include="DK.Scoping">
+            <HintPath>..\..\Dependencies\DK.Scoping.dll</HintPath>
+        </Reference>
+        <Reference Include="DK.Scoping.Abstraction">
+            <HintPath>..\..\Dependencies\DK.Scoping.Abstraction.dll</HintPath>
+        </Reference>
+        <Reference Include="DK.Scoping.Extensions">
+            <HintPath>..\..\Dependencies\DK.Scoping.Extensions.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine">
+            <HintPath>..\..\Dependencies\UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>..\..\Dependencies\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.IMGUIModule">
+            <HintPath>..\..\Dependencies\UnityEngine.IMGUIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+            <HintPath>..\..\Dependencies\UnityEngine.TextRenderingModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+</Project>

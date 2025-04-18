@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>..\..\Dependencies\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.IMGUIModule">
+            <HintPath>..\..\Dependencies\UnityEngine.IMGUIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+            <HintPath>..\..\Dependencies\UnityEngine.TextRenderingModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+</Project>
