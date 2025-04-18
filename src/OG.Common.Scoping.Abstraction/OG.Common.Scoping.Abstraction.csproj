@@ -1,16 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.Common.Abstraction\OG.Common.Abstraction.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Reference Include="DK.Scoping.Abstraction">
-            <HintPath>..\..\Dependencies\DK.Scoping.Abstraction.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine.CoreModule">
-            <HintPath>..\..\Dependencies\UnityEngine.CoreModule.dll</HintPath>
-        </Reference>
+        <PackageReference Include="DK.Scoping.Abstraction" Version="1.0.0" />
+        <ProjectReference Include="..\OG.Common.Abstraction\OG.Common.Abstraction.csproj" />
     </ItemGroup>
 
 </Project>

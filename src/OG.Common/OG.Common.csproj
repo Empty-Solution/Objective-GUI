@@ -4,10 +4,4 @@
         <ProjectReference Include="..\OG.Common.Abstraction\OG.Common.Abstraction.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Reference Include="UnityEngine.CoreModule">
-            <HintPath>..\..\Dependencies\UnityEngine.CoreModule.dll</HintPath>
-        </Reference>
-    </ItemGroup>
-
 </Project>

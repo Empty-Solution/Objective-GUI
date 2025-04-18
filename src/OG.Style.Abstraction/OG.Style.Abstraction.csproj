@@ -1,15 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <Reference Include="UnityEngine.CoreModule">
-            <HintPath>..\..\Dependencies\UnityEngine.CoreModule.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine.IMGUIModule">
-            <HintPath>..\..\Dependencies\UnityEngine.IMGUIModule.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine.TextRenderingModule">
-            <HintPath>..\..\Dependencies\UnityEngine.TextRenderingModule.dll</HintPath>
-        </Reference>
+        <PackageReference Include="UnityEngine.CoreModule" Version="2020.3.1" />
+        <PackageReference Include="UnityEngine.IMGUIModule" Version="2020.3.1" />
+        <PackageReference Include="UnityEngine.TextRenderingModule" Version="2020.3.1" />
     </ItemGroup>
 
 </Project>
