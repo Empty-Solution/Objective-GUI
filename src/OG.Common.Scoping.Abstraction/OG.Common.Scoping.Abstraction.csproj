@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="DK.Scoping.Abstraction" Version="1.0.0" />
-        <ProjectReference Include="..\OG.Common.Abstraction\OG.Common.Abstraction.csproj" />
+        <PackageReference Include="DK.Scoping.Abstraction" Version="1.0.0"/>
+        <ProjectReference Include="..\OG.Common.Abstraction\OG.Common.Abstraction.csproj"/>
     </ItemGroup>
 
 </Project>

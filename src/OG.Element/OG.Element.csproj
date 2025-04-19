@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.0.0" />
+        <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.Common.Abstraction\OG.Common.Abstraction.csproj" />
-        <ProjectReference Include="..\OG.Common.Scoping.Abstraction\OG.Common.Scoping.Abstraction.csproj" />
-        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj" />
-        <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Common.Abstraction\OG.Common.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Common.Scoping.Abstraction\OG.Common.Scoping.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj"/>
     </ItemGroup>
 
 </Project>

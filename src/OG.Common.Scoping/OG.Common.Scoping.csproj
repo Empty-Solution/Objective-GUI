@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="DK.Scoping" Version="1.0.0" />
+        <PackageReference Include="DK.Scoping" Version="1.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.Common.Scoping.Abstraction\OG.Common.Scoping.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Common.Scoping.Abstraction\OG.Common.Scoping.Abstraction.csproj"/>
     </ItemGroup>
 
 </Project>

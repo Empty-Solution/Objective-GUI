@@ -95,5 +95,5 @@ public class OgContainer<TElement, TScope>(string name, TScope rootScope, IOgTra
         for(int i = m_Children.Count - 1; i >= 0; i--) ProcessChild(reason, m_Children[i]);
     }
 
-    protected virtual void ProcessChild(OgEvent reason, IOgElement child) => child.OnGUI(reason);
+    protected virtual void ProcessChild(OgEvent reason, TElement child) => child.OnGUI(reason);
 }

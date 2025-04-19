@@ -6,7 +6,7 @@ namespace OG.Factory.Abstraction;
 public interface IOgFactory<TElement, TArguments> : IDkFactory<TElement, TArguments> where TElement : IOgElement where TArguments : IOgFactoryArguments
 {
     /// <summary>
-    /// XLM HELPER
+    ///     XLM HELPER
     /// </summary>
     string TypeName { get; }
 }

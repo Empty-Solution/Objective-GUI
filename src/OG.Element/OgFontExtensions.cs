@@ -84,24 +84,6 @@ public static class OgFontExtensions
     {
         GUIStyle unityStyle = InternalLegacyGuiStyleTool.GetUnityStyle(textStyle);
         GUIContent tempContent = InternalLegacyGuiContentTool.GetContent(text);
-
-        Vector2 size = unityStyle.CalcSize(tempContent);
-
-        float offsetX = textStyle.Alignment switch
-        {
-            TextAnchor.UpperLeft or TextAnchor.MiddleLeft or TextAnchor.LowerLeft => textRect.xMin,
-            TextAnchor.UpperCenter or TextAnchor.MiddleCenter or TextAnchor.LowerCenter => textRect.xMin + ((textRect.width - size.x) * 0.5f),
-            TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight => textRect.xMax - size.x,
-            _ => 0f
-        };
-        
-        float offsetY = textStyle.Alignment switch
-        {
-            TextAnchor.UpperLeft or TextAnchor.UpperCenter or TextAnchor.UpperRight => textRect.yMin,
-            TextAnchor.MiddleLeft or TextAnchor.MiddleCenter or TextAnchor.MiddleRight => textRect.yMin + ((textRect.height - size.y) * 0.5f),
-            TextAnchor.LowerLeft or TextAnchor.LowerCenter or TextAnchor.LowerRight => textRect.yMax - size.y,
-            _ => 0f
-        };
-        return new(offsetX, offsetY);
+        return textStyle.Alignment.GetAlignmentOffset(textRect, unityStyle.CalcSize(tempContent));
     }
 }

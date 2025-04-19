@@ -13,11 +13,5 @@ public class OgTransformFactory : IOgTransformFactory
         return InternalCreate(rect, rotation, scale, depth);
     }
 
-    private IOgTransform InternalCreate(Rect rect, Quaternion rotation, Vector3 scale, float depth) => new OgTransform
-    {
-        LocalRect = rect,
-        Rotation = rotation,
-        Scale = scale,
-        Depth = depth
-    };
+    private IOgTransform InternalCreate(Rect rect, Quaternion rotation, Vector3 scale, float depth) => new OgTransform { LocalRect = rect, Rotation = rotation, Scale = scale, Depth = depth };
 }
