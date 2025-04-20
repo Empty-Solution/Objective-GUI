@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace OG.Element.Legacy;
 
-public abstract class OgStyled<TElement, TStyle, TScope>(string name, TStyle style, TScope rootScope, IOgTransform transform)
-    : OgControl<TElement, TScope>(name, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope where TStyle : IOgStyle
+public abstract class OgStyled<TElement, TStyle, TScope>(string name, TStyle style, TScope scope, IOgTransform transform)
+    : OgControl<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope where TStyle : IOgStyle
 {
     private static readonly GUIStyle tempStyle = new();
 

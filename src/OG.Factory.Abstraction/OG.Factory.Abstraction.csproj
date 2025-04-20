@@ -11,4 +11,10 @@
         <ProjectReference Include="..\OG.Style.Abstraction\OG.Style.Abstraction.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="DK.Common.DataTypes.Abstraction">
+        <HintPath>..\..\..\..\..\Users\ukin3\.nuget\packages\dk.common.datatypes.abstraction\1.0.0\lib\net48\DK.Common.DataTypes.Abstraction.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

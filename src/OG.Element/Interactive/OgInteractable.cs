@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace OG.Element.Interactive;
 
-public class OgInteractable<TElement, TScope>(string name, TScope rootScope, IOgTransform transform)
-    : OgContainer<TElement, TScope>(name, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public class OgInteractable<TElement, TScope>(string name, TScope scope, IOgTransform transform)
+    : OgContainer<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope
 {
     protected virtual void HandleMouseDown(OgEvent reason) { }
 

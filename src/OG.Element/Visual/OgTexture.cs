@@ -9,10 +9,10 @@ namespace OG.Element.Visual;
 
 public class OgTexture<TStyle, TScope>(
     string name,
-    TStyle style,
-    Texture texture,
     TScope scope,
     IOgTransform transform,
+    TStyle style,
+    Texture texture,
     IOgGraphics<IOgTextureGraphicsContext<TStyle>> graphics)
     : OgContentVisual<TStyle, TScope, Texture, IOgTextureGraphicsContext<TStyle>>(name, texture, style, scope, transform, graphics), IOgTexture
     where TStyle : IOgTextureStyle where TScope : IOgTransformScope

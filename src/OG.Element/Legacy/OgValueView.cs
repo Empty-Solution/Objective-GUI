@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace OG.Element.Legacy;
 
-public abstract class OgValueView<TElement, TStyle, TScope, TValue>(string name, TStyle style, TValue value, TScope rootScope, IOgTransform transform)
-    : OgStyled<TElement, TStyle, TScope>(name, style, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope where TStyle : IOgStyle
+public abstract class OgValueView<TElement, TStyle, TScope, TValue>(string name, TStyle style, TValue value, TScope scope, IOgTransform transform)
+    : OgStyled<TElement, TStyle, TScope>(name, style, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope where TStyle : IOgStyle
 {
     public TValue Value { get; set; } = value;
 

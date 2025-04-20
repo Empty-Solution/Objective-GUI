@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace OG.Element.Legacy;
 
-public class OgButton<TElement, TStyle, TScope>(string name, TStyle style, TScope rootScope, IOgTransform transform)
-    : OgStyled<TElement, TStyle, TScope>(name, style, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope where TStyle : IOgStyle
+public class OgButton<TElement, TStyle, TScope>(string name, TStyle style, TScope scope, IOgTransform transform)
+    : OgStyled<TElement, TStyle, TScope>(name, style, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope where TStyle : IOgStyle
 {
     public delegate void OgClickHandler(OgButton<TElement, TStyle, TScope> instance, OgEvent reason);
 

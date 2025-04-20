@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace OG.Element.Legacy;
 
-public class OgField<TElement, TStyle, TScope>(string name, TStyle style, string value, int maxLength, TScope rootScope, IOgTransform transform)
-    : OgValueView<TElement, TStyle, TScope, string>(name, style, value, rootScope, transform)
+public class OgField<TElement, TStyle, TScope>(string name, TStyle style, string value, int maxLength, TScope scope, IOgTransform transform)
+    : OgValueView<TElement, TStyle, TScope, string>(name, style, value, scope, transform)
     where TElement : IOgElement where TScope : IOgTransformScope where TStyle : IOgTextStyle
 {
     protected override string DoChangeValueElement(OgEvent reason, Rect rect, TStyle style, string original) =>

@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace OG.Element.Interactive;
 
-public class OgHorizontalSlider<TElement, TScope>(string name, float value, IDkRange<float> range, float scrollStep, TScope rootScope, IOgTransform transform)
-    : OgSlider<TElement, TScope>(name, value, range, scrollStep, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public class OgHorizontalSlider<TElement, TScope>(string name, TScope scope, IOgTransform transform, float value, IDkRange<float> range, float scrollStep)
+    : OgSlider<TElement, TScope>(name, scope, transform, value, range, scrollStep) where TElement : IOgElement where TScope : IOgTransformScope
 {
     protected override float InverseLerp(Rect rect, Vector2 mousePosition) => Mathf.InverseLerp(rect.x, rect.xMax, mousePosition.x);
 }

@@ -3,4 +3,4 @@ using UnityEngine;
 
 namespace OG.Factory.Abstraction;
 
-public interface IOgTextureFactoryArguments<TScope> : IOgVisualFactoryArguments<Texture, TScope> where TScope : IOgTransformScope;
+public interface IOgTextureFactoryArguments<TScope> : IOgContentFactoryArguments<Texture, TScope> where TScope : IOgTransformScope;

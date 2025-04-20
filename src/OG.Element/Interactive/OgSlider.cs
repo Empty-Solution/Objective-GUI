@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace OG.Element.Interactive;
 
-public abstract class OgSlider<TElement, TScope>(string name, float value, IDkRange<float> range, float scrollStep, TScope rootScope, IOgTransform transform)
-    : OgDraggableValueView<TElement, TScope, float>(name, value, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public abstract class OgSlider<TElement, TScope>(string name, TScope scope, IOgTransform transform, float value, IDkRange<float> range, float scrollStep)
+    : OgDraggableValueView<TElement, TScope, float>(name, scope, transform, value) where TElement : IOgElement where TScope : IOgTransformScope
 {
     protected override float CalculateValue(OgEvent reason, float value)
     {

@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace OG.Element.Interactive;
 
-public class OgScroll<TElement, TScope>(string name, TScope rootScope, IOgTransform transform)
-    : OgHoverable<TElement, TScope>(name, rootScope, transform) where TElement : IOgElement where TScope : IOgClipTransformScope
+public class OgScroll<TElement, TScope>(string name, TScope scope, IOgTransform transform)
+    : OgHoverable<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgClipTransformScope
 {
     public delegate void OgScrollHandler(OgScroll<TElement, TScope> instance, Vector2 scrollPosition);
 

@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace OG.Element.Interactive;
 
-public class OgVector<TElement, TScope>(string name, Vector2 value, IDkRange<Vector2> range, TScope rootScope, IOgTransform transform)
-    : OgDraggableValueView<TElement, TScope, Vector2>(name, value, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public class OgVector<TElement, TScope>(string name, TScope scope, IOgTransform transform, Vector2 value, IDkRange<Vector2> range)
+    : OgDraggableValueView<TElement, TScope, Vector2>(name, scope, transform, value) where TElement : IOgElement where TScope : IOgTransformScope
 {
     protected override Vector2 CalculateValue(OgEvent reason, Vector2 value)
     {

@@ -4,8 +4,8 @@ using OG.Element.Abstraction;
 
 namespace OG.Element.Interactive;
 
-public abstract class OgValueView<TElement, TScope, TValue>(string name, TValue value, TScope rootScope, IOgTransform transform)
-    : OgControl<TElement, TScope>(name, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public abstract class OgValueView<TElement, TScope, TValue>(string name, TScope scope, IOgTransform transform, TValue value)
+    : OgControl<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope
 {
     public delegate void OgValueChangeHandler(OgValueView<TElement, TScope, TValue> instance, TValue value, OgEvent reason);
 

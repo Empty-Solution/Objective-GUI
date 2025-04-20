@@ -4,8 +4,8 @@ using OG.Element.Abstraction;
 
 namespace OG.Element;
 
-public class OgLayoutContainer<TElement, TScope>(string name, IOgLayout<TElement> layout, TScope rootScope, IOgTransform transform)
-    : OgContainer<TElement, TScope>(name, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public class OgLayoutContainer<TElement, TScope>(string name, IOgLayout<TElement> layout, TScope scope, IOgTransform transform)
+    : OgContainer<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope
 {
     protected override void InternalOnGUI(OgEvent reason)
     {

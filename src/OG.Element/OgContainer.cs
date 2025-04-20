@@ -8,8 +8,8 @@ using UnityEngine;
 
 namespace OG.Element;
 
-public class OgContainer<TElement, TScope>(string name, TScope rootScope, IOgTransform transform)
-    : OgElement<TScope>(name, rootScope, transform), IOgContainer<TElement> where TElement : IOgElement where TScope : IOgTransformScope
+public class OgContainer<TElement, TScope>(string name, TScope scope, IOgTransform transform)
+    : OgElement<TScope>(name, scope, transform), IOgContainer<TElement> where TElement : IOgElement where TScope : IOgTransformScope
 {
     public delegate void OgElementAddedHandler(OgContainer<TElement, TScope> instance, IOgElement element);
 

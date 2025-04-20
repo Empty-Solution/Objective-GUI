@@ -4,8 +4,8 @@ using OG.Element.Abstraction;
 
 namespace OG.Element.Interactive;
 
-public class OgControl<TElement, TScope>(string name, TScope rootScope, IOgTransform transform)
-    : OgHoverable<TElement, TScope>(name, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public class OgControl<TElement, TScope>(string name, TScope scope, IOgTransform transform)
+    : OgHoverable<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope
 {
     public delegate void OgBeginInteractionHandler(OgControl<TElement, TScope> instance, OgEvent reason);
 

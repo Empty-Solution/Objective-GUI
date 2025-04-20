@@ -4,8 +4,8 @@ using OG.Element.Abstraction;
 
 namespace OG.Element.Interactive;
 
-public abstract class OgDraggableValueView<TElement, TScope, TValue>(string name, TValue value, TScope rootScope, IOgTransform transform)
-    : OgValueView<TElement, TScope, TValue>(name, value, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public abstract class OgDraggableValueView<TElement, TScope, TValue>(string name, TScope scope, IOgTransform transform, TValue value)
+    : OgValueView<TElement, TScope, TValue>(name, scope, transform, value) where TElement : IOgElement where TScope : IOgTransformScope
 {
     protected override void BeginInteract(OgEvent reason)
     {

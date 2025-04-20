@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace OG.Element.Interactive;
 
-public class OgDraggable<TElement, TScope>(string name, TScope rootScope, IOgTransform transform)
-    : OgControl<TElement, TScope>(name, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public class OgDraggable<TElement, TScope>(string name, TScope scope, IOgTransform transform)
+    : OgControl<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope
 {
     public delegate void OgDragEnterHandler(OgDraggable<TElement, TScope> instance, Rect rect, OgEvent reason);
 

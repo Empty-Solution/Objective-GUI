@@ -2,4 +2,4 @@
 
 namespace OG.Factory.Abstraction;
 
-public interface IOgTextFactoryArguments<TScope> : IOgVisualFactoryArguments<string, TScope> where TScope : IOgTransformScope;
+public interface IOgTextFactoryArguments<TScope> : IOgContentFactoryArguments<string, TScope> where TScope : IOgTransformScope;

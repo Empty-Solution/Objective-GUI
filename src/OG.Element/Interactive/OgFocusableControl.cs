@@ -4,8 +4,8 @@ using OG.Element.Abstraction;
 
 namespace OG.Element.Interactive;
 
-public class OgFocusableControl<TElement, TScope, TValue>(string name, TScope rootScope, IOgTransform transform, TValue value) :
-    OgValueView<TElement, TScope, TValue>(name, value, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public class OgFocusableControl<TElement, TScope, TValue>(string name, TScope scope, IOgTransform transform, TValue value) :
+    OgValueView<TElement, TScope, TValue>(name, scope, transform, value) where TElement : IOgElement where TScope : IOgTransformScope
 {
     public delegate void OgFocusHandler(OgFocusableControl<TElement, TScope, TValue> instance, OgEvent reason);
 

@@ -9,10 +9,10 @@ namespace OG.Element.Visual;
 
 public class OgText<TStyle, TScope>(
     string name,
-    string text,
-    TStyle style,
     TScope scope,
     IOgTransform transform,
+    TStyle style,
+    string text,
     IOgGraphics<IOgTextGraphicsContext<TStyle>> graphics)
     : OgContentVisual<TStyle, TScope, string, IOgTextGraphicsContext<TStyle>>(name, text, style, scope, transform, graphics), IOgText
     where TStyle : IOgTextStyle where TScope : IOgTransformScope

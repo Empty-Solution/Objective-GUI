@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace OG.Element.Interactive;
 
-public class OgField<TElement, TScope>(string name, GUIStyle style, IOgTextStyle textStyle, TScope rootScope, IOgTransform transform, string value)
-    : OgFocusableControl<TElement, TScope, string>(name, rootScope, transform, value) where TElement : IOgElement where TScope : IOgTransformScope
+public class OgField<TElement, TScope>(string name, TScope scope, IOgTransform transform, string value, IOgTextStyle textStyle)
+    : OgFocusableControl<TElement, TScope, string>(name, scope, transform, value) where TElement : IOgElement where TScope : IOgTransformScope
 {
     public delegate void CursorPositionChangedHandler(OgField<TElement, TScope> instance, int cursorPosition, OgEvent reason);
 
@@ -16,11 +16,7 @@ public class OgField<TElement, TScope>(string name, GUIStyle style, IOgTextStyle
 
     public bool Multiline { get; set; } = true;
 
-    public GUIStyle Style { get; set; } = style;
-
     public IOgTextStyle TextStyle { get; set; } = textStyle;
-
-    public Font Font => Style.font ?? GUI.skin.font ?? throw new NullReferenceException();
 
     public int CursorPosition { get; protected set; }
 
@@ -41,6 +37,8 @@ public class OgField<TElement, TScope>(string name, GUIStyle style, IOgTextStyle
         ChangeCursorAndSelectionPositions(reason);
     }
 
+    #region cursor management
+
     protected virtual void ChangeCursorAndSelectionPositions(OgEvent reason) => ChangeCursorAndSelectionPositions(reason, GetCharacterIndex(reason));
 
     protected virtual void ChangeCursorAndSelectionPositions(OgEvent reason, int position)
@@ -53,7 +51,7 @@ public class OgField<TElement, TScope>(string name, GUIStyle style, IOgTextStyle
         GetCharacterIndex(Value, reason.LocalMousePosition, Transform.LocalRect);
 
     protected virtual int GetCharacterIndex(string str, Vector2 mousePosition, Rect rect) =>
-        Font.GetCharacterIndexByVector2(str, mousePosition, rect, TextStyle);
+        TextStyle.Font.GetCharacterIndexByVector2(str, mousePosition, rect, TextStyle);
 
     protected virtual void ChangeCursorPosition(OgEvent reason) => ChangeCursorPosition(GetCharacterIndex(reason), reason);
 
@@ -72,6 +70,8 @@ public class OgField<TElement, TScope>(string name, GUIStyle style, IOgTextStyle
         SelectionPosition = newPosition;
         OnSelectionPositionChanged?.Invoke(this, SelectionPosition, reason);
     }
+
+    #endregion
 
     #region cursor interact
 
@@ -174,7 +174,7 @@ public class OgField<TElement, TScope>(string name, GUIStyle style, IOgTextStyle
         char chr = reason.Character;
 
         if(chr == '\n' && !Multiline) return;
-        if(Font.HasCharacter(chr)) Insert(chr, reason);
+        if(TextStyle.Font.HasCharacter(chr)) Insert(chr, reason);
     }
 
     #endregion

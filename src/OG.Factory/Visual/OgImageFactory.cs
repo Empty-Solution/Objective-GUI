@@ -15,5 +15,5 @@ public class OgImageFactory<TScope>(IOgTextureStyle style, IOgGraphics<IOgTextur
 {
     protected override IOgVisualContent<Texture> InternalCreate(string name, Texture content, IOgTransform transform, 
         IOgTextureStyle style, TScope scope, IOgGraphics<IOgTextureGraphicsContext<IOgTextureStyle>> graphics) =>
-        new OgTexture<IOgTextureStyle, TScope>(name, style, content, scope, transform, graphics);
+        new OgTexture<IOgTextureStyle, TScope>(name, scope, transform, style, content, graphics);
 }

@@ -4,8 +4,8 @@ using OG.Element.Abstraction;
 
 namespace OG.Element.Interactive;
 
-public class OgHoverable<TElement, TScope>(string name, TScope rootScope, IOgTransform transform)
-    : OgInteractable<TElement, TScope>(name, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public class OgHoverable<TElement, TScope>(string name, TScope scope, IOgTransform transform)
+    : OgInteractable<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope
 {
     public delegate void OgMouseEnterHandler(OgHoverable<TElement, TScope> instance, OgEvent reason);
 

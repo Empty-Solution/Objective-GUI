@@ -12,5 +12,5 @@ public abstract class OgTextureFactory<TStyle, TArguments, TGraphics, TGraphicsC
     where TStyle : IOgTextureStyle where TGraphics : IOgGraphics<TGraphicsContext> where TGraphicsContext : IOgTextureGraphicsContext<TStyle>
     where TScope : IOgTransformScope where TArguments : IOgTextureFactoryArguments<TScope>
 {
-    public override string TypeName => "Text";
+    public override string TypeName => "Texture";
 }

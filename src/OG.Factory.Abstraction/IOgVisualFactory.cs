@@ -4,4 +4,4 @@ using OG.Element.Abstraction;
 namespace OG.Factory.Abstraction;
 
 public interface IOgVisualFactory<TContent, TArguments, TScope> : IOgFactory<IOgVisualContent<TContent>, TArguments, TScope> where TScope : IOgTransformScope
-    where TArguments : IOgVisualFactoryArguments<TContent, TScope>;
+    where TArguments : IOgContentFactoryArguments<TContent, TScope>;

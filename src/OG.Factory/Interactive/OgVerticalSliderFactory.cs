@@ -1,0 +1,13 @@
+﻿using OG.Common.Scoping.Abstraction;
+using OG.Element.Abstraction;
+using OG.Element.Interactive;
+using OG.Factory.Abstraction;
+
+namespace OG.Factory;
+
+public class OgVerticalSliderFactory<TScope> : OgFactory<IOgElement, IOgSliderFactoryArguments<TScope>, TScope> where TScope : IOgTransformScope
+{
+    public override string TypeName { get; } = "VerticalSlider";
+    public override IOgElement Create(IOgSliderFactoryArguments<TScope> arguments) => 
+        new OgVerticalSlider<IOgElement, TScope>(arguments.Name, arguments.Scope, arguments.Transform, arguments.Value, arguments.Range, arguments.ScrollStep);
+}

@@ -4,8 +4,8 @@ using OG.Element.Abstraction;
 
 namespace OG.Element.Interactive;
 
-public class OgClickable<TElement, TScope>(string name, TScope rootScope, IOgTransform transform)
-    : OgControl<TElement, TScope>(name, rootScope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+public class OgClickable<TElement, TScope>(string name, TScope scope, IOgTransform transform)
+    : OgControl<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope
 {
     public delegate void OgClickHandler(OgClickable<TElement, TScope> instance, OgEvent reason);
 
