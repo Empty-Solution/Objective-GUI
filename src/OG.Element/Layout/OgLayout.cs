@@ -1,29 +1,29 @@
-﻿using DK.Scoping.Abstraction;
+﻿using DK.Scoping;
+using OG.Common.Abstraction;
 using OG.Element.Abstraction;
 using UnityEngine;
 
-namespace OG.Element;
+namespace OG.Element.Layout;
 
-public abstract class OgLayout<TElement> : IOgLayout<TElement> where TElement : IOgElement
+public abstract class OgLayout<TElement>(float space) : DkScope, IOgLayout<TElement> where TElement : IOgElement
 {
-    protected Rect m_LastRect = Rect.zero;
-    public void Dispose() => State = EDkScopeState.Disposed;
+    protected Rect m_LastRect;
 
-    public virtual void Open()
+    protected virtual void ResetLayout() => ResetLastRect();
+
+    protected void ResetLastRect() => m_LastRect = Rect.zero;
+
+    public void ProcessItem(TElement element)
     {
-        ResetLayout();
-        State = EDkScopeState.Opened;
+        IOgTransform transform = element.Transform;
+        Rect nextRect = GetNextRect(transform.LocalRect, m_LastRect, space);
+        m_LastRect = nextRect;
+        transform.LocalRect = nextRect;
     }
 
-    public virtual void Close()
-    {
-        ResetLayout();
-        State = EDkScopeState.Closed;
-    }
+    protected abstract Rect GetNextRect(Rect itemRect, Rect lastRect, float space);
 
-    protected virtual void ResetLayout() => 
-        m_LastRect = Rect.zero;
+    protected override void OnOpened() => ResetLayout();
 
-    public abstract void ProcessItem(TElement element);
-    public EDkScopeState State { get; private set; } = EDkScopeState.Created;
+    protected override void OnClosed() => ResetLayout();
 }

@@ -4,7 +4,7 @@ using OG.Element.Abstraction;
 
 namespace OG.Factory.Abstraction;
 
-public interface IOgFactory<TElement, TArguments, TScope> : IDkFactory<TElement, TArguments> 
+public interface IOgFactory<TElement, TArguments, TScope> : IDkFactory<TElement, TArguments>
     where TElement : IOgElement where TScope : IOgTransformScope where TArguments : IOgFactoryArguments<TScope>
 {
     /// <summary>

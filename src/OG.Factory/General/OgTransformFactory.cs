@@ -3,7 +3,7 @@ using OG.Common.Abstraction;
 using OG.Factory.Abstraction;
 using UnityEngine;
 
-namespace OG.Factory;
+namespace OG.Factory.General;
 
 public class OgTransformFactory : IOgTransformFactory
 {

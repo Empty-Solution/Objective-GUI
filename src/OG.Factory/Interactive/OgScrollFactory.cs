@@ -2,12 +2,13 @@
 using OG.Element.Abstraction;
 using OG.Element.Interactive;
 using OG.Factory.Abstraction;
+using OG.Factory.General;
 
-namespace OG.Factory;
+namespace OG.Factory.Interactive;
 
 public class OgScrollFactory<TScope> : OgFactory<IOgElement, IOgFactoryArguments<TScope>, TScope> where TScope : IOgClipTransformScope
 {
     public override string TypeName { get; } = "Scroll";
-    public override IOgElement Create(IOgFactoryArguments<TScope> arguments) => 
+    public override IOgElement Create(IOgFactoryArguments<TScope> arguments) =>
         new OgScroll<IOgElement, TScope>(arguments.Name, arguments.Scope, arguments.Transform);
 }

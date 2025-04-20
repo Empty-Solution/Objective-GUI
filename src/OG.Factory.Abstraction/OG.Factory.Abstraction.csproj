@@ -1,20 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="DK.Common.Factory.Abstraction" Version="1.0.0"/>
+        <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.0.0" />
+        <PackageReference Include="DK.Common.Factory.Abstraction" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.Common.Abstraction\OG.Common.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Common.Scoping.Abstraction\OG.Common.Scoping.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Style.Abstraction\OG.Style.Abstraction.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="DK.Common.DataTypes.Abstraction">
-        <HintPath>..\..\..\..\..\Users\ukin3\.nuget\packages\dk.common.datatypes.abstraction\1.0.0\lib\net48\DK.Common.DataTypes.Abstraction.dll</HintPath>
-      </Reference>
+        <ProjectReference Include="..\OG.Common.Abstraction\OG.Common.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Common.Scoping.Abstraction\OG.Common.Scoping.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Style.Abstraction\OG.Style.Abstraction.csproj" />
     </ItemGroup>
 
 </Project>

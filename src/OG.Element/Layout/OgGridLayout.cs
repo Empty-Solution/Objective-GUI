@@ -1,43 +1,40 @@
 ﻿using OG.Element.Abstraction;
 using UnityEngine;
 
-namespace OG.Element;
+namespace OG.Element.Layout;
 
-public class OgGridLayout<TElement>(Vector2 gap, Vector2 padding, int columns) : OgLayout<TElement> where TElement : IOgElement
+public class OgGridLayout<TElement>(float space, Vector2Int gridSize) : OgLayout<TElement>(space) where TElement : IOgElement
 {
-    protected int m_CurrentColumn;
-    protected int m_CurrentRow;
-
-    public override void Open()
-    {
-        base.Open();
-        ResetLayout();
-    }
-
-    public override void Close()
-    {
-        base.Close();
-        ResetLayout();
-    }
+    private float m_MaxHeight;
+    private Vector2Int m_GridPosition;
 
     protected override void ResetLayout()
     {
         base.ResetLayout();
-        m_CurrentColumn = 0;
-        m_CurrentRow = 0;
+        m_GridPosition = Vector2Int.zero;
+        m_MaxHeight = 0.0f;
     }
 
-    public override void ProcessItem(TElement element)
+    protected override Rect GetNextRect(Rect itemRect, Rect lastRect, float space)
     {
-        Rect rect = element.Transform.LocalRect;
-        rect.position = new((m_CurrentColumn * (rect.size.x + gap.x)) + padding.x,
-            (m_CurrentRow * (rect.size.y + gap.y)) + padding.y);
-        element.Transform.LocalRect = rect;
+        if(m_GridPosition.y > gridSize.y) ResetLayout();
 
-        m_CurrentColumn++;
-        if(m_CurrentColumn < columns)
-            return;
-        m_CurrentColumn = 0;
-        m_CurrentRow++;
+        if(m_GridPosition.x > gridSize.x)
+        {
+            m_GridPosition.x = 0;
+            m_GridPosition.y++;
+
+            return new(0.0f, lastRect.y + m_MaxHeight + space, itemRect.width, itemRect.height);
+        }
+
+        Rect rect = new(lastRect.xMax + space, lastRect.y, itemRect.width, itemRect.height);
+        m_GridPosition.x++;
+
+        if(rect.height > m_MaxHeight)
+        {
+            m_MaxHeight = rect.height;
+        }
+
+        return rect;
     }
 }

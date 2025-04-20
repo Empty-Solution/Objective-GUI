@@ -1,4 +1,5 @@
-﻿using OG.Common.Abstraction;
+﻿using DK.Scoping.Extensions;
+using OG.Common.Abstraction;
 using OG.Common.Scoping.Abstraction;
 using OG.Element.Abstraction;
 
@@ -15,18 +16,8 @@ public abstract class OgElement<TScope>(string name, TScope scope, IOgTransform 
     public void OnGUI(OgEvent reason)
     {
         Scope.Focus(Transform);
-        OpenScope(scope);
-        InternalOnGUI(reason);
-        CloseScope(scope);
+        using(Scope.OpenContext()) InternalOnGUI(reason);
     }
-
-    protected virtual void OpenScope(TScope targetScope)
-    {
-        targetScope.Focus(Transform);
-        targetScope.Open();
-    }
-
-    protected virtual void CloseScope(TScope targetScope) => targetScope.Close();
 
     protected abstract void InternalOnGUI(OgEvent reason);
 }

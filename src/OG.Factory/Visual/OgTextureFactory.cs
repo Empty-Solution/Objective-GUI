@@ -1,11 +1,10 @@
 ﻿using OG.Common.Scoping.Abstraction;
-using OG.Element.Legacy;
 using OG.Factory.Abstraction;
 using OG.Graphics.Abstraction;
 using OG.Style.Abstraction;
 using UnityEngine;
 
-namespace OG.Factory;
+namespace OG.Factory.Visual;
 
 public abstract class OgTextureFactory<TStyle, TArguments, TGraphics, TGraphicsContext, TScope>(TStyle style, TGraphics graphics)
     : OgVisualFactory<Texture, TArguments, TStyle, TGraphics, TScope>(style, graphics), IOgTextureFactory<TArguments, TScope>

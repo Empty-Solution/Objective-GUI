@@ -2,7 +2,6 @@
 using OG.Common.Scoping.Abstraction;
 using OG.Element.Abstraction;
 using OG.Style.Abstraction;
-using System;
 using UnityEngine;
 
 namespace OG.Element.Interactive;
@@ -188,56 +187,56 @@ public class OgField<TElement, TScope>(string name, TScope scope, IOgTransform t
         switch(keyCode)
         {
             case KeyCode.Delete:
-                if(reason.ControlModification)
-                    DeleteWord(reason, true);
-                else
-                    DeleteChar(reason, true);
-                break;
+            if(reason.ControlModification)
+                DeleteWord(reason, true);
+            else
+                DeleteChar(reason, true);
+            break;
             case KeyCode.Backspace:
-                if(reason.ControlModification)
-                    DeleteWord(reason, false);
-                else
-                    DeleteChar(reason, false);
-                break;
+            if(reason.ControlModification)
+                DeleteWord(reason, false);
+            else
+                DeleteChar(reason, false);
+            break;
             case KeyCode.LeftArrow:
-                if(reason.ControlModification)
-                    MoveCursorWord(reason, false);
-                else
-                    MoveCursorChar(reason, false);
-                break;
+            if(reason.ControlModification)
+                MoveCursorWord(reason, false);
+            else
+                MoveCursorChar(reason, false);
+            break;
             case KeyCode.RightArrow:
-                if(reason.ControlModification)
-                    MoveCursorWord(reason, true);
-                else
-                    MoveCursorChar(reason, true);
-                break;
+            if(reason.ControlModification)
+                MoveCursorWord(reason, true);
+            else
+                MoveCursorChar(reason, true);
+            break;
             case KeyCode.Tab:
-                HandleTab(reason);
-                break;
+            HandleTab(reason);
+            break;
             case KeyCode.Return:
             case KeyCode.KeypadEnter:
-                HandleReturn(reason);
-                break;
+            HandleReturn(reason);
+            break;
             case KeyCode.Home:
-                MoveCursorToStart(reason);
-                break;
+            MoveCursorToStart(reason);
+            break;
             case KeyCode.End:
-                MoveCursorToEnd(reason);
-                break;
+            MoveCursorToEnd(reason);
+            break;
             case KeyCode.A when reason.ControlModification:
-                SelectAll(reason);
-                break;
+            SelectAll(reason);
+            break;
             case KeyCode.X when reason.ControlModification:
-                Cut(reason);
-                break;
+            Cut(reason);
+            break;
             case KeyCode.C when reason.ControlModification:
-                Copy(reason);
-                break;
+            Copy(reason);
+            break;
             case KeyCode.V when reason.ControlModification:
-                Paste(reason);
-                break;
+            Paste(reason);
+            break;
             default:
-                return false;
+            return false;
         }
 
         return true;

@@ -1,15 +1,9 @@
 ﻿using OG.Element.Abstraction;
 using UnityEngine;
 
-namespace OG.Element;
+namespace OG.Element.Layout;
 
-public class OgHorizontalLayout<TElement>(Vector2 gap, Vector2 padding) : OgLayout<TElement> where TElement : IOgElement
+public class OgHorizontalLayout<TElement>(float space) : OgLayout<TElement>(space) where TElement : IOgElement
 {
-    public override void ProcessItem(TElement element)
-    {
-        Rect rect = element.Transform.LocalRect;
-        rect.position = new Vector2(m_LastRect.xMax, rect.position.y) + (m_LastRect == Rect.zero ? padding : gap);
-        element.Transform.LocalRect = rect;
-        m_LastRect = rect;
-    }
+    protected override Rect GetNextRect(Rect itemRect, Rect lastRect, float space) => new(lastRect.xMax + space, lastRect.y, itemRect.width, itemRect.height);
 }
