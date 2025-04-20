@@ -27,14 +27,18 @@ public class OgGridLayout<TElement>(float space, Vector2Int gridSize) : OgLayout
             return new(0.0f, lastRect.y + m_MaxHeight + space, itemRect.width, itemRect.height);
         }
 
-        Rect rect = new(lastRect.xMax + space, lastRect.y, itemRect.width, itemRect.height);
+        float itemHeight = itemRect.height;
+        Rect rect = new(lastRect.xMax + space, lastRect.y, itemRect.width, itemHeight);
+
+        UpdateMaxHeightIfNeeded(itemHeight);
+
         m_GridPosition.x++;
-
-        if(rect.height > m_MaxHeight)
-        {
-            m_MaxHeight = rect.height;
-        }
-
         return rect;
+    }
+
+    private void UpdateMaxHeightIfNeeded(float nHeigth)
+    {
+        if(nHeigth <= m_MaxHeight) return;
+        m_MaxHeight = nHeigth;
     }
 }
