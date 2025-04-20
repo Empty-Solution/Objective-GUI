@@ -11,15 +11,18 @@ public abstract class OgLayout<TElement> : IOgLayout<TElement> where TElement : 
 
     public virtual void Open()
     {
-        m_LastRect = Rect.zero;
+        ResetLayout();
         State = EDkScopeState.Opened;
     }
 
     public virtual void Close()
     {
-        m_LastRect = Rect.zero;
+        ResetLayout();
         State = EDkScopeState.Closed;
     }
+
+    protected virtual void ResetLayout() => 
+        m_LastRect = Rect.zero;
 
     public abstract void ProcessItem(TElement element);
     public EDkScopeState State { get; private set; } = EDkScopeState.Created;

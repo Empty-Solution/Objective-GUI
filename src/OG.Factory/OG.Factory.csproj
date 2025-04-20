@@ -2,6 +2,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\OG.Common\OG.Common.csproj"/>
+        <ProjectReference Include="..\OG.Element\OG.Element.csproj" />
         <ProjectReference Include="..\OG.Factory.Abstraction\OG.Factory.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj"/>
     </ItemGroup>

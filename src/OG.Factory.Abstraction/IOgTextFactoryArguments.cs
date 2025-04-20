@@ -1,3 +1,5 @@
-﻿namespace OG.Factory.Abstraction;
+﻿using OG.Common.Scoping.Abstraction;
 
-public interface IOgTextFactoryArguments : IOgVisualFactoryArguments<string>;
+namespace OG.Factory.Abstraction;
+
+public interface IOgTextFactoryArguments<TScope> : IOgVisualFactoryArguments<string, TScope> where TScope : IOgTransformScope;

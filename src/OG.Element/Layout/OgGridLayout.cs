@@ -20,8 +20,9 @@ public class OgGridLayout<TElement>(Vector2 gap, Vector2 padding, int columns) :
         ResetLayout();
     }
 
-    protected virtual void ResetLayout() // хз как это назвать
+    protected override void ResetLayout()
     {
+        base.ResetLayout();
         m_CurrentColumn = 0;
         m_CurrentRow = 0;
     }
