@@ -6,10 +6,11 @@ using UnityEngine;
 
 namespace OG.Factory.Visual;
 
-public abstract class OgTextureFactory<TStyle, TArguments, TGraphics, TGraphicsContext, TScope>(TStyle style, TGraphics graphics)
-    : OgVisualFactory<Texture, TArguments, TStyle, TGraphics, TScope>(style, graphics), IOgTextureFactory<TArguments, TScope>
-    where TStyle : IOgTextureStyle where TGraphics : IOgGraphics<TGraphicsContext> where TGraphicsContext : IOgTextureGraphicsContext<TStyle>
-    where TScope : IOgTransformScope where TArguments : IOgTextureFactoryArguments<TScope>
+public abstract class OgTextureFactory<TArguments, TGraphics, TGraphicsContext>(IOgTextureStyle style, IOgTransformScope scope, TGraphics graphics)
+    : OgVisualFactory<Texture, TArguments, IOgTextureStyle, TGraphics>(style, scope, graphics), IOgTextureFactory<TArguments>
+    where TGraphics : IOgGraphics<TGraphicsContext>
+    where TGraphicsContext : IOgTextureGraphicsContext<IOgTextureStyle>
+    where TArguments : IOgTextureFactoryArguments
 {
     public override string TypeName => "Texture";
 }

@@ -17,8 +17,8 @@ public abstract class OgTransformScope : DkScope, IOgTransformScope
             case EDkScopeState.Opened: throw new InvalidOperationException(State.ToString());
             case EDkScopeState.Disposed: throw new InvalidOperationException(State.ToString());
             case EDkScopeState.Closed or EDkScopeState.Created:
-            m_Focus = transform;
-            break;
+                m_Focus = transform;
+                break;
         }
     }
 

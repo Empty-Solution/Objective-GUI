@@ -5,10 +5,11 @@ using OG.Style.Abstraction;
 
 namespace OG.Factory.Visual;
 
-public abstract class OgTextFactory<TStyle, TArguments, TGraphics, TGraphicsContext, TScope>(TStyle style, TGraphics graphics)
-    : OgVisualFactory<string, TArguments, TStyle, TGraphics, TScope>(style, graphics), IOgTextFactory<TArguments, TScope>
-    where TStyle : IOgTextStyle where TGraphics : IOgGraphics<TGraphicsContext> where TGraphicsContext : IOgTextGraphicsContext<TStyle>
-    where TScope : IOgTransformScope where TArguments : IOgTextFactoryArguments<TScope>
+public abstract class OgTextFactory<TArguments, TGraphics, TGraphicsContext>(IOgTextStyle style, IOgTransformScope scope, TGraphics graphics)
+    : OgVisualFactory<string, TArguments, IOgTextStyle, TGraphics>(style, scope, graphics), IOgTextFactory<TArguments>
+    where TGraphics : IOgGraphics<TGraphicsContext>
+    where TGraphicsContext : IOgTextGraphicsContext<IOgTextStyle>
+    where TArguments : IOgTextFactoryArguments
 {
     public override string TypeName => "Text";
 }

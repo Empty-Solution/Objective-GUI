@@ -28,26 +28,26 @@ public class OgInteractable<TElement, TScope>(string name, TScope scope, IOgTran
         switch(reason.Type)
         {
             case EventType.MouseDown:
-            HandleMouseDown(reason);
-            break;
+                HandleMouseDown(reason);
+                break;
             case EventType.MouseUp:
-            HandleMouseUp(reason);
-            break;
+                HandleMouseUp(reason);
+                break;
             case EventType.KeyDown:
-            HandleKeyDown(reason);
-            break;
+                HandleKeyDown(reason);
+                break;
             case EventType.KeyUp:
-            HandleKeyUp(reason);
-            break;
+                HandleKeyUp(reason);
+                break;
             case EventType.ScrollWheel:
-            HandleMouseScroll(reason);
-            break;
+                HandleMouseScroll(reason);
+                break;
             case EventType.MouseDrag:
-            HandleMouseDrag(reason);
-            break;
+                HandleMouseDrag(reason);
+                break;
             case EventType.Layout:
-            HandleMouseMoveIfNeeded(reason);
-            break;
+                HandleMouseMoveIfNeeded(reason);
+                break;
         }
     }
 

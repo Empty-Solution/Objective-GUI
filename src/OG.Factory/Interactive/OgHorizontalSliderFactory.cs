@@ -6,9 +6,10 @@ using OG.Factory.General;
 
 namespace OG.Factory.Interactive;
 
-public class OgHorizontalSliderFactory<TScope> : OgFactory<IOgElement, IOgSliderFactoryArguments<TScope>, TScope> where TScope : IOgTransformScope
+public class OgHorizontalSliderFactory(IOgTransformScope scope) : OgFactory<IOgElement, IOgSliderFactoryArguments>
 {
     public override string TypeName { get; } = "HorizontalSlider";
-    public override IOgElement Create(IOgSliderFactoryArguments<TScope> arguments) =>
-        new OgHorizontalSlider<IOgElement, TScope>(arguments.Name, arguments.Scope, arguments.Transform, arguments.Value, arguments.Range, arguments.ScrollStep);
+
+    public override IOgElement Create(IOgSliderFactoryArguments arguments) =>
+        new OgHorizontalSlider<IOgElement, IOgTransformScope>(arguments.Name, scope, arguments.Transform, arguments.Value, arguments.Range, arguments.ScrollStep);
 }

@@ -22,13 +22,13 @@ public class OgContainer<TElement, TScope>(string name, TScope scope, IOgTransfo
 
     IEnumerable<IOgElement> IOgContainer.Children => Children.Cast<IOgElement>();
 
-    public void AddChild(TElement child)
+    public virtual void AddChild(TElement child)
     {
         if(ContainsChild(child.Name)) throw new InvalidOperationException();
         InternalAddChild(child);
     }
 
-    public void RemoveChild(TElement child)
+    public virtual void RemoveChild(TElement child)
     {
         int index = m_Children.IndexOf(child);
         if(index < 0) throw new InvalidOperationException();
@@ -43,13 +43,13 @@ public class OgContainer<TElement, TScope>(string name, TScope scope, IOgTransfo
         return false;
     }
 
-    public void AddChild(IOgElement child)
+    public virtual void AddChild(IOgElement child)
     {
         if(child is not TElement castedElement) throw new InvalidCastException();
         AddChild(castedElement);
     }
 
-    public void RemoveChild(IOgElement child)
+    public virtual void RemoveChild(IOgElement child)
     {
         if(child is not TElement castedElement) throw new InvalidCastException();
         RemoveChild(castedElement);

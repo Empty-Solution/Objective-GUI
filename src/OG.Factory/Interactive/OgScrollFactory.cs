@@ -6,9 +6,10 @@ using OG.Factory.General;
 
 namespace OG.Factory.Interactive;
 
-public class OgScrollFactory<TScope> : OgFactory<IOgElement, IOgFactoryArguments<TScope>, TScope> where TScope : IOgClipTransformScope
+public class OgScrollFactory(IOgClipTransformScope scope) : OgFactory<IOgElement, IOgFactoryArguments>
 {
     public override string TypeName { get; } = "Scroll";
-    public override IOgElement Create(IOgFactoryArguments<TScope> arguments) =>
-        new OgScroll<IOgElement, TScope>(arguments.Name, arguments.Scope, arguments.Transform);
+
+    public override IOgElement Create(IOgFactoryArguments arguments) =>
+        new OgScroll<IOgElement, IOgClipTransformScope>(arguments.Name, scope, arguments.Transform);
 }

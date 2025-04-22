@@ -5,8 +5,8 @@ namespace OG.Element.Layout;
 
 public class OgGridLayout<TElement>(float space, Vector2Int gridSize) : OgLayout<TElement>(space) where TElement : IOgElement
 {
-    private float m_MaxHeight;
     private Vector2Int m_GridPosition;
+    private float m_MaxHeight;
 
     protected override void ResetLayout()
     {

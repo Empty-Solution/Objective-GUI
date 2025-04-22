@@ -9,10 +9,6 @@ public abstract class OgLayout<TElement>(float space) : DkScope, IOgLayout<TElem
 {
     protected Rect m_LastRect;
 
-    protected virtual void ResetLayout() => ResetLastRect();
-
-    protected void ResetLastRect() => m_LastRect = Rect.zero;
-
     public void ProcessItem(TElement element)
     {
         IOgTransform transform = element.Transform;
@@ -20,6 +16,10 @@ public abstract class OgLayout<TElement>(float space) : DkScope, IOgLayout<TElem
         m_LastRect = nextRect;
         transform.LocalRect = nextRect;
     }
+
+    protected virtual void ResetLayout() => ResetLastRect();
+
+    protected void ResetLastRect() => m_LastRect = Rect.zero;
 
     protected abstract Rect GetNextRect(Rect itemRect, Rect lastRect, float space);
 

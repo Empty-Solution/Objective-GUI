@@ -8,11 +8,12 @@ using OG.Style.Abstraction;
 
 namespace OG.Factory.Visual;
 
-public abstract class OgVisualFactory<TContent, TArguments, TStyle, TGraphics, TScope>(TStyle style, TGraphics graphics)
-    : OgFactory<IOgVisualContent<TContent>, TArguments, TScope>, IOgVisualFactory<TContent, TArguments, TScope>
-    where TStyle : IOgStyle where TGraphics : IOgGraphics where TScope : IOgTransformScope where TArguments : IOgContentFactoryArguments<TContent, TScope>
+public abstract class OgVisualFactory<TContent, TArguments, TStyle, TGraphics>(TStyle style, IOgTransformScope scope, TGraphics graphics)
+    : OgFactory<IOgVisualContent<TContent>, TArguments>, IOgVisualFactory<TContent, TArguments>
+    where TStyle : IOgStyle where TGraphics : IOgGraphics where TArguments : IOgContentFactoryArguments<TContent>
 {
     public sealed override IOgVisualContent<TContent> Create(TArguments arguments) =>
-        InternalCreate(arguments.Name, arguments.Content, arguments.Transform, style, arguments.Scope, graphics);
-    protected abstract IOgVisualContent<TContent> InternalCreate(string name, TContent content, IOgTransform transform, TStyle style, TScope scope, TGraphics graphics);
+        InternalCreate(arguments.Name, arguments.Content, arguments.Transform, style, scope, graphics);
+
+    protected abstract IOgVisualContent<TContent> InternalCreate(string name, TContent content, IOgTransform transform, TStyle style, IOgTransformScope scope, TGraphics graphics);
 }
