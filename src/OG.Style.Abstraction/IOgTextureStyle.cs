@@ -2,7 +2,7 @@
 
 namespace OG.Style.Abstraction;
 
-public interface IOgTextureStyle : IOgColorizeStyle
+public interface IOgTextureStyle : IOgColorizedStyle
 {
     ScaleMode ScaleMode { get; set; }
 

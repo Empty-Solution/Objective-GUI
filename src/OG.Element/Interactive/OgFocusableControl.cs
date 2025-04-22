@@ -20,6 +20,7 @@ public class OgFocusableControl<TElement, TScope, TValue>(string name, TScope sc
     {
         base.HandleMouseDown(reason);
         UpdateFocusState(reason);
+        reason.Use();
     }
 
     protected virtual void Focus(OgEvent reason) => OnFocus?.Invoke(this, reason);

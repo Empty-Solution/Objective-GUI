@@ -8,7 +8,7 @@ using OG.Style.Abstraction;
 namespace OG.Factory.Visual;
 
 public abstract class OgVisualFactory<TContent, TArguments, TStyle, TGraphics>(TStyle style, TGraphics graphics)
-    : OgFactory<IOgVisualContent<TContent>, TArguments>, IOgVisualFactory<TContent, TArguments>
+    : OgElementFactory<IOgVisualContent<TContent>, TArguments>, IOgVisualFactory<TContent, TArguments>
     where TStyle : IOgStyle where TGraphics : IOgGraphics where TArguments : IOgContentFactoryArguments<TContent>
 {
     public sealed override IOgVisualContent<TContent> Create(TArguments arguments) =>

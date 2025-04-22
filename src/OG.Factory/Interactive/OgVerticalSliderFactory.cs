@@ -6,7 +6,7 @@ using OG.Factory.General;
 
 namespace OG.Factory.Interactive;
 
-public class OgVerticalSliderFactory(IOgTransformScope scope) : OgFactory<IOgValueView<IOgElement, IOgTransformScope, float>, IOgSliderFactoryArguments>
+public class OgVerticalSliderFactory(IOgTransformScope scope) : OgElementFactory<IOgValueView<IOgElement, IOgTransformScope, float>, IOgSliderFactoryArguments>
 {
     public override string TypeName { get; } = "VerticalSlider";
 

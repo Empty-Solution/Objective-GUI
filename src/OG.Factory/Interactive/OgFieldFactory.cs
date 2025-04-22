@@ -7,7 +7,7 @@ using OG.Style.Abstraction;
 
 namespace OG.Factory.Interactive;
 
-public class OgFieldFactory(IOgTextStyle style, IOgTransformScope scope) : OgFactory<IOgValueView<IOgElement, IOgTransformScope, string>, IOgContentFactoryArguments<string>>
+public class OgFieldFactory(IOgTextStyle style, IOgTransformScope scope) : OgElementFactory<IOgValueView<IOgElement, IOgTransformScope, string>, IOgContentFactoryArguments<string>>
 {
     public override string TypeName { get; } = "Field";
 

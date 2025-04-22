@@ -6,10 +6,10 @@ using OG.Factory.General;
 
 namespace OG.Factory.Interactive;
 
-public class OgClickableFactory(IOgTransformScope scope) : OgFactory<IOgClickable<IOgElement, IOgTransformScope>, IOgFactoryArguments>
+public class OgClickableFactory(IOgTransformScope scope) : OgElementFactory<IOgClickable<IOgElement, IOgTransformScope>, IOgElementFactoryArguments>
 {
     public override string TypeName { get; } = "Button";
 
-    public override IOgClickable<IOgElement, IOgTransformScope> Create(IOgFactoryArguments arguments) =>
+    public override IOgClickable<IOgElement, IOgTransformScope> Create(IOgElementFactoryArguments arguments) =>
         new OgClickable<IOgElement, IOgTransformScope>(arguments.Name, scope, arguments.Transform);
 }

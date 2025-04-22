@@ -5,7 +5,7 @@ using OG.Factory.Abstraction;
 
 namespace OG.Factory.General;
 
-public class OgLayoutContainerFactory(IOgTransformScope scope) : OgFactory<IOgContainer<IOgElement>, IOgContentFactoryArguments<IOgLayout<IOgElement>>>
+public class OgLayoutContainerFactory(IOgTransformScope scope) : OgElementFactory<IOgContainer<IOgElement>, IOgContentFactoryArguments<IOgLayout<IOgElement>>>
 {
     public override string TypeName { get; } = "LayoutContainer";
 

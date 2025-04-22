@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace OG.Factory.Interactive;
 
-public class OgVectorFactory(IOgTransformScope scope) : OgFactory<IOgValueView<IOgElement, IOgTransformScope, Vector2>, IOgRangeValueFactoryArguments<Vector2>>
+public class OgVectorFactory(IOgTransformScope scope) : OgElementFactory<IOgValueView<IOgElement, IOgTransformScope, Vector2>, IOgRangeValueFactoryArguments<Vector2>>
 {
     public override string TypeName { get; } = "Vector";
 

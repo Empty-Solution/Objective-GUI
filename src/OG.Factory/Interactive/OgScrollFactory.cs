@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace OG.Factory.Interactive;
 
-public class OgScrollFactory(IOgClipTransformScope scope) : OgFactory<IOgValueView<IOgElement, IOgClipTransformScope, Vector2>, IOgFactoryArguments>
+public class OgScrollFactory(IOgClipTransformScope scope) : OgElementFactory<IOgValueView<IOgElement, IOgClipTransformScope, Vector2>, IOgElementFactoryArguments>
 {
     public override string TypeName { get; } = "Scroll";
 
-    public override IOgValueView<IOgElement, IOgClipTransformScope, Vector2> Create(IOgFactoryArguments arguments) =>
+    public override IOgValueView<IOgElement, IOgClipTransformScope, Vector2> Create(IOgElementFactoryArguments arguments) =>
         new OgScroll<IOgElement, IOgClipTransformScope>(arguments.Name, scope, arguments.Transform);
 }

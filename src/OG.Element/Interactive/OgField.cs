@@ -34,6 +34,7 @@ public class OgField<TElement, TScope>(string name, TScope scope, IOgTransform t
     {
         base.HandleMouseDown(reason);
         ChangeCursorAndSelectionPositions(reason);
+        reason.Use();
     }
 
     #region cursor management

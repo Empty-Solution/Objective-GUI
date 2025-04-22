@@ -2,7 +2,7 @@
 
 namespace OG.Style.Abstraction;
 
-public interface IOgTextStyle : IOgColorizeStyle, IOgUnityStyleFiller
+public interface IOgTextStyle : IOgColorizedStyle, IOgUnityStyleFiller
 {
     Font Font { get; set; }
 

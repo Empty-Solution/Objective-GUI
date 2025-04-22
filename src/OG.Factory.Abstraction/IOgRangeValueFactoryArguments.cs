@@ -3,7 +3,7 @@ using System;
 
 namespace OG.Factory.Abstraction;
 
-public interface IOgRangeValueFactoryArguments<TValue> : IOgFactoryArguments where TValue : IEquatable<TValue>
+public interface IOgRangeValueFactoryArguments<TValue> : IOgElementFactoryArguments where TValue : IEquatable<TValue>
 {
     TValue Value { get; set; }
 

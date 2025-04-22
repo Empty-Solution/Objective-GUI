@@ -9,12 +9,15 @@ public abstract class OgElement<TScope>(string name, TScope scope, IOgTransform 
 {
     public string Name => name;
 
+    public bool Active { get; set; } = true;
+
     public IOgTransform Transform => transform;
 
     public TScope Scope => scope;
 
     public void OnGUI(OgEvent reason)
     {
+        if(!Active) return;
         Scope.Focus(Transform);
         using(Scope.OpenContext()) InternalOnGUI(reason);
     }

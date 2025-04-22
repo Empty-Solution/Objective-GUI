@@ -6,7 +6,7 @@ using System;
 namespace OG.Factory.Arguments;
 
 public class OgRangeValueFactoryArguments<TValue>(string name, IOgTransform transform, TValue value, IDkRange<TValue> range) :
-    OgFactoryArguments(name, transform), IOgRangeValueFactoryArguments<TValue> where TValue : IEquatable<TValue>
+    OgElementFactoryArguments(name, transform), IOgRangeValueFactoryArguments<TValue> where TValue : IEquatable<TValue>
 {
     public TValue Value { get; set; } = value;
     public IDkRange<TValue> Range { get; set; } = range;

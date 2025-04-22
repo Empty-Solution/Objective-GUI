@@ -3,7 +3,7 @@ using OG.Common.Abstraction;
 
 namespace OG.Factory.Abstraction;
 
-public interface IOgFactoryArguments : IDkFactoryArguments
+public interface IOgElementFactoryArguments : IDkFactoryArguments
 {
     string Name { get; }
     IOgTransform Transform { get; }

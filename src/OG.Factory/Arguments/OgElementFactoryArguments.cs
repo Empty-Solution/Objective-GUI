@@ -3,7 +3,7 @@ using OG.Factory.Abstraction;
 
 namespace OG.Factory.Arguments;
 
-public class OgFactoryArguments(string name, IOgTransform transform) : IOgFactoryArguments
+public class OgElementFactoryArguments(string name, IOgTransform transform) : IOgElementFactoryArguments
 {
     public string Name { get; } = name;
     public IOgTransform Transform { get; } = transform;

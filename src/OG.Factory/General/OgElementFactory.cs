@@ -3,8 +3,8 @@ using OG.Factory.Abstraction;
 
 namespace OG.Factory.General;
 
-public abstract class OgFactory<TElement, TArguments> : IOgFactory<TElement, TArguments>
-    where TElement : IOgElement where TArguments : IOgFactoryArguments
+public abstract class OgElementFactory<TElement, TArguments> : IOgElementFactory<TElement, TArguments>
+    where TElement : IOgElement where TArguments : IOgElementFactoryArguments
 {
     public abstract string TypeName { get; }
 

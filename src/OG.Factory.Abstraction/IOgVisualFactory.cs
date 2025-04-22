@@ -2,5 +2,5 @@
 
 namespace OG.Factory.Abstraction;
 
-public interface IOgVisualFactory<TContent, TArguments> : IOgFactory<IOgVisualContent<TContent>, TArguments>
+public interface IOgVisualFactory<TContent, TArguments> : IOgElementFactory<IOgVisualContent<TContent>, TArguments>
     where TArguments : IOgContentFactoryArguments<TContent>;

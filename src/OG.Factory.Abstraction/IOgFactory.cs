@@ -4,7 +4,7 @@ using OG.Element.Abstraction;
 namespace OG.Factory.Abstraction;
 
 public interface IOgFactory<TElement, TArguments> : IDkFactory<TElement, TArguments>
-    where TElement : IOgElement where TArguments : IOgFactoryArguments
+    where TArguments : IDkFactoryArguments
 {
     /// <summary>
     ///     XLM HELPER

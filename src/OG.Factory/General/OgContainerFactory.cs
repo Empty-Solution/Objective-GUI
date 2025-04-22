@@ -5,10 +5,10 @@ using OG.Factory.Abstraction;
 
 namespace OG.Factory.General;
 
-public class OgContainerFactory(IOgTransformScope scope) : OgFactory<IOgContainer<IOgElement>, IOgFactoryArguments>
+public class OgContainerFactory(IOgTransformScope scope) : OgElementFactory<IOgContainer<IOgElement>, IOgElementFactoryArguments>
 {
     public override string TypeName { get; } = "Container";
 
-    public override IOgContainer<IOgElement> Create(IOgFactoryArguments arguments) =>
+    public override IOgContainer<IOgElement> Create(IOgElementFactoryArguments arguments) =>
         new OgContainer<IOgElement, IOgTransformScope>(arguments.Name, scope, arguments.Transform);
 }

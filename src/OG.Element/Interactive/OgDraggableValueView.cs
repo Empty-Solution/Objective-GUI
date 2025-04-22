@@ -24,6 +24,7 @@ public abstract class OgDraggableValueView<TElement, TScope, TValue>(string name
         base.HandleMouseDrag(reason);
         if(!IsInteracting) return;
         UpdateValue(reason);
+        reason.Use();
     }
 
     protected abstract TValue CalculateValue(OgEvent reason, TValue value);
