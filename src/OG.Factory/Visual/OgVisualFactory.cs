@@ -1,5 +1,4 @@
 ﻿using OG.Common.Abstraction;
-using OG.Common.Scoping.Abstraction;
 using OG.Element.Abstraction;
 using OG.Factory.Abstraction;
 using OG.Factory.General;

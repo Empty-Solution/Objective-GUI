@@ -6,23 +6,18 @@ using UnityEngine;
 namespace OG.Element.Interactive;
 
 public class OgScroll<TElement, TScope>(string name, TScope scope, IOgTransform transform)
-    : OgHoverable<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgClipTransformScope
+    : OgValueView<TElement, TScope, Vector2>(name, scope, transform, Vector2.zero) where TElement : IOgElement where TScope : IOgClipTransformScope
 {
-    public delegate void OgScrollHandler(OgScroll<TElement, TScope> instance, Vector2 scrollPosition);
-
-    public Vector2 Position { get; private set; }
-    public event OgScrollHandler? OnScroll;
-
     protected override void HandleMouseScroll(OgEvent reason)
     {
         if(!IsHovered) return;
-        ChangeScrollPosition(reason.ScrollDelta);
+        ChangeScrollPosition(reason.ScrollDelta, reason);
     }
 
-    protected virtual void ChangeScrollPosition(Vector2 scrollDelta)
+    protected virtual void ChangeScrollPosition(Vector2 scrollDelta, OgEvent reason)
     {
-        Vector2 position = Position += scrollDelta;
+        Vector2 position = Value + scrollDelta;
+        ChangeValue(position, reason);
         Scope.ScrollPosition = position;
-        OnScroll?.Invoke(this, position);
     }
 }

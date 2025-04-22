@@ -6,17 +6,11 @@ using UnityEngine;
 namespace OG.Element.Interactive;
 
 public class OgDraggable<TElement, TScope>(string name, TScope scope, IOgTransform transform)
-    : OgControl<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+    : OgControl<TElement, TScope>(name, scope, transform), IOgDraggable<TElement, TScope> where TElement : IOgElement where TScope : IOgTransformScope
 {
-    public delegate void OgDragEnterHandler(OgDraggable<TElement, TScope> instance, Rect rect, OgEvent reason);
-
-    public delegate void OgDragExitHandler(OgDraggable<TElement, TScope> instance, Rect rect, OgEvent reason);
-
-    public delegate void OgDragPerformHandler(OgDraggable<TElement, TScope> instance, Rect rect, Vector2 delta, OgEvent reason);
-
-    public event OgDragEnterHandler? OnBeginDrag;
-    public event OgDragPerformHandler? OnPerformDrag;
-    public event OgDragExitHandler? OnEndDrag;
+    public event IOgDraggable<TElement, TScope>.OgDragEnterHandler? OnBeginDrag;
+    public event IOgDraggable<TElement, TScope>.OgDragPerformHandler? OnPerformDrag;
+    public event IOgDraggable<TElement, TScope>.OgDragExitHandler? OnEndDrag;
 
     protected override void BeginInteract(OgEvent reason)
     {

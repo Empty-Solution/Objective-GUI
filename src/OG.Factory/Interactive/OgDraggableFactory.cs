@@ -6,10 +6,10 @@ using OG.Factory.General;
 
 namespace OG.Factory.Interactive;
 
-public class OgDraggableFactory(IOgTransformScope scope) : OgFactory<IOgElement, IOgFactoryArguments>
+public class OgDraggableFactory(IOgTransformScope scope) : OgFactory<IOgDraggable<IOgElement, IOgTransformScope>, IOgFactoryArguments>
 {
     public override string TypeName { get; } = "Draggable";
 
-    public override IOgElement Create(IOgFactoryArguments arguments) =>
+    public override IOgDraggable<IOgElement, IOgTransformScope> Create(IOgFactoryArguments arguments) =>
         new OgDraggable<IOgElement, IOgTransformScope>(arguments.Name, scope, arguments.Transform);
 }

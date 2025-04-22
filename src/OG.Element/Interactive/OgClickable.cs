@@ -5,11 +5,9 @@ using OG.Element.Abstraction;
 namespace OG.Element.Interactive;
 
 public class OgClickable<TElement, TScope>(string name, TScope scope, IOgTransform transform)
-    : OgControl<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope
+    : OgControl<TElement, TScope>(name, scope, transform), IOgClickable<TElement, TScope> where TElement : IOgElement where TScope : IOgTransformScope
 {
-    public delegate void OgClickHandler(OgClickable<TElement, TScope> instance, OgEvent reason);
-
-    public event OgClickHandler? OnClicked;
+    public event IOgClickable<TElement, TScope>.OgClickHandler? OnClicked;
 
     protected override void EndInteract(OgEvent reason)
     {

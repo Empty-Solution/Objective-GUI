@@ -5,7 +5,7 @@ using OG.Element.Abstraction;
 
 namespace OG.Element.Layout;
 
-public class OgLayoutContainer<TElement, TScope>(string name, IOgLayout<TElement> layout, TScope scope, IOgTransform transform)
+public class OgLayoutContainer<TElement, TScope>(string name, TScope scope, IOgTransform transform, IOgLayout<TElement> layout)
     : OgContainer<TElement, TScope>(name, scope, transform) where TElement : IOgElement where TScope : IOgTransformScope
 {
     protected override void InternalOnGUI(OgEvent reason)

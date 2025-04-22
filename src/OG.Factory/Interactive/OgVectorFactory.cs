@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace OG.Factory.Interactive;
 
-public class OgVectorFactory(IOgTransformScope scope) : OgFactory<IOgElement, IOgRangeValueFactoryArguments<Vector2>>
+public class OgVectorFactory(IOgTransformScope scope) : OgFactory<IOgValueView<IOgElement, IOgTransformScope, Vector2>, IOgRangeValueFactoryArguments<Vector2>>
 {
     public override string TypeName { get; } = "Vector";
 
-    public override IOgElement Create(IOgRangeValueFactoryArguments<Vector2> arguments) =>
+    public override IOgValueView<IOgElement, IOgTransformScope, Vector2> Create(IOgRangeValueFactoryArguments<Vector2> arguments) =>
         new OgVector<IOgElement, IOgTransformScope>(arguments.Name, scope, arguments.Transform, arguments.Value, arguments.Range);
 }

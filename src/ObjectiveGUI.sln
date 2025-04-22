@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Factory", "OG.Factory\OG
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Factory.Abstraction", "OG.Factory.Abstraction\OG.Factory.Abstraction.csproj", "{F7880704-DC05-4B7D-BA3F-ADADC3029ED8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.EH.Factory", "OG.EH.Factory\OG.EH.Factory.csproj", "{9CD81F08-C9CF-4236-AD6D-6FE4059A7D5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{F7880704-DC05-4B7D-BA3F-ADADC3029ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7880704-DC05-4B7D-BA3F-ADADC3029ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7880704-DC05-4B7D-BA3F-ADADC3029ED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CD81F08-C9CF-4236-AD6D-6FE4059A7D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CD81F08-C9CF-4236-AD6D-6FE4059A7D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CD81F08-C9CF-4236-AD6D-6FE4059A7D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CD81F08-C9CF-4236-AD6D-6FE4059A7D5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
