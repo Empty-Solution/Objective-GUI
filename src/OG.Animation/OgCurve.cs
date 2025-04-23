@@ -1,4 +1,6 @@
 ﻿using OG.Animation.Abstraction;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace OG.Animation;
@@ -11,7 +13,7 @@ public abstract class OgCurve(float min, float max) : IOgCurve
     public int Count => Vertices.Count;
 
     public IOgCurveVertex this[int index] =>
-        Vertices.ElementAt(index);
+        Vertices[index];
 
     public abstract IOgCurveVertex GetNearestVertex(float time);
 

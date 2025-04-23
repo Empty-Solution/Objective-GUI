@@ -1,12 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <RootNamespace>OG.Animation</RootNamespace>
-        <TargetFrameworks>net9.0;net48</TargetFrameworks>
-    </PropertyGroup>
-
     <ItemGroup>
         <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.0.0"/>
     </ItemGroup>

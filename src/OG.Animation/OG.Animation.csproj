@@ -1,11 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <TargetFrameworks>net9.0;net48</TargetFrameworks>
-    </PropertyGroup>
-
     <ItemGroup>
         <ProjectReference Include="..\OG.Animation.Abstraction\OG.Animation.Abstraction.csproj"/>
     </ItemGroup>
