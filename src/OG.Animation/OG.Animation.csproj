@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.Style.Abstraction\OG.Style.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Animation.Abstraction\OG.Animation.Abstraction.csproj"/>
     </ItemGroup>
 
 </Project>

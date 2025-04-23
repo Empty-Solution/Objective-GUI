@@ -3,11 +3,16 @@
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>OG.Animation</RootNamespace>
         <TargetFrameworks>net9.0;net48</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.Style.Abstraction\OG.Style.Abstraction.csproj"/>
+        <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -27,7 +27,6 @@ public abstract class OgContentVisual<TStyle, TScope, TContent, TGraphicsContext
         : IOgStyledGraphicsContext<TContent, TStyle>
     {
         public TStyle Style => style;
-
         public TContent Content => content;
         public Rect Rect => rect;
 

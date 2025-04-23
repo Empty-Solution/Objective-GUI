@@ -3,8 +3,14 @@ using UnityEngine;
 
 namespace OG.Style;
 
-public class OgTextureStyle(Vector4 offset, Color color, Vector4 borderRadiuses, Vector4 borderWidths, 
-    float imageAspect = 1f, bool alphaBlend = false, ScaleMode scaleMode = ScaleMode.StretchToFill) : OgColorizedStyle(offset, color), IOgTextureStyle
+public class OgTextureStyle(
+    Vector4 offset,
+    Color color,
+    Vector4 borderRadiuses,
+    Vector4 borderWidths,
+    float imageAspect = 1f,
+    bool alphaBlend = false,
+    ScaleMode scaleMode = ScaleMode.StretchToFill) : OgColorizedStyle(offset, color), IOgTextureStyle
 {
     public ScaleMode ScaleMode { get; set; } = scaleMode;
     public bool AlphaBlend { get; set; } = alphaBlend;
