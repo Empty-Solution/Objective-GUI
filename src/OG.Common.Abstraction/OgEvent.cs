@@ -11,7 +11,15 @@ public readonly struct OgEvent(Event uEvent, Vector2 prevMousePosition, Matrix4x
     public Vector2 MousePositionDelta => uEvent.mousePosition - prevMousePosition;
     public KeyCode KeyCode => uEvent.keyCode;
     public char Character => uEvent.character;
-    public Vector2 ScrollDelta => uEvent.delta;
+
+    public Vector2 ScrollDelta
+    {
+        get
+        {
+            var delta = uEvent.delta;
+            return new(-delta.x, -delta.y);
+        }
+    }
     public int ClickCount => uEvent.clickCount;
     public bool IsMouseEvent => uEvent.isMouse;
     public bool IsKeyBoardEvent => uEvent.isKey;
