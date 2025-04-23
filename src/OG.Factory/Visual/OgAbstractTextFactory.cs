@@ -5,7 +5,7 @@ using OG.Style.Abstraction;
 
 namespace OG.Factory.Visual;
 
-public abstract class OgAbstractTextFactory<TArguments, TGraphics, TGraphicsContext>(IOgTextStyle style, IOgTransformScope scope, TGraphics graphics)
+public abstract class OgAbstractTextFactory<TArguments, TGraphics, TGraphicsContext>(IOgTextStyle style, TGraphics graphics)
     : OgVisualFactory<string, TArguments, IOgTextStyle, TGraphics>(style, graphics), IOgTextFactory<TArguments>
     where TGraphics : IOgGraphics<TGraphicsContext>
     where TGraphicsContext : IOgTextGraphicsContext<IOgTextStyle>

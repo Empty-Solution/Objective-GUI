@@ -9,7 +9,7 @@ using OG.Style.Abstraction;
 namespace OG.Factory.Visual;
 
 public class OgTextFactory(IOgTextStyle style, IOgTransformScope scope, IOgGraphics<IOgTextGraphicsContext<IOgTextStyle>> graphics) :
-    OgAbstractTextFactory<IOgTextFactoryArguments, IOgGraphics<IOgTextGraphicsContext<IOgTextStyle>>, IOgTextGraphicsContext<IOgTextStyle>>(style, scope, graphics)
+    OgAbstractTextFactory<IOgTextFactoryArguments, IOgGraphics<IOgTextGraphicsContext<IOgTextStyle>>, IOgTextGraphicsContext<IOgTextStyle>>(style, graphics)
 {
     protected override IOgVisualContent<string> InternalCreate(
         string name, string content, IOgTransform transform,
