@@ -6,6 +6,7 @@ using OG.Element.Abstraction;
 using OG.Event.Abstraction;
 
 namespace OG.Element;
+
 public class OgElement(IOgEventProvider eventProvider) : IOgElement
 {
     public IDkGetProvider<string>? Name { get; set; }
