@@ -1,8 +1,8 @@
 ﻿namespace OG.DataTypes.Size;
 
-public struct OgSize
+public struct OgSize(int width, int height)
 {
-    public int Width { get; set; }
+    public int Width { get; set; } = width;
 
-    public int Height { get; set; }
+    public int Height { get; set; } = height;
 }
