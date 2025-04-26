@@ -1,26 +1,27 @@
-﻿using DK.Scoping.Extensions;
-using OG.Common.Abstraction;
-using OG.Common.Scoping.Abstraction;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.DataTypes.Rectangles;
+using OG.DataTypes.Vectors.Float;
 using OG.Element.Abstraction;
+using OG.Event.Abstraction;
 
 namespace OG.Element;
-
-public abstract class OgElement<TScope>(string name, TScope scope, IOgTransform transform) : IOgScopedElement<TScope> where TScope : IOgTransformScope
+public class OgElement(IOgEventProvider eventProvider) : IOgElement
 {
-    public string Name => name;
+    public IDkGetProvider<string>? Name { get; set; }
 
-    public bool Active { get; set; } = true;
+    public IDkGetProvider<bool>? IsActive { get; set; }
 
-    public IOgTransform Transform => transform;
+    public IDkGetProvider<OgRectangle>? Rectangle { get; set; }
 
-    public TScope Scope => scope;
+    public IDkGetProvider<OgVector3F>? Rotation { get; set; }
 
-    public void OnGUI(OgEvent reason)
-    {
-        if(!Active) return;
-        Scope.Focus(Transform);
-        using(Scope.OpenContext()) InternalOnGUI(reason);
-    }
+    public IDkGetProvider<OgVector3F>? Scale { get; set; }
 
-    protected abstract void InternalOnGUI(OgEvent reason);
+    protected IOgEventProvider Events => eventProvider;
+
+    public bool Proc(IOgEvent reason) => ShouldProc(reason) && InternalProc(reason);
+
+    protected virtual bool InternalProc(IOgEvent reason) => Events.Invoke(reason);
+
+    protected virtual bool ShouldProc(IOgEvent reason) => !reason.IsConsumed && Rectangle is not null;
 }

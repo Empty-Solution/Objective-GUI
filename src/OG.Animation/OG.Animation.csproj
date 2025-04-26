@@ -1,7 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <ItemGroup>
-        <ProjectReference Include="..\OG.Animation.Abstraction\OG.Animation.Abstraction.csproj"/>
-    </ItemGroup>
-
-</Project>

@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    
+
   <ItemGroup>
-    <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj" />
+    <PackageReference Include="DK.Common.Matching" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OG.Event.Abstraction\OG.Event.Abstraction.csproj" />
   </ItemGroup>
-    
-</Project>
 
+</Project>

@@ -1,14 +1,21 @@
-﻿using OG.Common.Abstraction;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.DataTypes.Rectangles;
+using OG.DataTypes.Vectors.Float;
+using OG.Event.Abstraction;
 
 namespace OG.Element.Abstraction;
 
 public interface IOgElement
 {
-    string Name { get; }
+    IDkGetProvider<string>? Name { get; }
 
-    bool Active { get; set; }
+    IDkGetProvider<bool>? IsActive { get; }
 
-    IOgTransform Transform { get; }
+    IDkGetProvider<OgRectangle>? Rectangle { get; }
 
-    void OnGUI(OgEvent reason);
+    IDkGetProvider<OgVector3F>? Rotation { get; }
+
+    IDkGetProvider<OgVector3F>? Scale { get; }
+
+    bool Proc(IOgEvent reason);
 }
