@@ -16,10 +16,11 @@ public readonly struct OgEvent(Event uEvent, Vector2 prevMousePosition, Matrix4x
     {
         get
         {
-            var delta = uEvent.delta;
+            Vector2 delta = uEvent.delta;
             return new(-delta.x, -delta.y);
         }
     }
+
     public int ClickCount => uEvent.clickCount;
     public bool IsMouseEvent => uEvent.isMouse;
     public bool IsKeyBoardEvent => uEvent.isKey;

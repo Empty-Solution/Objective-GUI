@@ -18,10 +18,10 @@ public class EhHorizontalSliderFactory(OgImageFactory backgroundFactory, OgImage
     {
         IOgValueView<IOgElement, IOgTransformScope, float> slider = sliderFactory.Create(new OgSliderFactoryArguments(arguments.Name, arguments.Transform, arguments.Value, arguments.Range, arguments.ScrollStep));
         slider.AddChild(backgroundFactory.Create(new OgTextureFactoryArguments($"{arguments.Name}_background", arguments.Transform, Texture2D.whiteTexture)));
-        var thumb = thumbFactory.Create(new OgTextureFactoryArguments($"{arguments.Name}_thumb", arguments.ThumbTransform, Texture2D.whiteTexture));
+        IOgVisualContent<Texture> thumb = thumbFactory.Create(new OgTextureFactoryArguments($"{arguments.Name}_thumb", arguments.ThumbTransform, Texture2D.whiteTexture));
         slider.OnValueChanged += (instance, value, reason) =>
         {
-            var rect = thumb.Transform.LocalRect;
+            Rect rect = thumb.Transform.LocalRect;
             rect.x = Mathf.Clamp((value - arguments.Range.Min) / (arguments.Range.Max - arguments.Range.Min) * slider.Transform.LocalRect.width, slider.Transform.LocalRect.xMin, slider.Transform.LocalRect.xMax);
             thumb.Transform.LocalRect = rect;
         };

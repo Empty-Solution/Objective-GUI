@@ -6,4 +6,10 @@
         <ProjectReference Include="..\OG.Style.Abstraction\OG.Style.Abstraction.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Reference Include="UnityEngine.TextRenderingModule">
+            <HintPath>..\..\..\..\..\Users\ukin3\.nuget\packages\unityengine.textrenderingmodule\2020.3.1\lib\net48\UnityEngine.TextRenderingModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
 </Project>

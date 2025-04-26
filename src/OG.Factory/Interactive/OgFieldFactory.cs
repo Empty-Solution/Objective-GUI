@@ -1,4 +1,5 @@
 ﻿using OG.Common.Scoping.Abstraction;
+using OG.Element;
 using OG.Element.Abstraction;
 using OG.Element.Interactive;
 using OG.Factory.Abstraction;
@@ -12,5 +13,5 @@ public class OgFieldFactory(IOgTextStyle style, IOgTransformScope scope) : OgEle
     public override string TypeName { get; } = "Field";
 
     public override IOgValueView<IOgElement, IOgTransformScope, string> Create(IOgContentFactoryArguments<string> arguments) =>
-        new OgField<IOgElement, IOgTransformScope>(arguments.Name, scope, arguments.Transform, arguments.Content, style);
+        new OgField<IOgElement, IOgTransformScope>(arguments.Name, scope, arguments.Transform, arguments.Content, style, new OgTextEditor(new OgTextCursorController(style), true));
 }
