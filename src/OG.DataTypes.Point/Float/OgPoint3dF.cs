@@ -1,6 +1,6 @@
-﻿namespace OG.DataTypes.Vector.Float;
+﻿namespace OG.DataTypes.Point.Float;
 
-public struct OgVector3F(float x, float y, float z)
+public struct OgPoint3dF(float x, float y, float z)
 {
     public float X { get; set; } = x;
 

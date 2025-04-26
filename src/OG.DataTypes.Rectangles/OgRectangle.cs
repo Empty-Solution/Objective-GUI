@@ -1,4 +1,4 @@
-﻿namespace OG.DataTypes.Rectangles;
+﻿namespace OG.DataTypes.Rectangle;
 
 public struct OgRectangle(int x, int y, int width, int height)
 {

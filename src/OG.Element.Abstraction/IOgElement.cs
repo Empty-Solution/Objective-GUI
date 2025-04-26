@@ -1,6 +1,7 @@
 ﻿using DK.Getting.Abstraction.Generic;
-using OG.DataTypes.Rectangles;
-using OG.DataTypes.Vectors.Float;
+using OG.DataTypes.Quaternion.Float;
+using OG.DataTypes.Rectangle;
+using OG.DataTypes.Scale.Float;
 using OG.Event.Abstraction;
 
 namespace OG.Element.Abstraction;
@@ -13,9 +14,9 @@ public interface IOgElement
 
     IDkGetProvider<OgRectangle>? Rectangle { get; }
 
-    IDkGetProvider<OgVector3F>? Rotation { get; }
+    IDkGetProvider<OgQuaternionF>? Rotation { get; }
 
-    IDkGetProvider<OgVector3F>? Scale { get; }
+    IDkGetProvider<OgScaleF>? Scale { get; }
 
     bool Proc(IOgEvent reason);
 }

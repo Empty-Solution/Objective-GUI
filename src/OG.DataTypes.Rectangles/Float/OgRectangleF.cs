@@ -1,4 +1,4 @@
-﻿namespace OG.DataTypes.Rectangles.Float;
+﻿namespace OG.DataTypes.Rectangle.Float;
 
 public struct OgRectangleF(float x, float y, float width, float height)
 {

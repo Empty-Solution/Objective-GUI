@@ -15,6 +15,8 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
 
     public IEnumerable<TElement> Elements => m_Element;
 
+    IEnumerable<TElement> IOgContainer<TElement>.Elements => throw new NotImplementedException();
+
     public bool Contains(TElement element) => m_Element.Contains(element);
 
     public void Add(TElement element)
@@ -48,6 +50,9 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
     }
 
     protected virtual bool ProcElement(IOgEvent reason, TElement element) => ShouldProcElement(reason, element) && element.Proc(reason) && reason.IsConsumed;
+    bool IOgContainer<TElement>.Contains(TElement element) => throw new NotImplementedException();
+    void IOgContainer<TElement>.Add(TElement element) => throw new NotImplementedException();
+    void IOgContainer<TElement>.Remove(TElement element) => throw new NotImplementedException();
 
     private class OgRecallEventHandler(OgContainer<TElement> owner) : IOgEventHandler
     {

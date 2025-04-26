@@ -1,4 +1,4 @@
-﻿namespace OG.DataTypes.Colors;
+﻿namespace OG.DataTypes.Color;
 
 public struct OgRgbaColor(float r, float g, float b, float a)
 {

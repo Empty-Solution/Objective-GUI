@@ -1,4 +1,4 @@
-﻿namespace OG.DataTypes.Vectors.Float;
+﻿namespace OG.DataTypes.Vector.Float;
 
 public struct OgVector2F(float x, float y)
 {

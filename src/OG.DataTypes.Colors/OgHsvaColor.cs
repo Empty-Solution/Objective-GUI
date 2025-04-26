@@ -1,4 +1,4 @@
-﻿namespace OG.DataTypes.Colors;
+﻿namespace OG.DataTypes.Color;
 
 public struct OgHsvaColor(float h, float s, float v, float a)
 {

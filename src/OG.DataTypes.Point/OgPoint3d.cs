@@ -1,6 +1,6 @@
-﻿namespace OG.DataTypes.Vector;
+﻿namespace OG.DataTypes.Point;
 
-public struct OgVector3(int x, int y, int z)
+public struct OgPoint3d(int x, int y, int z)
 {
     public int X { get; set; } = x;
 

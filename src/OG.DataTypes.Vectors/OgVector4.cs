@@ -1,4 +1,4 @@
-﻿namespace OG.DataTypes.Vectors;
+﻿namespace OG.DataTypes.Vector;
 
 public struct OgVector4(int x, int y, int z, int w)
 {

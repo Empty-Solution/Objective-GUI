@@ -1,4 +1,4 @@
-﻿namespace OG.DataTypes.Colors.Bits;
+﻿namespace OG.DataTypes.Color.Bit;
 
 public struct OgRgbaColor32(byte r, byte g, byte b, byte a)
 {

@@ -1,6 +1,6 @@
-﻿namespace OG.DataTypes.Vector;
+﻿namespace OG.DataTypes.Scale;
 
-public struct OgVector2(int x, int y)
+public struct OgScale(int x, int y)
 {
     public int X { get; set; } = x;
 

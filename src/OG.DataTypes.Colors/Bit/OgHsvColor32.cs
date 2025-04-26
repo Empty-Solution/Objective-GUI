@@ -1,4 +1,4 @@
-﻿namespace OG.DataTypes.Colors.Bits;
+﻿namespace OG.DataTypes.Color.Bit;
 
 public struct OgHsvColor32(byte h, byte s, byte v)
 {

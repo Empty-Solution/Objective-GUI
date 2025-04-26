@@ -5,8 +5,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\OG.DataTypes.Quaternion\OG.DataTypes.Quaternion.csproj" />
         <ProjectReference Include="..\OG.DataTypes.Rectangles\OG.DataTypes.Rectangle.csproj" />
-        <ProjectReference Include="..\OG.DataTypes.Vectors\OG.DataTypes.Vector.csproj" />
+        <ProjectReference Include="..\OG.DataTypes.Scale\OG.DataTypes.Scale.csproj" />
         <ProjectReference Include="..\OG.Event.Abstraction\OG.Event.Abstraction.csproj" />
     </ItemGroup>
 
