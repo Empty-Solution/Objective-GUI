@@ -1,1 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    
+  <ItemGroup>
+    <PackageReference Include="DK.Scoping.Extensions" Version="1.0.0" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\OG.DataTypes.Rectangles\OG.DataTypes.Rectangle.csproj" />
+  </ItemGroup>
+    
+</Project>
