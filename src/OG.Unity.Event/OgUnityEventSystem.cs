@@ -29,7 +29,7 @@ public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) : IOgEventSystem
     }
 
     private OgUnityEvent Parse(UeEvent source) => Parse(source.type);
-
+    
     private OgUnityEvent Parse(EventType type) => type switch
     {
         EventType.Repaint => m_RepaintEvent ??= new OgUnityRepaintEvent(graphicsTool),
