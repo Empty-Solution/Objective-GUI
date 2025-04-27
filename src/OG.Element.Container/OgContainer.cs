@@ -40,7 +40,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
         return true;
     }
 
-    protected bool ProcElementsBackwarp(IOgEvent reason)
+    protected bool ProcElementsBackward(IOgEvent reason)
     {
         for(int i = m_Element.Count - 1; i >=0; i--) if(ProcElement(reason, m_Element[i])) break;
         return true;
@@ -63,6 +63,6 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
 
     private class OgRecallInputEventHandler(OgContainer<TElement> owner) : OgEventHandlerBase<IOgInputEvent>
     {
-        public override bool Handle(IOgInputEvent reason) => owner.ProcElementsBackwarp(reason);
+        public override bool Handle(IOgInputEvent reason) => owner.ProcElementsBackward(reason);
     }
 }
