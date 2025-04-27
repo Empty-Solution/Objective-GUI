@@ -19,11 +19,9 @@ public class OgElement(IOgEventProvider eventProvider) : IOgElement
 
     public IDkGetProvider<OgScaleF>? Scale { get; set; }
 
-    protected IOgEventProvider Events => eventProvider;
-
     public bool Proc(IOgEvent reason) => ShouldProc(reason) && InternalProc(reason);
 
-    protected virtual bool InternalProc(IOgEvent reason) => Events.Invoke(reason);
+    protected virtual bool InternalProc(IOgEvent reason) => eventProvider.Invoke(reason);
 
     protected virtual bool ShouldProc(IOgEvent reason) => !reason.IsConsumed && Rectangle is not null;
 }

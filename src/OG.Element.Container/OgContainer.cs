@@ -1,6 +1,7 @@
 ﻿using DK.Getting.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
+using OG.Event;
 using OG.Event.Abstraction;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,11 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
 {
     private readonly List<TElement> m_Element = [];
 
-    public OgContainer(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgRecallEventHandler(this));
+    public OgContainer(IOgEventProvider eventProvider) : base(eventProvider)
+    {
+        eventProvider.RegisterHandler(new OgRecallInputEventHandler(this));
+        eventProvider.RegisterHandler(new OgRecallEventHandler(this));
+    }
 
     public IEnumerable<TElement> Elements => m_Element;
 
@@ -54,5 +59,10 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
         public bool CanHandle(IOgEvent value) => true;
 
         public bool Handle(IOgEvent reason) => owner.ProcElementsForward(reason);
+    }
+
+    private class OgRecallInputEventHandler(OgContainer<TElement> owner) : OgEventHandlerBase<IOgInputEvent>
+    {
+        public override bool Handle(IOgInputEvent reason) => owner.ProcElementsBackwarp(reason);
     }
 }

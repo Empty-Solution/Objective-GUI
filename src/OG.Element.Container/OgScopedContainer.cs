@@ -12,7 +12,7 @@ public abstract class OgScopedContainer<TElement> : OgContainer<TElement> where 
 
     protected virtual bool OnRepaint(IOgRepaintEvent reason, OgRectangle rectangle)
     {
-        using(reason.GraphicsTool.Clip(rectangle)) ProcElementsForward(reason);
+        using(reason.GraphicsTool.Clip(rectangle)) _=ProcElementsForward(reason);
         return true;
     }
 
