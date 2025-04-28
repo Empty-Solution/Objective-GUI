@@ -2,5 +2,4 @@
 
 public interface IOgKeyUpEvent : IOgKeyboardEvent
 {
-
 }

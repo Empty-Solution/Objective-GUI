@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Element.Control.Abstraction\OG.Element.Control.Abstraction.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="DK.Property.Abstraction" Version="1.0.0"/>
+        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.0.0"/>
+    </ItemGroup>
+
+</Project>

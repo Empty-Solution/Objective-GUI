@@ -6,4 +6,3 @@ public struct OgPointF(float x, float y)
 
     public float Y { get; set; } = y;
 }
-

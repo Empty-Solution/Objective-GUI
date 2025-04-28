@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
+    </ItemGroup>
 
 </Project>

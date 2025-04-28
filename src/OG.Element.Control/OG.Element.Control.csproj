@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <ProjectReference Include="..\OG.Element.Control.Abstraction\OG.Element.Control.Abstraction.csproj" />
-    <ProjectReference Include="..\OG.Event\OG.Event.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Element.Control.Abstraction\OG.Element.Control.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Event\OG.Event.csproj"/>
+    </ItemGroup>
 
 </Project>

@@ -6,4 +6,3 @@ public struct OgSizeF(float width, float height)
 
     public float Height { get; set; } = height;
 }
-
