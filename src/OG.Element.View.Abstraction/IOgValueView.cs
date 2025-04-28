@@ -8,5 +8,5 @@ public interface IOgValueView<TElement, TValue> : IOgControl<TElement> where TEl
 {
     IDkProperty<TValue>? Value { get; set; }
 
-    void ChangeValue(TValue newValue);
+    bool ChangeValue(TValue newValue);
 }

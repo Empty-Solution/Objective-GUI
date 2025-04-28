@@ -5,4 +5,8 @@
         <ProjectReference Include="..\OG.Element.View.Abstraction\OG.Element.View.Abstraction.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.1.1" />
+    </ItemGroup>
+
 </Project>

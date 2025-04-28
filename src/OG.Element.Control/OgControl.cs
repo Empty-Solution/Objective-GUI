@@ -6,9 +6,9 @@ using OG.Event.Abstraction;
 
 namespace OG.Element.Control;
 
-public class OgControl<TElement> : OgHoverable<TElement>, IOgControl<TElement> where TElement : IOgElement
+public abstract class OgControl<TElement> : OgHoverable<TElement>, IOgControl<TElement> where TElement : IOgElement
 {
-    public OgControl(IOgEventProvider eventProvider) : base(eventProvider)
+    protected OgControl(IOgEventProvider eventProvider) : base(eventProvider)
     {
         eventProvider.RegisterHandler(new OgMouseDownEventHandler(this));
         eventProvider.RegisterHandler(new OgMouseUpEventHandler(this));
@@ -22,8 +22,11 @@ public class OgControl<TElement> : OgHoverable<TElement>, IOgControl<TElement> w
         return BeginControl(reason);
     }
 
-    protected virtual bool HandleMouseUp(IOgMouseKeyUpEvent reason) =>
-        !IsControlling || EndControl(reason);
+    protected virtual bool HandleMouseUp(IOgMouseKeyUpEvent reason)
+    {
+        if(!IsControlling || !IsHovered) return true;
+        return EndControl(reason);
+    }
 
     protected virtual bool BeginControl(IOgMouseKeyDownEvent reason) =>
         IsControlling = true;

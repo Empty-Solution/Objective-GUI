@@ -11,5 +11,5 @@ public class OgValueView<TElement, TValue>(IOgEventProvider eventProvider) : OgC
 {
     public IDkProperty<TValue>? Value { get; set; }
 
-    public void ChangeValue(TValue newValue) => Value?.Set(newValue);
+    public bool ChangeValue(TValue newValue) => Value?.Set(newValue) ?? false;
 }

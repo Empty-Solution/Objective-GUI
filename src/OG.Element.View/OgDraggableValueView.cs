@@ -35,4 +35,7 @@ public abstract class OgDraggableValueView<TElement, TValue>(IOgEventProvider ev
         if(Equals(value, newValue)) return;
         ChangeValue(newValue);
     }
+    
+    protected static float Lerp(float a, float b, float t) => a + ((b - a) * Clamp(t, 0f, 1f));
+    protected static float Clamp(float value, float min, float max) => value < min ? min : value > max ? max : value;
 }
