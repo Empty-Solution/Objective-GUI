@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>OG.Element.Focusable.Abstraction</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Element.View.Abstraction\OG.Element.View.Abstraction.csproj"/>
+    </ItemGroup>
+
+</Project>

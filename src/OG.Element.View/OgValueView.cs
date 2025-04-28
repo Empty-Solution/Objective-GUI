@@ -1,0 +1,15 @@
+﻿using Dk.Property.Abstraction.Generic;
+using OG.Element.Abstraction;
+using OG.Element.Control;
+using OG.Element.View.Abstraction;
+using OG.Event.Abstraction;
+
+namespace OG.Element.View;
+
+public class OgValueView<TElement, TValue>(IOgEventProvider eventProvider) : OgControl<TElement>(eventProvider), IOgValueView<TElement, TValue>
+    where TElement : IOgElement
+{
+    public IDkProperty<TValue>? Value { get; set; }
+
+    public void ChangeValue(TValue newValue) => Value?.Set(newValue);
+}

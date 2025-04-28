@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Element.Control\OG.Element.Control.csproj"/>
+        <ProjectReference Include="..\OG.Element.FocusableControl.Abstraction\OG.Element.FocusableControl.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Element.View\OG.Element.View.csproj"/>
+    </ItemGroup>
+</Project>

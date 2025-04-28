@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Element.Container\OG.Element.Container.csproj"/>
+        <ProjectReference Include="..\OG.Element.Interactable.Abstraction\OG.Element.Interactable.Abstraction.csproj"/>
+    </ItemGroup>
+</Project>

@@ -2,4 +2,4 @@
 
 namespace OG.Element.View.Abstraction;
 
-public interface IOgSlider<TElement, TValue> : IOgValueView<TElement, TValue> where TElement : IOgElement;
+public interface IOgSlider<TElement> : IOgValueView<TElement, float> where TElement : IOgElement;

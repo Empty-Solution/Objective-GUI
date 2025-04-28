@@ -6,4 +6,8 @@
         <ProjectReference Include="..\OG.Event\OG.Event.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.0.0"/>
+    </ItemGroup>
+
 </Project>
