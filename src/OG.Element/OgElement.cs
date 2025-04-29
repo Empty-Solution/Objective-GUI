@@ -11,8 +11,10 @@ namespace OG.Element;
 public class OgElement(IOgEventProvider eventProvider) : IOgElement
 {
     public IDkGetProvider<string>? Name { get; set; }
+
     public IDkGetProvider<bool>? IsActive { get; set; }
-    public IDkProperty<OgRectangle>? Rectangle { get; set; }
+
+    public IDkFieldProvider<OgRectangle>? Rectangle { get; set; }
 
     public IDkGetProvider<OgQuaternionF>? Rotation { get; set; }
 

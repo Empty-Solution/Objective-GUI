@@ -5,24 +5,11 @@ namespace OG.Element.View;
 
 public abstract class OgDraggableValueView<TElement, TValue>(IOgEventProvider eventProvider) : OgValueView<TElement, TValue>(eventProvider) where TElement : IOgElement
 {
-    protected override bool BeginControl(IOgMouseKeyDownEvent reason)
-    {
-        base.BeginControl(reason);
-        UpdateValue(reason);
-        return true;
-    }
+    protected override bool BeginControl(IOgMouseKeyDownEvent reason) => base.BeginControl(reason) && UpdateValue(reason);
 
-    protected override bool EndControl(IOgMouseKeyUpEvent reason)
-    {
-        base.EndControl(reason);
-        return UpdateValue(reason);
-    }
+    protected override bool EndControl(IOgMouseKeyUpEvent reason) => base.EndControl(reason) && UpdateValue(reason);
 
-    protected override bool HandleMouseMove(IOgMouseMoveEvent reason)
-    {
-        base.HandleMouseMove(reason);
-        return UpdateValue(reason);
-    }
+    protected override bool HandleMouseMove(IOgMouseMoveEvent reason) => base.HandleMouseMove(reason) && UpdateValue(reason);
 
     protected abstract TValue CalculateValue(IOgMouseEvent reason, TValue value);
 

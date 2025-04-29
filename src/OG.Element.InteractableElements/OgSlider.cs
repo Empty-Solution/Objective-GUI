@@ -5,7 +5,6 @@ using OG.Element.Abstraction;
 using OG.Element.View;
 using OG.Element.View.Abstraction;
 using OG.Event.Abstraction;
-using System;
 
 namespace OG.Element.InteractableElements;
 
@@ -14,7 +13,7 @@ public abstract class OgSlider<TElement>(IOgEventProvider eventProvider) : OgScr
     public IDkRange<float>? Range { get; set; }
     public float ScrollStep { get; set; }
 
-    protected override float CalculateValue(IOgMouseEvent reason, float value) => 
+    protected override float CalculateValue(IOgMouseEvent reason, float value) =>
         Lerp(Range!.Min, Range.Max, InverseLerp(Rectangle!.Get(), reason.LocalMousePosition));
     protected abstract float InverseLerp(OgRectangle rect, OgVector2 mousePosition);
     

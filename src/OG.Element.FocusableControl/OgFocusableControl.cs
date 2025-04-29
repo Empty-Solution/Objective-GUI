@@ -1,9 +1,9 @@
 ﻿using OG.Element.Abstraction;
-using OG.Element.FocusableControl.Abstraction;
+using OG.Element.Focusable.Abstraction;
 using OG.Element.View;
 using OG.Event.Abstraction;
 
-namespace OG.Element.FocusableControl;
+namespace OG.Element.Focusable;
 
 public abstract class OgFocusableControl<TElement, TValue>(IOgEventProvider eventProvider) : OgValueView<TElement, TValue>(eventProvider), IOgFocusableControl<TElement, TValue> where TElement : IOgElement
 {
@@ -12,9 +12,8 @@ public abstract class OgFocusableControl<TElement, TValue>(IOgEventProvider even
 
     protected override bool HandleMouseUp(IOgMouseKeyUpEvent reason)
     {
-        base.HandleMouseUp(reason);
+        if(!base.HandleMouseUp(reason)) return false;
         if(IsFocused == IsHovered) return true;
-
         IsFocused = IsHovered;
         return IsFocused ? OnFocus(reason) : OnLostFocus(reason);
     }

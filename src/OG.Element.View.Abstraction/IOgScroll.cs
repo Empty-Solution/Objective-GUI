@@ -1,6 +1,5 @@
 ﻿using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
-using System.Numerics;
 
 namespace OG.Element.View.Abstraction;
 

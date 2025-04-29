@@ -13,7 +13,7 @@ public interface IOgElement
 
     IDkGetProvider<bool>? IsActive { get; }
 
-    IDkProperty<OgRectangle>? Rectangle { get; }
+    IDkFieldProvider<OgRectangle>? Rectangle { get; }
 
     IDkGetProvider<OgQuaternionF>? Rotation { get; }
 

@@ -9,12 +9,13 @@ public class OgClickable<TElement>(IOgEventProvider eventProvider) : OgControl<T
     where TElement : IOgElement
 {
     public event IOgClickable<TElement>.OgClickHandler? OnClicked;
-    protected override bool EndControl(IOgMouseKeyUpEvent reason)
+
+    protected override bool EndControl(IOgMouseKeyUpEvent reason) => base.EndControl(reason) && Click(reason);
+
+    protected virtual bool Click(IOgMouseKeyUpEvent reason)
     {
-        base.EndControl(reason);
-        Click(reason);
+        if(OnClicked is null) return false;
+        OnClicked?.Invoke(this, reason);
         return true;
     }
-    
-    protected virtual void Click(IOgMouseKeyUpEvent reason) => OnClicked?.Invoke(this, reason);
 }

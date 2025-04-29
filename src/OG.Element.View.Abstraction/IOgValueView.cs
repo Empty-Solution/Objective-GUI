@@ -6,7 +6,7 @@ namespace OG.Element.View.Abstraction;
 
 public interface IOgValueView<TElement, TValue> : IOgControl<TElement> where TElement : IOgElement
 {
-    IDkProperty<TValue>? Value { get; set; }
+    IDkFieldProvider<TValue>? Value { get; set; }
 
     bool ChangeValue(TValue newValue);
 }

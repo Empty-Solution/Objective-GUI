@@ -9,7 +9,11 @@ namespace OG.Element.View;
 public class OgValueView<TElement, TValue>(IOgEventProvider eventProvider) : OgControl<TElement>(eventProvider), IOgValueView<TElement, TValue>
     where TElement : IOgElement
 {
-    public IDkProperty<TValue>? Value { get; set; }
+    public IDkFieldProvider<TValue>? Value { get; set; }
 
-    public bool ChangeValue(TValue newValue) => Value?.Set(newValue) ?? false;
+    public bool ChangeValue(TValue newValue)
+    {
+        IDkFieldProvider<TValue>? field = Value;
+        return field is not null && field.Set(newValue);
+    }
 }
