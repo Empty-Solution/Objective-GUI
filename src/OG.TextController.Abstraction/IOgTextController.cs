@@ -6,6 +6,6 @@ namespace OG.TextController.Abstraction;
 public interface IOgTextController
 {
     IOgTextCursorController TextCursorController { get; }
-    string HandleKeyEvent(string text, out bool handled, IOgKeyDownEvent reason);
+    string HandleKeyEvent(string text, IOgKeyDownEvent reason);
     string HandleCharacter(string text, char character);
 }

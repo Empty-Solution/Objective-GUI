@@ -1,6 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+      <RootNamespace>OG.Element.InteractableElements</RootNamespace>
+    </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\OG.Element.Container\OG.Element.Container.csproj"/>
-        <ProjectReference Include="..\OG.Element.Interactable.Abstraction\OG.Element.Interactable.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Element.Control.Focusable.Abstraction\OG.Element.Control.Focusable.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Element.FocusableControl\OG.Element.Control.Focusable.csproj" />
+        <ProjectReference Include="..\OG.Element.FocusableControl\OG.Element.FocusableControl.csproj"/>
+        <ProjectReference Include="..\OG.Element.Interactable.Abstraction\OG.Element.Interactable.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Element.View\OG.Element.View.csproj"/>
+        <ProjectReference Include="..\OG.TextController.Abstraction\OG.TextController.Abstraction.csproj"/>
     </ItemGroup>
 </Project>

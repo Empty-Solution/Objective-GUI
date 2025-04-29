@@ -1,10 +1,10 @@
 ﻿using OG.Element.Abstraction;
 using OG.Element.Container;
-using OG.Element.Interactable.Abstraction;
+using OG.Element.Hoverable.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
 
-namespace OG.Element.Interactable;
+namespace OG.Element.Hoverable;
 
 public class OgHoverable<TElement> : OgContainer<TElement>, IOgHoverable<TElement> where TElement : IOgElement
 {

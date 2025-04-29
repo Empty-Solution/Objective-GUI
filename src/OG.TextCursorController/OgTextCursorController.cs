@@ -12,8 +12,6 @@ namespace OG.TextCursorController;
 
 public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, IDkProperty<int> selectionPosition) : IOgTextCursorController
 {
-    private const int AVERAGE_LINE_HEIGHT = 1;
-    private const int AVERAGE_ADVANCE = 1;
     public IDkProperty<int>? FontSize { get; set; }
     public IDkProperty<EOgTextAnchor>? Alignment { get; set; }
     public IDkProperty<EOgFontStyle>? FontStyle { get; set; }
@@ -41,7 +39,7 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
     private int GetCharacterIndex(string text, OgVector2 mousePosition, OgRectangle rect) =>
         GetCharacterIndexByVector2(text, mousePosition, rect);
 
-    protected abstract Vector2 CalSize(string text, OgRectangle textRect, float realLineHeight);
+    protected abstract OgVector2 CalSize(string text, OgRectangle textRect, float realLineHeight);
     protected abstract void RequestCharacters(string text, int fontSize, EOgFontStyle fontStyle);
     protected abstract float GetCharacterAdvance(char character, int fontSize, EOgFontStyle fontStyle);
     protected abstract float GetLineHeight(int fontSize);
@@ -118,7 +116,7 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
     private OgVector2 GetAlignmentOffset(string text, OgRectangle textRect, float realLineHeight) =>
         GetAlignmentOffset(textRect, CalSize(text, textRect, realLineHeight));
 
-    private OgVector2 GetAlignmentOffset(OgRectangle parentRect, Vector2 elementSize)
+    private OgVector2 GetAlignmentOffset(OgRectangle parentRect, OgVector2 elementSize)
     {
         if(Alignment is null)
             return new(parentRect.X, parentRect.Y);

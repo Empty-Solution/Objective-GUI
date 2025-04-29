@@ -8,7 +8,7 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
 {
     protected abstract string SystemCopyBuffer { get; set; }
 
-    public override string HandleKeyEvent(string text, out bool handled, IOgKeyDownEvent reason)
+    public override string HandleKeyEvent(string text, IOgKeyDownEvent reason)
     {
         Value = text;
         EOgKeyCode keyCode = reason.KeyCode;
@@ -65,11 +65,9 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
                 Paste();
                 break;
             default:
-                handled = false;
                 return Value;
         }
 
-        handled = true;
         return Value;
     }
 

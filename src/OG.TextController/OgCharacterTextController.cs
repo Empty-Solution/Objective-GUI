@@ -10,7 +10,7 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
     public bool Multiline { get; set; } = multiLine;
     public IOgTextCursorController TextCursorController { get; } = textCursorController;
 
-    public abstract string HandleKeyEvent(string text, out bool handled, IOgKeyDownEvent reason);
+    public abstract string HandleKeyEvent(string text, IOgKeyDownEvent reason);
 
     public string HandleCharacter(string text, char character)
     {

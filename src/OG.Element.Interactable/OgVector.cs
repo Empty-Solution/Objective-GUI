@@ -2,11 +2,12 @@
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
+using OG.Element.Interactable.Abstraction;
 using OG.Element.View;
 using OG.Element.View.Abstraction;
 using OG.Event.Abstraction;
 
-namespace OG.Element.InteractableElements;
+namespace OG.Element.Interactable;
 
 public class OgVector<TElement>(IOgEventProvider eventProvider) : OgDraggableValueView<TElement, OgVector2>(eventProvider), IOgVector<TElement>
     where TElement : IOgElement

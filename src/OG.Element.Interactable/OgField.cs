@@ -1,12 +1,13 @@
 ﻿using OG.Element.Abstraction;
-using OG.Element.FocusableControl;
+using OG.Element.Control.Focusable;
+using OG.Element.Control.Interactable.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
 using OG.TextController.Abstraction;
 
-namespace OG.Element.InteractableElements;
+namespace OG.Element.Interactable;
 
-public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextController controller) : OgFocusableControl<TElement, string>(eventProvider) where TElement : IOgElement
+public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextController controller) : OgFocusableControl<TElement, string>(eventProvider), IOgField<TElement> where TElement : IOgElement
 {
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
@@ -42,8 +43,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
     {
         if(!IsFocused) return true;
 
-        UpdateTextIfNeeded(controller.HandleKeyEvent(Value!.Get(), out bool handled, reason), reason);
-        if(handled)
+        if(UpdateTextIfNeeded(controller.HandleKeyEvent(Value!.Get(), reason), reason))
             return true;
 
         char chr = reason.Character;
@@ -52,7 +52,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
 
     private bool UpdateTextIfNeeded(string newValue, IOgEvent reason)
     {
-        if(Equals(Value!.Get(), newValue)) return true;
+        if(Equals(Value!.Get(), newValue)) return false;
         ChangeValue(newValue);
         reason.Consume();
         return true;
