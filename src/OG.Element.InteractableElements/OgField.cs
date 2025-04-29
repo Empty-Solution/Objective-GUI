@@ -1,5 +1,4 @@
 ﻿using OG.Element.Abstraction;
-using OG.Element.Control;
 using OG.Element.FocusableControl;
 using OG.Event;
 using OG.Event.Abstraction;
@@ -30,7 +29,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
         reason.Consume();
         return true;
     }
-    
+
     protected override bool EndControl(IOgMouseKeyUpEvent reason)
     {
         base.EndControl(reason);
@@ -50,7 +49,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
         char chr = reason.Character;
         return HasCharacter(chr) && UpdateTextIfNeeded(controller.HandleCharacter(Value!.Get(), chr), reason);
     }
-    
+
     private bool UpdateTextIfNeeded(string newValue, IOgEvent reason)
     {
         if(Equals(Value!.Get(), newValue)) return true;
@@ -60,7 +59,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
     }
 
     protected abstract bool HasCharacter(char chr);
-    
+
     private class OgKeyDownEventHandler(OgField<TElement> owner) : OgEventHandlerBase<IOgKeyDownEvent>
     {
         public override bool Handle(IOgKeyDownEvent reason) => owner.HandleKeyDown(reason);

@@ -1,5 +1,4 @@
-﻿
-using DK.Common.DataTypes.Abstraction;
+﻿using DK.Common.DataTypes.Abstraction;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
@@ -13,6 +12,7 @@ public class OgVector<TElement>(IOgEventProvider eventProvider) : OgDraggableVal
     where TElement : IOgElement
 {
     public IDkRange<OgVector2>? Range { get; set; }
+
     protected override OgVector2 CalculateValue(IOgMouseEvent reason, OgVector2 value)
     {
         OgRectangle rect = Rectangle!.Get();

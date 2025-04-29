@@ -1,9 +1,9 @@
 ﻿using OG.Element.Abstraction;
-using OG.Element.Focusable.Abstraction;
+using OG.Element.FocusableControl.Abstraction;
 using OG.Element.View;
 using OG.Event.Abstraction;
 
-namespace OG.Element.Focusable;
+namespace OG.Element.FocusableControl;
 
 public abstract class OgFocusableControl<TElement, TValue>(IOgEventProvider eventProvider) : OgValueView<TElement, TValue>(eventProvider), IOgFocusableControl<TElement, TValue> where TElement : IOgElement
 {

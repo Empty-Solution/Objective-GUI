@@ -14,11 +14,11 @@ public abstract class OgDraggable<TElement>(IOgEventProvider eventProvider) : Og
 
     protected override bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
-        _=base.HandleMouseMove(reason);
+        _ = base.HandleMouseMove(reason);
         if(!IsDragging) return true;
         OgVector2 delta = reason.MouseMoveDelta;
         OgRectangle rect = Rectangle!.Get();
-        _=(Rectangle?.Set(Move(rect, delta)));
+        _ = Rectangle?.Set(Move(rect, delta));
         return PerformDrag(reason, rect, delta);
     }
 

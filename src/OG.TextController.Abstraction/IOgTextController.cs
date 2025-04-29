@@ -1,5 +1,4 @@
-﻿using OG.DataTypes.Rectangle;
-using OG.Event.Abstraction;
+﻿using OG.Event.Abstraction;
 using OG.TextCursorController.Abstraction;
 
 namespace OG.TextController.Abstraction;

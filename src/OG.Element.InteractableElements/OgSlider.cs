@@ -15,8 +15,9 @@ public abstract class OgSlider<TElement>(IOgEventProvider eventProvider) : OgScr
 
     protected override float CalculateValue(IOgMouseEvent reason, float value) =>
         Lerp(Range!.Min, Range.Max, InverseLerp(Rectangle!.Get(), reason.LocalMousePosition));
+
     protected abstract float InverseLerp(OgRectangle rect, OgVector2 mousePosition);
-    
+
     protected override bool OnHoverMouseScroll(IOgMouseScrollEvent reason)
     {
         reason.Consume();

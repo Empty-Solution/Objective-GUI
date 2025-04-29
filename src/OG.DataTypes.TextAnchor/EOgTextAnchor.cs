@@ -10,5 +10,5 @@ public enum EOgTextAnchor
     MIDDLE_RIGHT,
     LOWER_LEFT,
     LOWER_CENTER,
-    LOWER_RIGHT,
+    LOWER_RIGHT
 }

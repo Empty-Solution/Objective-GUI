@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.Element.Container.Abstraction\OG.Element.Container.Abstraction.csproj" />
-        <ProjectReference Include="..\OG.Element\OG.Element.csproj" />
-        <ProjectReference Include="..\OG.Event\OG.Event.csproj" />
+        <ProjectReference Include="..\OG.Element.Container.Abstraction\OG.Element.Container.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Element\OG.Element.csproj"/>
+        <ProjectReference Include="..\OG.Event\OG.Event.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.1.2" />
+        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.1.2"/>
     </ItemGroup>
 
 </Project>

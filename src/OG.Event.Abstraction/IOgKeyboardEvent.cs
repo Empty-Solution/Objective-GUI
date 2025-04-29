@@ -1,6 +1,4 @@
-﻿using OG.DataTypes.KeyCode;
-
-namespace OG.Event.Abstraction;
+﻿namespace OG.Event.Abstraction;
 
 public interface IOgKeyboardEvent : IOgInputEvent
 {

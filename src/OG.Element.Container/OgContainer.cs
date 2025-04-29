@@ -36,13 +36,17 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
 
     protected virtual bool ProcElementsForward(IOgEvent reason)
     {
-        for(int i = 0; i < m_Element.Count; i++) if(ProcElement(reason, m_Element[i])) break;
+        for(int i = 0; i < m_Element.Count; i++)
+            if(ProcElement(reason, m_Element[i]))
+                break;
         return true;
     }
 
     protected bool ProcElementsBackward(IOgEvent reason)
     {
-        for(int i = m_Element.Count - 1; i >= 0; i--) if(ProcElement(reason, m_Element[i])) break;
+        for(int i = m_Element.Count - 1; i >= 0; i--)
+            if(ProcElement(reason, m_Element[i]))
+                break;
         return true;
     }
 

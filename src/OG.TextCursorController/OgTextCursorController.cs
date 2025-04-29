@@ -32,12 +32,13 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
         ChangeSelectionPosition(text, rect, reason);
         ChangeCursorPosition(text, rect, reason);
     }
-    
+
     private int GetCharacterIndex(IOgMouseEvent reason, string text, OgRectangle rect) =>
         GetCharacterIndex(text, reason.LocalMousePosition, rect);
+
     private int GetCharacterIndex(string text, OgVector2 mousePosition, OgRectangle rect) =>
         GetCharacterIndexByVector2(text, mousePosition, rect);
-    
+
     private OgVector2 GetCharPositionInString(string text, int characterIndex, OgRectangle textRect)
     {
         if(string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length)
@@ -77,7 +78,8 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
         int totalLines = lines.Length;
 
         //int lineIndex = (int)Math.Floor(((textRect.Y - position.Y) / AVERAGE_LINE_HEIGHT * (styleFontSize / (float)fontSize));
-        int lineIndex = (int)Math.Floor((float)(textRect.Y - position.Y) / AVERAGE_LINE_HEIGHT * FontSize?.Get() ?? 14);;
+        int lineIndex = (int)Math.Floor((float)(textRect.Y - position.Y) / AVERAGE_LINE_HEIGHT * FontSize?.Get() ?? 14);
+        ;
         if(lineIndex < 0 || lineIndex >= totalLines)
             return 0;
 
@@ -107,16 +109,16 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
         return text.Length;
     }
 
-    private OgVector2 GetAlignmentOffset(string text, OgRectangle textRect, float realLineHeight) => 
+    private OgVector2 GetAlignmentOffset(string text, OgRectangle textRect, float realLineHeight) =>
         GetAlignmentOffset(textRect, CalSize(text, textRect, realLineHeight));
 
     protected abstract Vector2 CalSize(string text, OgRectangle textRect, float realLineHeight);
-    
+
     private OgVector2 GetAlignmentOffset(OgRectangle parentRect, Vector2 elementSize)
     {
         if(Alignment is null)
             return new(parentRect.X, parentRect.Y);
-        
+
         float offsetX = Alignment.Get() switch
         {
             EOgTextAnchor.UPPER_LEFT or EOgTextAnchor.UPPER_CENTER or EOgTextAnchor.UPPER_RIGHT => parentRect.X,

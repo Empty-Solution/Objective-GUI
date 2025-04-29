@@ -1,5 +1,4 @@
-﻿using OG.DataTypes.Rectangle;
-using OG.Event.Abstraction;
+﻿using OG.Event.Abstraction;
 using OG.TextController.Abstraction;
 using OG.TextCursorController.Abstraction;
 
@@ -12,6 +11,7 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
     public IOgTextCursorController TextCursorController { get; } = textCursorController;
 
     public abstract string HandleKeyEvent(string text, out bool handled, IOgKeyDownEvent reason);
+
     public string HandleCharacter(string text, char character)
     {
         if(character == '\n' && !Multiline)
@@ -24,8 +24,8 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
 
     protected virtual void DeleteSelectionIfNeeded()
     {
-        var selectionPosition = TextCursorController.SelectionPosition.Get();
-        var cursorPosition = TextCursorController.CursorPosition.Get();
+        int selectionPosition = TextCursorController.SelectionPosition.Get();
+        int cursorPosition = TextCursorController.CursorPosition.Get();
 
         if(cursorPosition == selectionPosition) return;
 
@@ -55,7 +55,7 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
 
     protected virtual void ReplaceSelection(string replace)
     {
-        var cursorPosition = TextCursorController.CursorPosition.Get();
+        int cursorPosition = TextCursorController.CursorPosition.Get();
         DeleteSelectionIfNeeded();
         Value = Value.Insert(cursorPosition, replace);
         TextCursorController.ChangeCursorAndSelectionPositions(cursorPosition + replace.Length);

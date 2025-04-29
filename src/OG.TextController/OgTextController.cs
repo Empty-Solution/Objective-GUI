@@ -1,5 +1,4 @@
 ﻿using OG.DataTypes.KeyCode;
-using OG.DataTypes.Rectangle;
 using OG.Event.Abstraction;
 using OG.TextCursorController.Abstraction;
 
@@ -8,7 +7,7 @@ namespace OG.Controller;
 public abstract class OgTextController(IOgTextCursorController textCursorController, bool multiLine) : OgCharacterTextController(textCursorController, multiLine)
 {
     protected abstract string SystemCopyBuffer { get; set; }
-    
+
     public override string HandleKeyEvent(string text, out bool handled, IOgKeyDownEvent reason)
     {
         Value = text;
@@ -73,8 +72,8 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
         handled = true;
         return Value;
     }
-    
-    
+
+
     protected virtual void HandleTab() =>
         Value = HandleCharacter(Value, '\t');
 
@@ -183,7 +182,7 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
         DeleteRange(from, to);
         TextCursorController.ChangeCursorAndSelectionPositions(from);
     }
-    
+
     protected static float Clamp(float value, float min, float max) => value < min ? min : value > max ? max : value;
     protected static int Clamp(int value, int min, int max) => value < min ? min : value > max ? max : value;
     protected static int Min(int value, int min) => value < min ? min : value;

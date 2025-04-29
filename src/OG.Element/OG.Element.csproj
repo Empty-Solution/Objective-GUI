@@ -4,6 +4,6 @@
         <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Event.Abstraction\OG.Event.Abstraction.csproj"/>
     </ItemGroup>
-    
+
 </Project>
 
