@@ -88,7 +88,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Element.Draggable", "OG.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Element.View", "OG.Element.View\OG.Element.View.csproj", "{3CDD6727-CAC8-42D1-A209-F340C27AC65D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Element.Control.Focusable", "OG.Element.FocusableControl\OG.Element.Control.Focusable.csproj", "{24D2BBEA-30B6-3BBA-799A-88701D207111}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Element.Control.Focusable", "OG.Element.Control.Focusable\OG.Element.Control.Focusable.csproj", "{24D2BBEA-30B6-3BBA-799A-88701D207111}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Visual", "Visual", "{889856CF-18FF-442C-AF77-A745E5E751C8}"
 EndProject
