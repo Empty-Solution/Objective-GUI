@@ -1,4 +1,5 @@
 ﻿using DK.Property.Abstraction.Generic;
+using OG.DataTypes.FontStyle;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.TextAnchor;
 using OG.DataTypes.Vector;
@@ -11,10 +12,11 @@ namespace OG.TextCursorController;
 
 public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, IDkProperty<int> selectionPosition) : IOgTextCursorController
 {
-    private const int AVERAGE_ADVANCE = 1;
     private const int AVERAGE_LINE_HEIGHT = 1;
+    private const int AVERAGE_ADVANCE = 1;
     public IDkProperty<int>? FontSize { get; set; }
     public IDkProperty<EOgTextAnchor>? Alignment { get; set; }
+    public IDkProperty<EOgFontStyle>? FontStyle { get; set; }
     public IDkProperty<int> CursorPosition { get; set; } = cursorPosition;
     public IDkProperty<int> SelectionPosition { get; set; } = selectionPosition;
 
@@ -39,6 +41,11 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
     private int GetCharacterIndex(string text, OgVector2 mousePosition, OgRectangle rect) =>
         GetCharacterIndexByVector2(text, mousePosition, rect);
 
+    protected abstract Vector2 CalSize(string text, OgRectangle textRect, float realLineHeight);
+    protected abstract void RequestCharacters(string text, int fontSize, EOgFontStyle fontStyle);
+    protected abstract float GetCharacterAdvance(char character, int fontSize, EOgFontStyle fontStyle);
+    protected abstract float GetLineHeight(int fontSize);
+
     private OgVector2 GetCharPositionInString(string text, int characterIndex, OgRectangle textRect)
     {
         if(string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length)
@@ -46,9 +53,9 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
 
         float xOffset = 0f;
         float yOffset = 0f;
+        RequestCharacters(text, FontSize?.Get() ?? 14, FontStyle?.Get() ?? EOgFontStyle.NORMAL);
 
-        //float realLineHeight = AVERAGE_LINE_HEIGHT * (styleFontSize / (float)fontSize);
-        float realLineHeight = AVERAGE_LINE_HEIGHT * FontSize?.Get() ?? 14;
+        float realLineHeight = GetLineHeight(FontSize?.Get() ?? 14);
 
         int currentLine = 0;
 
@@ -63,7 +70,7 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
                 continue;
             }
 
-            xOffset += AVERAGE_ADVANCE;
+            xOffset += GetCharacterAdvance(currentChar, FontSize?.Get() ?? 14, FontStyle?.Get() ?? EOgFontStyle.NORMAL);
         }
 
         return new OgVector2((int)xOffset, (int)yOffset) + GetAlignmentOffset(text, textRect, realLineHeight);
@@ -77,9 +84,9 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
         string[] lines = text.Split('\n');
         int totalLines = lines.Length;
 
-        //int lineIndex = (int)Math.Floor(((textRect.Y - position.Y) / AVERAGE_LINE_HEIGHT * (styleFontSize / (float)fontSize));
-        int lineIndex = (int)Math.Floor((float)(textRect.Y - position.Y) / AVERAGE_LINE_HEIGHT * FontSize?.Get() ?? 14);
-        ;
+        RequestCharacters(text, FontSize?.Get() ?? 14, FontStyle?.Get() ?? EOgFontStyle.NORMAL);
+        int lineIndex = (int)Math.Floor((textRect.Y - position.Y) / GetLineHeight(FontSize?.Get() ?? 14));
+
         if(lineIndex < 0 || lineIndex >= totalLines)
             return 0;
 
@@ -91,9 +98,8 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
 
         for(int i = 0; i < currentLineText.Length; i++)
         {
-            //char currentChar = currentLineText[i];
-
-            currentWidth += AVERAGE_ADVANCE;
+            currentWidth += GetCharacterAdvance(currentLineText[i], FontSize?.Get() ?? 14, FontStyle?.Get() ?? EOgFontStyle.NORMAL);
+            ;
 
             if(!(currentWidth >= xOffset))
                 continue;
@@ -111,8 +117,6 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
 
     private OgVector2 GetAlignmentOffset(string text, OgRectangle textRect, float realLineHeight) =>
         GetAlignmentOffset(textRect, CalSize(text, textRect, realLineHeight));
-
-    protected abstract Vector2 CalSize(string text, OgRectangle textRect, float realLineHeight);
 
     private OgVector2 GetAlignmentOffset(OgRectangle parentRect, Vector2 elementSize)
     {
