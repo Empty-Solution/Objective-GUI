@@ -11,5 +11,5 @@ public struct OgVector2(int x, int y) : IEquatable<OgVector2>
     public static OgVector2 operator +(OgVector2 left, OgVector2 right) =>
         new(left.X + right.X, left.Y + right.Y);
 
-    public bool Equals(OgVector2 other) => x == other.X && y == other.Y;
+    public bool Equals(OgVector2 other) => X == other.X && Y == other.Y;
 }
