@@ -5,7 +5,6 @@ using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.View.Abstraction;
 using OG.Event.Abstraction;
-using System;
 
 namespace OG.Element.View;
 
@@ -15,16 +14,16 @@ public class OgVector<TElement>(IOgEventProvider eventProvider) : OgDraggableVal
     public IDkRange<OgVector2>? Range { get; set; }
     protected override OgVector2 CalculateValue(IOgMouseEvent reason, OgVector2 value)
     {
-        var rect = Rectangle!.Get();
-        var mousePosition = reason.LocalMousePosition;
-        var min = Range!.Min;
-        var max = Range.Max;
+        OgRectangle rect = Rectangle!.Get();
+        OgVector2 mousePosition = reason.LocalMousePosition;
+        OgVector2 min = Range!.Min;
+        OgVector2 max = Range.Max;
 
         value.X = (int)Lerp(min.X, max.X, InverseLerp(rect.X, rect.YMax, mousePosition.X));
         value.Y = (int)Lerp(min.Y, max.Y, InverseLerp(rect.Y, rect.YMax, mousePosition.Y));
 
         return value;
     }
-    
+
     protected static float InverseLerp(float a, float b, float value) => !a.Equals(b) ? Clamp((value - a) / (b - a), 0, 1) : 0.0f;
 }

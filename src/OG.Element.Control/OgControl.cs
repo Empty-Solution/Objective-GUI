@@ -16,20 +16,11 @@ public abstract class OgControl<TElement> : OgHoverable<TElement>, IOgControl<TE
 
     public bool IsControlling { get; private set; }
 
-    protected virtual bool HandleMouseDown(IOgMouseKeyDownEvent reason)
-    {
-        if(IsControlling || !IsHovered) return true;
-        return BeginControl(reason);
-    }
+    protected virtual bool HandleMouseDown(IOgMouseKeyDownEvent reason) => IsControlling || !IsHovered || BeginControl(reason);
 
-    protected virtual bool HandleMouseUp(IOgMouseKeyUpEvent reason)
-    {
-        if(!IsControlling || !IsHovered) return true;
-        return EndControl(reason);
-    }
+    protected virtual bool HandleMouseUp(IOgMouseKeyUpEvent reason) => !IsControlling || !IsHovered || EndControl(reason);
 
-    protected virtual bool BeginControl(IOgMouseKeyDownEvent reason) =>
-        IsControlling = true;
+    protected virtual bool BeginControl(IOgMouseKeyDownEvent reason) => IsControlling = true;
 
     protected virtual bool EndControl(IOgMouseKeyUpEvent reason)
     {
