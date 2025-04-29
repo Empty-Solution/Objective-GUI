@@ -1,9 +1,7 @@
-﻿using Dk.Property.Abstraction.Generic;
-using OG.DataTypes.Vector;
+﻿using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.View.Abstraction;
 using OG.Event.Abstraction;
-using System.Numerics;
 
 namespace OG.Element.View;
 

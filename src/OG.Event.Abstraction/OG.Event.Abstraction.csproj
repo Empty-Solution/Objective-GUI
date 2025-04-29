@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="DK.Common.Matching.Abstraction" Version="1.0.0"/>
+        <PackageReference Include="DK.Common.Matching.Abstraction" Version="1.1.2" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.DataTypes.Vectors\OG.DataTypes.Vector.csproj"/>
-        <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.DataTypes.Vectors\OG.DataTypes.Vector.csproj" />
+        <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj" />
     </ItemGroup>
 
 </Project>
