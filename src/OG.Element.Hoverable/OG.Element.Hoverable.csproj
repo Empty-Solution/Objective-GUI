@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-      <RootNamespace>OG.Element.Interactable</RootNamespace>
-    </PropertyGroup>
+	
     <ItemGroup>
         <ProjectReference Include="..\OG.Element.Container\OG.Element.Container.csproj"/>
         <ProjectReference Include="..\OG.Element.Hoverable.Abstraction\OG.Element.Hoverable.Abstraction.csproj" />
     </ItemGroup>
+	
 </Project>

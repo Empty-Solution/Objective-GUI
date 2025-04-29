@@ -6,7 +6,6 @@ using OG.DataTypes.Vector;
 using OG.Event.Abstraction;
 using OG.TextCursorController.Abstraction;
 using System;
-using System.Numerics;
 
 namespace OG.TextCursorController;
 
@@ -23,8 +22,8 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
 
     public void ChangeCursorAndSelectionPositions(int position)
     {
-        CursorPosition.Set(position);
-        SelectionPosition.Set(position);
+        _=CursorPosition.Set(position);
+        _=SelectionPosition.Set(position);
     }
 
     public void ChangeCursorAndSelectionPositions(string text, OgRectangle rect, IOgMouseEvent reason)

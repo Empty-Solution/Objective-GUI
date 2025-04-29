@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-      <RootNamespace>OG.Element.Interactable.Abstraction</RootNamespace>
-    </PropertyGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Element.Container.Abstraction\OG.Element.Container.Abstraction.csproj"/>
     </ItemGroup>
+	
 </Project>

@@ -2,7 +2,7 @@
 using OG.TextController.Abstraction;
 using OG.TextCursorController.Abstraction;
 
-namespace OG.Controller;
+namespace OG.TextController;
 
 public abstract class OgCharacterTextController(IOgTextCursorController textCursorController, bool multiLine) : IOgTextController
 {
@@ -41,13 +41,13 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
     protected virtual void DeleteSelectionBySelection(int cursorPosition, int selectionPosition)
     {
         DeleteRange(selectionPosition, cursorPosition);
-        TextCursorController.CursorPosition.Set(selectionPosition);
+        _=TextCursorController.CursorPosition.Set(selectionPosition);
     }
 
     protected virtual void DeleteSelectionByCursor(int cursorPosition, int selectionPosition)
     {
         DeleteRange(cursorPosition, selectionPosition);
-        TextCursorController.SelectionPosition.Set(selectionPosition);
+        _=TextCursorController.SelectionPosition.Set(selectionPosition);
     }
 
     protected virtual void DeleteRange(int from, int to) =>
