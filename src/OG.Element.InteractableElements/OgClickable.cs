@@ -1,8 +1,9 @@
 ﻿using OG.Element.Abstraction;
+using OG.Element.Control;
 using OG.Element.Control.Abstraction;
 using OG.Event.Abstraction;
 
-namespace OG.Element.Control;
+namespace OG.Element.InteractableElements;
 
 public class OgClickable<TElement>(IOgEventProvider eventProvider) : OgControl<TElement>(eventProvider), IOgClickable<TElement>
     where TElement : IOgElement

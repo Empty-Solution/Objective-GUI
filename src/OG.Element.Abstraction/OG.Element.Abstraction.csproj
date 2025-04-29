@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="DK.Getting.Abstraction.Generic" Version="1.0.0"/>
+        <PackageReference Include="DK.Getting.Abstraction.Generic" Version="1.1.2"/>
+        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.1.2"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -10,11 +11,4 @@
         <ProjectReference Include="..\OG.DataTypes.Scale\OG.DataTypes.Scale.csproj"/>
         <ProjectReference Include="..\OG.Event.Abstraction\OG.Event.Abstraction.csproj"/>
     </ItemGroup>
-
-    <ItemGroup>
-        <Reference Include="DK.Property.Abstraction.Generic">
-            <HintPath>..\..\..\..\..\Users\ukin3\.nuget\packages\dk.property.abstraction.generic\1.0.0\lib\net48\DK.Property.Abstraction.Generic.dll</HintPath>
-        </Reference>
-    </ItemGroup>
-
 </Project>

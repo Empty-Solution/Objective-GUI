@@ -7,7 +7,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.0.0"/>
+        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.1.2"/>
     </ItemGroup>
 
 </Project>

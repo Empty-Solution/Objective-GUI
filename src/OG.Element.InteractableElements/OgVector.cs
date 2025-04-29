@@ -3,11 +3,12 @@ using DK.Common.DataTypes.Abstraction;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
+using OG.Element.View;
 using OG.Element.View.Abstraction;
 using OG.Event.Abstraction;
 using System;
 
-namespace OG.Element.View;
+namespace OG.Element.InteractableElements;
 
 public class OgVector<TElement>(IOgEventProvider eventProvider) : OgDraggableValueView<TElement, OgVector2>(eventProvider), IOgVector<TElement>
     where TElement : IOgElement
@@ -25,6 +26,4 @@ public class OgVector<TElement>(IOgEventProvider eventProvider) : OgDraggableVal
 
         return value;
     }
-    
-    protected static float InverseLerp(float a, float b, float value) => !a.Equals(b) ? Clamp((value - a) / (b - a), 0, 1) : 0.0f;
 }

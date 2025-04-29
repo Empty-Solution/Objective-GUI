@@ -5,9 +5,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.1.1" />
-        <PackageReference Include="DK.Property.Abstraction" Version="1.0.0"/>
-        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.0.0"/>
+        <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.1.2" />
+        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.1.2" />
     </ItemGroup>
 
 </Project>

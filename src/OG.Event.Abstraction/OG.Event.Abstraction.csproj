@@ -5,6 +5,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\OG.DataTypes.KeyCode\OG.DataTypes.KeyCode.csproj" />
         <ProjectReference Include="..\OG.DataTypes.Vectors\OG.DataTypes.Vector.csproj"/>
         <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj"/>
     </ItemGroup>

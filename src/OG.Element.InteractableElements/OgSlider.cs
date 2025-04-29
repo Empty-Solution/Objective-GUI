@@ -2,11 +2,12 @@
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
+using OG.Element.View;
 using OG.Element.View.Abstraction;
 using OG.Event.Abstraction;
 using System;
 
-namespace OG.Element.View;
+namespace OG.Element.InteractableElements;
 
 public abstract class OgSlider<TElement>(IOgEventProvider eventProvider) : OgScrollableDragView<TElement, float>(eventProvider), IOgSlider<TElement> where TElement : IOgElement
 {
@@ -17,8 +18,11 @@ public abstract class OgSlider<TElement>(IOgEventProvider eventProvider) : OgScr
         Lerp(Range!.Min, Range.Max, InverseLerp(Rectangle!.Get(), reason.LocalMousePosition));
     protected abstract float InverseLerp(OgRectangle rect, OgVector2 mousePosition);
     
-    protected override bool OnHoverMouseScroll(IOgMouseScrollEvent reason) => 
-        ChangeValue(Clamp(Value!.Get() + (Sign(reason.ScrollDelta.Y) * ScrollStep), Range!.Min, Range.Max));
+    protected override bool OnHoverMouseScroll(IOgMouseScrollEvent reason)
+    {
+        reason.Consume();
+        return ChangeValue(Clamp(Value!.Get() + (Sign(reason.ScrollDelta.Y) * ScrollStep), Range!.Min, Range.Max));
+    }
 
     protected static float Sign(float value) => value >= 0.0 ? 1f : -1f;
 }

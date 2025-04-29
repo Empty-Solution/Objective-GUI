@@ -6,7 +6,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.1.1" />
+      <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.1.2" />
     </ItemGroup>
 
 </Project>

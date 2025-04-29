@@ -15,27 +15,27 @@ public abstract class OgDraggableValueView<TElement, TValue>(IOgEventProvider ev
     protected override bool EndControl(IOgMouseKeyUpEvent reason)
     {
         base.EndControl(reason);
-        UpdateValue(reason);
-        return true;
+        return UpdateValue(reason);
     }
 
     protected override bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
         base.HandleMouseMove(reason);
-        UpdateValue(reason);
-        return true;
+        return UpdateValue(reason);
     }
 
     protected abstract TValue CalculateValue(IOgMouseEvent reason, TValue value);
 
-    private void UpdateValue(IOgMouseEvent reason)
+    private bool UpdateValue(IOgMouseEvent reason)
     {
         TValue value = Value!.Get();
         TValue newValue = CalculateValue(reason, value);
-        if(Equals(value, newValue)) return;
-        ChangeValue(newValue);
+        if(Equals(value, newValue)) return true;
+        reason.Consume();
+        return ChangeValue(newValue);
     }
     
+    protected static float InverseLerp(float a, float b, float value) => !a.Equals(b) ? Clamp((value - a) / (b - a), 0, 1) : 0.0f;
     protected static float Lerp(float a, float b, float t) => a + ((b - a) * Clamp(t, 0f, 1f));
     protected static float Clamp(float value, float min, float max) => value < min ? min : value > max ? max : value;
 }
