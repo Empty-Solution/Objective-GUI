@@ -1,7 +1,11 @@
+#region
+
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Event.Abstraction;
+
+#endregion
 
 namespace OG.Element.Interactable;
 

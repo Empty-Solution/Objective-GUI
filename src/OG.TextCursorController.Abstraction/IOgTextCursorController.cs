@@ -1,12 +1,16 @@
-﻿using DK.Property.Abstraction.Generic;
+﻿#region
+
+using DK.Property.Abstraction.Generic;
 using OG.DataTypes.Rectangle;
 using OG.Event.Abstraction;
+
+#endregion
 
 namespace OG.TextCursorController.Abstraction;
 
 public interface IOgTextCursorController
 {
-    IDkProperty<int> CursorPosition { get; }
+    IDkProperty<int> CursorPosition    { get; }
     IDkProperty<int> SelectionPosition { get; }
 
     void ChangeSelectionPosition(string text, OgRectangle rect, IOgMouseEvent reason);

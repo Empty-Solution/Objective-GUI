@@ -1,5 +1,9 @@
-﻿using DK.Scoping.Extensions;
+﻿#region
+
+using DK.Scoping.Extensions;
 using OG.DataTypes.Rectangle;
+
+#endregion
 
 namespace OG.Graphics.Abstraction;
 

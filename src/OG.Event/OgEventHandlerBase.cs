@@ -1,4 +1,8 @@
-﻿using OG.Event.Abstraction;
+﻿#region
+
+using OG.Event.Abstraction;
+
+#endregion
 
 namespace OG.Event;
 

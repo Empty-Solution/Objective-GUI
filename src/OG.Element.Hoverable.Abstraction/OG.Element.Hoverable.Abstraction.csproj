@@ -4,5 +4,5 @@
         <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Element.Container.Abstraction\OG.Element.Container.Abstraction.csproj"/>
     </ItemGroup>
-	
+
 </Project>

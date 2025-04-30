@@ -1,6 +1,10 @@
-﻿using DK.Property.Abstraction.Generic;
+﻿#region
+
+using DK.Property.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Control.Abstraction;
+
+#endregion
 
 namespace OG.Element.View.Abstraction;
 

@@ -1,14 +1,18 @@
-﻿using OG.Event.Abstraction;
+﻿#region
+
+using OG.Event.Abstraction;
 using OG.TextController.Abstraction;
 using OG.TextCursorController.Abstraction;
+
+#endregion
 
 namespace OG.TextController;
 
 public abstract class OgCharacterTextController(IOgTextCursorController textCursorController, bool multiLine) : IOgTextController
 {
-    protected string Value = string.Empty;
-    public bool Multiline { get; set; } = multiLine;
-    public IOgTextCursorController TextCursorController { get; } = textCursorController;
+    protected string                  Value = string.Empty;
+    public    bool                    Multiline            { get; set; } = multiLine;
+    public    IOgTextCursorController TextCursorController { get; }      = textCursorController;
 
     public abstract string HandleKeyEvent(string text, IOgKeyDownEvent reason);
 
@@ -25,7 +29,7 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
     protected virtual void DeleteSelectionIfNeeded()
     {
         int selectionPosition = TextCursorController.SelectionPosition.Get();
-        int cursorPosition = TextCursorController.CursorPosition.Get();
+        int cursorPosition    = TextCursorController.CursorPosition.Get();
 
         if(cursorPosition == selectionPosition) return;
 
@@ -41,13 +45,13 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
     protected virtual void DeleteSelectionBySelection(int cursorPosition, int selectionPosition)
     {
         DeleteRange(selectionPosition, cursorPosition);
-        _=TextCursorController.CursorPosition.Set(selectionPosition);
+        _ = TextCursorController.CursorPosition.Set(selectionPosition);
     }
 
     protected virtual void DeleteSelectionByCursor(int cursorPosition, int selectionPosition)
     {
         DeleteRange(cursorPosition, selectionPosition);
-        _=TextCursorController.SelectionPosition.Set(selectionPosition);
+        _ = TextCursorController.SelectionPosition.Set(selectionPosition);
     }
 
     protected virtual void DeleteRange(int from, int to) =>

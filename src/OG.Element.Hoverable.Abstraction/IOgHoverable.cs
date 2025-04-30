@@ -1,5 +1,9 @@
-﻿using OG.Element.Abstraction;
+﻿#region
+
+using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
+
+#endregion
 
 namespace OG.Element.Hoverable.Abstraction;
 

@@ -2,7 +2,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\OG.Element.Container.Abstraction\OG.Element.Container.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Element.Hoverable.Abstraction\OG.Element.Hoverable.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Element.Hoverable.Abstraction\OG.Element.Hoverable.Abstraction.csproj"/>
     </ItemGroup>
 
 </Project>

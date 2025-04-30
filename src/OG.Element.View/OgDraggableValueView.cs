@@ -1,5 +1,9 @@
-﻿using OG.Element.Abstraction;
+﻿#region
+
+using OG.Element.Abstraction;
 using OG.Event.Abstraction;
+
+#endregion
 
 namespace OG.Element.View;
 
@@ -15,7 +19,7 @@ public abstract class OgDraggableValueView<TElement, TValue>(IOgEventProvider ev
 
     private bool UpdateValue(IOgMouseEvent reason)
     {
-        TValue value = Value!.Get();
+        TValue value    = Value!.Get();
         TValue newValue = CalculateValue(reason, value);
         if(Equals(value, newValue)) return true;
         reason.Consume();

@@ -1,4 +1,8 @@
-﻿using OG.DataTypes.Vector;
+﻿#region
+
+using OG.DataTypes.Vector;
+
+#endregion
 
 namespace OG.DataTypes.Rectangle;
 
@@ -9,7 +13,7 @@ public struct OgRectangle(int x, int y, int width, int height)
         get;
         set
         {
-            XMin = value;
+            XMin  = value;
             field = value;
         }
     } = x;
@@ -19,7 +23,7 @@ public struct OgRectangle(int x, int y, int width, int height)
         get;
         set
         {
-            YMin = value;
+            YMin  = value;
             field = value;
         }
     } = y;
@@ -29,7 +33,7 @@ public struct OgRectangle(int x, int y, int width, int height)
         get;
         set
         {
-            XMax = X + value;
+            XMax  = X + value;
             field = value;
         }
     } = width;
@@ -39,7 +43,7 @@ public struct OgRectangle(int x, int y, int width, int height)
         get;
         set
         {
-            YMax = Y + value;
+            YMax  = Y + value;
             field = value;
         }
     } = height;

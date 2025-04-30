@@ -1,7 +1,11 @@
-﻿using DK.Scoping.Extensions;
+﻿#region
+
+using DK.Scoping.Extensions;
 using OG.DataTypes.Rectangle;
 using OG.Element.Abstraction;
 using OG.Event.Abstraction;
+
+#endregion
 
 namespace OG.Element.Container;
 

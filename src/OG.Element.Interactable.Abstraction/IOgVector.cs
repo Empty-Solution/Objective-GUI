@@ -1,7 +1,11 @@
-﻿using DK.Common.DataTypes.Abstraction;
+﻿#region
+
+using DK.Common.DataTypes.Abstraction;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.View.Abstraction;
+
+#endregion
 
 namespace OG.Element.Interactable.Abstraction;
 

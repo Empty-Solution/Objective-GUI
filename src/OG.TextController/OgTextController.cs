@@ -1,6 +1,10 @@
-﻿using OG.DataTypes.KeyCode;
+﻿#region
+
+using OG.DataTypes.KeyCode;
 using OG.Event.Abstraction;
 using OG.TextCursorController.Abstraction;
+
+#endregion
 
 namespace OG.TextController;
 
@@ -16,56 +20,56 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
         switch(keyCode)
         {
             case EOgKeyCode.DELETE:
-            if(reason.ControlModification)
-                DeleteWord(true);
-            else
-                DeleteChar(true);
-            break;
+                if(reason.ControlModification)
+                    DeleteWord(true);
+                else
+                    DeleteChar(true);
+                break;
             case EOgKeyCode.BACKSPACE:
-            if(reason.ControlModification)
-                DeleteWord(false);
-            else
-                DeleteChar(false);
-            break;
+                if(reason.ControlModification)
+                    DeleteWord(false);
+                else
+                    DeleteChar(false);
+                break;
             case EOgKeyCode.LEFT_ARROW:
-            if(reason.ControlModification)
-                MoveCursorWord(reason);
-            else
-                MoveCursorChar(reason);
-            break;
+                if(reason.ControlModification)
+                    MoveCursorWord(reason);
+                else
+                    MoveCursorChar(reason);
+                break;
             case EOgKeyCode.RIGHT_ARROW:
-            if(reason.ControlModification)
-                MoveCursorWord(reason, true);
-            else
-                MoveCursorChar(reason, true);
-            break;
+                if(reason.ControlModification)
+                    MoveCursorWord(reason, true);
+                else
+                    MoveCursorChar(reason, true);
+                break;
             case EOgKeyCode.TAB:
-            HandleTab();
-            break;
+                HandleTab();
+                break;
             case EOgKeyCode.RETURN:
             case EOgKeyCode.KEYPAD_ENTER:
-            HandleReturn();
-            break;
+                HandleReturn();
+                break;
             case EOgKeyCode.HOME:
-            MoveCursorToStart(reason);
-            break;
+                MoveCursorToStart(reason);
+                break;
             case EOgKeyCode.END:
-            MoveCursorToEnd(reason);
-            break;
+                MoveCursorToEnd(reason);
+                break;
             case EOgKeyCode.A when reason.ControlModification:
-            SelectAll();
-            break;
+                SelectAll();
+                break;
             case EOgKeyCode.X when reason.ControlModification:
-            Cut();
-            break;
+                Cut();
+                break;
             case EOgKeyCode.C when reason.ControlModification:
-            Copy();
-            break;
+                Copy();
+                break;
             case EOgKeyCode.V when reason.ControlModification:
-            Paste();
-            break;
+                Paste();
+                break;
             default:
-            return Value;
+                return Value;
         }
 
         return Value;
@@ -100,7 +104,7 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
         string value = Value;
         if(string.IsNullOrEmpty(value)) return;
         int cursorPosition = TextCursorController.CursorPosition.Get();
-        int wordBound = forward ? value.IndexOf(' ', Max(0, cursorPosition + 1)) : value.LastIndexOf(' ', Max(0, cursorPosition - 1));
+        int wordBound      = forward ? value.IndexOf(' ', Max(0, cursorPosition + 1)) : value.LastIndexOf(' ', Max(0, cursorPosition - 1));
         wordBound = Clamp(wordBound, 0, value.Length);
         DeleteRangeAndChangeCursorSelectionPositions(wordBound, cursorPosition);
     }
@@ -109,7 +113,7 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
     {
         if(reason.ShiftModification)
         {
-            _=TextCursorController.SelectionPosition.Set(forward ? Min(Value.Length, TextCursorController.SelectionPosition.Get() + 1) : Max(0, TextCursorController.SelectionPosition.Get() - 1));
+            _ = TextCursorController.SelectionPosition.Set(forward ? Min(Value.Length, TextCursorController.SelectionPosition.Get() + 1) : Max(0, TextCursorController.SelectionPosition.Get() - 1));
             return;
         }
 
@@ -129,14 +133,14 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
 
     protected virtual void MoveCursorTo(int position, IOgKeyboardEvent reason)
     {
-        if(reason.ShiftModification) _=TextCursorController.CursorPosition.Set(position);
-        _=TextCursorController.SelectionPosition.Set(position);
+        if(reason.ShiftModification) _ = TextCursorController.CursorPosition.Set(position);
+        _ = TextCursorController.SelectionPosition.Set(position);
     }
 
     protected virtual void SelectAll()
     {
-        _=TextCursorController.CursorPosition.Set(0);
-        _=TextCursorController.SelectionPosition.Set(Value.Length);
+        _ = TextCursorController.CursorPosition.Set(0);
+        _ = TextCursorController.SelectionPosition.Set(Value.Length);
     }
 
     protected virtual void Cut()
@@ -159,14 +163,14 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
 
     protected virtual string GetSelectedText()
     {
-        IOgTextCursorController controller = TextCursorController;
-        int cursorPosition = controller.CursorPosition.Get();
-        int selectionPosition = controller.SelectionPosition.Get();
+        IOgTextCursorController controller        = TextCursorController;
+        int                     cursorPosition    = controller.CursorPosition.Get();
+        int                     selectionPosition = controller.SelectionPosition.Get();
 
         if(cursorPosition == selectionPosition) return string.Empty;
 
         int startIndex = Min(cursorPosition, selectionPosition);
-        int length = Abs(cursorPosition - selectionPosition);
+        int length     = Abs(cursorPosition - selectionPosition);
 
         return Value.Substring(startIndex, length);
     }
@@ -181,8 +185,8 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
     }
 
     protected static float Clamp(float value, float min, float max) => value < min ? min : value > max ? max : value;
-    protected static int Clamp(int value, int min, int max) => value < min ? min : value > max ? max : value;
-    protected static int Min(int value, int min) => value < min ? min : value;
-    protected static int Max(int value, int max) => value > max ? max : value;
-    protected static int Abs(int value) => value < 0 ? -value : value;
+    protected static int Clamp(int value, int min, int max) => value         < min ? min : value > max ? max : value;
+    protected static int Min(int value, int min) => value                    < min ? min : value;
+    protected static int Max(int value, int max) => value                    > max ? max : value;
+    protected static int Abs(int value) => value                             < 0 ? -value : value;
 }

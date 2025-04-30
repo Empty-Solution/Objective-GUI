@@ -1,4 +1,6 @@
-﻿using DK.Property.Abstraction.Generic;
+﻿#region
+
+using DK.Property.Abstraction.Generic;
 using OG.DataTypes.FontStyle;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.TextAnchor;
@@ -7,23 +9,25 @@ using OG.Event.Abstraction;
 using OG.TextCursorController.Abstraction;
 using System;
 
+#endregion
+
 namespace OG.TextCursorController;
 
 public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, IDkProperty<int> selectionPosition) : IOgTextCursorController
 {
-    public IDkProperty<int>? FontSize { get; set; }
-    public IDkProperty<EOgTextAnchor>? Alignment { get; set; }
-    public IDkProperty<EOgFontStyle>? FontStyle { get; set; }
-    public IDkProperty<int> CursorPosition { get; set; } = cursorPosition;
-    public IDkProperty<int> SelectionPosition { get; set; } = selectionPosition;
+    public IDkProperty<int>?           FontSize          { get; set; }
+    public IDkProperty<EOgTextAnchor>? Alignment         { get; set; }
+    public IDkProperty<EOgFontStyle>?  FontStyle         { get; set; }
+    public IDkProperty<int>            CursorPosition    { get; set; } = cursorPosition;
+    public IDkProperty<int>            SelectionPosition { get; set; } = selectionPosition;
 
     public void ChangeSelectionPosition(string text, OgRectangle rect, IOgMouseEvent reason) => SelectionPosition!.Set(GetCharacterIndex(reason, text, rect));
     public void ChangeCursorPosition(string text, OgRectangle rect, IOgMouseEvent reason) => CursorPosition!.Set(GetCharacterIndex(reason, text, rect));
 
     public void ChangeCursorAndSelectionPositions(int position)
     {
-        _=CursorPosition.Set(position);
-        _=SelectionPosition.Set(position);
+        _ = CursorPosition.Set(position);
+        _ = SelectionPosition.Set(position);
     }
 
     public void ChangeCursorAndSelectionPositions(string text, OgRectangle rect, IOgMouseEvent reason)
@@ -79,12 +83,11 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
             return 0;
 
         string[] lines = text.Split('\n');
-        int totalLines = lines.Length;
 
         RequestCharacters(text, FontSize?.Get() ?? 14, FontStyle?.Get() ?? EOgFontStyle.NORMAL);
         int lineIndex = (int)Math.Floor((textRect.Y - position.Y) / GetLineHeight(FontSize?.Get() ?? 14));
 
-        if(lineIndex < 0 || lineIndex >= totalLines)
+        if(lineIndex < 0 || lineIndex >= lines.Length)
             return 0;
 
         string currentLineText = lines[lineIndex];
@@ -96,7 +99,6 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
         for(int i = 0; i < currentLineText.Length; i++)
         {
             currentWidth += GetCharacterAdvance(currentLineText[i], FontSize?.Get() ?? 14, FontStyle?.Get() ?? EOgFontStyle.NORMAL);
-            ;
 
             if(!(currentWidth >= xOffset))
                 continue;
@@ -122,18 +124,18 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
 
         float offsetX = Alignment.Get() switch
         {
-            EOgTextAnchor.UPPER_LEFT or EOgTextAnchor.UPPER_CENTER or EOgTextAnchor.UPPER_RIGHT => parentRect.X,
-            EOgTextAnchor.MIDDLE_LEFT or EOgTextAnchor.MIDDLE_CENTER or EOgTextAnchor.MIDDLE_RIGHT => parentRect.X + ((parentRect.Width - elementSize.X) * 0.5f),
-            EOgTextAnchor.LOWER_LEFT or EOgTextAnchor.LOWER_CENTER or EOgTextAnchor.LOWER_RIGHT => parentRect.XMax - elementSize.X,
-            _ => 0f
+            EOgTextAnchor.UPPER_LEFT or EOgTextAnchor.UPPER_CENTER or EOgTextAnchor.UPPER_RIGHT    => parentRect.X,
+            EOgTextAnchor.MIDDLE_LEFT or EOgTextAnchor.MIDDLE_CENTER or EOgTextAnchor.MIDDLE_RIGHT => parentRect.X    + ((parentRect.Width - elementSize.X) * 0.5f),
+            EOgTextAnchor.LOWER_LEFT or EOgTextAnchor.LOWER_CENTER or EOgTextAnchor.LOWER_RIGHT    => parentRect.XMax - elementSize.X,
+            _                                                                                      => 0f
         };
 
         float offsetY = Alignment.Get() switch
         {
-            EOgTextAnchor.UPPER_LEFT or EOgTextAnchor.UPPER_CENTER or EOgTextAnchor.UPPER_RIGHT => parentRect.Y,
-            EOgTextAnchor.MIDDLE_LEFT or EOgTextAnchor.MIDDLE_CENTER or EOgTextAnchor.MIDDLE_RIGHT => parentRect.Y + ((parentRect.Height - elementSize.Y) * 0.5f),
-            EOgTextAnchor.LOWER_LEFT or EOgTextAnchor.LOWER_CENTER or EOgTextAnchor.LOWER_RIGHT => parentRect.YMax - elementSize.Y,
-            _ => 0f
+            EOgTextAnchor.UPPER_LEFT or EOgTextAnchor.UPPER_CENTER or EOgTextAnchor.UPPER_RIGHT    => parentRect.Y,
+            EOgTextAnchor.MIDDLE_LEFT or EOgTextAnchor.MIDDLE_CENTER or EOgTextAnchor.MIDDLE_RIGHT => parentRect.Y    + ((parentRect.Height - elementSize.Y) * 0.5f),
+            EOgTextAnchor.LOWER_LEFT or EOgTextAnchor.LOWER_CENTER or EOgTextAnchor.LOWER_RIGHT    => parentRect.YMax - elementSize.Y,
+            _                                                                                      => 0f
         };
         return new((int)offsetX, (int)offsetY);
     }

@@ -1,9 +1,13 @@
-﻿using OG.DataTypes.KeyCode;
+﻿#region
+
+using OG.DataTypes.KeyCode;
+
+#endregion
 
 namespace OG.Event.Abstraction;
 
 public interface IOgKeyUpEvent : IOgKeyboardEvent
 {
-    EOgKeyCode KeyCode { get; }
-    char Character { get; }
+    EOgKeyCode KeyCode   { get; }
+    char       Character { get; }
 }

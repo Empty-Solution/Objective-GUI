@@ -1,6 +1,10 @@
-﻿using OG.Element.Abstraction;
+﻿#region
+
+using OG.Element.Abstraction;
 using OG.Element.Control.Abstraction;
 using OG.Event.Abstraction;
+
+#endregion
 
 namespace OG.Element.Interactable.Abstraction;
 

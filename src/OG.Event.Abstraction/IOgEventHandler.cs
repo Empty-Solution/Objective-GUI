@@ -1,4 +1,8 @@
-﻿using DK.Common.Matching.Abstraction;
+﻿#region
+
+using DK.Common.Matching.Abstraction;
+
+#endregion
 
 namespace OG.Event.Abstraction;
 

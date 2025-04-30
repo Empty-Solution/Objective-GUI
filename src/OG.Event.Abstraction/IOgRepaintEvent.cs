@@ -1,4 +1,8 @@
-﻿using OG.Graphics.Abstraction;
+﻿#region
+
+using OG.Graphics.Abstraction;
+
+#endregion
 
 namespace OG.Event.Abstraction;
 

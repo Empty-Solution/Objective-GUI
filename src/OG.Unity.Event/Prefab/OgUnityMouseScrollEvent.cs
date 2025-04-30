@@ -1,5 +1,9 @@
-﻿using OG.DataTypes.Vector;
+﻿#region
+
+using OG.DataTypes.Vector;
 using OG.Event.Abstraction;
+
+#endregion
 
 namespace OG.Unity.Event.Prefab;
 

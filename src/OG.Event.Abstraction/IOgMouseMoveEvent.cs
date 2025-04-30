@@ -1,4 +1,8 @@
-﻿using OG.DataTypes.Vector;
+﻿#region
+
+using OG.DataTypes.Vector;
+
+#endregion
 
 namespace OG.Event.Abstraction;
 

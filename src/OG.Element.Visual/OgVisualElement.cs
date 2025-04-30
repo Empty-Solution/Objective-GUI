@@ -1,7 +1,11 @@
-﻿using DK.Getting.Abstraction.Generic;
+﻿#region
+
+using DK.Getting.Abstraction.Generic;
 using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
+
+#endregion
 
 namespace OG.Element.Visual;
 

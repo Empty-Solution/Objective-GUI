@@ -1,5 +1,9 @@
-﻿using OG.Element.Abstraction;
+﻿#region
+
+using OG.Element.Abstraction;
 using OG.Element.Control.Focusable.Abstraction;
+
+#endregion
 
 namespace OG.Element.Interactable.Abstraction;
 

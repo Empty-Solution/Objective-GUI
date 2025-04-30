@@ -1,9 +1,13 @@
-﻿using OG.DataTypes.Rectangle;
+﻿#region
+
+using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.Control;
 using OG.Element.Draggable.Abstraction;
 using OG.Event.Abstraction;
+
+#endregion
 
 namespace OG.Element.Draggable;
 
@@ -16,8 +20,8 @@ public abstract class OgDraggable<TElement>(IOgEventProvider eventProvider) : Og
     {
         _ = base.HandleMouseMove(reason);
         if(!IsDragging) return true;
-        OgVector2 delta = reason.MouseMoveDelta;
-        OgRectangle rect = Rectangle!.Get();
+        OgVector2   delta = reason.MouseMoveDelta;
+        OgRectangle rect  = Rectangle!.Get();
         _ = Rectangle?.Set(Move(rect, delta));
         return PerformDrag(reason, rect, delta);
     }

@@ -1,9 +1,13 @@
-﻿using OG.Element.Abstraction;
+﻿#region
+
+using OG.Element.Abstraction;
 using OG.Element.Control.Focusable;
 using OG.Element.Interactable.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
 using OG.TextController.Abstraction;
+
+#endregion
 
 namespace OG.Element.Interactable;
 
@@ -25,7 +29,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
 
     protected override bool BeginControl(IOgMouseKeyDownEvent reason)
     {
-        _=base.BeginControl(reason);
+        _ = base.BeginControl(reason);
         controller.TextCursorController.ChangeCursorPosition(Value!.Get(), Rectangle!.Get(), reason);
         reason.Consume();
         return true;
@@ -33,7 +37,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
 
     protected override bool EndControl(IOgMouseKeyUpEvent reason)
     {
-        _=base.EndControl(reason);
+        _ = base.EndControl(reason);
         controller.TextCursorController.ChangeSelectionPosition(Value!.Get(), Rectangle!.Get(), reason);
         reason.Consume();
         return true;
@@ -53,7 +57,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
     private bool UpdateTextIfNeeded(string newValue, IOgEvent reason)
     {
         if(Equals(Value!.Get(), newValue)) return false;
-        _=ChangeValue(newValue);
+        _ = ChangeValue(newValue);
         reason.Consume();
         return true;
     }

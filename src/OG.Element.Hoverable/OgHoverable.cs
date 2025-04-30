@@ -1,8 +1,12 @@
-﻿using OG.Element.Abstraction;
+﻿#region
+
+using OG.Element.Abstraction;
 using OG.Element.Container;
 using OG.Element.Hoverable.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
+
+#endregion
 
 namespace OG.Element.Hoverable;
 
