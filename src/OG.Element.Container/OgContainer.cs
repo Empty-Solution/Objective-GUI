@@ -1,6 +1,7 @@
 ﻿#region
 
 using DK.Getting.Abstraction.Generic;
+using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Event;
@@ -18,6 +19,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
 
     public OgContainer(IOgEventProvider eventProvider) : base(eventProvider)
     {
+        eventProvider.RegisterHandler(new OgRecallMouseEventHandler(this));
         eventProvider.RegisterHandler(new OgRecallInputEventHandler(this));
         eventProvider.RegisterHandler(new OgRecallEventHandler(this));
     }
@@ -46,7 +48,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
         return true;
     }
 
-    protected bool ProcElementsBackward(IOgEvent reason)
+    protected bool ProcElementsBackward(IOgInputEvent reason)
     {
         for(int i = m_Element.Count - 1; i >= 0; i--)
             if(ProcElement(reason, m_Element[i]))
@@ -59,7 +61,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
         IDkGetProvider<bool>? isActive = element.IsActive;
         return isActive is null || isActive.Get();
     }
-
+    
     protected virtual bool ProcElement(IOgEvent reason, TElement element) => ShouldProcElement(reason, element) && element.Proc(reason) && reason.IsConsumed;
 
     private class OgRecallEventHandler(OgContainer<TElement> owner) : IOgEventHandler
@@ -71,5 +73,15 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
     private class OgRecallInputEventHandler(OgContainer<TElement> owner) : OgEventHandlerBase<IOgInputEvent>
     {
         public override bool Handle(IOgInputEvent reason) => owner.ProcElementsBackward(reason);
+    }
+    
+    private class OgRecallMouseEventHandler(OgContainer<TElement> owner) : OgEventHandlerBase<IOgMouseEvent>
+    {
+        public override bool Handle(IOgMouseEvent reason)
+        {
+            var rect = owner.Rectangle!.Get();
+            reason.LocalMousePosition -= new OgVector2(rect.X, rect.Y);
+            return owner.ProcElementsBackward(reason);
+        }
     }
 }

@@ -8,5 +8,5 @@ namespace OG.Event.Abstraction;
 
 public interface IOgMouseEvent : IOgInputEvent
 {
-    OgVector2 LocalMousePosition { get; }
+    OgVector2 LocalMousePosition { get; set; }
 }

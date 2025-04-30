@@ -31,9 +31,7 @@ public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) : IOgEventSystem
         return current;
     }
 
-    private OgUnityEvent Parse(UeEvent source) => Parse(source.type);
-
-    private OgUnityEvent Parse(EventType type) => type switch
+    private OgUnityEvent Parse(UeEvent source) => source.type switch
     {
         EventType.Repaint     => m_RepaintEvent ??= new(graphicsTool),
         EventType.Layout      => m_LayoutEvent ??= new(),
