@@ -15,7 +15,7 @@ public abstract class OgDraggableValueView<TElement, TValue>(IOgEventProvider ev
 
     private bool UpdateValue(IOgMouseEvent reason)
     {
-        TValue value = Value!.Get();
+        TValue value    = Value!.Get();
         TValue newValue = CalculateValue(reason, value);
         if(Equals(value, newValue)) return false;
         reason.Consume();

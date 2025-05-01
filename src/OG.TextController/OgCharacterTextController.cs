@@ -25,7 +25,7 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
     protected virtual void DeleteSelectionIfNeeded()
     {
         int selectionPosition = TextCursorController.SelectionPosition.Get();
-        int cursorPosition = TextCursorController.CursorPosition.Get();
+        int cursorPosition    = TextCursorController.CursorPosition.Get();
 
         if(cursorPosition == selectionPosition) return;
 

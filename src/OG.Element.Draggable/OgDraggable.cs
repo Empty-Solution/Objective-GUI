@@ -15,8 +15,8 @@ public abstract class OgDraggable<TElement>(IOgEventProvider eventProvider) : Og
     {
         if(!base.HandleMouseMove(reason)) return false;
         if(!IsDragging) return false;
-        OgVector2 delta = reason.MouseMoveDelta;
-        OgRectangle rect = Rectangle!.Get();
+        OgVector2   delta = reason.MouseMoveDelta;
+        OgRectangle rect  = Rectangle!.Get();
         return Rectangle.Set(Move(rect, delta)) && PerformDrag(reason, rect, delta);
     }
 
