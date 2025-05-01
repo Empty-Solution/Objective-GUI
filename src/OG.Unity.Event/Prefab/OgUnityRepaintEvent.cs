@@ -1,5 +1,4 @@
-﻿
-using OG.Event.Abstraction;
+﻿using OG.Event.Abstraction;
 using OG.Graphics.Abstraction;
 
 namespace OG.Unity.Event.Prefab;

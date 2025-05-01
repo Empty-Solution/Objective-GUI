@@ -1,5 +1,4 @@
-﻿
-using DK.Scoping.Extensions;
+﻿using DK.Scoping.Extensions;
 using OG.DataTypes.Rectangle;
 using OG.Element.Abstraction;
 using OG.Event;

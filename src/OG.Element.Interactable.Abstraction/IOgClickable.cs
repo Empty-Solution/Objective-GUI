@@ -1,5 +1,4 @@
-﻿
-using OG.Element.Abstraction;
+﻿using OG.Element.Abstraction;
 using OG.Element.Control.Abstraction;
 using OG.Event.Abstraction;
 

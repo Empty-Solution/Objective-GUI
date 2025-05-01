@@ -1,4 +1,3 @@
-
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;

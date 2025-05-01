@@ -1,5 +1,3 @@
 ﻿namespace OG.Event.Abstraction;
 
-public interface IOgMouseKeyDownEvent : IOgMouseEvent
-{
-}
+public interface IOgMouseKeyDownEvent : IOgMouseEvent;

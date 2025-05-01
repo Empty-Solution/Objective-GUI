@@ -1,5 +1,3 @@
 ﻿namespace OG.Event.Abstraction;
 
-public interface IOgInputEvent : IOgEvent
-{
-}
+public interface IOgInputEvent : IOgEvent;

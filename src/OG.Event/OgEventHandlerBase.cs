@@ -1,5 +1,4 @@
-﻿
-using OG.Event.Abstraction;
+﻿using OG.Event.Abstraction;
 
 namespace OG.Event;
 

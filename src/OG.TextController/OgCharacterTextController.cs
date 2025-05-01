@@ -6,17 +6,17 @@ namespace OG.TextController;
 
 public abstract class OgCharacterTextController(IOgTextCursorController textCursorController, bool multiLine) : IOgTextController
 {
-    protected string                  m_Value = string.Empty;
+    protected string m_Value = string.Empty;
+
     public bool Multiline { get; set; } = multiLine;
+
     public IOgTextCursorController TextCursorController { get; } = textCursorController;
 
     public abstract string HandleKeyEvent(string text, IOgKeyDownEvent reason);
 
     public string HandleCharacter(string text, char character)
     {
-        if(character == '\n' && !Multiline)
-            return text;
-
+        if(character == '\n' && !Multiline) return text;
         m_Value = text;
         ReplaceSelection(character.ToString());
         return m_Value;
@@ -25,7 +25,7 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
     protected virtual void DeleteSelectionIfNeeded()
     {
         int selectionPosition = TextCursorController.SelectionPosition.Get();
-        int cursorPosition    = TextCursorController.CursorPosition.Get();
+        int cursorPosition = TextCursorController.CursorPosition.Get();
 
         if(cursorPosition == selectionPosition) return;
 
@@ -50,8 +50,7 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
         _ = TextCursorController.SelectionPosition.Set(selectionPosition);
     }
 
-    protected virtual void DeleteRange(int from, int to) =>
-        m_Value = m_Value.Remove(from, to - from);
+    protected virtual void DeleteRange(int from, int to) => m_Value = m_Value.Remove(from, to - from);
 
     protected virtual void ReplaceSelection(string replace)
     {

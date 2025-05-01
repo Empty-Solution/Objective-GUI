@@ -1,5 +1,4 @@
-﻿
-using DK.Getting.Abstraction.Generic;
+﻿using DK.Getting.Abstraction.Generic;
 using OG.Element.Abstraction;
 
 namespace OG.Element.Visual.Abstraction;
