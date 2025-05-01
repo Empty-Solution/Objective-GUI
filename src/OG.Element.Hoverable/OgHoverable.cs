@@ -21,8 +21,12 @@ public class OgHoverable<TElement> : OgContainer<TElement>, IOgHoverable<TElemen
         return true;
     }
 
-    private class OgMouseMoveEventHandler(OgHoverable<TElement> owner) : OgEventHandlerBase<IOgMouseMoveEvent>
+    private class OgMouseMoveEventHandler(OgHoverable<TElement> owner) : OgRecallMouseEventHandler<IOgMouseMoveEvent>(owner)
     {
-        public override bool Handle(IOgMouseMoveEvent reason) => owner.HandleMouseMove(reason);
+        public override bool Handle(IOgMouseMoveEvent reason)
+        {
+            base.Handle(reason);
+            return owner.HandleMouseMove(reason);
+        }
     }
 }

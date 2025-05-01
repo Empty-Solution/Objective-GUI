@@ -28,13 +28,21 @@ public abstract class OgControl<TElement> : OgHoverable<TElement>, IOgControl<TE
         return true;
     }
 
-    private class OgMouseDownEventHandler(OgControl<TElement> owner) : OgEventHandlerBase<IOgMouseKeyDownEvent>
+    public class OgMouseDownEventHandler(OgControl<TElement> owner) : OgRecallMouseEventHandler<IOgMouseKeyDownEvent>(owner)
     {
-        public override bool Handle(IOgMouseKeyDownEvent reason) => owner.HandleMouseDown(reason);
+        public override bool Handle(IOgMouseKeyDownEvent reason)
+        {
+            base.Handle(reason);
+            return owner.HandleMouseDown(reason);
+        }
     }
 
-    private class OgMouseUpEventHandler(OgControl<TElement> owner) : OgEventHandlerBase<IOgMouseKeyUpEvent>
+    public class OgMouseUpEventHandler(OgControl<TElement> owner) : OgRecallMouseEventHandler<IOgMouseKeyUpEvent>(owner)
     {
-        public override bool Handle(IOgMouseKeyUpEvent reason) => owner.HandleMouseUp(reason);
+        public override bool Handle(IOgMouseKeyUpEvent reason)
+        {
+            base.Handle(reason);
+            return owner.HandleMouseUp(reason);
+        }
     }
 }

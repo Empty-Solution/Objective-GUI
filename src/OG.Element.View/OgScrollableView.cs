@@ -11,8 +11,12 @@ public abstract class OgScrollableView<TElement, TValue> : OgValueView<TElement,
     protected virtual bool HandleMouseScroll(IOgMouseScrollEvent reason) => !IsHovered || OnHoverMouseScroll(reason);
     protected abstract bool OnHoverMouseScroll(IOgMouseScrollEvent reason);
 
-    private class OgMouseScrollEventHandler(OgScrollableView<TElement, TValue> owner) : OgEventHandlerBase<IOgMouseScrollEvent>
+    public class OgMouseScrollEventHandler(OgScrollableView<TElement, TValue> owner) : OgRecallMouseEventHandler<IOgMouseScrollEvent>(owner)
     {
-        public override bool Handle(IOgMouseScrollEvent reason) => owner.HandleMouseScroll(reason);
+        public override bool Handle(IOgMouseScrollEvent reason)
+        {
+            base.Handle(reason);
+            return owner.HandleMouseScroll(reason);
+        }
     }
 }
