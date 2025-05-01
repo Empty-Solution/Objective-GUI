@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.2.4" />
+        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.2.4"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\OG.DataTypes.KeyCode\OG.DataTypes.KeyCode.csproj" />
-        <ProjectReference Include="..\OG.TextController.Abstraction\OG.TextController.Abstraction.csproj" />
-        <ProjectReference Include="..\OG.TextCursorController.Abstraction\OG.TextCursorController.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.DataTypes.KeyCode\OG.DataTypes.KeyCode.csproj"/>
+        <ProjectReference Include="..\OG.TextController.Abstraction\OG.TextController.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.TextCursorController.Abstraction\OG.TextCursorController.Abstraction.csproj"/>
     </ItemGroup>
 </Project>

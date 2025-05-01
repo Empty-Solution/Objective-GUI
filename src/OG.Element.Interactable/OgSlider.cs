@@ -11,7 +11,7 @@ namespace OG.Element.Interactable;
 public abstract class OgSlider<TElement>(IOgEventProvider eventProvider) : OgScrollableDragView<TElement, float>(eventProvider), IOgSlider<TElement> where TElement : IOgElement
 {
     public IDkReadOnlyRange<float>? Range      { get; set; }
-    public float            ScrollStep { get; set; }
+    public float                    ScrollStep { get; set; }
 
     protected override float CalculateValue(IOgMouseEvent reason, float value) =>
         Lerp(Range!.Min, Range.Max, InverseLerp(Rectangle!.Get(), reason.LocalMousePosition));

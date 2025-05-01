@@ -5,5 +5,5 @@ namespace OG.Unity.Event.Prefab;
 
 public class OgUnityRepaintEvent(IOgGraphicsTool graphicsTool) : OgUnityUnconsumeEvent, IOgRepaintEvent
 {
-    public IOgGraphicsTool GraphicsTool => graphicsTool;
+    public IOgGraphicsTool GraphicsTool { get; set; } = graphicsTool;
 }

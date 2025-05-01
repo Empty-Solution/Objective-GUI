@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <PackageReference Include="DK.DataTypes.Abstraction" Version="1.2.4" />
+        <PackageReference Include="DK.DataTypes.Abstraction" Version="1.2.4"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.Element.Control.Focusable.Abstraction\OG.Element.Control.Focusable.Abstraction.csproj" />
-        <ProjectReference Include="..\OG.Element.View.Abstraction\OG.Element.View.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Element.Control.Focusable.Abstraction\OG.Element.Control.Focusable.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Element.View.Abstraction\OG.Element.View.Abstraction.csproj"/>
     </ItemGroup>
 
 </Project>

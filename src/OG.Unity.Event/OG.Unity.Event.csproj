@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+        <PackageReference Include="UnityEngine.CoreModule" Version="2020.3.1"/>
         <PackageReference Include="UnityEngine.IMGUIModule" Version="2020.3.1"/>
     </ItemGroup>
 

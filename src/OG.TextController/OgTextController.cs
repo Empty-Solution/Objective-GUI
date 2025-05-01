@@ -1,4 +1,5 @@
-﻿using OG.DataTypes.KeyCode;
+﻿using OG.DataTypes.KeyboardModifier;
+using OG.DataTypes.KeyCode;
 using OG.Event.Abstraction;
 using OG.TextCursorController.Abstraction;
 
@@ -16,25 +17,25 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
         switch(keyCode)
         {
             case EOgKeyCode.DELETE:
-                if(reason.ControlModification)
+                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL))
                     DeleteWord(true);
                 else
                     DeleteChar(true);
                 break;
             case EOgKeyCode.BACKSPACE:
-                if(reason.ControlModification)
+                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL))
                     DeleteWord(false);
                 else
                     DeleteChar(false);
                 break;
             case EOgKeyCode.LEFT_ARROW:
-                if(reason.ControlModification)
+                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL))
                     MoveCursorWord(reason);
                 else
                     MoveCursorChar(reason);
                 break;
             case EOgKeyCode.RIGHT_ARROW:
-                if(reason.ControlModification)
+                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL))
                     MoveCursorWord(reason, true);
                 else
                     MoveCursorChar(reason, true);
@@ -52,20 +53,18 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
             case EOgKeyCode.END:
                 MoveCursorToEnd(reason);
                 break;
-            case EOgKeyCode.A when reason.ControlModification:
+            case EOgKeyCode.A when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL):
                 SelectAll();
                 break;
-            case EOgKeyCode.X when reason.ControlModification:
+            case EOgKeyCode.X when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL):
                 Cut();
                 break;
-            case EOgKeyCode.C when reason.ControlModification:
+            case EOgKeyCode.C when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL):
                 Copy();
                 break;
-            case EOgKeyCode.V when reason.ControlModification:
+            case EOgKeyCode.V when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL):
                 Paste();
                 break;
-            default:
-                return m_Value;
         }
 
         return m_Value;
@@ -106,7 +105,7 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
 
     protected virtual void MoveCursorChar(IOgKeyboardEvent reason, bool forward = false)
     {
-        if(reason.ShiftModification)
+        if(reason.Modifier.HasFlag(EOgKeyboardModifier.SHIFT))
         {
             _ = TextCursorController.SelectionPosition.Set(forward ? Min(m_Value.Length, TextCursorController.SelectionPosition.Get() + 1) : Max(0, TextCursorController.SelectionPosition.Get() - 1));
             return;
@@ -128,7 +127,7 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
 
     protected virtual void MoveCursorTo(int position, IOgKeyboardEvent reason)
     {
-        if(reason.ShiftModification) _ = TextCursorController.CursorPosition.Set(position);
+        if(reason.Modifier.HasFlag(EOgKeyboardModifier.SHIFT)) _ = TextCursorController.CursorPosition.Set(position);
         _ = TextCursorController.SelectionPosition.Set(position);
     }
 
