@@ -11,18 +11,27 @@ namespace OG.TextCursorController;
 
 public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, IDkProperty<int> selectionPosition) : IOgTextCursorController
 {
-    public IDkProperty<int>? FontSize { get; set; }
+    public IDkProperty<int>?           FontSize               { get; set; }
+    public IDkProperty<EOgTextAnchor>? Alignment              { get; set; }
+    public IDkProperty<EOgFontStyle>?  FontStyle              { get; set; }
+    public IDkProperty<OgVector2>?     LocalCursorPosition    { get; set; }
+    public IDkProperty<OgVector2>?     LocalSelectionPosition { get; set; }
+    public IDkProperty<int>            CursorPosition         { get; set; } = cursorPosition;
+    public IDkProperty<int>            SelectionPosition      { get; set; } = selectionPosition;
 
-    public IDkProperty<EOgTextAnchor>? Alignment { get; set; }
+    public void ChangeSelectionPosition(string text, OgRectangle rect, IOgMouseEvent reason)
+    {
+        int position = GetCharacterIndex(reason, text, rect);
+        SelectionPosition.Set(position);
+        LocalCursorPosition!.Set(GetCharPositionInString(text, position, rect));
+    }
 
-    public IDkProperty<EOgFontStyle>? FontStyle { get; set; }
-
-    public IDkProperty<int> CursorPosition { get; set; } = cursorPosition;
-
-    public IDkProperty<int> SelectionPosition { get; set; } = selectionPosition;
-
-    public void ChangeSelectionPosition(string text, OgRectangle rect, IOgMouseEvent reason) => SelectionPosition!.Set(GetCharacterIndex(reason, text, rect));
-    public void ChangeCursorPosition(string text, OgRectangle rect, IOgMouseEvent reason) => CursorPosition!.Set(GetCharacterIndex(reason, text, rect));
+    public void ChangeCursorPosition(string text, OgRectangle rect, IOgMouseEvent reason)
+    {
+        int position = GetCharacterIndex(reason, text, rect);
+        CursorPosition.Set(position);
+        LocalSelectionPosition!.Set(GetCharPositionInString(text, position, rect));
+    }
 
     public void ChangeCursorAndSelectionPositions(int position)
     {
@@ -41,11 +50,8 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
     private int GetCharacterIndex(string text, OgVector2 mousePosition, OgRectangle rect) => GetCharacterIndexByVector2(text, mousePosition, rect);
 
     protected abstract OgVector2 CalSize(string text, OgRectangle textRect, float realLineHeight);
-
     protected abstract void RequestCharacters(string text, int fontSize, EOgFontStyle fontStyle);
-
     protected abstract float GetCharacterAdvance(char character, int fontSize, EOgFontStyle fontStyle);
-
     protected abstract float GetLineHeight(int fontSize);
 
     private OgVector2 GetCharPositionInString(string text, int characterIndex, OgRectangle textRect)
