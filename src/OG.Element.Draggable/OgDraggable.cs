@@ -11,7 +11,7 @@ public abstract class OgDraggable<TElement>(IOgEventProvider eventProvider) : Og
 {
     public bool IsDragging => IsControlling;
 
-    protected override bool HandleMouseMove(IOgMouseMoveEvent reason)
+    public override bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
         if(!base.HandleMouseMove(reason)) return false;
         if(!IsDragging) return false;

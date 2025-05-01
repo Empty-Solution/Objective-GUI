@@ -11,7 +11,7 @@ public abstract class OgFocusableControl<TElement, TValue>(IOgEventProvider even
 
     public bool IsFocusControlling => IsFocused && IsControlling;
 
-    protected override bool HandleMouseUp(IOgMouseKeyUpEvent reason)
+    public override bool HandleMouseUp(IOgMouseKeyUpEvent reason)
     {
         if(!base.HandleMouseUp(reason)) return false;
         if(IsFocused == IsHovered) return true;

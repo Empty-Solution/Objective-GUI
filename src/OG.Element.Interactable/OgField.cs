@@ -1,7 +1,6 @@
 ﻿using OG.Element.Abstraction;
 using OG.Element.Control.Focusable;
 using OG.Element.Interactable.Abstraction;
-using OG.Event;
 using OG.Event.Abstraction;
 using OG.TextController.Abstraction;
 
@@ -9,6 +8,14 @@ namespace OG.Element.Interactable;
 
 public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextController controller) : OgFocusableControl<TElement, string>(eventProvider), IOgField<TElement> where TElement : IOgElement
 {
+    public virtual bool HandleKeyDown(IOgKeyDownEvent reason)
+    {
+        if(!IsFocused) return true;
+        if(UpdateTextIfNeeded(controller.HandleKeyEvent(Value!.Get(), reason), reason)) return true;
+        char chr = reason.Character;
+        return HasCharacter(chr) && UpdateTextIfNeeded(controller.HandleCharacter(Value!.Get(), chr), reason);
+    }
+
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
         controller.TextCursorController.ChangeCursorAndSelectionPositions(Value!.Get(), Rectangle!.Get(), reason);
@@ -39,14 +46,6 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
         return true;
     }
 
-    protected virtual bool HandleKeyDown(IOgKeyDownEvent reason)
-    {
-        if(!IsFocused) return true;
-        if(UpdateTextIfNeeded(controller.HandleKeyEvent(Value!.Get(), reason), reason)) return true;
-        char chr = reason.Character;
-        return HasCharacter(chr) && UpdateTextIfNeeded(controller.HandleCharacter(Value!.Get(), chr), reason);
-    }
-
     private bool UpdateTextIfNeeded(string newValue, IOgEvent reason)
     {
         if(Equals(Value!.Get(), newValue)) return false;
@@ -57,7 +56,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
 
     protected abstract bool HasCharacter(char chr);
 
-    private class OgKeyDownEventHandler(OgField<TElement> owner) : OgEventHandlerBase<IOgKeyDownEvent>
+    public class OgKeyDownEventHandler(IOgField<TElement> owner) : OgRecallInputEventHandler<IOgKeyDownEvent>(owner)
     {
         public override bool Handle(IOgKeyDownEvent reason) => owner.HandleKeyDown(reason);
     }

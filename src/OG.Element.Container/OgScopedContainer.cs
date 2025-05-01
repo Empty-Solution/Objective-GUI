@@ -3,22 +3,23 @@ using OG.DataTypes.Rectangle;
 using OG.Element.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
+using OG.Event.Abstraction.Handlers;
 
 namespace OG.Element.Container;
 
-public abstract class OgScopedContainer<TElement> : OgContainer<TElement> where TElement : IOgElement
+public abstract class OgScopedContainer<TElement> : OgContainer<TElement>, IOgRepaintEventHandler where TElement : IOgElement
 {
     public OgScopedContainer(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgRepaintEventHandler(this));
 
-    protected virtual bool OnRepaint(IOgRepaintEvent reason, OgRectangle rectangle)
+    public virtual bool HandleRepaint(IOgRepaintEvent reason)
     {
-        using(reason.GraphicsTool.Clip(rectangle)) return ProcElementsForward(reason);
+        using(reason.GraphicsTool.Clip(Rectangle?.Get() ?? new())) return ProcElementsForward(reason);
     }
 
     protected abstract DkScopeContext Scope(IOgRepaintEvent reason, OgRectangle rectangle);
 
-    private class OgRepaintEventHandler(OgScopedContainer<TElement> owner) : OgEventHandlerBase<IOgRepaintEvent>
+    public class OgRepaintEventHandler(IOgRepaintEventHandler owner) : OgEventHandlerBase<IOgRepaintEvent>
     {
-        public override bool Handle(IOgRepaintEvent reason) => owner.OnRepaint(reason, owner.Rectangle?.Get() ?? new());
+        public override bool Handle(IOgRepaintEvent reason) => owner.HandleRepaint(reason);
     }
 }

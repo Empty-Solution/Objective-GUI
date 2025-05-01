@@ -2,17 +2,18 @@
 using OG.Element.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
+using OG.Event.Abstraction.Handlers;
 using OG.Layout.Abstraction;
 
 namespace OG.Element.Container;
 
-public class OgLayoutContainer<TElement> : OgContainer<TElement>
+public class OgLayoutContainer<TElement> : OgContainer<TElement>, IOgLayoutEventHandler
     where TElement : IOgElement
 {
     public OgLayoutContainer(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgLayoutEventHandler(this));
     public IOgLayoutTool<TElement>? LayoutTool { get; set; }
 
-    protected virtual bool HandleLayout(IOgLayoutEvent reason)
+    public virtual bool HandleLayout(IOgLayoutEvent reason)
     {
         foreach(TElement? element in m_Element)
         {
@@ -26,7 +27,7 @@ public class OgLayoutContainer<TElement> : OgContainer<TElement>
         return true;
     }
 
-    private class OgLayoutEventHandler(OgLayoutContainer<TElement> owner) : OgEventHandlerBase<IOgLayoutEvent>
+    public class OgLayoutEventHandler(IOgLayoutEventHandler owner) : OgEventHandlerBase<IOgLayoutEvent>
     {
         public override bool Handle(IOgLayoutEvent reason) => owner.HandleLayout(reason);
     }

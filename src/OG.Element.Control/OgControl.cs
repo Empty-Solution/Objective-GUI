@@ -15,9 +15,9 @@ public abstract class OgControl<TElement> : OgHoverable<TElement>, IOgControl<TE
 
     public bool IsControlling { get; private set; }
 
-    protected virtual bool HandleMouseDown(IOgMouseKeyDownEvent reason) => IsControlling || !IsHovered || BeginControl(reason);
+    public virtual bool HandleMouseDown(IOgMouseKeyDownEvent reason) => IsControlling || !IsHovered || BeginControl(reason);
 
-    protected virtual bool HandleMouseUp(IOgMouseKeyUpEvent reason) => !IsControlling || !IsHovered || EndControl(reason);
+    public virtual bool HandleMouseUp(IOgMouseKeyUpEvent reason) => !IsControlling || !IsHovered || EndControl(reason);
 
     protected virtual bool BeginControl(IOgMouseKeyDownEvent reason) => IsControlling = true;
 
@@ -27,7 +27,7 @@ public abstract class OgControl<TElement> : OgHoverable<TElement>, IOgControl<TE
         return true;
     }
 
-    public class OgMouseDownEventHandler(OgControl<TElement> owner) : OgRecallMouseEventHandler<IOgMouseKeyDownEvent>(owner)
+    public class OgMouseDownEventHandler(IOgControl<TElement> owner) : OgRecallMouseEventHandler<IOgMouseKeyDownEvent>(owner)
     {
         public override bool Handle(IOgMouseKeyDownEvent reason)
         {
@@ -36,7 +36,7 @@ public abstract class OgControl<TElement> : OgHoverable<TElement>, IOgControl<TE
         }
     }
 
-    public class OgMouseUpEventHandler(OgControl<TElement> owner) : OgRecallMouseEventHandler<IOgMouseKeyUpEvent>(owner)
+    public class OgMouseUpEventHandler(IOgControl<TElement> owner) : OgRecallMouseEventHandler<IOgMouseKeyUpEvent>(owner)
     {
         public override bool Handle(IOgMouseKeyUpEvent reason)
         {

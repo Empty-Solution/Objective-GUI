@@ -1,10 +1,10 @@
 using OG.Element.Abstraction;
-using OG.Event.Abstraction;
+using OG.Event.Abstraction.Handlers;
 using System.Collections.Generic;
 
 namespace OG.Element.Container.Abstraction;
 
-public interface IOgContainer<TElement> : IOgElement where TElement : IOgElement
+public interface IOgContainer<TElement> : IOgElement, IOgMouseEventHandler where TElement : IOgElement
 {
     IEnumerable<TElement> Elements { get; }
 
@@ -13,5 +13,4 @@ public interface IOgContainer<TElement> : IOgElement where TElement : IOgElement
     void Add(TElement element);
 
     void Remove(TElement element);
-    bool ProcElementsBackward(IOgInputEvent reason);
 }
