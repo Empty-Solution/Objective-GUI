@@ -1,4 +1,5 @@
-﻿using OG.DataTypes.Font;
+﻿using OG.DataTypes.Color;
+using OG.DataTypes.Font;
 using OG.DataTypes.FontStyle;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.TextAnchor;
@@ -16,5 +17,6 @@ public class OgTextRepaintContext : IOgRepaintContext
     public OgFont             Font       { get; set; }
     public IEnumerable<float> CharsSizes { get; set; } = [];
     public float              LineHeight { get; set; }
+    public OgRgbaColor        Color      { get; set; }
     public OgRectangle        RenderRect { get; set; }
 }

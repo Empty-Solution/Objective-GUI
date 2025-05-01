@@ -1,4 +1,5 @@
 ﻿using DK.Property.Abstraction.Generic;
+using OG.DataTypes.Color;
 using OG.DataTypes.Font;
 using OG.DataTypes.FontStyle;
 using OG.DataTypes.TextAnchor;
@@ -20,12 +21,13 @@ public class OgText(IOgEventProvider eventProvider) : OgVisualElement<IOgTextRep
     public           IDkProperty<OgFont>?          Font      { get; set; }
     public override OgTextRepaintContext HandleRepaint(IOgTextRepaintEvent reason)
     {
-        m_Context.FontSize  = FontSize!.Get();
-        m_Context.Text      = Text!.Get();
-        m_Context.WordWrap  = WordWrap!.Get();
-        m_Context.FontStyle = FontStyle!.Get();
-        m_Context.Alignment = Alignment!.Get();
-        m_Context.Clipping  = Clipping!.Get();
+        m_Context.Color     = Color?.Get() ?? new(1, 1, 1, 1);
+        m_Context.FontSize  = FontSize?.Get() ?? 14;
+        m_Context.Text      = Text?.Get() ?? string.Empty;
+        m_Context.WordWrap  = WordWrap?.Get() ?? true;
+        m_Context.FontStyle = FontStyle?.Get() ?? EOgFontStyle.NORMAL;
+        m_Context.Alignment = Alignment?.Get() ?? EOgTextAnchor.UPPER_LEFT;
+        m_Context.Clipping  = Clipping?.Get() ?? EOgTextClipping.OVERFLOW;
         m_Context.Font      = Font!.Get();
         reason.GraphicsTool.Repaint(m_Context);
         return m_Context;
