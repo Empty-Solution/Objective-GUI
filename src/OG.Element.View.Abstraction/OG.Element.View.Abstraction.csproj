@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="DK.Common.DataTypes.Abstraction" Version="1.1.2" />
         <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.2.4" />
     </ItemGroup>
 

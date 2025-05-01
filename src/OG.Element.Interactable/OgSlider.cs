@@ -1,4 +1,4 @@
-﻿using DK.Common.DataTypes.Abstraction;
+﻿using DK.DataTypes.Abstraction;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
@@ -10,7 +10,7 @@ namespace OG.Element.Interactable;
 
 public abstract class OgSlider<TElement>(IOgEventProvider eventProvider) : OgScrollableDragView<TElement, float>(eventProvider), IOgSlider<TElement> where TElement : IOgElement
 {
-    public IDkRange<float>? Range      { get; set; }
+    public IDkReadOnlyRange<float>? Range      { get; set; }
     public float            ScrollStep { get; set; }
 
     protected override float CalculateValue(IOgMouseEvent reason, float value) =>
