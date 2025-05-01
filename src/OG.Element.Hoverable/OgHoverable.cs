@@ -11,7 +11,7 @@ public class OgHoverable<TElement> : OgContainer<TElement>, IOgHoverable<TElemen
 
     public bool IsHovered { get; private set; }
 
-    protected virtual bool HandleMouseMove(IOgMouseMoveEvent reason)
+    public virtual bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
         bool containsMouse = Rectangle!.Get().Contains(reason.LocalMousePosition);
         if(IsHovered == containsMouse) return false;
@@ -19,7 +19,7 @@ public class OgHoverable<TElement> : OgContainer<TElement>, IOgHoverable<TElemen
         return true;
     }
 
-    public class OgMouseMoveEventHandler(OgHoverable<TElement> owner) : OgRecallMouseEventHandler<IOgMouseMoveEvent>(owner)
+    public class OgMouseMoveEventHandler(IOgHoverable<TElement> owner) : OgRecallMouseEventHandler<IOgMouseMoveEvent>(owner)
     {
         public override bool Handle(IOgMouseMoveEvent reason)
         {

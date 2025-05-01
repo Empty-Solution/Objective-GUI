@@ -11,10 +11,10 @@ public abstract class OgVisualElement : OgElement, IOgVisual
 
     public IDkGetProvider<int>? ZOrder { get; set; }
 
-    protected abstract bool OnRepaint(IOgRepaintEvent reason);
+    public abstract bool HandleRepaint(IOgRepaintEvent reason);
 
-    private class OgRepaintEventHandler(OgVisualElement owner) : OgEventHandlerBase<IOgRepaintEvent>
+    public class OgRepaintEventHandler(IOgVisual owner) : OgEventHandlerBase<IOgRepaintEvent>
     {
-        public override bool Handle(IOgRepaintEvent reason) => owner.OnRepaint(reason);
+        public override bool Handle(IOgRepaintEvent reason) => owner.HandleRepaint(reason);
     }
 }

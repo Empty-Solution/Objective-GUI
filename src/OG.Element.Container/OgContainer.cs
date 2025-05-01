@@ -5,6 +5,7 @@ using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
+using OG.Event.Abstraction.Handlers;
 using System;
 using System.Collections.Generic;
 
@@ -17,7 +18,6 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
     public OgContainer(IOgEventProvider eventProvider) : base(eventProvider)
     {
         eventProvider.RegisterHandler(new OgRecallMouseEventHandler<IOgMouseEvent>(this));
-        eventProvider.RegisterHandler(new OgRecallInputEventHandler(this));
         eventProvider.RegisterHandler(new OgRecallEventHandler(this));
     }
 
@@ -37,7 +37,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
         throw new InvalidOperationException();
     }
 
-    public bool ProcElementsBackward(IOgInputEvent reason)
+    public virtual bool ProcElementsBackward(IOgInputEvent reason)
     {
         for(int i = m_Element.Count - 1; i >= 0; i--)
             if(ProcElement(reason, m_Element[i]))
@@ -45,7 +45,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
         return true;
     }
 
-    protected virtual bool ProcElementsForward(IOgEvent reason)
+    public virtual bool ProcElementsForward(IOgEvent reason)
     {
         for(int i = 0; i < m_Element.Count; i++)
             if(ProcElement(reason, m_Element[i]))
@@ -61,25 +61,25 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
 
     protected virtual bool ProcElement(IOgEvent reason, TElement element) => ShouldProcElement(reason, element) && element.Proc(reason) && reason.IsConsumed;
 
-    public class OgRecallEventHandler(OgContainer<TElement> owner) : IOgEventHandler
+    public class OgRecallEventHandler(IOgMouseEventHandler owner) : IOgEventHandler
     {
         public bool CanHandle(IOgEvent value) => true;
 
         public bool Handle(IOgEvent reason) => owner.ProcElementsForward(reason);
     }
 
-    public class OgRecallInputEventHandler(OgContainer<TElement> owner) : OgEventHandlerBase<IOgInputEvent>
+    public class OgRecallInputEventHandler<TEvent>(IOgMouseEventHandler owner) : OgEventHandlerBase<TEvent> where TEvent : class, IOgInputEvent
     {
-        public override bool Handle(IOgInputEvent reason) => owner.ProcElementsBackward(reason);
+        public override bool Handle(TEvent reason) => owner.ProcElementsBackward(reason);
     }
 
-    public class OgRecallMouseEventHandler<TEvent>(IOgContainer<TElement> owner) : OgEventHandlerBase<TEvent> where TEvent : class, IOgMouseEvent
+    public class OgRecallMouseEventHandler<TEvent>(IOgContainer<TElement> owner) : OgRecallInputEventHandler<TEvent>(owner) where TEvent : class, IOgMouseEvent
     {
         public override bool Handle(TEvent reason)
         {
             OgRectangle rect = owner.Rectangle!.Get();
             reason.LocalMousePosition -= new OgVector2(rect.X, rect.Y);
-            return owner.ProcElementsBackward(reason);
+            return base.Handle(reason);
         }
     }
 }
