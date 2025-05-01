@@ -13,7 +13,7 @@ public abstract class OgLayoutTool<TElement>(int spacing) : IOgLayoutTool<TEleme
     {
         OgRectangle rect = GetRectangle(element.Rectangle!.Get(), m_LastRectangle, spacing);
         m_LastRectangle = rect;
-        _=element.Rectangle.Set(rect);
+        _               = element.Rectangle.Set(rect);
     }
 
     public abstract OgRectangle GetRectangle(OgRectangle elementRect, OgRectangle lastRect, int spacing);

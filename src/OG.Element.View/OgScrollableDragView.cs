@@ -1,5 +1,4 @@
 ﻿using OG.Element.Abstraction;
-using OG.Event;
 using OG.Event.Abstraction;
 
 namespace OG.Element.View;

@@ -16,56 +16,56 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
         switch(keyCode)
         {
             case EOgKeyCode.DELETE:
-            if(reason.ControlModification)
-                DeleteWord(true);
-            else
-                DeleteChar(true);
-            break;
+                if(reason.ControlModification)
+                    DeleteWord(true);
+                else
+                    DeleteChar(true);
+                break;
             case EOgKeyCode.BACKSPACE:
-            if(reason.ControlModification)
-                DeleteWord(false);
-            else
-                DeleteChar(false);
-            break;
+                if(reason.ControlModification)
+                    DeleteWord(false);
+                else
+                    DeleteChar(false);
+                break;
             case EOgKeyCode.LEFT_ARROW:
-            if(reason.ControlModification)
-                MoveCursorWord(reason);
-            else
-                MoveCursorChar(reason);
-            break;
+                if(reason.ControlModification)
+                    MoveCursorWord(reason);
+                else
+                    MoveCursorChar(reason);
+                break;
             case EOgKeyCode.RIGHT_ARROW:
-            if(reason.ControlModification)
-                MoveCursorWord(reason, true);
-            else
-                MoveCursorChar(reason, true);
-            break;
+                if(reason.ControlModification)
+                    MoveCursorWord(reason, true);
+                else
+                    MoveCursorChar(reason, true);
+                break;
             case EOgKeyCode.TAB:
-            HandleTab();
-            break;
+                HandleTab();
+                break;
             case EOgKeyCode.RETURN:
             case EOgKeyCode.KEYPAD_ENTER:
-            HandleReturn();
-            break;
+                HandleReturn();
+                break;
             case EOgKeyCode.HOME:
-            MoveCursorToStart(reason);
-            break;
+                MoveCursorToStart(reason);
+                break;
             case EOgKeyCode.END:
-            MoveCursorToEnd(reason);
-            break;
+                MoveCursorToEnd(reason);
+                break;
             case EOgKeyCode.A when reason.ControlModification:
-            SelectAll();
-            break;
+                SelectAll();
+                break;
             case EOgKeyCode.X when reason.ControlModification:
-            Cut();
-            break;
+                Cut();
+                break;
             case EOgKeyCode.C when reason.ControlModification:
-            Copy();
-            break;
+                Copy();
+                break;
             case EOgKeyCode.V when reason.ControlModification:
-            Paste();
-            break;
+                Paste();
+                break;
             default:
-            return m_Value;
+                return m_Value;
         }
 
         return m_Value;
@@ -99,7 +99,7 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
         string value = m_Value;
         if(string.IsNullOrEmpty(value)) return;
         int cursorPosition = TextCursorController.CursorPosition.Get();
-        int wordBound = forward ? value.IndexOf(' ', Max(0, cursorPosition + 1)) : value.LastIndexOf(' ', Max(0, cursorPosition - 1));
+        int wordBound      = forward ? value.IndexOf(' ', Max(0, cursorPosition + 1)) : value.LastIndexOf(' ', Max(0, cursorPosition - 1));
         wordBound = Clamp(wordBound, 0, value.Length);
         DeleteRangeAndChangeCursorSelectionPositions(wordBound, cursorPosition);
     }
@@ -156,14 +156,14 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
 
     protected virtual string GetSelectedText()
     {
-        IOgTextCursorController controller = TextCursorController;
-        int cursorPosition = controller.CursorPosition.Get();
-        int selectionPosition = controller.SelectionPosition.Get();
+        IOgTextCursorController controller        = TextCursorController;
+        int                     cursorPosition    = controller.CursorPosition.Get();
+        int                     selectionPosition = controller.SelectionPosition.Get();
 
         if(cursorPosition == selectionPosition) return string.Empty;
 
         int startIndex = Min(cursorPosition, selectionPosition);
-        int length = Abs(cursorPosition - selectionPosition);
+        int length     = Abs(cursorPosition - selectionPosition);
 
         return m_Value.Substring(startIndex, length);
     }
@@ -176,8 +176,8 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
     }
 
     protected static float Clamp(float value, float min, float max) => value < min ? min : value > max ? max : value;
-    protected static int Clamp(int value, int min, int max) => value < min ? min : value > max ? max : value;
-    protected static int Min(int value, int min) => value < min ? min : value;
-    protected static int Max(int value, int max) => value > max ? max : value;
-    protected static int Abs(int value) => value < 0 ? -value : value;
+    protected static int Clamp(int value, int min, int max) => value         < min ? min : value > max ? max : value;
+    protected static int Min(int value, int min) => value                    < min ? min : value;
+    protected static int Max(int value, int max) => value                    > max ? max : value;
+    protected static int Abs(int value) => value                             < 0 ? -value : value;
 }

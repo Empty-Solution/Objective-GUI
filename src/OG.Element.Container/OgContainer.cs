@@ -1,4 +1,5 @@
 ﻿using DK.Getting.Abstraction.Generic;
+using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
@@ -36,15 +37,19 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
         throw new InvalidOperationException();
     }
 
-    protected virtual bool ProcElementsForward(IOgEvent reason)
+    public bool ProcElementsBackward(IOgInputEvent reason)
     {
-        for(int i = 0; i < m_Element.Count; i++) if(ProcElement(reason, m_Element[i])) break;
+        for(int i = m_Element.Count - 1; i >= 0; i--)
+            if(ProcElement(reason, m_Element[i]))
+                break;
         return true;
     }
 
-    public bool ProcElementsBackward(IOgInputEvent reason)
+    protected virtual bool ProcElementsForward(IOgEvent reason)
     {
-        for(int i = m_Element.Count - 1; i >= 0; i--) if(ProcElement(reason, m_Element[i])) break;
+        for(int i = 0; i < m_Element.Count; i++)
+            if(ProcElement(reason, m_Element[i]))
+                break;
         return true;
     }
 
@@ -72,7 +77,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
     {
         public override bool Handle(TEvent reason)
         {
-            DataTypes.Rectangle.OgRectangle rect = owner.Rectangle!.Get();
+            OgRectangle rect = owner.Rectangle!.Get();
             reason.LocalMousePosition -= new OgVector2(rect.X, rect.Y);
             return owner.ProcElementsBackward(reason);
         }

@@ -1,8 +1,6 @@
-﻿
-using OG.Element.Abstraction;
+﻿using OG.Element.Abstraction;
 using OG.Element.Container;
 using OG.Element.Hoverable.Abstraction;
-using OG.Event;
 using OG.Event.Abstraction;
 
 namespace OG.Element.Hoverable;
@@ -21,7 +19,7 @@ public class OgHoverable<TElement> : OgContainer<TElement>, IOgHoverable<TElemen
         return true;
     }
 
-    private class OgMouseMoveEventHandler(OgHoverable<TElement> owner) : OgRecallMouseEventHandler<IOgMouseMoveEvent>(owner)
+    public class OgMouseMoveEventHandler(OgHoverable<TElement> owner) : OgRecallMouseEventHandler<IOgMouseMoveEvent>(owner)
     {
         public override bool Handle(IOgMouseMoveEvent reason)
         {
