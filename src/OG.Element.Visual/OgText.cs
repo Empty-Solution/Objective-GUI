@@ -7,9 +7,7 @@ using OG.Element.Visual.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Abstraction.Handlers;
 using OG.Graphics.Abstraction;
-
 namespace OG.Element.Visual;
-
 public class OgText(IOgEventProvider eventProvider) : OgVisualElement<IOgTextRepaintEvent, OgTextRepaintContext>(eventProvider), IOgText
 {
     private readonly OgTextRepaintContext          m_Context = new();
@@ -20,7 +18,6 @@ public class OgText(IOgEventProvider eventProvider) : OgVisualElement<IOgTextRep
     public           IDkProperty<EOgTextAnchor>?   Alignment { get; set; }
     public           IDkProperty<EOgTextClipping>? Clipping  { get; set; }
     public           IDkProperty<OgFont>?          Font      { get; set; }
-
     public override OgTextRepaintContext HandleRepaint(IOgTextRepaintEvent reason)
     {
         m_Context.FontSize  = FontSize!.Get();

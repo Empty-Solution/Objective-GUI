@@ -2,18 +2,15 @@
 using OG.DataTypes.KeyCode;
 using OG.Event.Abstraction;
 using OG.TextCursorController.Abstraction;
-
 namespace OG.TextController;
-
-public abstract class OgTextController(IOgTextCursorController textCursorController, bool multiLine) : OgCharacterTextController(textCursorController, multiLine)
+public abstract class OgTextController(IOgTextCursorController textCursorController, bool multiLine)
+    : OgCharacterTextController(textCursorController, multiLine)
 {
     protected abstract string SystemCopyBuffer { get; set; }
-
     public override string HandleKeyEvent(string text, IOgKeyDownEvent reason)
     {
         m_Value = text;
         EOgKeyCode keyCode = reason.KeyCode;
-
         switch(keyCode)
         {
             case EOgKeyCode.DELETE:
@@ -66,33 +63,25 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
                 Paste();
                 break;
         }
-
         return m_Value;
     }
-
-    protected virtual void HandleTab() =>
-        m_Value = HandleCharacter(m_Value, '\t');
-
+    protected virtual void HandleTab() => m_Value = HandleCharacter(m_Value, '\t');
     protected virtual void HandleReturn()
     {
         if(!Multiline) return;
         m_Value = HandleCharacter(m_Value, '\n');
     }
-
     protected virtual void DeleteChar(bool forward)
     {
         int cursorPosition = TextCursorController.CursorPosition.Get();
-
         if(cursorPosition != TextCursorController.SelectionPosition.Get())
         {
             DeleteSelectionIfNeeded();
             return;
         }
-
         int target = Clamp(forward ? cursorPosition + 1 : cursorPosition - 1, 0, m_Value.Length);
         DeleteRangeAndChangeCursorSelectionPositions(target, cursorPosition);
     }
-
     protected virtual void DeleteWord(bool forward)
     {
         string value = m_Value;
@@ -102,80 +91,66 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
         wordBound = Clamp(wordBound, 0, value.Length);
         DeleteRangeAndChangeCursorSelectionPositions(wordBound, cursorPosition);
     }
-
     protected virtual void MoveCursorChar(IOgKeyboardEvent reason, bool forward = false)
     {
         if(reason.Modifier.HasFlag(EOgKeyboardModifier.SHIFT))
         {
-            _ = TextCursorController.SelectionPosition.Set(forward ? Min(m_Value.Length, TextCursorController.SelectionPosition.Get() + 1) : Max(0, TextCursorController.SelectionPosition.Get() - 1));
+            _ = TextCursorController.SelectionPosition.Set(forward ? Min(m_Value.Length, TextCursorController.SelectionPosition.Get() + 1)
+                                                               : Max(0, TextCursorController.SelectionPosition.Get() - 1));
             return;
         }
-
-        TextCursorController.ChangeCursorAndSelectionPositions(forward ? Min(m_Value.Length, TextCursorController.CursorPosition.Get() + 1) : Max(0, TextCursorController.CursorPosition.Get() - 1));
+        TextCursorController.ChangeCursorAndSelectionPositions(forward ? Min(m_Value.Length, TextCursorController.CursorPosition.Get() + 1)
+                                                                   : Max(0, TextCursorController.CursorPosition.Get() - 1));
     }
-
     protected virtual void MoveCursorWord(IOgKeyboardEvent reason, bool forward = false)
     {
-        int wordBound = forward ? m_Value.IndexOf(' ', TextCursorController.CursorPosition.Get() + 1) : m_Value.LastIndexOf(' ', Max(0, TextCursorController.CursorPosition.Get() - 1));
+        int wordBound = forward ? m_Value.IndexOf(' ', TextCursorController.CursorPosition.Get() + 1)
+                            : m_Value.LastIndexOf(' ', Max(0, TextCursorController.CursorPosition.Get() - 1));
         wordBound = Clamp(wordBound, 0, m_Value.Length);
         MoveCursorTo(wordBound, reason);
     }
-
     protected virtual void MoveCursorToStart(IOgKeyboardEvent reason) => MoveCursorTo(0, reason);
-
     protected virtual void MoveCursorToEnd(IOgKeyboardEvent reason) => MoveCursorTo(m_Value.Length, reason);
-
     protected virtual void MoveCursorTo(int position, IOgKeyboardEvent reason)
     {
         if(reason.Modifier.HasFlag(EOgKeyboardModifier.SHIFT)) _ = TextCursorController.CursorPosition.Set(position);
         _ = TextCursorController.SelectionPosition.Set(position);
     }
-
     protected virtual void SelectAll()
     {
         _ = TextCursorController.CursorPosition.Set(0);
         _ = TextCursorController.SelectionPosition.Set(m_Value.Length);
     }
-
     protected virtual void Cut()
     {
         if(TextCursorController.CursorPosition.Get() == TextCursorController.SelectionPosition.Get()) return;
-
         SystemCopyBuffer = GetSelectedText();
         DeleteSelectionIfNeeded();
     }
-
     protected virtual void Copy()
     {
         if(TextCursorController.CursorPosition.Get() == TextCursorController.SelectionPosition.Get()) return;
         SystemCopyBuffer = GetSelectedText();
     }
-
     protected virtual void Paste() => ReplaceSelection(SystemCopyBuffer);
-
     protected virtual string GetSelectedText()
     {
         IOgTextCursorController controller        = TextCursorController;
         int                     cursorPosition    = controller.CursorPosition.Get();
         int                     selectionPosition = controller.SelectionPosition.Get();
-
         if(cursorPosition == selectionPosition) return string.Empty;
-
         int startIndex = Min(cursorPosition, selectionPosition);
         int length     = Abs(cursorPosition - selectionPosition);
-
         return m_Value.Substring(startIndex, length);
     }
-
     protected virtual void DeleteRangeAndChangeCursorSelectionPositions(int from, int to)
     {
         if(to < from) (from, to) = (to, from);
         DeleteRange(from, to);
         TextCursorController.ChangeCursorAndSelectionPositions(from);
     }
-
     protected static int Clamp(int value, int min, int max) => value < min ? min : value > max ? max : value;
-    protected static int Min(int value, int min) => value            < min ? min : value;
-    protected static int Max(int value, int max) => value            > max ? max : value;
-    protected static int Abs(int value) => value                     < 0 ? -value : value;
+    protected static int Min(int value, int min) => value < min ? min : value;
+    protected static int Max(int value, int max) => value > max ? max : value;
+    protected static int Abs(int value) => value < 0 ? -value : value;
 }

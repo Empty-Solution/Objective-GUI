@@ -4,9 +4,7 @@ using OG.DataTypes.Rectangle;
 using OG.DataTypes.TextAnchor;
 using OG.DataTypes.TextClipping;
 using System.Collections.Generic;
-
 namespace OG.Graphics.Abstraction;
-
 public class OgTextRepaintContext : IOgRepaintContext
 {
     public int                FontSize   { get; set; }

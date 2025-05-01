@@ -3,7 +3,5 @@ using OG.Element.Abstraction;
 using OG.Element.View.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Abstraction.Handlers;
-
 namespace OG.Element.Interactable.Abstraction;
-
 public interface IOgScroll<TElement> : IOgValueView<TElement, OgVector2>, IOgRepaintEventHandler<IOgRepaintEvent, bool> where TElement : IOgElement;

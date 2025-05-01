@@ -1,7 +1,5 @@
 ﻿using System;
-
 namespace OG.DataTypes.KeyboardModifier;
-
 [Flags]
 public enum EOgKeyboardModifier
 {

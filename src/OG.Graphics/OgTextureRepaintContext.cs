@@ -1,9 +1,7 @@
 ﻿using OG.DataTypes.Rectangle;
 using OG.DataTypes.Sprite;
 using OG.DataTypes.Vector.Float;
-
 namespace OG.Graphics.Abstraction;
-
 public class OgTextureRepaintContext : IOgRepaintContext
 {
     public float       AlphaBlend  { get; set; }

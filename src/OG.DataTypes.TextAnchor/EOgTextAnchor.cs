@@ -1,5 +1,4 @@
 ﻿namespace OG.DataTypes.TextAnchor;
-
 public enum EOgTextAnchor
 {
     UPPER_LEFT,

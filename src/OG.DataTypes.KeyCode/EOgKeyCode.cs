@@ -1,5 +1,4 @@
 ﻿namespace OG.DataTypes.KeyCode;
-
 public enum EOgKeyCode
 {
     NONE                = 0,
