@@ -174,9 +174,8 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
         TextCursorController.ChangeCursorAndSelectionPositions(from);
     }
 
-    protected static float Clamp(float value, float min, float max) => value < min ? min : value > max ? max : value;
-    protected static int Clamp(int value, int min, int max) => value         < min ? min : value > max ? max : value;
-    protected static int Min(int value, int min) => value                    < min ? min : value;
-    protected static int Max(int value, int max) => value                    > max ? max : value;
-    protected static int Abs(int value) => value                             < 0 ? -value : value;
+    protected static int Clamp(int value, int min, int max) => value < min ? min : value > max ? max : value;
+    protected static int Min(int value, int min) => value            < min ? min : value;
+    protected static int Max(int value, int max) => value            > max ? max : value;
+    protected static int Abs(int value) => value                     < 0 ? -value : value;
 }

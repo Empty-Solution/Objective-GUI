@@ -28,6 +28,10 @@ public class OgScroll<TElement> : OgScrollableView<TElement, OgVector2>, IOgScro
 
     public class OgRepaintEventHandler(IOgScroll<TElement> owner) : OgEventHandlerBase<IOgRepaintEvent>
     {
-        public override bool Handle(IOgRepaintEvent reason) => owner.HandleRepaint(reason);
+        public override bool Handle(IOgRepaintEvent reason)
+        {
+            owner.HandleRepaint(reason);
+            return true;
+        }
     }
 }

@@ -10,7 +10,6 @@ public abstract class OgVisualElement : OgElement, IOgVisual
     protected OgVisualElement(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgRepaintEventHandler(this));
 
     public IDkGetProvider<int>? ZOrder { get; set; }
-
     public abstract bool HandleRepaint(IOgRepaintEvent reason);
 
     public class OgRepaintEventHandler(IOgVisual owner) : OgEventHandlerBase<IOgRepaintEvent>
