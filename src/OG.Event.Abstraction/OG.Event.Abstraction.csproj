@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="DK.Common.Matching.Abstraction" Version="1.1.2"/>
+        <PackageReference Include="DK.Matching.Abstraction" Version="1.2.4"/>
     </ItemGroup>
 
     <ItemGroup>
