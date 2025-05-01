@@ -1,5 +1,4 @@
-﻿
-using OG.Element.Abstraction;
+﻿using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 
 namespace OG.Element.Hoverable.Abstraction;

@@ -1,5 +1,4 @@
-﻿
-using DK.Common.Matching.Abstraction;
+﻿using DK.Common.Matching.Abstraction;
 
 namespace OG.Event.Abstraction;
 

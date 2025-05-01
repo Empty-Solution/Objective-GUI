@@ -1,5 +1,4 @@
-﻿
-using OG.DataTypes.Vector;
+﻿using OG.DataTypes.Vector;
 using OG.Event.Abstraction;
 
 namespace OG.Unity.Event.Prefab;

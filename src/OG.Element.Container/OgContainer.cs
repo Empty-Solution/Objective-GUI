@@ -1,5 +1,4 @@
-﻿
-using DK.Getting.Abstraction.Generic;
+﻿using DK.Getting.Abstraction.Generic;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;

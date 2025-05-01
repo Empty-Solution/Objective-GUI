@@ -1,5 +1,4 @@
-﻿
-using OG.DataTypes.Rectangle;
+﻿using OG.DataTypes.Rectangle;
 using OG.Element.Abstraction;
 
 namespace OG.Layout;

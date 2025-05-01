@@ -1,7 +1,5 @@
-﻿
 using OG.Element.Abstraction;
 using OG.Event.Abstraction;
-using System.Collections.Generic;
 
 namespace OG.Element.Container.Abstraction;
 

@@ -1,5 +1,3 @@
 ﻿namespace OG.Event.Abstraction;
 
-public interface IOgLayoutEvent : IOgEvent
-{
-}
+public interface IOgLayoutEvent : IOgEvent;

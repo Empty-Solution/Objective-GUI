@@ -1,5 +1,4 @@
-﻿
-using OG.DataTypes.Vector;
+﻿using OG.DataTypes.Vector;
 
 namespace OG.Event.Abstraction;
 
