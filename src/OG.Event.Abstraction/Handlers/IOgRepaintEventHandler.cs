@@ -1,6 +1,6 @@
 ﻿namespace OG.Event.Abstraction.Handlers;
 
-public interface IOgRepaintEventHandler
+public interface IOgRepaintEventHandler<TEvent, TReturn> where TEvent : IOgRepaintEvent
 {
-    bool HandleRepaint(IOgRepaintEvent reason);
+    TReturn HandleRepaint(TEvent reason);
 }

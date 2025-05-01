@@ -8,4 +8,6 @@ public interface IOgGraphicsTool
     DkScopeContext Clip(OgRectangle rectangle);
 
     DkScopeContext Inline(OgRectangle rectangle);
+
+    bool Repaint<TContext>(TContext context) where TContext : IOgRepaintContext;
 }

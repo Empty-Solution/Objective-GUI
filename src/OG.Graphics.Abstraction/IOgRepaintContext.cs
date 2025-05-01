@@ -1,6 +1,6 @@
 ﻿using OG.DataTypes.Rectangle;
 
-namespace OG.Event.Abstraction;
+namespace OG.Graphics.Abstraction;
 
 public interface IOgRepaintContext
 {

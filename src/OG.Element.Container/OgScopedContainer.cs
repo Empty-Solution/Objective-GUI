@@ -7,7 +7,7 @@ using OG.Event.Abstraction.Handlers;
 
 namespace OG.Element.Container;
 
-public abstract class OgScopedContainer<TElement> : OgContainer<TElement>, IOgRepaintEventHandler where TElement : IOgElement
+public abstract class OgScopedContainer<TElement> : OgContainer<TElement>, IOgRepaintEventHandler<IOgRepaintEvent, bool> where TElement : IOgElement
 {
     public OgScopedContainer(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgRepaintEventHandler(this));
 
@@ -18,7 +18,7 @@ public abstract class OgScopedContainer<TElement> : OgContainer<TElement>, IOgRe
 
     protected abstract DkScopeContext Scope(IOgRepaintEvent reason, OgRectangle rectangle);
 
-    public class OgRepaintEventHandler(IOgRepaintEventHandler owner) : OgEventHandlerBase<IOgRepaintEvent>
+    public class OgRepaintEventHandler(IOgRepaintEventHandler<IOgRepaintEvent, bool> owner) : OgEventHandlerBase<IOgRepaintEvent>
     {
         public override bool Handle(IOgRepaintEvent reason) => owner.HandleRepaint(reason);
     }

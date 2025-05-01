@@ -4,6 +4,7 @@ using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
 using OG.Event.Abstraction.Handlers;
+using OG.Graphics.Abstraction;
 using OG.TextController.Abstraction;
 
 namespace OG.Element.Interactable;
@@ -73,7 +74,7 @@ public abstract class OgField<TElement> : OgFocusableControl<TElement, string>, 
     {
         foreach(TElement? element in Elements)
             if(ShouldProcElement(reason, element))
-                m_Context = element.HandleTextRepaint(reason);
+                m_Context = element.HandleRepaint(reason);
 
         return true;
     }
