@@ -1,13 +1,10 @@
-﻿#region
-
+﻿
 using DK.Getting.Abstraction.Generic;
 using DK.Property.Abstraction.Generic;
 using OG.DataTypes.Quaternion.Float;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Scale.Float;
 using OG.Event.Abstraction;
-
-#endregion
 
 namespace OG.Element.Abstraction;
 

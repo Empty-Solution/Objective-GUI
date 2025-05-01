@@ -1,9 +1,6 @@
-﻿#region
-
+﻿
 using OG.Element.Abstraction;
 using System.Collections.Generic;
-
-#endregion
 
 namespace OG.Element.Container.Abstraction;
 

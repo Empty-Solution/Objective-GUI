@@ -1,5 +1,4 @@
-﻿#region
-
+﻿
 using DK.Getting.Abstraction.Generic;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
@@ -8,8 +7,6 @@ using OG.Event;
 using OG.Event.Abstraction;
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace OG.Element.Container;
 
@@ -42,17 +39,13 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
 
     protected virtual bool ProcElementsForward(IOgEvent reason)
     {
-        for(int i = 0; i < m_Element.Count; i++)
-            if(ProcElement(reason, m_Element[i]))
-                break;
+        for(int i = 0; i < m_Element.Count; i++) if(ProcElement(reason, m_Element[i])) break;
         return true;
     }
 
     protected bool ProcElementsBackward(IOgInputEvent reason)
     {
-        for(int i = m_Element.Count - 1; i >= 0; i--)
-            if(ProcElement(reason, m_Element[i]))
-                break;
+        for(int i = m_Element.Count - 1; i >= 0; i--) if(ProcElement(reason, m_Element[i])) break;
         return true;
     }
 
@@ -61,12 +54,13 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
         IDkGetProvider<bool>? isActive = element.IsActive;
         return isActive is null || isActive.Get();
     }
-    
+
     protected virtual bool ProcElement(IOgEvent reason, TElement element) => ShouldProcElement(reason, element) && element.Proc(reason) && reason.IsConsumed;
 
     private class OgRecallEventHandler(OgContainer<TElement> owner) : IOgEventHandler
     {
         public bool CanHandle(IOgEvent value) => true;
+
         public bool Handle(IOgEvent reason) => owner.ProcElementsForward(reason);
     }
 
@@ -74,12 +68,12 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
     {
         public override bool Handle(IOgInputEvent reason) => owner.ProcElementsBackward(reason);
     }
-    
+
     private class OgRecallMouseEventHandler(OgContainer<TElement> owner) : OgEventHandlerBase<IOgMouseEvent>
     {
         public override bool Handle(IOgMouseEvent reason)
         {
-            var rect = owner.Rectangle!.Get();
+            DataTypes.Rectangle.OgRectangle rect = owner.Rectangle!.Get();
             reason.LocalMousePosition -= new OgVector2(rect.X, rect.Y);
             return owner.ProcElementsBackward(reason);
         }

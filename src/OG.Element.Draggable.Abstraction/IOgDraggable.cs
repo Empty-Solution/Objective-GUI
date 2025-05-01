@@ -1,9 +1,5 @@
-﻿#region
-
-using OG.Element.Abstraction;
+﻿using OG.Element.Abstraction;
 using OG.Element.Control.Abstraction;
-
-#endregion
 
 namespace OG.Element.Draggable.Abstraction;
 

@@ -1,57 +1,21 @@
-﻿#region
-
+﻿
 using OG.DataTypes.Vector;
-
-#endregion
 
 namespace OG.DataTypes.Rectangle;
 
 public struct OgRectangle(int x, int y, int width, int height)
 {
-    public int X
-    {
-        get;
-        set
-        {
-            XMin  = value;
-            field = value;
-        }
-    } = x;
+    public int X { get; set; } = x;
 
-    public int Y
-    {
-        get;
-        set
-        {
-            YMin  = value;
-            field = value;
-        }
-    } = y;
+    public int Y { get; set; } = y;
 
-    public int Width
-    {
-        get;
-        set
-        {
-            XMax  = X + value;
-            field = value;
-        }
-    } = width;
+    public int Width { get; set; } = width;
 
-    public int Height
-    {
-        get;
-        set
-        {
-            YMax  = Y + value;
-            field = value;
-        }
-    } = height;
+    public int Height { get; set; } = height;
 
-    public int XMin { get; private set; }
-    public int YMin { get; private set; }
-    public int XMax { get; private set; }
-    public int YMax { get; private set; }
+    public readonly int XMax => X + Width;
 
-    public bool Contains(OgVector2 position) => position.X >= XMin && position.X < XMax && position.Y >= YMin && position.Y < YMax;
+    public readonly int YMax => Y + Height;
+
+    public readonly bool Contains(OgVector2 position) => position.X >= X && position.X < XMax && position.Y >= Y && position.Y < YMax;
 }

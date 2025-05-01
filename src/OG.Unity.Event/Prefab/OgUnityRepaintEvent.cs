@@ -1,9 +1,6 @@
-﻿#region
-
+﻿
 using OG.Event.Abstraction;
 using OG.Graphics.Abstraction;
-
-#endregion
 
 namespace OG.Unity.Event.Prefab;
 

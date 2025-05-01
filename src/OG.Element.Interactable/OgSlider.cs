@@ -1,6 +1,4 @@
-﻿#region
-
-using DK.Common.DataTypes.Abstraction;
+﻿using DK.Common.DataTypes.Abstraction;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
@@ -8,14 +6,12 @@ using OG.Element.Interactable.Abstraction;
 using OG.Element.View;
 using OG.Event.Abstraction;
 
-#endregion
-
 namespace OG.Element.Interactable;
 
 public abstract class OgSlider<TElement>(IOgEventProvider eventProvider) : OgScrollableDragView<TElement, float>(eventProvider), IOgSlider<TElement> where TElement : IOgElement
 {
-    public IDkRange<float>? Range      { get; set; }
-    public float            ScrollStep { get; set; }
+    public IDkRange<float>? Range { get; set; }
+    public float ScrollStep { get; set; }
 
     protected override float CalculateValue(IOgMouseEvent reason, float value) =>
         Lerp(Range!.Min, Range.Max, InverseLerp(Rectangle!.Get(), reason.LocalMousePosition));

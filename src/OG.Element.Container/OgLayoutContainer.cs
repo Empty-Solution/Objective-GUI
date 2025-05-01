@@ -1,12 +1,9 @@
-﻿#region
-
+﻿
 using OG.DataTypes.Rectangle;
 using OG.Element.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
 using OG.Layout.Abstraction;
-
-#endregion
 
 namespace OG.Element.Container;
 

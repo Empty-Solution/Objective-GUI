@@ -1,9 +1,6 @@
-﻿#region
-
+﻿
 using OG.Event.Abstraction;
 using OG.TextCursorController.Abstraction;
-
-#endregion
 
 namespace OG.TextController.Abstraction;
 

@@ -1,17 +1,14 @@
-﻿#region
-
-using OG.Element.Abstraction;
+﻿using OG.Element.Abstraction;
 using OG.Element.Control.Focusable.Abstraction;
 using OG.Element.View;
 using OG.Event.Abstraction;
-
-#endregion
 
 namespace OG.Element.Control.Focusable;
 
 public abstract class OgFocusableControl<TElement, TValue>(IOgEventProvider eventProvider) : OgValueView<TElement, TValue>(eventProvider), IOgFocusableControl<TElement, TValue> where TElement : IOgElement
 {
-    public bool IsFocused          { get; private set; }
+    public bool IsFocused { get; private set; }
+
     public bool IsFocusControlling => IsFocused && IsControlling;
 
     protected override bool HandleMouseUp(IOgMouseKeyUpEvent reason)
@@ -23,5 +20,6 @@ public abstract class OgFocusableControl<TElement, TValue>(IOgEventProvider even
     }
 
     protected abstract bool OnFocus(IOgMouseKeyUpEvent reason);
+
     protected abstract bool OnLostFocus(IOgMouseKeyUpEvent reason);
 }

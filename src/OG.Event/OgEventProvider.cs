@@ -1,16 +1,12 @@
-﻿#region
-
-using DK.Common.Matching;
+﻿using DK.Common.Matching;
 using OG.Event.Abstraction;
 using System.Collections.Generic;
-
-#endregion
 
 namespace OG.Event;
 
 public class OgEventProvider : IOgEventProvider
 {
-    private readonly List<IOgEventHandler>                        m_MatchList;
+    private readonly List<IOgEventHandler> m_MatchList;
     private readonly DkMatcherProvider<IOgEvent, IOgEventHandler> m_Provider;
 
     public OgEventProvider()

@@ -2,6 +2,7 @@
 
 public interface IOgKeyboardEvent : IOgInputEvent
 {
-    bool ShiftModification   { get; }
+    bool ShiftModification { get; }
+
     bool ControlModification { get; }
 }

@@ -1,23 +1,19 @@
-﻿#region
-
-using OG.DataTypes.Rectangle;
+﻿using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
-
-#endregion
 
 namespace OG.Layout;
 
 public class OgGridLayoutTool<TElement>(int spacing, OgVector2 gridSize) : OgLayoutTool<TElement>(spacing) where TElement : IOgElement
 {
     private OgVector2 m_GridPosition;
-    private int       m_MaxHeight;
+    private int m_MaxHeight;
 
     public override void ResetLayout()
     {
         base.ResetLayout();
         m_GridPosition = new();
-        m_MaxHeight    = 0;
+        m_MaxHeight = 0;
     }
 
     public override OgRectangle GetRectangle(OgRectangle elementRect, OgRectangle lastRect, int spacing)
@@ -32,8 +28,8 @@ public class OgGridLayoutTool<TElement>(int spacing, OgVector2 gridSize) : OgLay
             return new(0, lastRect.Y + m_MaxHeight + spacing, elementRect.Width, elementRect.Height);
         }
 
-        int         itemHeight = elementRect.Height;
-        OgRectangle rect       = new(lastRect.XMax + spacing, lastRect.Y, elementRect.Width, itemHeight);
+        int itemHeight = elementRect.Height;
+        OgRectangle rect = new(lastRect.XMax + spacing, lastRect.Y, elementRect.Width, itemHeight);
 
         UpdateMaxHeightIfNeeded(itemHeight);
 

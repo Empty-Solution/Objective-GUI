@@ -1,10 +1,7 @@
-﻿#region
-
+﻿
 using OG.Element.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
-
-#endregion
 
 namespace OG.Element.View;
 

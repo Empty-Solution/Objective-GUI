@@ -1,16 +1,11 @@
-﻿#region
-
-using OG.Element.Abstraction;
+﻿using OG.Element.Abstraction;
 using OG.Element.Control;
 using OG.Element.Interactable.Abstraction;
 using OG.Event.Abstraction;
 
-#endregion
-
 namespace OG.Element.Interactable;
 
-public class OgClickable<TElement>(IOgEventProvider eventProvider) : OgControl<TElement>(eventProvider), IOgClickable<TElement>
-    where TElement : IOgElement
+public class OgClickable<TElement>(IOgEventProvider eventProvider) : OgControl<TElement>(eventProvider), IOgClickable<TElement> where TElement : IOgElement
 {
     public event IOgClickable<TElement>.OgClickHandler? OnClicked;
 

@@ -1,29 +1,23 @@
-﻿#region
-
-using OG.DataTypes.Rectangle;
+﻿using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.Control;
 using OG.Element.Draggable.Abstraction;
 using OG.Event.Abstraction;
 
-#endregion
-
 namespace OG.Element.Draggable;
 
-public abstract class OgDraggable<TElement>(IOgEventProvider eventProvider) : OgControl<TElement>(eventProvider), IOgDraggable<TElement>
-    where TElement : IOgElement
+public abstract class OgDraggable<TElement>(IOgEventProvider eventProvider) : OgControl<TElement>(eventProvider), IOgDraggable<TElement> where TElement : IOgElement
 {
     public bool IsDragging => IsControlling;
 
     protected override bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
-        _ = base.HandleMouseMove(reason);
-        if(!IsDragging) return true;
-        OgVector2   delta = reason.MouseMoveDelta;
-        OgRectangle rect  = Rectangle!.Get();
-        _ = Rectangle?.Set(Move(rect, delta));
-        return PerformDrag(reason, rect, delta);
+        if(!base.HandleMouseMove(reason)) return false;
+        if(!IsDragging) return false;
+        OgVector2 delta = reason.MouseMoveDelta;
+        OgRectangle rect = Rectangle!.Get();
+        return Rectangle.Set(Move(rect, delta)) && PerformDrag(reason, rect, delta);
     }
 
     protected abstract bool PerformDrag(IOgMouseMoveEvent reason, OgRectangle rect, OgVector2 delta);

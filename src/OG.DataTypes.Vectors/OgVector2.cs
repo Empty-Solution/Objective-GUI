@@ -1,8 +1,5 @@
-﻿#region
-
+﻿
 using System;
-
-#endregion
 
 namespace OG.DataTypes.Vector;
 
@@ -12,11 +9,9 @@ public struct OgVector2(int x, int y) : IEquatable<OgVector2>
 
     public int Y { get; set; } = y;
 
-    public static OgVector2 operator +(OgVector2 left, OgVector2 right) =>
-        new(left.X + right.X, left.Y + right.Y);
-    
-    public static OgVector2 operator -(OgVector2 left, OgVector2 right) =>
-        new(left.X - right.X, left.Y - right.Y);
+    public static OgVector2 operator +(OgVector2 left, OgVector2 right) => new(left.X + right.X, left.Y + right.Y);
 
-    public bool Equals(OgVector2 other) => X == other.X && Y == other.Y;
+    public static OgVector2 operator -(OgVector2 left, OgVector2 right) => new(left.X - right.X, left.Y - right.Y);
+
+    public readonly bool Equals(OgVector2 other) => X == other.X && Y == other.Y;
 }

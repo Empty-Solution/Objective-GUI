@@ -1,9 +1,6 @@
-﻿#region
-
+﻿
 using OG.DataTypes.Rectangle;
 using OG.Element.Abstraction;
-
-#endregion
 
 namespace OG.Layout;
 

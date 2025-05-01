@@ -1,6 +1,4 @@
-﻿#region
-
-using DK.Property.Abstraction.Generic;
+﻿using DK.Property.Abstraction.Generic;
 using OG.DataTypes.FontStyle;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.TextAnchor;
@@ -9,17 +7,19 @@ using OG.Event.Abstraction;
 using OG.TextCursorController.Abstraction;
 using System;
 
-#endregion
-
 namespace OG.TextCursorController;
 
 public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, IDkProperty<int> selectionPosition) : IOgTextCursorController
 {
-    public IDkProperty<int>?           FontSize          { get; set; }
-    public IDkProperty<EOgTextAnchor>? Alignment         { get; set; }
-    public IDkProperty<EOgFontStyle>?  FontStyle         { get; set; }
-    public IDkProperty<int>            CursorPosition    { get; set; } = cursorPosition;
-    public IDkProperty<int>            SelectionPosition { get; set; } = selectionPosition;
+    public IDkProperty<int>? FontSize { get; set; }
+
+    public IDkProperty<EOgTextAnchor>? Alignment { get; set; }
+
+    public IDkProperty<EOgFontStyle>? FontStyle { get; set; }
+
+    public IDkProperty<int> CursorPosition { get; set; } = cursorPosition;
+
+    public IDkProperty<int> SelectionPosition { get; set; } = selectionPosition;
 
     public void ChangeSelectionPosition(string text, OgRectangle rect, IOgMouseEvent reason) => SelectionPosition!.Set(GetCharacterIndex(reason, text, rect));
     public void ChangeCursorPosition(string text, OgRectangle rect, IOgMouseEvent reason) => CursorPosition!.Set(GetCharacterIndex(reason, text, rect));
@@ -36,21 +36,21 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
         ChangeCursorPosition(text, rect, reason);
     }
 
-    private int GetCharacterIndex(IOgMouseEvent reason, string text, OgRectangle rect) =>
-        GetCharacterIndex(text, reason.LocalMousePosition, rect);
+    private int GetCharacterIndex(IOgMouseEvent reason, string text, OgRectangle rect) => GetCharacterIndex(text, reason.LocalMousePosition, rect);
 
-    private int GetCharacterIndex(string text, OgVector2 mousePosition, OgRectangle rect) =>
-        GetCharacterIndexByVector2(text, mousePosition, rect);
+    private int GetCharacterIndex(string text, OgVector2 mousePosition, OgRectangle rect) => GetCharacterIndexByVector2(text, mousePosition, rect);
 
     protected abstract OgVector2 CalSize(string text, OgRectangle textRect, float realLineHeight);
+
     protected abstract void RequestCharacters(string text, int fontSize, EOgFontStyle fontStyle);
+
     protected abstract float GetCharacterAdvance(char character, int fontSize, EOgFontStyle fontStyle);
+
     protected abstract float GetLineHeight(int fontSize);
 
     private OgVector2 GetCharPositionInString(string text, int characterIndex, OgRectangle textRect)
     {
-        if(string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length)
-            return new();
+        if(string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length) return new();
 
         float xOffset = 0f;
         float yOffset = 0f;
@@ -79,16 +79,14 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
 
     private int GetCharacterIndexByVector2(string text, OgVector2 position, OgRectangle textRect)
     {
-        if(string.IsNullOrEmpty(text))
-            return 0;
+        if(string.IsNullOrEmpty(text)) return 0;
 
         string[] lines = text.Split('\n');
 
         RequestCharacters(text, FontSize?.Get() ?? 14, FontStyle?.Get() ?? EOgFontStyle.NORMAL);
         int lineIndex = (int)Math.Floor((textRect.Y - position.Y) / GetLineHeight(FontSize?.Get() ?? 14));
 
-        if(lineIndex < 0 || lineIndex >= lines.Length)
-            return 0;
+        if(lineIndex < 0 || lineIndex >= lines.Length) return 0;
 
         string currentLineText = lines[lineIndex];
 
@@ -100,13 +98,11 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
         {
             currentWidth += GetCharacterAdvance(currentLineText[i], FontSize?.Get() ?? 14, FontStyle?.Get() ?? EOgFontStyle.NORMAL);
 
-            if(!(currentWidth >= xOffset))
-                continue;
+            if(!(currentWidth >= xOffset)) continue;
 
             int globalIndex = 0;
 
-            for(int j = 0; j < lineIndex; j++)
-                globalIndex += lines[j].Length + 1;
+            for(int j = 0; j < lineIndex; j++) globalIndex += lines[j].Length + 1;
 
             return globalIndex + i;
         }
@@ -119,8 +115,7 @@ public abstract class OgTextCursorController(IDkProperty<int> cursorPosition, ID
 
     private OgVector2 GetAlignmentOffset(OgRectangle parentRect, OgVector2 elementSize)
     {
-        if(Alignment is null)
-            return new(parentRect.X, parentRect.Y);
+        if(Alignment is null) return new(parentRect.X, parentRect.Y);
 
         float offsetX = Alignment.Get() switch
         {

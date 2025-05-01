@@ -1,13 +1,10 @@
-﻿#region
-
+﻿
 using OG.Element.Abstraction;
 using OG.Element.Control.Focusable;
 using OG.Element.Interactable.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
 using OG.TextController.Abstraction;
-
-#endregion
 
 namespace OG.Element.Interactable;
 
@@ -29,7 +26,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
 
     protected override bool BeginControl(IOgMouseKeyDownEvent reason)
     {
-        _ = base.BeginControl(reason);
+        if(!base.BeginControl(reason)) return false;
         controller.TextCursorController.ChangeCursorPosition(Value!.Get(), Rectangle!.Get(), reason);
         reason.Consume();
         return true;
@@ -37,7 +34,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
 
     protected override bool EndControl(IOgMouseKeyUpEvent reason)
     {
-        _ = base.EndControl(reason);
+        if(!base.EndControl(reason)) return false;
         controller.TextCursorController.ChangeSelectionPosition(Value!.Get(), Rectangle!.Get(), reason);
         reason.Consume();
         return true;
@@ -46,10 +43,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
     protected virtual bool HandleKeyDown(IOgKeyDownEvent reason)
     {
         if(!IsFocused) return true;
-
-        if(UpdateTextIfNeeded(controller.HandleKeyEvent(Value!.Get(), reason), reason))
-            return true;
-
+        if(UpdateTextIfNeeded(controller.HandleKeyEvent(Value!.Get(), reason), reason)) return true;
         char chr = reason.Character;
         return HasCharacter(chr) && UpdateTextIfNeeded(controller.HandleCharacter(Value!.Get(), chr), reason);
     }
@@ -57,7 +51,7 @@ public abstract class OgField<TElement>(IOgEventProvider eventProvider, IOgTextC
     private bool UpdateTextIfNeeded(string newValue, IOgEvent reason)
     {
         if(Equals(Value!.Get(), newValue)) return false;
-        _ = ChangeValue(newValue);
+        if(!ChangeValue(newValue)) return false;
         reason.Consume();
         return true;
     }

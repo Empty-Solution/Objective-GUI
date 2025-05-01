@@ -1,10 +1,7 @@
-﻿#region
-
+﻿
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.View.Abstraction;
-
-#endregion
 
 namespace OG.Element.Interactable.Abstraction;
 

@@ -1,10 +1,7 @@
-﻿#region
-
+﻿
 using OG.DataTypes.Rectangle;
 using OG.Element.Abstraction;
 using OG.Layout.Abstraction;
-
-#endregion
 
 namespace OG.Layout;
 
@@ -17,7 +14,7 @@ public abstract class OgLayoutTool<TElement>(int spacing) : IOgLayoutTool<TEleme
     {
         OgRectangle rect = GetRectangle(element.Rectangle!.Get(), m_LastRectangle, spacing);
         m_LastRectangle = rect;
-        element.Rectangle.Set(rect);
+        _=element.Rectangle.Set(rect);
     }
 
     public abstract OgRectangle GetRectangle(OgRectangle elementRect, OgRectangle lastRect, int spacing);
