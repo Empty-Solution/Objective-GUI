@@ -2,7 +2,6 @@
 using OG.DataTypes.Vector;
 using OG.Event.Abstraction;
 using OG.Graphics;
-using OG.Graphics.Abstraction;
 using OG.TextCursorController.Abstraction;
 using System;
 using System.Linq;
@@ -41,10 +40,10 @@ public class OgTextCursorController(IDkProperty<int> cursorPosition, IDkProperty
     {
         if(string.IsNullOrEmpty(text)) return 0;
         string[] lines     = text.Split('\n');
-        int      lineIndex = (int)Math.Floor((context.RenderRect.Y - position.Y) / context.LineHeight);
+        int      lineIndex = (int)Math.Floor((context.RepaintRect.Y - position.Y) / context.LineHeight);
         if(lineIndex < 0 || lineIndex >= lines.Length) return 0;
         string currentLineText = lines[lineIndex];
-        float  xOffset         = position.X - context.RenderRect.X;
+        float  xOffset         = position.X - context.RepaintRect.X;
         float  currentWidth    = 0f;
         for(int i = 0; i < currentLineText.Length; i++)
         {
@@ -75,6 +74,6 @@ public class OgTextCursorController(IDkProperty<int> cursorPosition, IDkProperty
             }
             xOffset += context.CharsSizes.ElementAt(i);
         }
-        return new((int)xOffset + context.RenderRect.X, (int)yOffset + context.RenderRect.Y);
+        return new((int)xOffset + context.RepaintRect.X, (int)yOffset + context.RepaintRect.Y);
     }
 }

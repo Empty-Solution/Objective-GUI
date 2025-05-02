@@ -6,8 +6,7 @@ using OG.Event.Abstraction.Handlers;
 using OG.Layout.Abstraction;
 using System.Collections.Generic;
 namespace OG.Element.Container;
-public class OgLayoutContainer<TElement> : OgContainer<TElement>, IOgLayoutEventHandler
-    where TElement : IOgElement
+public class OgLayoutContainer<TElement> : OgContainer<TElement>, IOgLayoutEventHandler where TElement : IOgElement
 {
     public OgLayoutContainer(IOgEventProvider eventProvider, IEnumerable<IOgLayoutTool<TElement>> layoutTools) : base(eventProvider)
     {
@@ -19,9 +18,9 @@ public class OgLayoutContainer<TElement> : OgContainer<TElement>, IOgLayoutEvent
     {
         OgRectangle rect = Rectangle!.Get();
         foreach(IOgLayoutTool<TElement> tool in LayoutTools)
-            foreach(TElement? element in Elements)
-                if(!ShouldProcElement(element))
-                    tool.ProcessElement(element, rect);
+        foreach(TElement? element in Elements)
+            if(!ShouldProcElement(element))
+                tool.ProcessElement(element, rect);
         return true;
     }
     public class OgRecallLayoutEventHandler(IOgLayoutEventHandler owner) : OgEventHandlerBase<IOgLayoutEvent>

@@ -12,5 +12,5 @@ public class OgTextureRepaintContext : IOgRepaintContext
     public float       ImageAspect { get; set; }
     public OgSprite    Sprite      { get; set; }
     public OgRgbaColor Color       { get; set; }
-    public OgRectangle RenderRect  { get; set; }
+    public OgRectangle RepaintRect { get; set; }
 }

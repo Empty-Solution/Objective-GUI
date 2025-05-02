@@ -1,7 +1,6 @@
 ﻿using DK.Property.Abstraction.Generic;
 using OG.Event.Abstraction;
 using OG.Graphics;
-using OG.Graphics.Abstraction;
 namespace OG.TextCursorController.Abstraction;
 public interface IOgTextCursorController
 {

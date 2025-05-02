@@ -1,24 +1,24 @@
-﻿using DK.Property.Abstraction.Generic;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.DataTypes.Color;
 using OG.DataTypes.ElementAlignment;
 using OG.DataTypes.Font;
 using OG.DataTypes.FontStyle;
 using OG.DataTypes.TextClipping;
 using OG.Element.Visual.Abstraction;
 using OG.Event.Abstraction;
-using OG.Event.Abstraction.Handlers;
 using OG.Graphics;
-using OG.Graphics.Abstraction;
 namespace OG.Element.Visual;
 public class OgText(IOgEventProvider eventProvider) : OgVisualElement<IOgTextRepaintEvent, OgTextRepaintContext>(eventProvider), IOgText
 {
-    private readonly OgTextRepaintContext              m_Context = new();
-    public           IDkProperty<int>?                 FontSize  { get; set; }
-    public           IDkProperty<string>?              Text      { get; set; }
-    public           IDkProperty<bool>?                WordWrap  { get; set; }
-    public           IDkProperty<EOgFontStyle>?        FontStyle { get; set; }
-    public           IDkProperty<EOgElementAlignment>? Alignment { get; set; }
-    public           IDkProperty<EOgTextClipping>?     Clipping  { get; set; }
-    public           IDkProperty<OgFont>?              Font      { get; set; }
+    private readonly OgTextRepaintContext                 m_Context = new();
+    public           IDkGetProvider<int>?                 FontSize  { get; set; }
+    public           IDkGetProvider<string>?              Text      { get; set; }
+    public           IDkGetProvider<bool>?                WordWrap  { get; set; }
+    public           IDkGetProvider<EOgFontStyle>?        FontStyle { get; set; }
+    public           IDkGetProvider<EOgElementAlignment>? Alignment { get; set; }
+    public           IDkGetProvider<EOgTextClipping>?     Clipping  { get; set; }
+    public           IDkGetProvider<OgFont>?              Font      { get; set; }
+    public           IDkGetProvider<OgRgbaColor>?         Color     { get; set; }
     public override OgTextRepaintContext HandleRepaint(IOgTextRepaintEvent reason)
     {
         m_Context.Color     = Color?.Get() ?? new(1, 1, 1, 1);

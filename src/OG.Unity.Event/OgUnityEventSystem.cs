@@ -20,16 +20,6 @@ public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) : IOgEventSystem
     private OgUnityMouseScrollEvent?  m_MouseScrollEvent;
     private OgUnityRepaintEvent?      m_RepaintEvent;
     private OgUnityEvent?             m_UsedEvent;
-    public IOgGraphicsTool GraphicsTool
-    {
-        get;
-        set
-        {
-            m_RepaintEvent              ??= new(value);
-            m_RepaintEvent.GraphicsTool =   value;
-            field                       =   value;
-        }
-    } = graphicsTool;
     public IOgEvent GetCurrent()
     {
         OgUnityEvent current = Parse(UeEvent.current);
@@ -39,7 +29,7 @@ public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) : IOgEventSystem
     private OgUnityEvent Parse(UeEvent source) =>
         source.type switch
         {
-            EventType.Repaint     => m_RepaintEvent ??= new(GraphicsTool),
+            EventType.Repaint     => m_RepaintEvent ??= new(graphicsTool),
             EventType.Layout      => m_LayoutEvent ??= new(),
             EventType.Used        => m_UsedEvent ??= new(),
             EventType.MouseDown   => ParseMouseDownEvent(source),
