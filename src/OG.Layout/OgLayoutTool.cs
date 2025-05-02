@@ -1,16 +1,19 @@
 ﻿using OG.DataTypes.Rectangle;
+using OG.DataTypes.Size;
 using OG.Element.Abstraction;
 using OG.Layout.Abstraction;
 namespace OG.Layout;
-public abstract class OgLayoutTool<TElement>(int spacing) : IOgLayoutTool<TElement> where TElement : IOgElement
+public class OgLayoutTool<TElement> : IOgLayoutTool<TElement> where TElement : IOgElement
 {
     protected OgRectangle m_LastRectangle;
     public virtual void ResetLayout() => m_LastRectangle = new();
-    public void ProcessElement(TElement element)
+    public virtual void ProcessElement(TElement element, OgRectangle parentRect)
     {
-        OgRectangle rect = GetRectangle(element.Rectangle!.Get(), m_LastRectangle, spacing);
-        m_LastRectangle = rect;
-        _               = element.Rectangle.Set(rect);
+        OgRectangle elementRect = element.Rectangle!.Get();
+        if(element.RelativeSize is null) return;
+        OgSize relativeSize = element.RelativeSize.Get();
+        int    width        = relativeSize.Width * parentRect.Width / 100;
+        int    height       = relativeSize.Height * parentRect.Height / 100;
+        element.Rectangle.Set(new(elementRect.X, elementRect.Y, width, height));
     }
-    public abstract OgRectangle GetRectangle(OgRectangle elementRect, OgRectangle lastRect, int spacing);
 }

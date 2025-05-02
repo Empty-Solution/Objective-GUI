@@ -18,7 +18,7 @@ public class OgTexture(IOgEventProvider eventProvider) : OgVisualElement<IOgRepa
         m_Context.Color       = Color?.Get() ?? new(1, 1, 1, 1);
         m_Context.AlphaBlend  = AlphaBlend?.Get() ?? 1;
         m_Context.Widths      = Widths?.Get() ?? new();
-        m_Context.Radiuses    = Radiuses?.Get()?? new();
+        m_Context.Radiuses    = Radiuses?.Get() ?? new();
         m_Context.ImageAspect = ImageAspect?.Get() ?? 1;
         m_Context.Sprite      = Sprite?.Get() ?? new();
         return true;

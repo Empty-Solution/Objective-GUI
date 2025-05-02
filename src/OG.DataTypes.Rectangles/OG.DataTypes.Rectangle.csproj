@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+        <ProjectReference Include="..\OG.DataTypes.ElementAlignment\OG.DataTypes.ElementAlignment.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.Size\OG.DataTypes.Size.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.Vectors\OG.DataTypes.Vector.csproj"/>
     </ItemGroup>

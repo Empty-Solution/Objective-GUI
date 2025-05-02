@@ -102,7 +102,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.TextCursorController.Abs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.TextController.Abstraction", "OG.TextController.Abstraction\OG.TextController.Abstraction.csproj", "{756E9C59-D5C9-446B-80A8-BEDC713CFAC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.DataTypes.TextAnchor", "OG.DataTypes.TextAnchor\OG.DataTypes.TextAnchor.csproj", "{330D37FA-5AE1-4989-BE95-514FE773771E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.DataTypes.ElementAlignment", "OG.DataTypes.ElementAlignment\OG.DataTypes.ElementAlignment.csproj", "{330D37FA-5AE1-4989-BE95-514FE773771E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.DataTypes.KeyCode", "OG.DataTypes.KeyCode\OG.DataTypes.KeyCode.csproj", "{E1F14B8D-A730-4D63-A523-8A15CDCB1CD3}"
 EndProject

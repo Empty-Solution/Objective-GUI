@@ -2,7 +2,7 @@
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 namespace OG.Layout;
-public class OgGridLayoutTool<TElement>(int spacing, OgVector2 gridSize) : OgLayoutTool<TElement>(spacing) where TElement : IOgElement
+public class OgGridLayoutTool<TElement>(int spacing, OgVector2 gridSize) : OgPositioningLayoutTool<TElement>(spacing) where TElement : IOgElement
 {
     private OgVector2 m_GridPosition;
     private int       m_MaxHeight;

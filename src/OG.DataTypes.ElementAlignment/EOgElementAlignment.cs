@@ -1,5 +1,5 @@
-﻿namespace OG.DataTypes.TextAnchor;
-public enum EOgTextAnchor
+﻿namespace OG.DataTypes.ElementAlignment;
+public enum EOgElementAlignment
 {
     UPPER_LEFT,
     UPPER_CENTER,

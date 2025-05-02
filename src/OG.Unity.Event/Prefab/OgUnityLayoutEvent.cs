@@ -1,3 +1,6 @@
 ﻿using OG.Event.Abstraction;
 namespace OG.Unity.Event.Prefab;
-public class OgUnityLayoutEvent : OgUnityUnconsumeEvent, IOgLayoutEvent;
+public class OgUnityLayoutEvent : OgUnityUnconsumeEvent, IOgLayoutEvent
+{
+    //public OgRectangle LastLayoutRect { get; set; }
+}

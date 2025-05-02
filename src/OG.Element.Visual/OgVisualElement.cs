@@ -7,8 +7,8 @@ namespace OG.Element.Visual;
 public abstract class OgVisualElement<TEvent, TReturn> : OgElement, IOgVisual<TEvent, TReturn> where TEvent : class, IOgRepaintEvent
 {
     protected OgVisualElement(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgRepaintEventHandler(this));
-    public IDkGetProvider<int>?        ZOrder { get; set; }
     public IDkGetProvider<OgRgbaColor>? Color  { get; set; }
+    public IDkGetProvider<int>?         ZOrder { get; set; }
     public abstract TReturn HandleRepaint(TEvent reason);
     public class OgRepaintEventHandler(IOgVisual<TEvent, TReturn> owner) : OgEventHandlerBase<TEvent>
     {

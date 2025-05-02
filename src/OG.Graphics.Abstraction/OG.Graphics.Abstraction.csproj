@@ -5,7 +5,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.DataTypes.Colors\OG.DataTypes.Color.csproj" />
+        <ProjectReference Include="..\OG.DataTypes.Colors\OG.DataTypes.Color.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.Rectangles\OG.DataTypes.Rectangle.csproj"/>
     </ItemGroup>
 

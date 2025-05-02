@@ -61,7 +61,7 @@ public abstract class OgField<TElement> : OgFocusableControl<TElement, string>, 
     public bool HandleRepaint(IOgTextRepaintEvent reason)
     {
         foreach(TElement? element in Elements)
-            if(ShouldProcElement(reason, element))
+            if(ShouldProcElement(element))
                 m_Context = element.HandleRepaint(reason);
         return true;
     }
