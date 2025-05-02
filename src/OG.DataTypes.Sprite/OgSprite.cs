@@ -1,4 +1,4 @@
 ﻿namespace OG.DataTypes.Sprite;
-public class OgSprite
+public struct OgSprite
 {
 }

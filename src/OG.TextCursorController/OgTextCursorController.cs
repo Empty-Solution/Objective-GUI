@@ -1,7 +1,7 @@
 ﻿using DK.Property.Abstraction.Generic;
 using OG.DataTypes.Vector;
 using OG.Event.Abstraction;
-using OG.Graphics;
+using OG.Graphics.Abstraction.Contexts;
 using OG.TextCursorController.Abstraction;
 using System;
 using System.Linq;

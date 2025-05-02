@@ -2,8 +2,14 @@
 using OG.DataTypes.Rectangle;
 using OG.Element.Abstraction;
 using OG.Event.Abstraction;
+using OG.Graphics.Abstraction.Contexts;
 namespace OG.Element.Container;
 public class OgInlineContainer<TElement>(IOgEventProvider eventProvider) : OgScopedContainer<TElement>(eventProvider) where TElement : IOgElement
 {
-    protected override DkScopeContext Scope(IOgRepaintEvent reason, OgRectangle rectangle) => reason.GraphicsTool.Inline(rectangle);
+    protected readonly OgInlineRepaintContext m_Context = new();
+    protected override DkScopeContext Scope(IOgRepaintEvent reason, OgRectangle rectangle)
+    {
+        m_Context.RepaintRect = rectangle;
+        return reason.GraphicsTool.Repaint(m_Context);
+    }
 }

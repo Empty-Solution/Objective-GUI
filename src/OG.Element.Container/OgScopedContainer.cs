@@ -10,7 +10,7 @@ public abstract class OgScopedContainer<TElement> : OgContainer<TElement>, IOgRe
     public OgScopedContainer(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgRepaintEventHandler(this));
     public virtual bool HandleRepaint(IOgRepaintEvent reason)
     {
-        using(reason.GraphicsTool.Clip(Rectangle?.Get() ?? new())) return ProcElementsForward(reason);
+        using(Scope(reason, Rectangle?.Get() ?? new())) return ProcElementsForward(reason);
     }
     protected abstract DkScopeContext Scope(IOgRepaintEvent reason, OgRectangle rectangle);
     public class OgRepaintEventHandler(IOgRepaintEventHandler<IOgRepaintEvent, bool> owner) : OgEventHandlerBase<IOgRepaintEvent>
