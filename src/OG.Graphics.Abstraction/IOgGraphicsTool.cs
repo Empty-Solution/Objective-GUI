@@ -1,7 +1,6 @@
-﻿using DK.Scoping.Extensions;
-using OG.Graphics.Abstraction.Contexts;
+﻿using OG.Graphics.Abstraction.Contexts;
 namespace OG.Graphics.Abstraction;
 public interface IOgGraphicsTool
 {
-    DkScopeContext Repaint(IOgRepaintContext context);
+    bool Repaint(IOgRepaintContext context);
 }

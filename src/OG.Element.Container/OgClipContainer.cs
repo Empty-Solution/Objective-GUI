@@ -10,6 +10,7 @@ public class OgClipContainer<TElement>(IOgEventProvider eventProvider) : OgScope
     protected override DkScopeContext Scope(IOgRepaintEvent reason, OgRectangle rectangle)
     {
         m_Context.RepaintRect = rectangle;
-        return reason.GraphicsTool.Repaint(m_Context);
+        reason.GraphicsTool.Repaint(m_Context);
+        return m_Context.Scope;
     }
 }
