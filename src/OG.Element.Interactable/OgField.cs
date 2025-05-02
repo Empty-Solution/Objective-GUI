@@ -1,4 +1,7 @@
-﻿using OG.Element.Control.Focusable;
+﻿using DK.Property.Abstraction;
+using DK.Property.Abstraction.Generic;
+using OG.DataTypes.Font;
+using OG.Element.Control.Focusable;
 using OG.Element.Interactable.Abstraction;
 using OG.Element.Visual.Abstraction;
 using OG.Event;
@@ -6,10 +9,11 @@ using OG.Event.Abstraction;
 using OG.Graphics.Abstraction.Contexts;
 using OG.TextController.Abstraction;
 namespace OG.Element.Interactable;
-public abstract class OgField<TElement> : OgFocusableControl<TElement, string>, IOgField<TElement> where TElement : IOgText
+public class OgField<TElement> : OgFocusableControl<TElement, string>, IOgField<TElement> where TElement : IOgText
 {
     private readonly IOgTextController    m_Controller;
     private          OgTextRepaintContext m_Context;
+    public IDkProperty<OgFont> Font { get; set; }
     protected OgField(IOgEventProvider eventProvider, IOgTextController controller) : base(eventProvider)
     {
         m_Controller = controller;
@@ -21,7 +25,7 @@ public abstract class OgField<TElement> : OgFocusableControl<TElement, string>, 
         if(!IsFocused) return true;
         if(UpdateTextIfNeeded(m_Controller.HandleKeyEvent(Value!.Get(), reason), reason)) return true;
         char chr = reason.Character;
-        return HasCharacter(chr) && UpdateTextIfNeeded(m_Controller.HandleCharacter(Value!.Get(), chr), reason);
+        return Font.Get().HasCharacter(chr) && UpdateTextIfNeeded(m_Controller.HandleCharacter(Value!.Get(), chr), reason);
     }
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
@@ -56,7 +60,6 @@ public abstract class OgField<TElement> : OgFocusableControl<TElement, string>, 
         reason.Consume();
         return true;
     }
-    protected abstract bool HasCharacter(char chr);
     public bool HandleRepaint(IOgTextRepaintEvent reason)
     {
         foreach(TElement? element in Elements)

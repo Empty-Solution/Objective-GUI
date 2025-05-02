@@ -1,4 +1,5 @@
 ﻿namespace OG.DataTypes.Font;
-public struct OgFont
+public class OgFont
 {
+    public bool HasCharacter(char character) => true;
 }

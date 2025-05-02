@@ -1,12 +1,12 @@
-﻿using OG.DataTypes.KeyboardModifier;
+﻿using DK.Property.Abstraction.Generic;
+using OG.DataTypes.KeyboardModifier;
 using OG.DataTypes.KeyCode;
 using OG.Event.Abstraction;
 using OG.TextCursorController.Abstraction;
 namespace OG.TextController;
-public abstract class OgTextController(IOgTextCursorController textCursorController, bool multiLine)
-    : OgCharacterTextController(textCursorController, multiLine)
+public class OgTextController(IOgTextCursorController textCursorController, bool multiLine) : OgCharacterTextController(textCursorController, multiLine)
 {
-    protected abstract string SystemCopyBuffer { get; set; }
+    protected IDkProperty<string> SystemCopyBuffer { get; set; }
     public override string HandleKeyEvent(string text, IOgKeyDownEvent reason)
     {
         m_Value = text;
@@ -124,15 +124,15 @@ public abstract class OgTextController(IOgTextCursorController textCursorControl
     protected virtual void Cut()
     {
         if(TextCursorController.CursorPosition.Get() == TextCursorController.SelectionPosition.Get()) return;
-        SystemCopyBuffer = GetSelectedText();
+        SystemCopyBuffer.Set(GetSelectedText());
         DeleteSelectionIfNeeded();
     }
     protected virtual void Copy()
     {
         if(TextCursorController.CursorPosition.Get() == TextCursorController.SelectionPosition.Get()) return;
-        SystemCopyBuffer = GetSelectedText();
+        SystemCopyBuffer.Set(GetSelectedText());
     }
-    protected virtual void Paste() => ReplaceSelection(SystemCopyBuffer);
+    protected virtual void Paste() => ReplaceSelection(SystemCopyBuffer.Get());
     protected virtual string GetSelectedText()
     {
         IOgTextCursorController controller        = TextCursorController;
