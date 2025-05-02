@@ -1,6 +1,6 @@
 ﻿using DK.Matching.Abstraction;
 namespace OG.Event.Abstraction;
-public interface IOgEventHandler<TEvent> : IOgEventHandler
+public interface IOgEventHandler<in TEvent> : IOgEventHandler
 {
     bool Handle(TEvent reason);
 }

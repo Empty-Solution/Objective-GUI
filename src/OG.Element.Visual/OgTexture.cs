@@ -3,6 +3,7 @@ using OG.DataTypes.Sprite;
 using OG.DataTypes.Vector.Float;
 using OG.Element.Visual.Abstraction;
 using OG.Event.Abstraction;
+using OG.Graphics;
 using OG.Graphics.Abstraction;
 namespace OG.Element.Visual;
 public class OgTexture(IOgEventProvider eventProvider) : OgVisualElement<IOgRepaintEvent, bool>(eventProvider), IOgTexture

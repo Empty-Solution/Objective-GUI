@@ -29,7 +29,7 @@ public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) : IOgEventSystem
             m_RepaintEvent.GraphicsTool =   value;
             field                       =   value;
         }
-    }
+    } = graphicsTool;
     public IOgEvent GetCurrent()
     {
         OgUnityEvent current = Parse(UeEvent.current);

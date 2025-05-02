@@ -6,6 +6,7 @@ using OG.DataTypes.TextClipping;
 using OG.Element.Visual.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Abstraction.Handlers;
+using OG.Graphics;
 using OG.Graphics.Abstraction;
 namespace OG.Element.Visual;
 public class OgText(IOgEventProvider eventProvider) : OgVisualElement<IOgTextRepaintEvent, OgTextRepaintContext>(eventProvider), IOgText
