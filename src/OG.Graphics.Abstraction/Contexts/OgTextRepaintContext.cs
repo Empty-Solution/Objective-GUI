@@ -1,9 +1,10 @@
 ﻿using OG.DataTypes.Color;
 using OG.DataTypes.ElementAlignment;
-using OG.DataTypes.Font;
+using OG.DataTypes.Font.Abstraction;
 using OG.DataTypes.FontStyle;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.TextClipping;
+using System.Collections.Generic;
 namespace OG.Graphics.Abstraction.Contexts;
 public class OgTextRepaintContext : IOgRepaintContext
 {
@@ -13,8 +14,8 @@ public class OgTextRepaintContext : IOgRepaintContext
     public EOgFontStyle        FontStyle   { get; set; }
     public EOgElementAlignment Alignment   { get; set; }
     public EOgTextClipping     Clipping    { get; set; }
-    public OgFont              Font        { get; set; }
-    public float[]             CharsSizes  { get; } = [];
+    public IOgFont             Font        { get; set; }
+    public List<float>         CharsSizes  { get; } = [];
     public float               LineHeight  { get; set; }
     public OgRgbaColor         Color       { get; set; }
     public OgRectangle         RepaintRect { get; set; }

@@ -8,10 +8,9 @@
     <ItemGroup>
         <ProjectReference Include="..\OG.DataTypes.Colors\OG.DataTypes.Color.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.FontStyle\OG.DataTypes.FontStyle.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Font\OG.DataTypes.Font.csproj"/>
+        <ProjectReference Include="..\OG.DataTypes.Font.Abstraction\OG.DataTypes.Font.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.Rectangles\OG.DataTypes.Rectangle.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.ScaleMode\OG.DataTypes.ScaleMode.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Sprite\OG.DataTypes.Sprite.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.TextClipping\OG.DataTypes.TextClipping.csproj"/>
     </ItemGroup>
 

@@ -4,7 +4,7 @@
         <ProjectReference Include="..\OG.DataTypes.Colors\OG.DataTypes.Color.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.ElementAlignment\OG.DataTypes.ElementAlignment.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.FontStyle\OG.DataTypes.FontStyle.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Font\OG.DataTypes.Font.csproj"/>
+        <ProjectReference Include="..\OG.DataTypes.Font.Abstraction\OG.DataTypes.Font.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.KeyCode\OG.DataTypes.KeyCode.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.Point\OG.DataTypes.Point.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.Rectangles\OG.DataTypes.Rectangle.csproj"/>

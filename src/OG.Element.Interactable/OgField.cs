@@ -1,5 +1,5 @@
 ﻿using DK.Property.Abstraction.Generic;
-using OG.DataTypes.Font;
+using OG.DataTypes.Font.Abstraction;
 using OG.Element.Control.Focusable;
 using OG.Element.Interactable.Abstraction;
 using OG.Element.Visual.Abstraction;
@@ -18,7 +18,7 @@ public class OgField<TElement> : OgFocusableControl<TElement, string>, IOgField<
         eventProvider.RegisterHandler(new OgKeyDownEventHandler(this));
         eventProvider.RegisterHandler(new OgTextRepaintEventHandler(this));
     }
-    public IDkProperty<OgFont> Font { get; set; }
+    public IDkProperty<IOgFont> Font { get; set; }
     public virtual bool HandleKeyDown(IOgKeyDownEvent reason)
     {
         if(!IsFocused) return true;

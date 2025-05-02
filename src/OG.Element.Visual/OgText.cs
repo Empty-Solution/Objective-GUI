@@ -1,7 +1,7 @@
 ﻿using DK.Getting.Abstraction.Generic;
 using OG.DataTypes.Color;
 using OG.DataTypes.ElementAlignment;
-using OG.DataTypes.Font;
+using OG.DataTypes.Font.Abstraction;
 using OG.DataTypes.FontStyle;
 using OG.DataTypes.TextClipping;
 using OG.Element.Visual.Abstraction;
@@ -17,7 +17,7 @@ public class OgText(IOgEventProvider eventProvider) : OgVisualElement<IOgTextRep
     public           IDkGetProvider<EOgFontStyle>?        FontStyle { get; set; }
     public           IDkGetProvider<EOgElementAlignment>? Alignment { get; set; }
     public           IDkGetProvider<EOgTextClipping>?     Clipping  { get; set; }
-    public           IDkGetProvider<OgFont>?              Font      { get; set; }
+    public           IDkGetProvider<IOgFont>?             Font      { get; set; }
     public           IDkGetProvider<OgRgbaColor>?         Color     { get; set; }
     public override OgTextRepaintContext HandleRepaint(IOgTextRepaintEvent reason)
     {
