@@ -6,7 +6,7 @@ public abstract class OgDraggableValueView<TElement, TValue>(IOgEventProvider ev
 {
     protected override bool   BeginControl(IOgMouseKeyDownEvent reason) => base.BeginControl(reason) && UpdateValue(reason);
     protected override bool   EndControl(IOgMouseKeyUpEvent     reason) => base.EndControl(reason) && UpdateValue(reason);
-    public override    bool   OnMouseMove(IOgMouseMoveEvent reason) => base.OnMouseMove(reason) && UpdateValue(reason);
+    public override    bool   OnMouseMove(IOgMouseMoveEvent     reason) => base.OnMouseMove(reason) && UpdateValue(reason);
     protected abstract TValue CalculateValue(IOgMouseEvent      reason, TValue value);
     private bool UpdateValue(IOgMouseEvent reason)
     {

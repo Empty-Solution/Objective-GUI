@@ -1,7 +1,6 @@
 ﻿using DK.DataTypes.Abstraction;
 using OG.DataTypes.Point;
 using OG.DataTypes.Rectangle;
-using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.Interactable.Abstraction;
 using OG.Element.View;

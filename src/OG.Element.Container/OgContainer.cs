@@ -1,8 +1,5 @@
 ﻿using DK.Getting.Abstraction.Generic;
-using DK.Matching.Abstraction;
-using OG.DataTypes.Point;
 using OG.DataTypes.Rectangle;
-using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Event;
@@ -31,14 +28,20 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEleme
         if(m_Elements.Remove(element)) return;
         throw new InvalidOperationException();
     }
+    bool IOgElementEventHandler<IOgEvent>.     HandleEvent(IOgEvent      reason) => ProcElementsForward(reason);
+    bool IOgElementEventHandler<IOgInputEvent>.HandleEvent(IOgInputEvent reason) => ProcElementsBackward(reason);
     protected bool ProcElementsForward(IOgEvent reason)
     {
-        for(int i = 0; i < m_Elements.Count; i++) if(ProcElement(reason, m_Elements[i])) return true;
+        for(int i = 0; i < m_Elements.Count; i++)
+            if(ProcElement(reason, m_Elements[i]))
+                return true;
         return false;
     }
     protected bool ProcElementsBackward(IOgInputEvent reason)
     {
-        for(int i = m_Elements.Count - 1; i >= 0; i--) if(ProcElement(reason, m_Elements[i])) return true;
+        for(int i = m_Elements.Count - 1; i >= 0; i--)
+            if(ProcElement(reason, m_Elements[i]))
+                return true;
         return false;
     }
     public bool HandleMouse(IOgMouseEvent reason)
@@ -53,6 +56,4 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEleme
         return isActive is null || isActive.Get();
     }
     private bool ProcElement(IOgEvent reason, TElement element) => ShouldProcElement(element) && element.Proc(reason) && reason.IsConsumed;
-    bool IOgElementEventHandler<IOgEvent>.HandleEvent(IOgEvent reason) => ProcElementsForward(reason);
-    bool IOgElementEventHandler<IOgInputEvent>.HandleEvent(IOgInputEvent reason) => ProcElementsBackward(reason);
 }

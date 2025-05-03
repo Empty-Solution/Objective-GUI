@@ -16,8 +16,10 @@ public class OgLayoutContainer<TElement> : OgContainer<TElement>, IOgElementEven
     bool IOgElementEventHandler<IOgLayoutEvent>.HandleEvent(IOgLayoutEvent reason)
     {
         OgRectangle rect = Rectangle!.Get();
-        foreach(IOgLayoutTool<TElement> tool in m_LayoutTools) 
-        foreach(TElement element in Elements) if(!ShouldProcElement(element)) tool.ProcessElement(element, rect);
+        foreach(IOgLayoutTool<TElement> tool in m_LayoutTools)
+        foreach(TElement element in Elements)
+            if(!ShouldProcElement(element))
+                tool.ProcessElement(element, rect);
         return true;
     }
 }

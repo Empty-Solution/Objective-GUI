@@ -14,7 +14,7 @@ public class OgVector<TElement>(IOgEventProvider eventProvider) : OgDraggableVal
     protected override OgVector2 CalculateValue(IOgMouseEvent reason, OgVector2 value)
     {
         OgRectangle rect          = Rectangle!.Get();
-        OgPoint   mousePosition = reason.LocalMousePosition;
+        OgPoint     mousePosition = reason.LocalMousePosition;
         OgVector2   min           = Range!.Min;
         OgVector2   max           = Range.Max;
         value.X = (int)Lerp(min.X, max.X, InverseLerp(rect.X, rect.YMax, mousePosition.X));

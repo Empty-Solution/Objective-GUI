@@ -7,7 +7,7 @@ public abstract class OgScrollableView<TElement, TValue> : OgValueView<TElement,
 {
     protected OgScrollableView(IOgEventProvider eventProvider) : base(eventProvider) =>
         eventProvider.RegisterHandler(new OgEventHandler<IOgMouseScrollEvent>(this));
+    bool IOgElementEventHandler<IOgMouseScrollEvent>.HandleEvent(IOgMouseScrollEvent reason) => !ProcElementsBackward(reason) && OnMouseScroll(reason);
     public virtual     bool                          OnMouseScroll(IOgMouseScrollEvent reason) => !IsHovered || OnHoverMouseScroll(reason);
     protected abstract bool                          OnHoverMouseScroll(IOgMouseScrollEvent reason);
-    bool IOgElementEventHandler<IOgMouseScrollEvent>.HandleEvent(IOgMouseScrollEvent reason) => !ProcElementsBackward(reason) && OnMouseScroll(reason);
 }

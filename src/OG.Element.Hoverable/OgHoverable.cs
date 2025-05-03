@@ -7,7 +7,8 @@ namespace OG.Element.Hoverable;
 public class OgHoverable<TElement> : OgContainer<TElement>, IOgHoverable<TElement>, IOgElementEventHandler<IOgMouseMoveEvent> where TElement : IOgElement
 {
     public OgHoverable(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgEventHandler<IOgMouseMoveEvent>(this));
-    public bool IsHovered { get; private set; }
+    bool IOgElementEventHandler<IOgMouseMoveEvent>.HandleEvent(IOgMouseMoveEvent reason) => !ProcElementsBackward(reason) && OnMouseMove(reason);
+    public bool                                    IsHovered { get; private set; }
     public virtual bool OnMouseMove(IOgMouseMoveEvent reason)
     {
         bool containsMouse = Rectangle!.Get().Contains(reason.LocalMousePosition);
@@ -15,5 +16,4 @@ public class OgHoverable<TElement> : OgContainer<TElement>, IOgHoverable<TElemen
         IsHovered = containsMouse;
         return true;
     }
-    bool IOgElementEventHandler<IOgMouseMoveEvent>.HandleEvent(IOgMouseMoveEvent reason) => !ProcElementsBackward(reason) && OnMouseMove(reason);
 }
