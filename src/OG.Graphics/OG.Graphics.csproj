@@ -2,7 +2,7 @@
     <ItemGroup>
         <ProjectReference Include="..\OG.DataTypes.FontStyle\OG.DataTypes.FontStyle.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.Font.Abstraction\OG.DataTypes.Font.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Alignment\OG.DataTypes.Alignment.csproj" />
+        <ProjectReference Include="..\OG.DataTypes.Alignment\OG.DataTypes.Alignment.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.TextClipping\OG.DataTypes.TextClipping.csproj"/>
         <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj"/>
     </ItemGroup>

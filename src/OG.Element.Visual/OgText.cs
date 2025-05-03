@@ -10,15 +10,15 @@ using OG.Graphics.Abstraction.Contexts;
 namespace OG.Element.Visual;
 public class OgText(IOgEventProvider eventProvider) : OgVisualElement<IOgTextRepaintEvent, OgTextRepaintContext>(eventProvider), IOgText
 {
-    private readonly OgTextRepaintContext                 m_Context = new();
-    public           IDkGetProvider<int>?                 FontSize  { get; set; }
-    public           IDkGetProvider<string>?              Text      { get; set; }
-    public           IDkGetProvider<bool>?                WordWrap  { get; set; }
-    public           IDkGetProvider<EOgFontStyle>?        FontStyle { get; set; }
-    public           IDkGetProvider<EOgAlignment>? Alignment { get; set; }
-    public           IDkGetProvider<EOgTextClipping>?     Clipping  { get; set; }
-    public           IDkGetProvider<IOgFont>?             Font      { get; set; }
-    public           IDkGetProvider<OgRgbaColor>?         Color     { get; set; }
+    private readonly OgTextRepaintContext             m_Context = new();
+    public           IDkGetProvider<int>?             FontSize  { get; set; }
+    public           IDkGetProvider<string>?          Text      { get; set; }
+    public           IDkGetProvider<bool>?            WordWrap  { get; set; }
+    public           IDkGetProvider<EOgFontStyle>?    FontStyle { get; set; }
+    public           IDkGetProvider<EOgAlignment>?    Alignment { get; set; }
+    public           IDkGetProvider<EOgTextClipping>? Clipping  { get; set; }
+    public           IDkGetProvider<IOgFont>?         Font      { get; set; }
+    public           IDkGetProvider<OgRgbaColor>?     Color     { get; set; }
     public override OgTextRepaintContext HandleRepaint(IOgTextRepaintEvent reason)
     {
         m_Context.Color     = Color?.Get() ?? new(1, 1, 1, 1);

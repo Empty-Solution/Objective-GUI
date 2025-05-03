@@ -9,13 +9,13 @@ using OG.Event.Abstraction;
 namespace OG.Element;
 public class OgElement(IOgEventProvider eventProvider) : IOgElement
 {
-    public IDkGetProvider<OgSize>?        RelativeSize { get; set; }
-    public IDkGetProvider<string>?        Name         { get; set; }
-    public IDkGetProvider<bool>?          IsActive     { get; set; }
-    public IDkFieldProvider<OgRectangle>? Rectangle    { get; set; }
-    public IDkGetProvider<OgQuaternionF>? Rotation     { get; set; }
-    public IDkGetProvider<OgScaleF>?      Scale        { get; set; }
-    public bool Proc(IOgEvent reason) => ShouldProc(reason) && InternalProc(reason);
-    protected virtual bool InternalProc(IOgEvent reason) => eventProvider.Invoke(reason);
-    protected virtual bool ShouldProc(IOgEvent reason) => !reason.IsConsumed && Rectangle is not null;
+    public            IDkGetProvider<OgSize>?        RelativeSize                  { get; set; }
+    public            IDkGetProvider<string>?        Name                          { get; set; }
+    public            IDkGetProvider<bool>?          IsActive                      { get; set; }
+    public            IDkFieldProvider<OgRectangle>? Rectangle                     { get; set; }
+    public            IDkGetProvider<OgQuaternionF>? Rotation                      { get; set; }
+    public            IDkGetProvider<OgScaleF>?      Scale                         { get; set; }
+    public            bool                           Proc(IOgEvent         reason) => ShouldProc(reason) && InternalProc(reason);
+    protected virtual bool                           InternalProc(IOgEvent reason) => eventProvider.Invoke(reason);
+    protected virtual bool                           ShouldProc(IOgEvent   reason) => !reason.IsConsumed && Rectangle is not null;
 }

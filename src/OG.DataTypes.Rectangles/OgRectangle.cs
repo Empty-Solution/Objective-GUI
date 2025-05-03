@@ -5,8 +5,7 @@ namespace OG.DataTypes.Rectangle;
 public struct OgRectangle(int x, int y, int width, int height)
 {
     public OgRectangle(OgVector2 position, OgSize size) : this(position.X, position.Y, size.Width, size.Height)
-    {
-    }
+    { }
     public          int X      { get; set; } = x;
     public          int Y      { get; set; } = y;
     public          int Width  { get; set; } = width;
@@ -23,26 +22,22 @@ public struct OgRectangle(int x, int y, int width, int height)
         get => new(Width, Height);
         set => (X, Y) = (value.Width, value.Height);
     }
-    public readonly bool Contains(OgVector2 position) => position.X >= X && position.X < XMax && position.Y >= Y && position.Y < YMax;
+    public readonly bool Contains(OgVector2 position) => (position.X >= X) && (position.X < XMax) && (position.Y >= Y) && (position.Y < YMax);
     public OgRectangle Align(EOgAlignment alignment, OgRectangle parentRect)
     {
         int x = alignment switch
         {
-            EOgAlignment.UPPER_LEFT or EOgAlignment.MIDDLE_LEFT or EOgAlignment.LOWER_LEFT => parentRect.X,
-            EOgAlignment.UPPER_CENTER or EOgAlignment.MIDDLE_CENTER or EOgAlignment.LOWER_CENTER =>
-                parentRect.X + ((parentRect.Width - Width) / 2),
-            EOgAlignment.UPPER_RIGHT or EOgAlignment.MIDDLE_RIGHT or EOgAlignment.LOWER_RIGHT =>
-                parentRect.X + parentRect.Width - Width,
-            _ => parentRect.X
+            EOgAlignment.UPPER_LEFT or EOgAlignment.MIDDLE_LEFT or EOgAlignment.LOWER_LEFT       => parentRect.X,
+            EOgAlignment.UPPER_CENTER or EOgAlignment.MIDDLE_CENTER or EOgAlignment.LOWER_CENTER => parentRect.X + ((parentRect.Width - Width) / 2),
+            EOgAlignment.UPPER_RIGHT or EOgAlignment.MIDDLE_RIGHT or EOgAlignment.LOWER_RIGHT    => (parentRect.X + parentRect.Width) - Width,
+            _                                                                                    => parentRect.X
         };
         int y = alignment switch
         {
-            EOgAlignment.UPPER_LEFT or EOgAlignment.UPPER_CENTER or EOgAlignment.UPPER_RIGHT => parentRect.Y,
-            EOgAlignment.MIDDLE_LEFT or EOgAlignment.MIDDLE_CENTER or EOgAlignment.MIDDLE_RIGHT =>
-                parentRect.Y + ((parentRect.Height - Height) / 2),
-            EOgAlignment.LOWER_LEFT or EOgAlignment.LOWER_CENTER or EOgAlignment.LOWER_RIGHT =>
-                parentRect.Y + parentRect.Height - Height,
-            _ => parentRect.Y
+            EOgAlignment.UPPER_LEFT or EOgAlignment.UPPER_CENTER or EOgAlignment.UPPER_RIGHT    => parentRect.Y,
+            EOgAlignment.MIDDLE_LEFT or EOgAlignment.MIDDLE_CENTER or EOgAlignment.MIDDLE_RIGHT => parentRect.Y + ((parentRect.Height - Height) / 2),
+            EOgAlignment.LOWER_LEFT or EOgAlignment.LOWER_CENTER or EOgAlignment.LOWER_RIGHT    => (parentRect.Y + parentRect.Height) - Height,
+            _                                                                                   => parentRect.Y
         };
         return new(x, y, Width, Height);
     }

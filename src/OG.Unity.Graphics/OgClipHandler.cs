@@ -18,8 +18,8 @@ public class OgClipHandler : OgBaseRepaintHandler<OgClipRepaintContext>
     }
     private class OgClipScope : DkScope
     {
-        public OgRectangle ClipRect { get; set; }
-        protected override void OnOpened() => GUI.BeginClip(ClipRect.ToUnity());
-        protected override void OnClosed() => GUI.EndClip();
+        public             OgRectangle ClipRect   { get; set; }
+        protected override void        OnOpened() => GUI.BeginClip(ClipRect.ToUnity());
+        protected override void        OnClosed() => GUI.EndClip();
     }
 }

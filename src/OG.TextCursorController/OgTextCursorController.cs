@@ -41,7 +41,7 @@ public class OgTextCursorController(IDkProperty<int> cursorPosition, IDkProperty
         if(string.IsNullOrEmpty(text)) return 0;
         string[] lines     = text.Split('\n');
         int      lineIndex = (int)Math.Floor((context.RepaintRect.Y - position.Y) / context.LineHeight);
-        if(lineIndex < 0 || lineIndex >= lines.Length) return 0;
+        if((lineIndex < 0) || (lineIndex >= lines.Length)) return 0;
         string currentLineText = lines[lineIndex];
         float  xOffset         = position.X - context.RepaintRect.X;
         float  currentWidth    = 0f;
@@ -57,7 +57,7 @@ public class OgTextCursorController(IDkProperty<int> cursorPosition, IDkProperty
     }
     private OgVector2 GetCharPositionInString(string text, int characterIndex, OgTextRepaintContext context)
     {
-        if(string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length) return new();
+        if(string.IsNullOrEmpty(text) || (characterIndex < 0) || (characterIndex >= text.Length)) return new();
         float xOffset        = 0f;
         float yOffset        = 0f;
         float realLineHeight = context.LineHeight;

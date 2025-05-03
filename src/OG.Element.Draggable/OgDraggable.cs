@@ -17,6 +17,6 @@ public abstract class OgDraggable<TElement>(IOgEventProvider eventProvider)
         OgRectangle rect  = Rectangle!.Get();
         return Rectangle.Set(Move(rect, delta)) && PerformDrag(reason, rect, delta);
     }
-    protected abstract bool PerformDrag(IOgMouseMoveEvent reason, OgRectangle rect, OgVector2 delta);
-    protected virtual OgRectangle Move(OgRectangle rect, OgVector2 delta) => new(rect.X + delta.X, rect.Y + delta.Y, rect.Width, rect.Height);
+    protected abstract bool        PerformDrag(IOgMouseMoveEvent reason, OgRectangle rect, OgVector2 delta);
+    protected virtual  OgRectangle Move(OgRectangle rect, OgVector2 delta) => new(rect.X + delta.X, rect.Y + delta.Y, rect.Width, rect.Height);
 }

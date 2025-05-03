@@ -16,8 +16,8 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
         eventProvider.RegisterHandler(new OgRecallMouseEventHandler<IOgMouseEvent>(this));
         eventProvider.RegisterHandler(new OgRecallEventHandler(this));
     }
-    public IEnumerable<TElement> Elements => m_Elements;
-    public bool Contains(TElement element) => m_Elements.Contains(element);
+    public IEnumerable<TElement> Elements                   => m_Elements;
+    public bool                  Contains(TElement element) => m_Elements.Contains(element);
     public void Add(TElement element)
     {
         if(Contains(element)) throw new InvalidOperationException();
@@ -69,7 +69,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement> where TEl
     }
     public class OgRecallEventHandler(IOgContainer<TElement> owner) : IOgEventHandler
     {
-        public bool CanHandle(IOgEvent value) => true;
-        public bool Handle(IOgEvent reason) => owner.ProcElementsForward(reason);
+        public bool CanHandle(IOgEvent value)  => true;
+        public bool Handle(IOgEvent    reason) => owner.ProcElementsForward(reason);
     }
 }

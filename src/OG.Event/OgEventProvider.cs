@@ -11,7 +11,7 @@ public class OgEventProvider : IOgEventProvider
         m_MatchList = [];
         m_Provider  = new(m_MatchList);
     }
-    public void RegisterHandler(IOgEventHandler handler) => m_MatchList.Add(handler);
+    public void RegisterHandler(IOgEventHandler   handler) => m_MatchList.Add(handler);
     public void UnregisterHandler(IOgEventHandler handler) => m_MatchList.Remove(handler);
-    public bool Invoke(IOgEvent reason) => m_Provider.TryGetMatcher(reason, out IOgEventHandler handler) && handler.Handle(reason);
+    public bool Invoke(IOgEvent                   reason)  => m_Provider.TryGetMatcher(reason, out IOgEventHandler handler) && handler.Handle(reason);
 }

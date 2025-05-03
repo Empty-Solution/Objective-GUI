@@ -14,5 +14,5 @@ public interface IOgElement
     IDkGetProvider<OgQuaternionF>? Rotation     { get; }
     IDkGetProvider<OgScaleF>?      Scale        { get; }
     IDkGetProvider<OgSize>?        RelativeSize { get; }
-    bool Proc(IOgEvent reason);
+    bool                           Proc(IOgEvent reason);
 }

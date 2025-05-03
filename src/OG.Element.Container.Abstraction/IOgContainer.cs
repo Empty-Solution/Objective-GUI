@@ -6,9 +6,10 @@ namespace OG.Element.Container.Abstraction;
 public interface IOgContainer<TElement> : IOgElement, IOgMouseEventHandler where TElement : IOgElement
 {
     IEnumerable<TElement> Elements { get; }
-    bool Contains(TElement element);
-    void Add(TElement element);
-    void Remove(TElement element);
+    bool                  Contains(TElement element);
+    void                  Add(TElement      element);
+    void                  Remove(TElement   element);
+    // TODO: Invalid Methods Signature.
     bool ProcElementsBackward(IOgInputEvent reason);
-    bool ProcElementsForward(IOgEvent reason);
+    bool ProcElementsForward(IOgEvent       reason);
 }

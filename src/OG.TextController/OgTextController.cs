@@ -14,54 +14,30 @@ public class OgTextController(IOgTextCursorController textCursorController, bool
         switch(keyCode)
         {
             case EOgKeyCode.DELETE:
-                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL))
-                    DeleteWord(true);
-                else
-                    DeleteChar(true);
-                break;
+                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL)) DeleteWord(true);
+                else DeleteChar(true);
+            break;
             case EOgKeyCode.BACKSPACE:
-                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL))
-                    DeleteWord(false);
-                else
-                    DeleteChar(false);
-                break;
+                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL)) DeleteWord(false);
+                else DeleteChar(false);
+            break;
             case EOgKeyCode.LEFT_ARROW:
-                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL))
-                    MoveCursorWord(reason);
-                else
-                    MoveCursorChar(reason);
-                break;
+                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL)) MoveCursorWord(reason);
+                else MoveCursorChar(reason);
+            break;
             case EOgKeyCode.RIGHT_ARROW:
-                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL))
-                    MoveCursorWord(reason, true);
-                else
-                    MoveCursorChar(reason, true);
-                break;
-            case EOgKeyCode.TAB:
-                HandleTab();
-                break;
+                if(reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL)) MoveCursorWord(reason, true);
+                else MoveCursorChar(reason, true);
+            break;
+            case EOgKeyCode.TAB: HandleTab(); break;
             case EOgKeyCode.RETURN:
-            case EOgKeyCode.KEYPAD_ENTER:
-                HandleReturn();
-                break;
-            case EOgKeyCode.HOME:
-                MoveCursorToStart(reason);
-                break;
-            case EOgKeyCode.END:
-                MoveCursorToEnd(reason);
-                break;
-            case EOgKeyCode.A when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL):
-                SelectAll();
-                break;
-            case EOgKeyCode.X when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL):
-                Cut();
-                break;
-            case EOgKeyCode.C when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL):
-                Copy();
-                break;
-            case EOgKeyCode.V when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL):
-                Paste();
-                break;
+            case EOgKeyCode.KEYPAD_ENTER: HandleReturn(); break;
+            case EOgKeyCode.HOME:                                                        MoveCursorToStart(reason); break;
+            case EOgKeyCode.END:                                                         MoveCursorToEnd(reason); break;
+            case EOgKeyCode.A when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL): SelectAll(); break;
+            case EOgKeyCode.X when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL): Cut(); break;
+            case EOgKeyCode.C when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL): Copy(); break;
+            case EOgKeyCode.V when reason.Modifier.HasFlag(EOgKeyboardModifier.CONTROL): Paste(); break;
         }
         return m_Value;
     }
@@ -105,12 +81,12 @@ public class OgTextController(IOgTextCursorController textCursorController, bool
     protected virtual void MoveCursorWord(IOgKeyboardEvent reason, bool forward = false)
     {
         int wordBound = forward ? m_Value.IndexOf(' ', TextCursorController.CursorPosition.Get() + 1)
-                            : m_Value.LastIndexOf(' ', Max(0, TextCursorController.CursorPosition.Get() - 1));
+            : m_Value.LastIndexOf(' ', Max(0, TextCursorController.CursorPosition.Get() - 1));
         wordBound = Clamp(wordBound, 0, m_Value.Length);
         MoveCursorTo(wordBound, reason);
     }
     protected virtual void MoveCursorToStart(IOgKeyboardEvent reason) => MoveCursorTo(0, reason);
-    protected virtual void MoveCursorToEnd(IOgKeyboardEvent reason) => MoveCursorTo(m_Value.Length, reason);
+    protected virtual void MoveCursorToEnd(IOgKeyboardEvent   reason) => MoveCursorTo(m_Value.Length, reason);
     protected virtual void MoveCursorTo(int position, IOgKeyboardEvent reason)
     {
         if(reason.Modifier.HasFlag(EOgKeyboardModifier.SHIFT)) _ = TextCursorController.CursorPosition.Set(position);
@@ -150,7 +126,7 @@ public class OgTextController(IOgTextCursorController textCursorController, bool
         TextCursorController.ChangeCursorAndSelectionPositions(from);
     }
     protected static int Clamp(int value, int min, int max) => value < min ? min : value > max ? max : value;
-    protected static int Min(int value, int min) => value < min ? min : value;
-    protected static int Max(int value, int max) => value > max ? max : value;
-    protected static int Abs(int value) => value < 0 ? -value : value;
+    protected static int Min(int   value, int min) => value < min ? min : value;
+    protected static int Max(int   value, int max) => value > max ? max : value;
+    protected static int Abs(int   value) => value < 0 ? -value : value;
 }

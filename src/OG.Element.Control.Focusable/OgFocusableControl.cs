@@ -15,6 +15,6 @@ public abstract class OgFocusableControl<TElement, TValue>(IOgEventProvider even
         IsFocused = IsHovered;
         return IsFocused ? OnFocus(reason) : OnLostFocus(reason);
     }
-    protected abstract bool OnFocus(IOgMouseKeyUpEvent reason);
+    protected abstract bool OnFocus(IOgMouseKeyUpEvent     reason);
     protected abstract bool OnLostFocus(IOgMouseKeyUpEvent reason);
 }

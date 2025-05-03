@@ -26,20 +26,19 @@ public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) : IOgEventSystem
         current.Reset();
         return current;
     }
-    private OgUnityEvent Parse(UeEvent source) =>
-        source.type switch
-        {
-            EventType.Repaint     => m_RepaintEvent ??= new(graphicsTool),
-            EventType.Layout      => m_LayoutEvent ??= new(),
-            EventType.Used        => m_UsedEvent ??= new(),
-            EventType.MouseDown   => ParseMouseDownEvent(source),
-            EventType.MouseUp     => ParseMouseUpEvent(source),
-            EventType.MouseDrag   => ParseMouseMoveEvent(source),
-            EventType.ScrollWheel => ParseMouseScrollEvent(source),
-            EventType.KeyDown     => ParseKeyDownEvent(source),
-            EventType.KeyUp       => ParseKeyUpEvent(source),
-            _                     => throw new NotImplementedException()
-        };
+    private OgUnityEvent Parse(UeEvent source) => source.type switch
+    {
+        EventType.Repaint     => m_RepaintEvent ??= new(graphicsTool),
+        EventType.Layout      => m_LayoutEvent ??= new(),
+        EventType.Used        => m_UsedEvent ??= new(),
+        EventType.MouseDown   => ParseMouseDownEvent(source),
+        EventType.MouseUp     => ParseMouseUpEvent(source),
+        EventType.MouseDrag   => ParseMouseMoveEvent(source),
+        EventType.ScrollWheel => ParseMouseScrollEvent(source),
+        EventType.KeyDown     => ParseKeyDownEvent(source),
+        EventType.KeyUp       => ParseKeyUpEvent(source),
+        _                     => throw new NotImplementedException()
+    };
     private OgUnityMouseMoveEvent ParseMouseMoveEvent(UeEvent source)
     {
         OgUnityMouseMoveEvent target = m_MouseMoveEvent ??= new();
@@ -93,6 +92,6 @@ public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) : IOgEventSystem
         target.Modifier |= source.control ? EOgKeyboardModifier.CONTROL : EOgKeyboardModifier.NONE;
         target.Modifier |= source.shift ? EOgKeyboardModifier.SHIFT : EOgKeyboardModifier.NONE;
     }
-    private static void FillMouseEvent(UeEvent source, OgUnityMouseEvent target) => target.LocalMousePosition = ParseVector(source.mousePosition);
-    private static OgVector2 ParseVector(Vector2 source) => new((int)source.x, (int)source.y);
+    private static void      FillMouseEvent(UeEvent source, OgUnityMouseEvent target) => target.LocalMousePosition = ParseVector(source.mousePosition);
+    private static OgVector2 ParseVector(Vector2    source) => new((int)source.x, (int)source.y);
 }

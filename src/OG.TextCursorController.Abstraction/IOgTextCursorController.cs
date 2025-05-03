@@ -6,8 +6,8 @@ public interface IOgTextCursorController
 {
     IDkProperty<int> CursorPosition    { get; }
     IDkProperty<int> SelectionPosition { get; }
-    void ChangeCursorPosition(string text, IOgMouseEvent reason, OgTextRepaintContext context);
-    void ChangeSelectionPosition(string text, IOgMouseEvent reason, OgTextRepaintContext context);
-    void ChangeCursorAndSelectionPositions(string text, IOgMouseEvent reason, OgTextRepaintContext context);
-    void ChangeCursorAndSelectionPositions(int position);
+    void             ChangeCursorPosition(string              text, IOgMouseEvent reason, OgTextRepaintContext context);
+    void             ChangeSelectionPosition(string           text, IOgMouseEvent reason, OgTextRepaintContext context);
+    void             ChangeCursorAndSelectionPositions(string text, IOgMouseEvent reason, OgTextRepaintContext context);
+    void             ChangeCursorAndSelectionPositions(int    position);
 }

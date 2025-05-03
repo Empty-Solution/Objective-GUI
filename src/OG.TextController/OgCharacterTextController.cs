@@ -4,13 +4,13 @@ using OG.TextCursorController.Abstraction;
 namespace OG.TextController;
 public abstract class OgCharacterTextController(IOgTextCursorController textCursorController, bool multiLine) : IOgTextController
 {
-    protected string                  m_Value = string.Empty;
-    public    bool                    Multiline            { get; set; } = multiLine;
-    public    IOgTextCursorController TextCursorController { get; }      = textCursorController;
-    public abstract string HandleKeyEvent(string text, IOgKeyDownEvent reason);
+    protected       string                  m_Value = string.Empty;
+    public          bool                    Multiline            { get; set; } = multiLine;
+    public          IOgTextCursorController TextCursorController { get; }      = textCursorController;
+    public abstract string                  HandleKeyEvent(string text, IOgKeyDownEvent reason);
     public string HandleCharacter(string text, char character)
     {
-        if(character == '\n' && !Multiline) return text;
+        if((character == '\n') && !Multiline) return text;
         m_Value = text;
         ReplaceSelection(character.ToString());
         return m_Value;
@@ -24,10 +24,8 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
     }
     protected virtual void DeleteSelection(int cursorPosition, int selectionPosition)
     {
-        if(cursorPosition < selectionPosition)
-            DeleteSelectionByCursor(cursorPosition, selectionPosition);
-        else
-            DeleteSelectionBySelection(cursorPosition, selectionPosition);
+        if(cursorPosition < selectionPosition) DeleteSelectionByCursor(cursorPosition, selectionPosition);
+        else DeleteSelectionBySelection(cursorPosition, selectionPosition);
     }
     protected virtual void DeleteSelectionBySelection(int cursorPosition, int selectionPosition)
     {

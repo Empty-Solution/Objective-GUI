@@ -7,7 +7,7 @@ public abstract class OgScrollableDragView<TElement, TValue> : OgDraggableValueV
 {
     protected OgScrollableDragView(IOgEventProvider eventProvider) : base(eventProvider) =>
         eventProvider.RegisterHandler(new OgMouseScrollEventHandler(this));
-    public virtual bool HandleMouseScroll(IOgMouseScrollEvent reason) => !IsHovered || OnHoverMouseScroll(reason);
+    public virtual     bool HandleMouseScroll(IOgMouseScrollEvent  reason) => !IsHovered || OnHoverMouseScroll(reason);
     protected abstract bool OnHoverMouseScroll(IOgMouseScrollEvent reason);
     public class OgMouseScrollEventHandler(OgScrollableDragView<TElement, TValue> owner) : OgRecallMouseEventHandler<IOgMouseScrollEvent>(owner)
     {
