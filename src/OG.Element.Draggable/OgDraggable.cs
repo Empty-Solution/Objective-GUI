@@ -9,9 +9,9 @@ public abstract class OgDraggable<TElement>(IOgEventProvider eventProvider)
     : OgControl<TElement>(eventProvider), IOgDraggable<TElement> where TElement : IOgElement
 {
     public bool IsDragging => IsControlling;
-    public override bool HandleMouseMove(IOgMouseMoveEvent reason)
+    public override bool OnMouseMove(IOgMouseMoveEvent reason)
     {
-        if(!base.HandleMouseMove(reason)) return false;
+        if(!base.OnMouseMove(reason)) return false;
         if(!IsDragging) return false;
         OgVector2   delta = reason.MouseMoveDelta;
         OgRectangle rect  = Rectangle!.Get();

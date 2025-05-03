@@ -1,4 +1,6 @@
-﻿using DK.Getting.Abstraction.Generic;
+﻿// TODO: Переработать элемент. Поведение было привязано к системе ивентов
+/*
+using DK.Getting.Abstraction.Generic;
 using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
@@ -17,3 +19,4 @@ public abstract class OgVisualElement<TEvent, TReturn> : OgElement, IOgVisual<TE
         }
     }
 }
+*/

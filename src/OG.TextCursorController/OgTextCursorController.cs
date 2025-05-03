@@ -1,4 +1,5 @@
 ﻿using DK.Property.Abstraction.Generic;
+using OG.DataTypes.Point;
 using OG.DataTypes.Vector;
 using OG.Event.Abstraction;
 using OG.Graphics.Abstraction.Contexts;
@@ -34,9 +35,9 @@ public class OgTextCursorController(IDkProperty<int> cursorPosition, IDkProperty
         ChangeSelectionPosition(text, reason, context);
         ChangeCursorPosition(text, reason, context);
     }
-    private int GetCharacterIndex(string text, OgVector2 mousePosition, OgTextRepaintContext context) =>
+    private int GetCharacterIndex(string text, OgPoint mousePosition, OgTextRepaintContext context) =>
         GetCharacterIndexByVector2(text, mousePosition, context);
-    private int GetCharacterIndexByVector2(string text, OgVector2 position, OgTextRepaintContext context)
+    private int GetCharacterIndexByVector2(string text, OgPoint position, OgTextRepaintContext context)
     {
         if(string.IsNullOrEmpty(text)) return 0;
         string[] lines     = text.Split('\n');

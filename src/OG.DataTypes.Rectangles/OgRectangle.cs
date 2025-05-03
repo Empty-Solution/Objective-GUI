@@ -1,4 +1,5 @@
 ﻿using OG.DataTypes.Alignment;
+using OG.DataTypes.Point;
 using OG.DataTypes.Size;
 using OG.DataTypes.Vector;
 namespace OG.DataTypes.Rectangle;
@@ -22,7 +23,7 @@ public struct OgRectangle(int x, int y, int width, int height)
         get => new(Width, Height);
         set => (X, Y) = (value.Width, value.Height);
     }
-    public readonly bool Contains(OgVector2 position) => (position.X >= X) && (position.X < XMax) && (position.Y >= Y) && (position.Y < YMax);
+    public readonly bool Contains(OgPoint position) => (position.X >= X) && (position.X < XMax) && (position.Y >= Y) && (position.Y < YMax);
     public OgRectangle Align(EOgAlignment alignment, OgRectangle parentRect)
     {
         int x = alignment switch

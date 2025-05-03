@@ -1,4 +1,5 @@
 ﻿using DK.DataTypes.Abstraction;
+using OG.DataTypes.Point;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
@@ -13,7 +14,7 @@ public class OgVector<TElement>(IOgEventProvider eventProvider) : OgDraggableVal
     protected override OgVector2 CalculateValue(IOgMouseEvent reason, OgVector2 value)
     {
         OgRectangle rect          = Rectangle!.Get();
-        OgVector2   mousePosition = reason.LocalMousePosition;
+        OgPoint   mousePosition = reason.LocalMousePosition;
         OgVector2   min           = Range!.Min;
         OgVector2   max           = Range.Max;
         value.X = (int)Lerp(min.X, max.X, InverseLerp(rect.X, rect.YMax, mousePosition.X));

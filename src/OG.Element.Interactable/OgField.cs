@@ -1,31 +1,27 @@
 ﻿using DK.Property.Abstraction.Generic;
 using OG.DataTypes.Font.Abstraction;
+using OG.Element.Abstraction;
 using OG.Element.Control.Focusable;
 using OG.Element.Interactable.Abstraction;
-using OG.Element.Visual.Abstraction;
+// TODO: Нужно избегать подобной зависимости!
+// using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Abstraction;
 using OG.Graphics.Abstraction.Contexts;
 using OG.TextController.Abstraction;
 namespace OG.Element.Interactable;
-public class OgField<TElement> : OgFocusableControl<TElement, string>, IOgField<TElement> where TElement : IOgText
+public class OgField<TElement> : OgFocusableControl<TElement, string>, IOgField<TElement>, IOgElementEventHandler<IOgKeyDownEvent>, IOgElementEventHandler<IOgRepaintEvent> where TElement : IOgElement
 {
     private readonly IOgTextController    m_Controller;
-    private          OgTextRepaintContext m_Context;
+    // TODO: Функция может работь не корректно!
+    private readonly OgTextRepaintContext m_Context = new();
     protected OgField(IOgEventProvider eventProvider, IOgTextController controller) : base(eventProvider)
     {
         m_Controller = controller;
-        eventProvider.RegisterHandler(new OgKeyDownEventHandler(this));
-        eventProvider.RegisterHandler(new OgTextRepaintEventHandler(this));
+        eventProvider.RegisterHandler(new OgEventHandler<IOgKeyDownEvent>(this));
+        eventProvider.RegisterHandler(new OgEventHandler<IOgRepaintEvent>(this));
     }
-    public IDkProperty<IOgFont> Font { get; set; }
-    public virtual bool HandleKeyDown(IOgKeyDownEvent reason)
-    {
-        if(!IsFocused) return true;
-        if(UpdateTextIfNeeded(m_Controller.HandleKeyEvent(Value!.Get(), reason), reason)) return true;
-        char chr = reason.Character;
-        return Font.Get().HasCharacter(chr) && UpdateTextIfNeeded(m_Controller.HandleCharacter(Value!.Get(), chr), reason);
-    }
+    public IDkProperty<IOgFont>? Font { get; set; }
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
         m_Controller.TextCursorController.ChangeCursorAndSelectionPositions(Value!.Get(), reason, m_Context);
@@ -59,19 +55,27 @@ public class OgField<TElement> : OgFocusableControl<TElement, string>, IOgField<
         reason.Consume();
         return true;
     }
+    // TODO: Тут был абсолютный бред. Пришлось закоментировать. ИСПОЛЬЗОВАТЬ: IOgElementEventHandler<IOgRepaintEvent>.HandleEvent
+    /*
     public bool HandleRepaint(IOgTextRepaintEvent reason)
     {
+
         foreach(TElement? element in Elements)
             if(ShouldProcElement(element))
                 m_Context = element.HandleRepaint(reason);
         return true;
+        
+        
+        return true;
     }
-    public class OgKeyDownEventHandler(IOgField<TElement> owner) : OgRecallInputEventHandler<IOgKeyDownEvent>(owner)
+    */
+    bool IOgElementEventHandler<IOgKeyDownEvent>.HandleEvent(IOgKeyDownEvent reason)
     {
-        public override bool Handle(IOgKeyDownEvent reason) => owner.HandleKeyDown(reason);
+        if(!IsFocused) return false;
+        if(UpdateTextIfNeeded(m_Controller.HandleKeyEvent(Value!.Get(), reason), reason)) return false;
+        char chr = reason.Character;
+        return Font.Get().HasCharacter(chr) && UpdateTextIfNeeded(m_Controller.HandleCharacter(Value!.Get(), chr), reason);
     }
-    public class OgTextRepaintEventHandler(OgField<TElement> owner) : OgEventHandlerBase<IOgTextRepaintEvent>
-    {
-        public override bool Handle(IOgTextRepaintEvent reason) => owner.HandleRepaint(reason);
-    }
+    // TODO: Реализовать устаревший метод HandleRepaint.
+    bool IOgElementEventHandler<IOgRepaintEvent>.HandleEvent(IOgRepaintEvent reason) => true;
 }

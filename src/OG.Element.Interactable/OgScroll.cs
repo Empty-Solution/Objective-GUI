@@ -5,13 +5,15 @@ using OG.Element.Interactable.Abstraction;
 using OG.Element.View;
 using OG.Event;
 using OG.Event.Abstraction;
+using OG.Graphics.Abstraction;
 using OG.Graphics.Abstraction.Contexts;
 namespace OG.Element.Interactable;
-public class OgScroll<TElement> : OgScrollableView<TElement, OgVector2>, IOgScroll<TElement> where TElement : IOgElement
+public class OgScroll<TElement> : OgScrollableView<TElement, OgVector2>, IOgScroll<TElement>, IOgElementEventHandler<IOgRepaintEvent>
+    where TElement : IOgElement
 {
     private readonly OgClipRepaintContext m_Context = new();
-    public OgScroll(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgRepaintEventHandler(this));
-    public bool HandleRepaint(IOgRepaintEvent reason)
+    public OgScroll(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgEventHandler<IOgRepaintEvent>(this));
+    public bool OnRepaint(IOgRepaintEvent reason)
     {
         OgRectangle rect = Rectangle!.Get();
         m_Context.RepaintRect = new(rect.Position + Value!.Get(), rect.Size);
@@ -23,12 +25,5 @@ public class OgScroll<TElement> : OgScrollableView<TElement, OgVector2>, IOgScro
         reason.Consume();
         return ChangeValue(Value!.Get() + reason.ScrollDelta);
     }
-    public class OgRepaintEventHandler(IOgScroll<TElement> owner) : OgEventHandlerBase<IOgRepaintEvent>
-    {
-        public override bool Handle(IOgRepaintEvent reason)
-        {
-            owner.HandleRepaint(reason);
-            return true;
-        }
-    }
+    bool IOgElementEventHandler<IOgRepaintEvent>.HandleEvent(IOgRepaintEvent reason) => !ProcElementsForward(reason) && OnRepaint(reason);
 }

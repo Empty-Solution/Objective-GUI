@@ -2,6 +2,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\OG.DataTypes.Alignment\OG.DataTypes.Alignment.csproj"/>
+        <ProjectReference Include="..\OG.DataTypes.Point\OG.DataTypes.Point.csproj" />
         <ProjectReference Include="..\OG.DataTypes.Size\OG.DataTypes.Size.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.Vectors\OG.DataTypes.Vector.csproj"/>
     </ItemGroup>

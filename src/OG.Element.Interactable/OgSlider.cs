@@ -1,4 +1,5 @@
 ﻿using DK.DataTypes.Abstraction;
+using OG.DataTypes.Point;
 using OG.DataTypes.Rectangle;
 using OG.DataTypes.Vector;
 using OG.Element.Abstraction;
@@ -13,7 +14,7 @@ public abstract class OgSlider<TElement>(IOgEventProvider eventProvider)
     public float                    ScrollStep { get; set; }
     protected override float CalculateValue(IOgMouseEvent reason, float value) =>
         Lerp(Range!.Min, Range.Max, InverseLerp(Rectangle!.Get(), reason.LocalMousePosition));
-    protected abstract float InverseLerp(OgRectangle rect, OgVector2 mousePosition);
+    protected abstract float InverseLerp(OgRectangle rect, OgPoint mousePosition);
     protected override bool OnHoverMouseScroll(IOgMouseScrollEvent reason)
     {
         reason.Consume();

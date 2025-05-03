@@ -1,6 +1,6 @@
 ﻿using OG.Event.Abstraction;
 namespace OG.Event;
-public abstract class OgEventHandlerBase<TEvent> : IOgEventHandler<TEvent> where TEvent : class
+public abstract class OgEventHandlerBase<TEvent> : IOgEventHandler<TEvent> where TEvent : class, IOgEvent
 {
     public          bool CanHandle(IOgEvent value) => value is TEvent;
     public abstract bool Handle(TEvent      reason);

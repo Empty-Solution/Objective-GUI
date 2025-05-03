@@ -1,4 +1,6 @@
-﻿using DK.Getting.Abstraction.Generic;
+﻿// TODO: Переработать элемент. Поведение было привязано к системе ивентов
+/*
+using DK.Getting.Abstraction.Generic;
 using OG.DataTypes.Color;
 using OG.DataTypes.ScaleMode;
 using OG.DataTypes.Vector.Float;
@@ -26,3 +28,4 @@ public class OgImage(IOgEventProvider eventProvider) : OgVisualElement<IOgRepain
         return true;
     }
 }
+*/

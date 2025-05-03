@@ -1,6 +1,6 @@
-﻿namespace OG.Event;
-public class OgEventHandler<TEvent>(OgEventHandler<TEvent>.OgHandler handler) : OgEventHandlerBase<TEvent> where TEvent : class
+﻿using OG.Event.Abstraction;
+namespace OG.Event;
+public class OgEventHandler<TEvent>(IOgElementEventHandler<TEvent> handler) : OgEventHandlerBase<TEvent> where TEvent : class, IOgEvent
 {
-    public delegate bool OgHandler(TEvent reason);
-    public override bool Handle(TEvent    reason) => handler(reason);
+    public override bool Handle(TEvent reason) => handler.HandleEvent(reason);
 }

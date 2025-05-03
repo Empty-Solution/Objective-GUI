@@ -1,4 +1,6 @@
-﻿using DK.Getting.Abstraction.Generic;
+﻿// TODO: Переработать элемент. Поведение было привязано к системе ивентов
+/*
+using DK.Getting.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Abstraction.Handlers;
@@ -7,3 +9,4 @@ public interface IOgVisual<in TEvent, out TReturn> : IOgElement, IOgRepaintEvent
 {
     IDkGetProvider<int>? ZOrder { get; }
 }
+*/

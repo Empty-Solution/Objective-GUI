@@ -8,9 +8,9 @@ public abstract class OgFocusableControl<TElement, TValue>(IOgEventProvider even
 {
     public bool IsFocused          { get; private set; }
     public bool IsFocusControlling => IsFocused && IsControlling;
-    public override bool HandleMouseUp(IOgMouseKeyUpEvent reason)
+    public override bool OnMouseUp(IOgMouseKeyUpEvent reason)
     {
-        if(!base.HandleMouseUp(reason)) return false;
+        if(!base.OnMouseUp(reason)) return false;
         if(IsFocused == IsHovered) return true;
         IsFocused = IsHovered;
         return IsFocused ? OnFocus(reason) : OnLostFocus(reason);

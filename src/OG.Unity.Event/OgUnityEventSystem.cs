@@ -1,53 +1,48 @@
-﻿using OG.DataTypes.KeyboardModifier;
+﻿using DK.Matching.Abstraction;
+using OG.DataTypes.KeyboardModifier;
 using OG.DataTypes.KeyCode;
+using OG.DataTypes.Point;
 using OG.DataTypes.Vector;
 using OG.Event.Abstraction;
 using OG.Graphics.Abstraction;
 using OG.Unity.Event.Prefab;
 using System;
 using UnityEngine;
-using UeEvent = UnityEngine.Event;
+using UnityEngine.Events;
 namespace OG.Unity.Event;
-public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) : IOgEventSystem
+public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) // : IOgEventSystem
 {
+    /*
     private OgUnityKeyDownEvent?      m_KeyDownEvent;
     private OgUnityKeyUpEvent?        m_KeyUpEvent;
-    private OgVector2                 m_LastMousePosition;
     private OgUnityLayoutEvent?       m_LayoutEvent;
     private OgUnityMouseKeyDownEvent? m_MouseKeyDownEvent;
     private OgUnityMouseKeyUpEvent?   m_MouseKeyUpEvent;
     private OgUnityMouseMoveEvent?    m_MouseMoveEvent;
     private OgUnityMouseScrollEvent?  m_MouseScrollEvent;
     private OgUnityRepaintEvent?      m_RepaintEvent;
-    private OgUnityEvent?             m_UsedEvent;
     public IOgEvent GetCurrent()
     {
-        OgUnityEvent current = Parse(UeEvent.current);
+        UeEvent      source  = UeEvent.current;
+        OgUnityEvent current = Parse(source);
         current.Reset();
+        current.Fill(source);
         return current;
     }
     private OgUnityEvent Parse(UeEvent source) => source.type switch
     {
         EventType.Repaint     => m_RepaintEvent ??= new(graphicsTool),
         EventType.Layout      => m_LayoutEvent ??= new(),
-        EventType.Used        => m_UsedEvent ??= new(),
         EventType.MouseDown   => ParseMouseDownEvent(source),
         EventType.MouseUp     => ParseMouseUpEvent(source),
-        EventType.MouseDrag   => ParseMouseMoveEvent(source),
+        EventType.MouseDrag   => new OgUnityMouseMoveEvent(),
         EventType.ScrollWheel => ParseMouseScrollEvent(source),
         EventType.KeyDown     => ParseKeyDownEvent(source),
         EventType.KeyUp       => ParseKeyUpEvent(source),
-        _                     => throw new NotImplementedException()
+        _                     => throw new InvalidOperationException()
     };
-    private OgUnityMouseMoveEvent ParseMouseMoveEvent(UeEvent source)
-    {
-        OgUnityMouseMoveEvent target = m_MouseMoveEvent ??= new();
-        FillMouseEvent(source, target);
-        OgVector2 mousePosition = ParseVector(source.mousePosition);
-        target.MouseMoveDelta = m_LastMousePosition - mousePosition;
-        m_LastMousePosition   = mousePosition;
-        return target;
-    }
+    // Legacy Code.
+    /*
     private OgUnityMouseScrollEvent ParseMouseScrollEvent(UeEvent source)
     {
         OgUnityMouseScrollEvent target = m_MouseScrollEvent ??= new();
@@ -92,6 +87,20 @@ public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) : IOgEventSystem
         target.Modifier |= source.control ? EOgKeyboardModifier.CONTROL : EOgKeyboardModifier.NONE;
         target.Modifier |= source.shift ? EOgKeyboardModifier.SHIFT : EOgKeyboardModifier.NONE;
     }
-    private static void      FillMouseEvent(UeEvent source, OgUnityMouseEvent target) => target.LocalMousePosition = ParseVector(source.mousePosition);
-    private static OgVector2 ParseVector(Vector2    source) => new((int)source.x, (int)source.y);
+    */
+}
+
+public abstract class OgUnityEventPipe<TEvent> : IOgEventPipe<UnityEngine.Event>, IDkMatcher<UnityEngine.Event> where TEvent : class, IOgEvent
+{
+    private            TEvent?  m_Event;
+    public abstract    bool     CanHandle(UnityEngine.Event                  value);
+    public             IOgEvent GetEventFromSource(UnityEngine.Event         source) => InternalGetEventFromSource(source);
+    protected virtual  TEvent   InternalGetEventFromSource(UnityEngine.Event source) => m_Event ??= Create();
+    protected abstract TEvent   Create();
+}
+
+public abstract class OgUnityFillEventPipe<TEvent> : OgUnityEventPipe<TEvent> where TEvent : class, IOgEvent
+{
+    protected override    TEvent InternalGetEventFromSource(UnityEngine.Event source) => FillBySource(base.InternalGetEventFromSource(source), source);
+    protected abstract TEvent   FillBySource(TEvent target, UnityEngine.Event source);
 }
