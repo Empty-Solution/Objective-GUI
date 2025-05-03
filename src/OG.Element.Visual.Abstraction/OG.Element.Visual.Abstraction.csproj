@@ -3,7 +3,7 @@
     <ItemGroup>
         <ProjectReference Include="..\OG.DataTypes.Colors\OG.DataTypes.Color.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.FontStyle\OG.DataTypes.FontStyle.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.ElementAlignment\OG.DataTypes.ElementAlignment.csproj"/>
+        <ProjectReference Include="..\OG.DataTypes.Alignment\OG.DataTypes.Alignment.csproj" />
         <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
     </ItemGroup>
 

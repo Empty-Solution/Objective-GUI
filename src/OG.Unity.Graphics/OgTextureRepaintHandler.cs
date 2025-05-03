@@ -7,6 +7,7 @@ public class OgTextureRepaintHandler : OgBaseRepaintHandler<OgTextureRepaintCont
 {
     protected override bool Handle(OgTextureRepaintContext reason)
     {
+        // TODO: Texture2D.whiteTexture to reason bitmap.
         GUI.DrawTexture(reason.RepaintRect.ToUnity(), Texture2D.whiteTexture, (ScaleMode)reason.ScaleMode, reason.AlphaBlend,
                         reason.ImageAspect, reason.Color.ToUnity(), reason.Widths.ToUnity(), reason.Radiuses.ToUnity());
         return true;

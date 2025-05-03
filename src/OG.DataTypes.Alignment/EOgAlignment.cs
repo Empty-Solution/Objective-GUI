@@ -1,5 +1,5 @@
-﻿namespace OG.DataTypes.ElementAlignment;
-public enum EOgElementAlignment
+﻿namespace OG.DataTypes.Alignment;
+public enum EOgAlignment
 {
     UPPER_LEFT,
     UPPER_CENTER,

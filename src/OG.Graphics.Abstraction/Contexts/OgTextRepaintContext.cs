@@ -1,5 +1,5 @@
-﻿using OG.DataTypes.Color;
-using OG.DataTypes.ElementAlignment;
+﻿using OG.DataTypes.Alignment;
+using OG.DataTypes.Color;
 using OG.DataTypes.Font.Abstraction;
 using OG.DataTypes.FontStyle;
 using OG.DataTypes.Rectangle;
@@ -12,7 +12,7 @@ public class OgTextRepaintContext : IOgRepaintContext
     public string              Text        { get; set; }
     public bool                WordWrap    { get; set; }
     public EOgFontStyle        FontStyle   { get; set; }
-    public EOgElementAlignment Alignment   { get; set; }
+    public EOgAlignment Alignment   { get; set; }
     public EOgTextClipping     Clipping    { get; set; }
     public IOgFont             Font        { get; set; }
     public List<float>         CharsSizes  { get; } = [];

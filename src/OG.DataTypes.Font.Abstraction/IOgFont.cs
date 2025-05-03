@@ -8,5 +8,6 @@ public interface IOgFont
     void Prepare(string text, int fontSize, EOgFontStyle fontStyle);
     bool HasCharacter(char character);
     float GetCharacterAdvance(char character);
-    void Push();
+    // TODO: Switch To Cache.
+    // void Push();
 }

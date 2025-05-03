@@ -12,6 +12,7 @@ public class OgTextRepaintHandler : OgBaseRepaintHandler<OgTextRepaintContext>
     private static readonly GUIContent tempContent = new();
     protected override bool Handle(OgTextRepaintContext reason)
     {
+        // TODO: Style font to reason font.
         tempContent.text           = reason.Text;
         tempStyle.fontSize         = reason.FontSize;
         tempStyle.normal.textColor = reason.Color.ToUnity();

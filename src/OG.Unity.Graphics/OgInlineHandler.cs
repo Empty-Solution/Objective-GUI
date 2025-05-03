@@ -8,7 +8,7 @@ using UnityEngine;
 namespace OG.Unity.Graphics;
 public class OgInlineHandler : OgBaseRepaintHandler<OgClipRepaintContext>
 {
-    private OgInlineScope m_Scope;
+    private OgInlineScope? m_Scope;
     protected override bool Handle(OgClipRepaintContext reason)
     {
         m_Scope            ??= new();

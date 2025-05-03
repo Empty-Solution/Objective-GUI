@@ -1,5 +1,6 @@
 ﻿namespace OG.DataTypes.Texture;
 public interface IOgTexture
 {
-    void Push();
+    // TODO: Switch To Cache.
+    // void Push();
 }
