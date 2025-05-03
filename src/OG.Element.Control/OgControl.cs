@@ -12,15 +12,15 @@ public abstract class OgControl<TElement> : OgHoverable<TElement>, IOgControl<TE
         eventProvider.RegisterHandler(new OgEventHandler<IOgMouseKeyUpEvent>(this));
         eventProvider.RegisterHandler(new OgEventHandler<IOgMouseKeyDownEvent>(this));
     }
-    public            bool IsControlling                             { get; private set; }
-    public virtual    bool OnMouseDown(IOgMouseKeyDownEvent  reason) => IsControlling || !IsHovered || BeginControl(reason);
-    public virtual    bool OnMouseUp(IOgMouseKeyUpEvent      reason) => !IsControlling || !IsHovered || EndControl(reason);
-    protected virtual bool BeginControl(IOgMouseKeyDownEvent reason) => IsControlling = true;
+    public bool                                       IsControlling                             { get; private set; }
+    bool IOgElementEventHandler<IOgMouseKeyDownEvent>.HandleEvent(IOgMouseKeyDownEvent  reason) => !ProcElementsBackward(reason) && OnMouseDown(reason);
+    bool IOgElementEventHandler<IOgMouseKeyUpEvent>.  HandleEvent(IOgMouseKeyUpEvent    reason) => !ProcElementsBackward(reason) && OnMouseUp(reason);
+    public virtual    bool                            OnMouseDown(IOgMouseKeyDownEvent  reason) => IsControlling || !IsHovered || BeginControl(reason);
+    public virtual    bool                            OnMouseUp(IOgMouseKeyUpEvent      reason) => !IsControlling || !IsHovered || EndControl(reason);
+    protected virtual bool                            BeginControl(IOgMouseKeyDownEvent reason) => IsControlling = true;
     protected virtual bool EndControl(IOgMouseKeyUpEvent reason)
     {
         IsControlling = false;
         return true;
     }
-    bool IOgElementEventHandler<IOgMouseKeyUpEvent>.  HandleEvent(IOgMouseKeyUpEvent   reason) => !ProcElementsBackward(reason) && OnMouseUp(reason);
-    bool IOgElementEventHandler<IOgMouseKeyDownEvent>.HandleEvent(IOgMouseKeyDownEvent reason) => !ProcElementsBackward(reason) && OnMouseDown(reason);
 }

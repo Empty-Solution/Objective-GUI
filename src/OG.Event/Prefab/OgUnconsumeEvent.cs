@@ -1,6 +1,6 @@
 ﻿using System;
-namespace OG.Unity.Event.Prefab;
-public abstract class OgUnityUnconsumeEvent : OgUnityEvent
+namespace OG.Event.Prefab;
+public abstract class OgUnconsumeEvent : OgEvent
 {
     public override void Consume() => throw new InvalidOperationException();
 }

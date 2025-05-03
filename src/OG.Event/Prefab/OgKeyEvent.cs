@@ -1,6 +1,6 @@
 ﻿using OG.DataTypes.KeyCode;
-namespace OG.Unity.Event.Prefab;
-public class OgUnityKeyEvent : OgUnityKeyboardEvent
+namespace OG.Event.Prefab;
+public class OgKeyEvent : OgKeyboardEvent
 {
     public EOgKeyCode KeyCode   { get; set; }
     public char       Character { get; set; }

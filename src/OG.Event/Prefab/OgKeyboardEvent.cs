@@ -1,7 +1,7 @@
 ﻿using OG.DataTypes.KeyboardModifier;
 using OG.Event.Abstraction;
-namespace OG.Unity.Event.Prefab;
-public class OgUnityKeyboardEvent : OgUnityInputEvent, IOgKeyboardEvent
+namespace OG.Event.Prefab;
+public class OgKeyboardEvent : OgInputEvent, IOgKeyboardEvent
 {
     public EOgKeyboardModifier Modifier { get; set; }
 }

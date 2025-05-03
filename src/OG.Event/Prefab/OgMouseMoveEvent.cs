@@ -1,8 +1,8 @@
 ﻿using OG.DataTypes.Point;
 using OG.DataTypes.Vector;
 using OG.Event.Abstraction;
-namespace OG.Unity.Event.Prefab;
-public class OgUnityMouseMoveEvent : OgUnityMouseEvent, IOgMouseMoveEvent
+namespace OG.Event.Prefab;
+public class OgMouseMoveEvent : OgMouseEvent, IOgMouseMoveEvent
 {
     private OgPoint   m_LastMousePosition = new();
     public  OgVector2 MouseMoveDelta { get; private set; }
