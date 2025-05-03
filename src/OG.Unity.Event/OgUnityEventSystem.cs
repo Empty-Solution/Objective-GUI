@@ -1,14 +1,6 @@
-﻿using DK.Matching.Abstraction;
-using OG.DataTypes.KeyboardModifier;
-using OG.DataTypes.KeyCode;
-using OG.DataTypes.Point;
-using OG.DataTypes.Vector;
-using OG.Event.Abstraction;
+﻿using OG.Event.Abstraction;
 using OG.Graphics.Abstraction;
 // using OG.Unity.Event.Prefab;
-using System;
-using UnityEngine;
-using UnityEngine.Events;
 namespace OG.Unity.Event;
 public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) // : IOgEventSystem
 {
@@ -89,7 +81,6 @@ public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) // : IOgEventSyste
     }
     */
 }
-
 public abstract class OgUnityEventPipe<TEvent> : IOgEventPipe<UnityEngine.Event> where TEvent : class, IOgEvent
 {
     private            TEvent?  m_Event;
@@ -98,9 +89,8 @@ public abstract class OgUnityEventPipe<TEvent> : IOgEventPipe<UnityEngine.Event>
     protected virtual  TEvent   InternalGetEventFromSource(UnityEngine.Event source) => m_Event ??= Create();
     protected abstract TEvent   Create();
 }
-
 public abstract class OgUnityFillEventPipe<TEvent> : OgUnityEventPipe<TEvent> where TEvent : class, IOgEvent
 {
-    protected override    TEvent InternalGetEventFromSource(UnityEngine.Event source) => FillBySource(base.InternalGetEventFromSource(source), source);
-    protected abstract TEvent   FillBySource(TEvent target, UnityEngine.Event source);
+    protected override TEvent InternalGetEventFromSource(UnityEngine.Event source) => FillBySource(base.InternalGetEventFromSource(source), source);
+    protected abstract TEvent FillBySource(TEvent                          target, UnityEngine.Event source);
 }

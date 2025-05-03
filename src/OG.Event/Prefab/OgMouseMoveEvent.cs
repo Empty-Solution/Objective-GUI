@@ -4,7 +4,7 @@ using OG.Event.Abstraction;
 namespace OG.Event.Prefab;
 public class OgMouseMoveEvent : OgMouseEvent, IOgMouseMoveEvent
 {
-    private OgPoint   m_LastMousePosition = new();
+    private OgPoint   m_LastMousePosition;
     public  OgVector2 MouseMoveDelta { get; private set; }
     protected override void OnMousePositionChanged(OgPoint mousePosition)
     {

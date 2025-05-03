@@ -3,5 +3,5 @@ using OG.Graphics.Abstraction;
 namespace OG.Event.Prefab;
 public class OgRepaintEvent(IOgGraphicsTool graphicsTool) : OgUnconsumeEvent, IOgRepaintEvent
 {
-    public          IOgGraphicsTool GraphicsTool                   { get; set; } = graphicsTool;
+    public IOgGraphicsTool GraphicsTool { get; set; } = graphicsTool;
 }

@@ -7,7 +7,7 @@
     <ItemGroup>
         <ProjectReference Include="..\OG.DataTypes.KeyboardModifier\OG.DataTypes.KeyboardModifier.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.KeyCode\OG.DataTypes.KeyCode.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Point\OG.DataTypes.Point.csproj" />
+        <ProjectReference Include="..\OG.DataTypes.Point\OG.DataTypes.Point.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.Vectors\OG.DataTypes.Vector.csproj"/>
         <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Graphics\OG.Graphics.csproj"/>
