@@ -90,7 +90,7 @@ public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) // : IOgEventSyste
     */
 }
 
-public abstract class OgUnityEventPipe<TEvent> : IOgEventPipe<UnityEngine.Event>, IDkMatcher<UnityEngine.Event> where TEvent : class, IOgEvent
+public abstract class OgUnityEventPipe<TEvent> : IOgEventPipe<UnityEngine.Event> where TEvent : class, IOgEvent
 {
     private            TEvent?  m_Event;
     public abstract    bool     CanHandle(UnityEngine.Event                  value);
