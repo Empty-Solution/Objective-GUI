@@ -2,6 +2,7 @@
 using OG.Graphics.Abstraction;
 // using OG.Unity.Event.Prefab;
 namespace OG.Unity.Event;
+// TODO: Реализовать новую систему управления ивентами.
 public class OgUnityEventSystem(IOgGraphicsTool graphicsTool) // : IOgEventSystem
 {
     /*
