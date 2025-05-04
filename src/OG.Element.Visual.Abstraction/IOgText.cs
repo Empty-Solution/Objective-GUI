@@ -1,8 +1,6 @@
-﻿// TODO: Переработать элемент. Поведение было привязано к системе ивентов
-/*
-using OG.Event.Abstraction;
-using OG.Event.Abstraction.Handlers;
-using OG.Graphics.Abstraction.Contexts;
+﻿using DK.Getting.Abstraction.Generic;
 namespace OG.Element.Visual.Abstraction;
-public interface IOgText : IOgVisual<IOgTextRepaintEvent, OgTextRepaintContext>;
-*/
+public interface IOgText : IOgVisual
+{
+    IDkGetProvider<string>? Text { get; set; }
+}

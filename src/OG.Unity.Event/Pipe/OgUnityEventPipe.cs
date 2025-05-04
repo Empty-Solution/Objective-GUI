@@ -1,5 +1,5 @@
 ﻿using OG.Event.Abstraction;
-namespace OG.Unity.Event;
+namespace OG.Unity.Event.Pipe;
 public abstract class OgUnityEventPipe<TEvent> : IOgEventPipe<UnityEngine.Event> where TEvent : class, IOgEvent
 {
     private           TEvent?  m_Event;

@@ -1,6 +1,9 @@
-﻿// TODO: Переработать элемент. Поведение было привязано к системе ивентов.
-/*
+﻿using DK.Getting.Abstraction.Generic;
+using OG.DataTypes.Texture;
 using OG.Event.Abstraction;
 namespace OG.Element.Visual.Abstraction;
-public interface IOgImage : IOgVisual<IOgRepaintEvent, bool>;
-*/
+public interface IOgImage : IOgVisual
+{
+    IDkGetProvider<IOgTexture>? Texture { get; set; }
+}
+
