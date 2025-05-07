@@ -7,23 +7,22 @@ using UnityEngine;
 namespace OG.Element;
 public class OgElement : IOgElement, IOgEventCallback<IOgLayoutEvent>
 {
-    private           Rect                    m_LayoutRect;
-    private readonly  string                  m_Name;
-    private readonly  IOgEventHandlerProvider m_Provider;
+    private readonly IOgEventHandlerProvider m_Provider;
+    private          Rect                    m_LayoutRect;
     public OgElement(string name, IOgEventHandlerProvider provider)
     {
-        m_Name     = name;
+        Name       = name;
         m_Provider = provider;
         provider.Register(this);
     }
-    public            bool                    IsActive                              { get; set; }
-    public            string                  Name                                  => m_Name;
-    public            bool                    ProcessEvent(IOgEvent reason)         => IsActive && m_Provider.Handler(reason);
-    protected         Rect                    GetLayoutRect()                       => m_LayoutRect;
-    protected virtual Rect                    OnLayout(IOgLayout layout, Rect rect) => rect;
+    public bool   IsActive { get; set; }
+    public string Name     { get; }
+    public bool ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handler(reason);
     bool IOgEventCallback<IOgLayoutEvent>.Invoke(IOgLayoutEvent reason)
     {
         m_LayoutRect = OnLayout(reason.Layout, m_LayoutRect);
         return false;
     }
+    protected Rect GetLayoutRect() => m_LayoutRect;
+    protected virtual Rect OnLayout(IOgLayout layout, Rect rect) => rect;
 }

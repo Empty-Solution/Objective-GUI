@@ -21,6 +21,6 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
         reason.Graphics.Render(m_RenderContext);
         return false;
     }
-    protected             bool MarkDirty() => m_IsDirty = true;
+    protected bool MarkDirty() => m_IsDirty = true;
     protected abstract void OnBuildContext(OgGraphicsContext context);
 }

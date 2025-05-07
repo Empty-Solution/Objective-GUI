@@ -28,7 +28,7 @@ public class OgQuadElement(string name, Texture texture, IOgEventHandlerProvider
     {
         SetupContext(context);
         context.Texture = Texture;
-        context.Rect = GetLayoutRect();
+        context.Rect    = GetLayoutRect();
     }
     protected virtual void SetupContext(OgGraphicsContext context)
     {
@@ -39,10 +39,10 @@ public class OgQuadElement(string name, Texture texture, IOgEventHandlerProvider
     protected virtual void SetupVertex(OgGraphicsContext context, Color color)
     {
         // Quad
-        context.AddVertex(new(new(0, 0, 0), color, new(0, 1, 0)));
-        context.AddVertex(new(new(1, 0, 0), color, new(1, 1, 0)));
-        context.AddVertex(new(new(1, 1, 0), color, new(1, 0, 0)));
-        context.AddVertex(new(new(0, 1, 0), color, new(0, 0, 0)));
+        context.AddVertex(new(new(0, 0, 0), color, new(0, 1)));
+        context.AddVertex(new(new(1, 0, 0), color, new(1, 1)));
+        context.AddVertex(new(new(1, 1, 0), color, new(1, 0)));
+        context.AddVertex(new(new(0, 1, 0), color, new(0, 0)));
     }
     protected virtual void SetupIndices(OgGraphicsContext context, int startIndex)
     {

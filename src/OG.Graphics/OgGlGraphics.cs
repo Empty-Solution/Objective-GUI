@@ -1,6 +1,5 @@
 ﻿using OG.Graphics.Abstraction;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 namespace OG.Graphics;
 public class OgGlGraphics(Material material) : IOgGraphics
 {

@@ -2,6 +2,7 @@
 namespace OG.Element.Abstraction;
 public interface IOgElement
 {
-    string Name { get; }
-    bool   ProcessEvent(IOgEvent reason);
+    string Name     { get; }
+    bool   IsActive { get; }
+    bool ProcessEvent(IOgEvent reason);
 }

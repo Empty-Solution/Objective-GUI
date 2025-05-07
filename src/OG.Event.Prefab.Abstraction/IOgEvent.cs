@@ -4,6 +4,6 @@ public interface IOgEvent
 {
     float Time      { get; }
     float DeltaTime { get; }
-    void  Enter(Rect rect);
-    void  Exit();
+    void Enter(Rect rect);
+    void Exit();
 }

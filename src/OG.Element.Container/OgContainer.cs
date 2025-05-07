@@ -14,6 +14,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         provider.Register<IOgInputEvent>(this);
         provider.Register<IOgEvent>(this);
     }
+    public IEnumerable<TElement> Elements => m_Elements;
     public bool Contains(TElement element) => m_Elements.Contains(element);
     public bool Add(TElement element)
     {
@@ -27,6 +28,20 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         if(index == -1) return false;
         m_Elements.RemoveAt(index);
         return true;
+    }
+    bool IOgEventCallback<IOgEvent>.Invoke(IOgEvent reason)
+    {
+        reason.Enter(GetLayoutRect());
+        bool isUsed = ProcessElementsEventForward(reason);
+        reason.Exit();
+        return isUsed;
+    }
+    bool IOgEventCallback<IOgInputEvent>.Invoke(IOgInputEvent reason)
+    {
+        reason.Enter(GetLayoutRect());
+        bool isUsed = ProcessElementsEventBackward(reason);
+        reason.Exit();
+        return isUsed;
     }
     protected bool ProcessElementsEventForward(IOgEvent reason)
     {
@@ -45,19 +60,5 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
             return true;
         }
         return false;
-    }
-    bool IOgEventCallback<IOgEvent>.     Invoke(IOgEvent      reason)
-    {
-        reason.Enter(GetLayoutRect());
-        bool isUsed = ProcessElementsEventForward(reason);
-        reason.Exit();
-        return isUsed;
-    }
-    bool IOgEventCallback<IOgInputEvent>.Invoke(IOgInputEvent reason)
-    {
-        reason.Enter(GetLayoutRect());
-        bool isUsed = ProcessElementsEventBackward(reason);
-        reason.Exit();
-        return isUsed;
     }
 }
