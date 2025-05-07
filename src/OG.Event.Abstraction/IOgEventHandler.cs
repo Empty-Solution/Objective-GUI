@@ -1,10 +1,12 @@
 ﻿using DK.Matching.Abstraction;
+using OG.Event.Prefab.Abstraction;
+using System;
 namespace OG.Event.Abstraction;
-public interface IOgEventHandler<in TEvent> : IOgEventHandler where TEvent : class, IOgEvent
+public interface IOgEventHandler<in TEvent> : IOgEventHandler where TEvent : IOgEvent
 {
-    bool Handle(TEvent reason);
+    bool HandleEvent(TEvent reason);
 }
-public interface IOgEventHandler : IDkMatcher<IOgEvent>
+public interface IOgEventHandler : IDkMatcher<Type>
 {
-    bool Handle(IOgEvent reason);
+    bool HandleEvent(IOgEvent reason);
 }

@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="DK.Property.Observing.Abstraction.Generic" Version="1.2.5"/>
+    </ItemGroup>
+
+</Project>

@@ -1,17 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
     <ItemGroup>
-        <PackageReference Include="DK.Matching.Abstraction" Version="1.2.4"/>
-        <PackageReference Include="DK.Scoping.Extensions" Version="1.2.4"/>
+        <PackageReference Include="DK.Matching.Abstraction" Version="1.2.5"/>
+        <PackageReference Include="UnityEngine.CoreModule" Version="2020.3.1"/>
     </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\OG.DataTypes.Colors\OG.DataTypes.Color.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.FontStyle\OG.DataTypes.FontStyle.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Font.Abstraction\OG.DataTypes.Font.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Rectangles\OG.DataTypes.Rectangle.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.ScaleMode\OG.DataTypes.ScaleMode.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.TextClipping\OG.DataTypes.TextClipping.csproj"/>
-    </ItemGroup>
-
 </Project>

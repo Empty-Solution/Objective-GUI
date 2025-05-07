@@ -1,14 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="DK.Getting.Abstraction.Generic" Version="1.2.4"/>
-        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.2.4"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\OG.DataTypes.Quaternion\OG.DataTypes.Quaternion.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Rectangles\OG.DataTypes.Rectangle.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Scale\OG.DataTypes.Scale.csproj"/>
         <ProjectReference Include="..\OG.Event.Abstraction\OG.Event.Abstraction.csproj"/>
     </ItemGroup>
 

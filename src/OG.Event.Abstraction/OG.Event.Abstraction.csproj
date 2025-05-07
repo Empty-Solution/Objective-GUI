@@ -1,16 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
     <ItemGroup>
-        <PackageReference Include="DK.Matching.Abstraction" Version="1.2.4"/>
+        <PackageReference Include="dk.matching.abstraction" Version="1.2.5"/>
     </ItemGroup>
-
     <ItemGroup>
-        <ProjectReference Include="..\OG.DataTypes.KeyboardModifier\OG.DataTypes.KeyboardModifier.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.KeyCode\OG.DataTypes.KeyCode.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Point\OG.DataTypes.Point.csproj"/>
-        <ProjectReference Include="..\OG.DataTypes.Vectors\OG.DataTypes.Vector.csproj"/>
+        <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Graphics\OG.Graphics.csproj"/>
+        <ProjectReference Include="..\OG.Layout.Abstraction\OG.Layout.Abstraction.csproj"/>
     </ItemGroup>
-
 </Project>

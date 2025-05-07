@@ -1,10 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.DataTypes.TextClipping\OG.DataTypes.TextClipping.csproj"/>
         <ProjectReference Include="..\OG.Element.Visual.Abstraction\OG.Element.Visual.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Element\OG.Element.csproj"/>
-        <ProjectReference Include="..\OG.Event\OG.Event.csproj"/>
+        <ProjectReference Include="..\OG.Event.Extensions\OG.Event.Extensions.csproj"/>
+        <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Graphics\OG.Graphics.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="DK.Getting.Abstraction.Generic" Version="1.2.5" />
+        <PackageReference Include="UnityEngine.CoreModule" Version="2020.3.1"/>
     </ItemGroup>
 
 </Project>

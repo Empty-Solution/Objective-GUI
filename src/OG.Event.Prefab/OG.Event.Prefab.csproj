@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="UnityEngine.IMGUIModule" Version="2020.3.1"/>
+    </ItemGroup>
+
+</Project>

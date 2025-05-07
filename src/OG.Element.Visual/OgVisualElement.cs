@@ -1,22 +1,26 @@
-﻿// TODO: Переработать элемент. Поведение было привязано к системе ивентов
-/*
-using DK.Getting.Abstraction.Generic;
-using OG.Element.Visual.Abstraction;
-using OG.Event;
+﻿using OG.Element.Visual.Abstraction;
 using OG.Event.Abstraction;
+using OG.Event.Extensions;
+using OG.Event.Prefab.Abstraction;
+using OG.Graphics;
 namespace OG.Element.Visual;
-public abstract class OgVisualElement<TEvent, TReturn> : OgElement, IOgVisual<TEvent, TReturn> where TEvent : class, IOgRepaintEvent
+public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCallback<IOgRenderEvent>
 {
-    protected OgVisualElement(IOgEventProvider eventProvider) : base(eventProvider) => eventProvider.RegisterHandler(new OgRepaintEventHandler(this));
-    public          IDkGetProvider<int>? ZOrder { get; set; }
-    public abstract TReturn              HandleRepaint(TEvent reason);
-    public class OgRepaintEventHandler(IOgVisual<TEvent, TReturn> owner) : OgEventHandlerBase<TEvent>
+    private bool               m_IsDirty;
+    private OgGraphicsContext? m_RenderContext;
+    protected OgVisualElement(string name, IOgEventHandlerProvider provider) : base(name, provider) => provider.Register<IOgRenderEvent>(this);
+    bool IOgEventCallback<IOgRenderEvent>.Invoke(IOgRenderEvent reason)
     {
-        public override bool Handle(TEvent reason)
+        m_RenderContext ??= new();
+        if(m_IsDirty)
         {
-            owner.HandleRepaint(reason);
-            return true;
+            m_RenderContext.Clear();
+            OnBuildContext(m_RenderContext);
+            m_IsDirty = false;
         }
+        reason.Graphics.Render(m_RenderContext);
+        return false;
     }
+    protected             bool MarkDirty() => m_IsDirty = true;
+    protected abstract void OnBuildContext(OgGraphicsContext context);
 }
-*/

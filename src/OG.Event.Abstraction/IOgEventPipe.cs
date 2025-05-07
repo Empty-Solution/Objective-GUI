@@ -1,6 +1,7 @@
 ﻿using DK.Matching.Abstraction;
+using OG.Event.Prefab.Abstraction;
 namespace OG.Event.Abstraction;
-public interface IOgEventPipe<TSource> : IDkMatcher<TSource>
+public interface IOgEventPipe<TSourceEvent> : IDkMatcher<TSourceEvent> where TSourceEvent : class
 {
-    IOgEvent GetEventFromSource(TSource source);
+    IOgEvent GetEvent(TSourceEvent sourceEvent);
 }

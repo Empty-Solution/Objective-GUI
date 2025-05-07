@@ -1,6 +1,10 @@
 ﻿using OG.Event.Abstraction;
+using OG.Event.Prefab.Abstraction;
+using System;
 namespace OG.Event;
-public class OgEventHandler<TEvent>(IOgElementEventHandler<TEvent> handler) : OgEventHandlerBase<TEvent> where TEvent : class, IOgEvent
+public abstract class OgEventHandler<TEvent> : IOgEventHandler<TEvent> where TEvent : IOgEvent
 {
-    public override bool Handle(TEvent reason) => handler.HandleEvent(reason);
+    public          bool CanHandle(Type       value) => value.IsAssignableFrom(typeof(TEvent));
+    public abstract bool HandleEvent(TEvent   reason);
+    bool IOgEventHandler.HandleEvent(IOgEvent reason) => reason is TEvent castedReason && HandleEvent(castedReason);
 }

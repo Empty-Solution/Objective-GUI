@@ -1,10 +1,8 @@
-using OG.Element.Abstraction;
-using System.Collections.Generic;
+﻿using OG.Element.Abstraction;
 namespace OG.Element.Container.Abstraction;
-public interface IOgContainer<TElement> : IOgElement where TElement : IOgElement
+public interface IOgContainer<in TElement> : IOgElement where TElement : IOgElement
 {
-    IEnumerable<TElement> Elements { get; }
-    bool                  Contains(TElement element);
-    void                  Add(TElement      element);
-    void                  Remove(TElement   element);
+    bool Contains(TElement element);
+    bool Add(TElement      element);
+    bool Remove(TElement   element);
 }

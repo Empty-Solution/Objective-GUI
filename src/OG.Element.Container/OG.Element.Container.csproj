@@ -3,12 +3,8 @@
     <ItemGroup>
         <ProjectReference Include="..\OG.Element.Container.Abstraction\OG.Element.Container.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Element\OG.Element.csproj"/>
-        <ProjectReference Include="..\OG.Event\OG.Event.csproj"/>
-        <ProjectReference Include="..\OG.Layout.Abstraction\OG.Layout.Abstraction.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.2.4"/>
+        <ProjectReference Include="..\OG.Event.Extensions\OG.Event.Extensions.csproj"/>
+        <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj"/>
     </ItemGroup>
 
 </Project>
