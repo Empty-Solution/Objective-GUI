@@ -5,6 +5,5 @@
     <ItemGroup>
         <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Layout.Abstraction\OG.Layout.Abstraction.csproj"/>
     </ItemGroup>
 </Project>

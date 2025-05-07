@@ -3,13 +3,12 @@ using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 using OG.Graphics;
-using UnityEngine;
 namespace OG.Element.Visual;
 public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCallback<IOgRenderEvent>
 {
     private bool               m_IsDirty;
     private OgGraphicsContext? m_RenderContext;
-    protected OgVisualElement(string name, IOgEventHandlerProvider provider) : base(name, provider) => provider.Register<IOgRenderEvent>(this);
+    protected OgVisualElement(string name, IOgEventHandlerProvider provider) : base(name, provider) => provider.Register(this);
     bool IOgEventCallback<IOgRenderEvent>.Invoke(IOgRenderEvent reason)
     {
         m_RenderContext ??= new();

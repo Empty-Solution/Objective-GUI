@@ -38,9 +38,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Element.Visual", "OG.Ele
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Element.Wrapping", "OG.Element.Wrapping\OG.Element.Wrapping.csproj", "{C95B2079-6C44-4B20-BC54-1568FB5175F6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layout", "Layout", "{B40ECF91-5992-4D46-AD0C-1A4CD144725C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transformer", "Transformer", "{B40ECF91-5992-4D46-AD0C-1A4CD144725C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Layout.Abstraction", "OG.Layout.Abstraction\OG.Layout.Abstraction.csproj", "{BDE5E315-878C-47AE-A056-183D520F7599}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Transformer.Abstraction", "OG.Transformer.Abstraction\OG.Transformer.Abstraction.csproj", "{BDE5E315-878C-47AE-A056-183D520F7599}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{2550EF18-354C-4785-A877-1F7F21D1D52A}"
 EndProject
@@ -53,6 +53,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Event.Pipe", "OG.Event.Pipe\OG.Event.Pipe.csproj", "{730247CF-ACC5-45E2-808B-A5CC7FB1C568}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Graphics", "OG.Graphics\OG.Graphics.csproj", "{27CAB1BE-7B3E-409A-B427-3D768862CCC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Transformer", "OG.Transformer\OG.Transformer.csproj", "{E3FF5D4E-0CA2-4FD7-975F-89993EC65A79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +130,10 @@ Global
 		{27CAB1BE-7B3E-409A-B427-3D768862CCC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27CAB1BE-7B3E-409A-B427-3D768862CCC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27CAB1BE-7B3E-409A-B427-3D768862CCC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3FF5D4E-0CA2-4FD7-975F-89993EC65A79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3FF5D4E-0CA2-4FD7-975F-89993EC65A79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3FF5D4E-0CA2-4FD7-975F-89993EC65A79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3FF5D4E-0CA2-4FD7-975F-89993EC65A79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +157,7 @@ Global
 		{AA3EB55F-FBA2-463A-AFD2-7AA1B93834A1} = {65BB5295-1FC7-43AE-B55A-2423A7B00093}
 		{27CAB1BE-7B3E-409A-B427-3D768862CCC7} = {2550EF18-354C-4785-A877-1F7F21D1D52A}
 		{730247CF-ACC5-45E2-808B-A5CC7FB1C568} = {65BB5295-1FC7-43AE-B55A-2423A7B00093}
+		{E3FF5D4E-0CA2-4FD7-975F-89993EC65A79} = {B40ECF91-5992-4D46-AD0C-1A4CD144725C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8DE026B-F83F-49C3-AAF4-C3924C080D00}

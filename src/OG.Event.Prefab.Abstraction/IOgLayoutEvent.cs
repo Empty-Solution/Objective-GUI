@@ -1,6 +1,7 @@
-﻿using OG.Layout.Abstraction;
+﻿using OG.Transformer.Abstraction;
+using System.Collections.Generic;
 namespace OG.Event.Prefab.Abstraction;
 public interface IOgLayoutEvent : IOgEvent
 {
-    IOgLayout Layout { get; }
+    IEnumerable<IOgTransformer> Transformers { get; }
 }

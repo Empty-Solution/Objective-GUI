@@ -1,28 +1,35 @@
-﻿using OG.Element.Abstraction;
+﻿using DK.Matching;
+using OG.Element.Abstraction;
 using OG.Event.Abstraction;
-using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
-using OG.Layout.Abstraction;
+using OG.Transformer.Abstraction;
+using System.Collections.Generic;
 using UnityEngine;
 namespace OG.Element;
-public class OgElement : IOgElement, IOgEventCallback<IOgLayoutEvent>
+public class OgElement : IOgElement
 {
-    private readonly IOgEventHandlerProvider m_Provider;
-    private          Rect                    m_LayoutRect;
+    private readonly DkCacheMatcherProvider<IOgTransformer, IOgTransformerOption> m_DkMatchProvider;
+    private readonly IOgEventHandlerProvider                                      m_Provider;
     public OgElement(string name, IOgEventHandlerProvider provider)
     {
-        Name       = name;
-        m_Provider = provider;
-        provider.Register(this);
+        m_Provider         = provider;
+        Name               = name;
+        ElementRect        = Rect.zero;
+        TransformerOptions = [];
+        m_DkMatchProvider  = new(TransformerOptions);
     }
-    public bool   IsActive { get; set; }
-    public string Name     { get; }
+    public bool                              IsActive           { get; set; }
+    public Rect                              ElementRect        { get; private set; }
+    public string                            Name               { get; }
+    public IEnumerable<IOgTransformerOption> TransformerOptions { get; }
     public bool ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handle(reason);
-    bool IOgEventCallback<IOgLayoutEvent>.Invoke(IOgLayoutEvent reason)
+    public void ProcessTransformers(IEnumerable<IOgTransformer> transformers, Rect parentRect)
     {
-        m_LayoutRect = OnLayout(reason.Layout, m_LayoutRect);
-        return false;
+        ElementRect = Rect.zero;
+        foreach(IOgTransformer transformer in transformers)
+        {
+            if(!m_DkMatchProvider.TryGetMatcher(transformer, out IOgTransformerOption option)) continue;
+            ElementRect = transformer.Transform(ElementRect, parentRect, option);
+        }
     }
-    protected Rect GetLayoutRect() => m_LayoutRect;
-    protected virtual Rect OnLayout(IOgLayout layout, Rect rect) => rect;
 }

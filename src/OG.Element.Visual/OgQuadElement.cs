@@ -28,7 +28,7 @@ public class OgQuadElement(string name, Texture texture, IOgEventHandlerProvider
     {
         FillContext(context);
         context.Texture = Texture;
-        context.Rect    = GetLayoutRect();
+        context.Rect    = ElementRect;
     }
     protected virtual void FillContext(OgGraphicsContext context)
     {
