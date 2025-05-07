@@ -15,5 +15,5 @@ public class OgEventHandlerProvider : IOgEventHandlerProvider
     }
     public void Register(IOgEventHandler handler) => m_Handlers.Add(handler);
     public void Unregister(IOgEventHandler handler) => m_Handlers.Remove(handler);
-    public bool Handler(IOgEvent reason) => m_DkMatchProvider.TryGetMatcher(reason.GetType(), out IOgEventHandler match) && match.HandleEvent(reason);
+    public bool Handle(IOgEvent reason) => m_DkMatchProvider.TryGetMatcher(reason.GetType(), out IOgEventHandler match) && match.HandleEvent(reason);
 }

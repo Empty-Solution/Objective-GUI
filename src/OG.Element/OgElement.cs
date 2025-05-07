@@ -17,7 +17,7 @@ public class OgElement : IOgElement, IOgEventCallback<IOgLayoutEvent>
     }
     public bool   IsActive { get; set; }
     public string Name     { get; }
-    public bool ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handler(reason);
+    public bool ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handle(reason);
     bool IOgEventCallback<IOgLayoutEvent>.Invoke(IOgLayoutEvent reason)
     {
         m_LayoutRect = OnLayout(reason.Layout, m_LayoutRect);

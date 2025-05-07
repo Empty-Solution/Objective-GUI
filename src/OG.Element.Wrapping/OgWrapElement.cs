@@ -5,6 +5,6 @@ public class OgWrapElement<TSource>(string name, TSource source) : IOgElement wh
 {
     public TSource Source   => source;
     public string  Name     => name;
-    public bool    IsActive { get; set; } = true;
+    public bool    IsActive => Source.IsActive;
     public bool ProcessEvent(IOgEvent reason) => source.ProcessEvent(reason);
 }

@@ -4,5 +4,5 @@ public interface IOgEventHandlerProvider
 {
     void Register(IOgEventHandler handler);
     void Unregister(IOgEventHandler handler);
-    bool Handler(IOgEvent reason);
+    bool Handle(IOgEvent reason);
 }
