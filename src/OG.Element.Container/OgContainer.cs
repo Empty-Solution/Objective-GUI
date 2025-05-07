@@ -5,12 +5,13 @@ using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 using System.Collections.Generic;
 namespace OG.Element.Container;
-public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgEvent>, IOgEventCallback<IOgInputEvent>
-    where TElement : IOgElement
+public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgEvent>, IOgEventCallback<IOgInputEvent>,
+                                     IOgEventCallback<IOgRenderEvent> where TElement : IOgElement
 {
     private readonly List<TElement> m_Elements = [];
     public OgContainer(string name, IOgEventHandlerProvider provider) : base(name, provider)
     {
+        provider.Register<IOgRenderEvent>(this);
         provider.Register<IOgInputEvent>(this);
         provider.Register<IOgEvent>(this);
     }
@@ -29,17 +30,12 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         m_Elements.RemoveAt(index);
         return true;
     }
-    bool IOgEventCallback<IOgEvent>.Invoke(IOgEvent reason)
+    bool IOgEventCallback<IOgEvent>.Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
+    bool IOgEventCallback<IOgInputEvent>.Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
+    bool IOgEventCallback<IOgRenderEvent>.Invoke(IOgRenderEvent reason)
     {
         reason.Enter(GetLayoutRect());
         bool isUsed = ProcessElementsEventForward(reason);
-        reason.Exit();
-        return isUsed;
-    }
-    bool IOgEventCallback<IOgInputEvent>.Invoke(IOgInputEvent reason)
-    {
-        reason.Enter(GetLayoutRect());
-        bool isUsed = ProcessElementsEventBackward(reason);
         reason.Exit();
         return isUsed;
     }

@@ -15,12 +15,12 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
         if(m_IsDirty)
         {
             m_RenderContext.Clear();
-            OnBuildContext(m_RenderContext);
+            BuildContext(m_RenderContext);
             m_IsDirty = false;
         }
         reason.Graphics.Render(m_RenderContext);
         return false;
     }
-    protected bool MarkDirty() => m_IsDirty = true;
-    protected abstract void OnBuildContext(OgGraphicsContext context);
+    protected void MarkDirty() => m_IsDirty = true;
+    protected abstract void BuildContext(OgGraphicsContext context);
 }
