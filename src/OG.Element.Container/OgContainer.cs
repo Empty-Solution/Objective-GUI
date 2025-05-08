@@ -17,8 +17,8 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         provider.Register<IOgInputEvent>(this);
         provider.Register<IOgEvent>(this);
     }
-    public IEnumerable<TElement> Elements => m_Elements;
-    public bool Contains(TElement element) => m_Elements.Contains(element);
+    public IEnumerable<TElement> Elements                   => m_Elements;
+    public bool                  Contains(TElement element) => m_Elements.Contains(element);
     public bool Add(TElement element)
     {
         if(m_Elements.IndexOf(element) != -1) return false;
@@ -32,7 +32,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         m_Elements.RemoveAt(index);
         return true;
     }
-    bool IOgEventCallback<IOgEvent>.Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
+    bool IOgEventCallback<IOgEvent>.     Invoke(IOgEvent      reason) => ProcessElementsEventForward(reason);
     bool IOgEventCallback<IOgInputEvent>.Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
     bool IOgEventCallback<IOgLayoutEvent>.Invoke(IOgLayoutEvent reason)
     {
