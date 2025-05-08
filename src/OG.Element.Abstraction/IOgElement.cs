@@ -9,6 +9,6 @@ public interface IOgElement
     string                            Name               { get; }
     bool                              IsActive           { get; }
     Rect                              ElementRect        { get; }
-    bool ProcessEvent(IOgEvent reason);
-    void ProcessTransformers(IEnumerable<IOgTransformer> transformers, Rect parentRect, Rect lastRect);
+    bool                              ProcessEvent(IOgEvent                           reason);
+    void                              ProcessTransformers(IEnumerable<IOgTransformer> transformers, Rect parentRect, Rect lastRect);
 }
