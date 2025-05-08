@@ -18,11 +18,11 @@ public class OgElement : IOgElement
         TransformerOptions = [];
         m_DkMatchProvider  = new(TransformerOptions);
     }
-    public bool                              IsActive           { get; set; }
-    public Rect                              ElementRect        { get; private set; }
-    public string                            Name               { get; }
-    public IEnumerable<IOgTransformerOption> TransformerOptions { get; }
-    public bool ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handle(reason);
+    public bool                              IsActive                      { get; set; }
+    public Rect                              ElementRect                   { get; set; }
+    public string                            Name                          { get; }
+    public IEnumerable<IOgTransformerOption> TransformerOptions            { get; }
+    public bool                              ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handle(reason);
     public void ProcessTransformers(IEnumerable<IOgTransformer> transformers, Rect parentRect, Rect lastRect)
     {
         ElementRect = Rect.zero;

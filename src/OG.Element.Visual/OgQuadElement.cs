@@ -2,9 +2,9 @@
 using OG.Graphics;
 using UnityEngine;
 namespace OG.Element.Visual;
-public class OgQuadElement(string name, Texture texture, IOgEventHandlerProvider provider) : OgVisualElement(name, provider)
+public class OgQuadElement(string name, IOgEventHandlerProvider provider) : OgVisualElement(name, provider)
 {
-    public Texture Texture
+    public Material? Material
     {
         get;
         set
@@ -13,7 +13,7 @@ public class OgQuadElement(string name, Texture texture, IOgEventHandlerProvider
             field = value;
             MarkDirty();
         }
-    } = texture;
+    }
     public Color Color
     {
         get;
@@ -27,8 +27,8 @@ public class OgQuadElement(string name, Texture texture, IOgEventHandlerProvider
     protected override void BuildContext(OgGraphicsContext context)
     {
         FillContext(context);
-        context.Texture = Texture;
-        context.Rect    = ElementRect;
+        context.Material = Material;
+        context.Rect     = ElementRect;
     }
     protected virtual void FillContext(OgGraphicsContext context)
     {

@@ -13,7 +13,7 @@ public class OgGraphicsContext : IOgGraphicsContext
     public           Vector3        Scale                           { get; set; } = Vector3.one;
     public           Rect           Rect                            { get; set; }
     public           Rect           ViewPort                        { get; set; } = new(0.0f, 0.0f, Screen.width, Screen.height);
-    public           Texture        Texture                         { get; set; } = Texture2D.whiteTexture;
+    public           Material?      Material                        { get; set; }
     public           void           CopyVertices(OgVertex[] array)  => m_Vertices.CopyTo(array);
     public           void           CopyIndices(int[]       array)  => m_Indices.CopyTo(array);
     public           void           AddVertex(OgVertex      vertex) => m_Vertices.Add(vertex);

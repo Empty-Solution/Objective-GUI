@@ -1,7 +1,7 @@
 ﻿using OG.Graphics.Abstraction;
 using UnityEngine;
 namespace OG.Graphics;
-public class OgGlGraphics(Material material) : IOgGraphics
+public class OgGlGraphics : IOgGraphics
 {
     private int[]      m_IndicesBuffer = new int[32];
     private OgVertex[] m_VertexBuffer  = new OgVertex[32];
@@ -17,8 +17,7 @@ public class OgGlGraphics(Material material) : IOgGraphics
         if(indicesCount > indices.Length) indices    = m_IndicesBuffer = new int[indicesCount * 2];
         ctx.CopyVertices(vertices);
         ctx.CopyIndices(indices);
-        material.mainTexture = ctx.Texture;
-        material.SetPass(0);
+        ctx.Material?.SetPass(0);
         GL.PushMatrix();
         GL.Viewport(ctx.ViewPort);
         GL.MultMatrix(Matrix4x4.TRS(ctx.Position, ctx.Rotation, ctx.Scale));

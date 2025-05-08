@@ -9,8 +9,8 @@ public interface IOgGraphicsContext
     Quaternion  Rotation      { get; set; }
     Vector3     Scale         { get; set; }
     Rect        ViewPort      { get; set; }
-    Texture     Texture       { get; set; }
     public Rect Rect          { get; set; }
+    Material?   Material      { get; set; }
     void        CopyVertices(OgVertex[]           array);
     void        CopyIndices(int[]                 array);
     void        AddVertices(IEnumerable<OgVertex> vertices);

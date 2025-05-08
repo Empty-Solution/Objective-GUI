@@ -6,6 +6,6 @@ public interface IOgTransformer<in TOption> : IOgTransformer where TOption : IOg
 }
 public interface IOgTransformer
 {
-    int Order { get; }
+    int  Order { get; }
     Rect Transform(Rect rect, Rect parentRect, Rect lastRect, IOgTransformerOption option);
 }

@@ -4,6 +4,6 @@ namespace OG.Event.Prefab.Abstraction;
 public interface IOgRenderEvent : IOgEvent
 {
     IOgGraphics Graphics { get; }
-    void Enter(Rect rect);
-    void Exit();
+    void        Enter(Rect rect);
+    void        Exit();
 }
