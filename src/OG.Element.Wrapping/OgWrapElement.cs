@@ -12,5 +12,6 @@ public class OgWrapElement<TSource>(string name, TSource source) : IOgElement wh
     public bool                              IsActive           => Source.IsActive;
     public Rect                              ElementRect        => Source.ElementRect;
     public bool ProcessEvent(IOgEvent reason) => Source.ProcessEvent(reason);
-    public void ProcessTransformers(IEnumerable<IOgTransformer> transformers, Rect parentRect) => Source.ProcessTransformers(transformers, parentRect);
+    public void ProcessTransformers(IEnumerable<IOgTransformer> transformers, Rect parentRect, Rect lastRect) =>
+        Source.ProcessTransformers(transformers, parentRect, lastRect);
 }

@@ -10,5 +10,5 @@ public interface IOgElement
     bool                              IsActive           { get; }
     Rect                              ElementRect        { get; }
     bool ProcessEvent(IOgEvent reason);
-    void ProcessTransformers(IEnumerable<IOgTransformer> transformers, Rect parentRect);
+    void ProcessTransformers(IEnumerable<IOgTransformer> transformers, Rect parentRect, Rect lastRect);
 }

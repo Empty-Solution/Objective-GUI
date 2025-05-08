@@ -4,6 +4,7 @@ using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 using System.Collections.Generic;
+using UnityEngine;
 namespace OG.Element.Container;
 public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgEvent>, IOgEventCallback<IOgInputEvent>,
                                      IOgEventCallback<IOgRenderEvent>, IOgEventCallback<IOgLayoutEvent> where TElement : IOgElement
@@ -35,12 +36,13 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     bool IOgEventCallback<IOgInputEvent>.Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
     bool IOgEventCallback<IOgLayoutEvent>.Invoke(IOgLayoutEvent reason)
     {
+        Rect lastRect = Rect.zero;
         for(int i = 0; i < m_Elements.Count; i++)
         {
             TElement element = m_Elements[i];
-            element.ProcessTransformers(reason.Transformers, ElementRect);
-            if(!element.ProcessEvent(reason)) continue;
-            return true;
+            element.ProcessTransformers(reason.Transformers, ElementRect, lastRect);
+            lastRect = element.ElementRect;
+            element.ProcessEvent(reason);
         }
         return false;
     }
