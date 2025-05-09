@@ -3,6 +3,7 @@ using OG.Element.Container.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
+using OG.Transformer.Abstraction;
 using System.Collections.Generic;
 using UnityEngine;
 namespace OG.Element.Container;
@@ -17,8 +18,8 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         provider.Register<IOgInputEvent>(this);
         provider.Register<IOgEvent>(this);
     }
-    public IEnumerable<TElement> Elements                   => m_Elements;
-    public bool                  Contains(TElement element) => m_Elements.Contains(element);
+    public IEnumerable<TElement> Elements => m_Elements;
+    public bool Contains(TElement element) => m_Elements.Contains(element);
     public bool Add(TElement element)
     {
         if(m_Elements.IndexOf(element) != -1) return false;
@@ -32,15 +33,21 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         m_Elements.RemoveAt(index);
         return true;
     }
-    bool IOgEventCallback<IOgEvent>.     Invoke(IOgEvent      reason) => ProcessElementsEventForward(reason);
+    bool IOgEventCallback<IOgEvent>.Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
     bool IOgEventCallback<IOgInputEvent>.Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
     bool IOgEventCallback<IOgLayoutEvent>.Invoke(IOgLayoutEvent reason)
     {
         Rect lastRect = Rect.zero;
-        for(int i = 0; i < m_Elements.Count; i++)
+        int  count    = m_Elements.Count;
+        for(int i = 0; i < count; i++)
         {
             TElement element = m_Elements[i];
-            element.ProcessTransformers(reason.Transformers, ElementRect, lastRect);
+            foreach(IOgTransformer transformer in reason.Transformers)
+            {
+                if(!element.TryGetOption(transformer, out IOgTransformerOption option)) continue;
+                element.ElementRect = transformer.Transform(element.ElementRect, ElementRect, lastRect, count - i - 1,
+                                                            option);
+            }
             lastRect = element.ElementRect;
             element.ProcessEvent(reason);
         }

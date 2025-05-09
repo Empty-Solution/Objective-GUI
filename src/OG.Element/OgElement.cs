@@ -18,18 +18,11 @@ public class OgElement : IOgElement
         TransformerOptions = [];
         m_DkMatchProvider  = new(TransformerOptions);
     }
-    public bool                              IsActive                      { get; set; }
-    public Rect                              ElementRect                   { get; set; }
-    public string                            Name                          { get; }
-    public IEnumerable<IOgTransformerOption> TransformerOptions            { get; }
-    public bool                              ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handle(reason);
-    public void ProcessTransformers(IEnumerable<IOgTransformer> transformers, Rect parentRect, Rect lastRect)
-    {
-        ElementRect = Rect.zero;
-        foreach(IOgTransformer transformer in transformers)
-        {
-            if(!m_DkMatchProvider.TryGetMatcher(transformer, out IOgTransformerOption option)) continue;
-            ElementRect = transformer.Transform(ElementRect, parentRect, lastRect, option);
-        }
-    }
+    public bool                              IsActive           { get; set; }
+    public Rect                              ElementRect        { get; set; }
+    public string                            Name               { get; }
+    public IEnumerable<IOgTransformerOption> TransformerOptions { get; }
+    public bool ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handle(reason);
+    public bool TryGetOption(IOgTransformer transformer, out IOgTransformerOption option) =>
+        m_DkMatchProvider.TryGetMatcher(transformer, out option) && option.CanHandle(transformer);
 }

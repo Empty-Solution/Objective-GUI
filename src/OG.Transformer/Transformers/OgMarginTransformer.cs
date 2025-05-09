@@ -4,6 +4,8 @@ namespace OG.Transformer.Transformers;
 public class OgMarginTransformer : OgTransformerBase<OgMarginOption>
 {
     public override int Order => 1;
-    public override Rect Transform(Rect rect, Rect parentRect, Rect lastRect, OgMarginOption option) =>
+    public override Rect Transform(
+        Rect rect, Rect parentRect, Rect lastRect, int remaining,
+        OgMarginOption option) =>
         new(rect.x + option.Margin.x, rect.y + option.Margin.y, rect.width, rect.height);
 }

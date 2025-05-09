@@ -8,7 +8,7 @@ public interface IOgElement
     IEnumerable<IOgTransformerOption> TransformerOptions { get; }
     string                            Name               { get; }
     bool                              IsActive           { get; }
-    Rect                              ElementRect        { get; }
-    bool                              ProcessEvent(IOgEvent                           reason);
-    void                              ProcessTransformers(IEnumerable<IOgTransformer> transformers, Rect parentRect, Rect lastRect);
+    Rect                              ElementRect        { get; set; }
+    bool ProcessEvent(IOgEvent reason);
+    bool TryGetOption(IOgTransformer transformer, out IOgTransformerOption option);
 }
