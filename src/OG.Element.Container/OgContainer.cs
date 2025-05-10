@@ -42,12 +42,11 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         Rect                               lastRect     = Rect.zero;
         int                                count        = m_Elements.Count;
         Rect                               parentRect   = ElementRect;
-        IOrderedEnumerable<IOgTransformer> transformers = reason.Transformers.OrderBy(t => t.Order);
         for(int i = 0; i < count; i++)
         {
             TElement element = m_Elements[i];
             Rect     rect    = new();
-            foreach(IOgTransformer transformer in transformers)
+            foreach(IOgTransformer transformer in reason.Transformers)
             {
                 if(!element.TryGetOption(transformer, out IOgTransformerOption option)) continue;
                 rect = transformer.Transform(rect, parentRect, lastRect, count - i,

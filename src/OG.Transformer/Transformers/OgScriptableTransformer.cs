@@ -7,7 +7,7 @@ public class OgScriptableTransformer(string name, int order, OgScriptableTransfo
         Rect rect, Rect parentRect, Rect lastRect, int remaining,
         OgScriptableOption option);
     public          string Name  => name;
-    public override int    Order => order;
+    public override int    Order { get; set; } = order;
     public override Rect Transform(
         Rect rect, Rect parentRect, Rect lastRect, int remaining,
         OgScriptableOption option) =>

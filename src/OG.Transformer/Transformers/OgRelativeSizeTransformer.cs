@@ -3,7 +3,7 @@ using UnityEngine;
 namespace OG.Transformer.Transformers;
 public class OgRelativeSizeTransformer : OgTransformerBase<OgRelativeSizeOption>
 {
-    public override int Order => 0;
+    public override int Order { get; set; } = 0;
     public override Rect Transform(
         Rect rect, Rect parentRect, Rect lastRect, int remaining,
         OgRelativeSizeOption option) =>

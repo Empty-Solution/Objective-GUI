@@ -4,7 +4,7 @@ using UnityEngine;
 namespace OG.Transformer.Transformers;
 public class OgFlexibleTransformer : OgTransformerBase<OgFlexibleOption>
 {
-    public override int Order => 90;
+    public override int Order { get; set; } = 90;
     public override Rect Transform(
         Rect rect, Rect parentRect, Rect lastRect, int remaining,
         OgFlexibleOption option)

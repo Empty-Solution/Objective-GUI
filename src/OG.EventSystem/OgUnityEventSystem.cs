@@ -3,7 +3,7 @@ using OG.EventSystem.Abstraction;
 using System.Collections.Generic;
 using UeEvent = UnityEngine.Event;
 namespace OG.EventSystem;
-public class OgUnityEventSystem(IOgEventHandlerProvider provider, IEnumerable<IOgEventPipe<UeEvent>> pipes) : IOgEventSystem<UeEvent>
+public class OgUnityEventSystem(IOgEventHandlerProvider rootProvider, IEnumerable<IOgEventPipe<UeEvent>> pipes) : IOgEventSystem<UeEvent>
 {
     private readonly List<IOgEventPipe<UeEvent>> m_Pipes = [..pipes];
     public void Register(IOgEventPipe<UeEvent> pipe) => m_Pipes.Add(pipe);
@@ -11,6 +11,6 @@ public class OgUnityEventSystem(IOgEventHandlerProvider provider, IEnumerable<IO
     public void Handle()
     {
         foreach(IOgEventPipe<UeEvent> pipe in m_Pipes)
-            provider.Handle(pipe.GetEvent(UeEvent.current));
+            rootProvider.Handle(pipe.GetEvent(UeEvent.current));
     }
 }

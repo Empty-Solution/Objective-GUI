@@ -1,5 +1,6 @@
 ﻿using DK.Matching;
 using OG.Element.Abstraction;
+using OG.Event;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Abstraction;
@@ -13,9 +14,10 @@ public class OgElement : IOgElement
     private readonly IOgEventHandlerProvider                                      m_Provider;
     public OgElement(string name, IOgEventHandlerProvider provider)
     {
-        m_Provider        = provider;
         Name              = name;
         ElementRect       = Rect.zero;
+        IsActive          = true;
+        m_Provider        = provider;
         m_Options         = [];
         m_DkMatchProvider = new(TransformerOptions);
     }

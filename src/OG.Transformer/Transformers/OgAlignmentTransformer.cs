@@ -3,7 +3,7 @@ using UnityEngine;
 namespace OG.Transformer.Transformers;
 public class OgAlignmentTransformer : OgTransformerBase<OgAlignmentOption>
 {
-    public override int Order => 1000;
+    public override int Order { get; set; } = 1000;
     public override Rect Transform(
         Rect rect, Rect parentRect, Rect lastRect, int remaining,
         OgAlignmentOption option) =>
