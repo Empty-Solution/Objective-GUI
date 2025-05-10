@@ -1,4 +1,5 @@
 ﻿using DK.Property.Observing.Abstraction.Generic;
+using OG.DataTypes.ElementState;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
@@ -15,6 +16,7 @@ public abstract class OgFocusableElement<TElement, TValue>(string name, IOgEvent
         bool hovering = IsHovering!.Get();
         if(!IsInteracting!.Get() || IsFocusing!.Get() == hovering) return false;
         IsFocusing!.Set(hovering);
+        State!.Set(hovering ? EOgElementState.FOCUSED : EOgElementState.IDLE);
         return hovering ? OnFocus(reason) : OnLostFocus(reason);
     }
     protected abstract bool OnFocus(IOgMouseKeyUpEvent reason);

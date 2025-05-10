@@ -4,13 +4,12 @@ using UnityEngine;
 namespace OG.Element.Visual;
 public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVisualElement(name, provider)
 {
-    private readonly Color      m_Color         = Color.white;
-    private          TextAnchor m_Alignment     = TextAnchor.UpperLeft;
-    private          Font       m_Font          = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-    private          int        m_FontSize      = 14;
-    private          FontStyle  m_FontStyle     = FontStyle.Normal;
-    private          float      m_PixelsPerUnit = 1f;
-    private          string     m_Text          = string.Empty;
+    private TextAnchor m_Alignment     = TextAnchor.UpperLeft;
+    private Font?      m_Font;
+    private int        m_FontSize      = 14;
+    private FontStyle  m_FontStyle     = FontStyle.Normal;
+    private float      m_PixelsPerUnit = 1f;
+    private string     m_Text          = string.Empty;
     public string Text
     {
         get => m_Text;
@@ -23,7 +22,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
     }
     public Font Font
     {
-        get => m_Font;
+        get => m_Font!;
         set
         {
             if(m_Font == value) return;
@@ -84,7 +83,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
     protected override void BuildContext(OgGraphicsContext context)
     {
         RegenerateTextMesh(context);
-        context.Material = m_Font.material;
+        context.Material = m_Font!.material;
         // context.Texture  = m_Font.material.mainTexture;
         context.Rect = ElementRect;
     }
@@ -99,8 +98,9 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
                                : m_FontSize * 0.5f;
 
         //Vector2 textSize = CalculateTextSize(m_Text, m_Font, m_FontSize, m_PixelsPerUnit, spaceWidth);
-        Vector2 alignmentOffset = Vector2.zero; //GetAlignmentOffset(textSize);
+        Vector2 alignmentOffset = Vector2.zero; //GetAlignmentOffset(textSize, context.Rect);
         int     vertexIndex     = context.IndicesCount;
+        Color   color           = Color;
         foreach(char c in m_Text)
         {
             if(c == '\n')
@@ -119,10 +119,10 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
                                      -(y + (charInfo.minY / m_PixelsPerUnit)) + alignmentOffset.y, 0);
             Vector3 topRight = new(x + (charInfo.maxX / m_PixelsPerUnit) + alignmentOffset.x, -(y + (charInfo.maxY / m_PixelsPerUnit)) + alignmentOffset.y,
                                    0);
-            context.AddVertex(new(new(bottomLeft.x, bottomLeft.y, 0), m_Color, new(charInfo.uvBottomLeft.x, charInfo.uvBottomLeft.y)));
-            context.AddVertex(new(new(bottomLeft.x, topRight.y, 0), m_Color, new(charInfo.uvTopLeft.x, charInfo.uvTopLeft.y)));
-            context.AddVertex(new(new(topRight.x, topRight.y, 0), m_Color, new(charInfo.uvTopRight.x, charInfo.uvTopRight.y)));
-            context.AddVertex(new(new(topRight.x, bottomLeft.y, 0), m_Color, new(charInfo.uvBottomRight.x, charInfo.uvBottomRight.y)));
+            context.AddVertex(new(new(bottomLeft.x, bottomLeft.y, 0), color, new(charInfo.uvBottomLeft.x, charInfo.uvBottomLeft.y)));
+            context.AddVertex(new(new(bottomLeft.x, topRight.y, 0), color, new(charInfo.uvTopLeft.x, charInfo.uvTopLeft.y)));
+            context.AddVertex(new(new(topRight.x, topRight.y, 0), color, new(charInfo.uvTopRight.x, charInfo.uvTopRight.y)));
+            context.AddVertex(new(new(topRight.x, bottomLeft.y, 0), color, new(charInfo.uvBottomRight.x, charInfo.uvBottomRight.y)));
             context.AddIndex(vertexIndex);
             context.AddIndex(vertexIndex + 1);
             context.AddIndex(vertexIndex + 2);
@@ -133,21 +133,20 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
             x           += charInfo.advance / m_PixelsPerUnit;
         }
     }
-    private Vector2 GetAlignmentOffset(Vector2 textSize)
-    {
-        Vector2 offset = new(offset.x = m_Alignment switch
+    private Vector2 GetAlignmentOffset(Vector2 textSize, Rect rect) =>
+        new(m_Alignment switch
         {
-            TextAnchor.UpperCenter or TextAnchor.MiddleCenter or TextAnchor.LowerCenter => textSize.x * 0.5f,
-            TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight    => textSize.x,
-            _                                                                           => 0
-        }, offset.y = m_Alignment switch
+            TextAnchor.UpperLeft or TextAnchor.MiddleLeft or TextAnchor.LowerLeft       => 0f,
+            TextAnchor.UpperCenter or TextAnchor.MiddleCenter or TextAnchor.LowerCenter => (rect.width - textSize.x) * 0.5f,
+            TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight    => rect.width - textSize.x,
+            _                                                                           => 0f
+        }, m_Alignment switch
         {
-            TextAnchor.MiddleLeft or TextAnchor.MiddleCenter or TextAnchor.MiddleRight => textSize.y * 0.5f,
-            TextAnchor.LowerLeft or TextAnchor.LowerCenter or TextAnchor.LowerRight    => textSize.y,
-            _                                                                          => 0
+            TextAnchor.UpperLeft or TextAnchor.UpperCenter or TextAnchor.UpperRight    => 0f,
+            TextAnchor.MiddleLeft or TextAnchor.MiddleCenter or TextAnchor.MiddleRight => (rect.height - textSize.y) * 0.5f,
+            TextAnchor.LowerLeft or TextAnchor.LowerCenter or TextAnchor.LowerRight    => rect.height - textSize.y,
+            _                                                                          => 0f
         });
-        return offset;
-    }
     private Vector2 CalculateTextSize(
         string text, Font font, int fontSize, float pixelsPerUnit,
         float spaceWidth)

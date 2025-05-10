@@ -1,4 +1,5 @@
 ﻿using DK.DataTypes.Abstraction;
+using OG.DataTypes.ElementState;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
@@ -16,6 +17,7 @@ public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider)
         Vector2 newValue = new(Mathf.Clamp(value.x + delta.x, Range!.Min.x, Range.Max.x), Mathf.Clamp(value.y + delta.y, Range.Min.y, Range.Max.y));
         if(Equals(value, newValue)) return false;
         Value!.Set(newValue);
+        State!.Set(EOgElementState.ACTIVE);
         return true;
     }
     public IDkReadOnlyRange<Vector2>? Range { get; set; }

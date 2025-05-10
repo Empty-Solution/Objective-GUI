@@ -19,10 +19,10 @@ public class OgElement : IOgElement
         m_Options         = [];
         m_DkMatchProvider = new(TransformerOptions);
     }
-    public bool                              IsActive           { get; set; }
-    public Rect                              ElementRect        { get; set; }
-    public string                            Name               { get; }
-    public IEnumerable<IOgTransformerOption> TransformerOptions => m_Options;
+    public virtual bool                              IsActive           { get; set; }
+    public         Rect                              ElementRect        { get; set; }
+    public         string                            Name               { get; }
+    public         IEnumerable<IOgTransformerOption> TransformerOptions => m_Options;
     public void AddOption(IOgTransformerOption option) => m_Options.Add(option);
     public bool RemoveOption(IOgTransformerOption option) => m_Options.Remove(option);
     public bool ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handle(reason);
