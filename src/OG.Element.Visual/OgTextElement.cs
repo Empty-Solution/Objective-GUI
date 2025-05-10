@@ -133,21 +133,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
             x           += charInfo.advance / m_PixelsPerUnit;
         }
     }
-    private Vector2 GetAlignmentOffset(Vector2 textSize, Rect rect) =>
-        new(m_Alignment switch
-        {
-            TextAnchor.UpperLeft or TextAnchor.MiddleLeft or TextAnchor.LowerLeft       => 0f,
-            TextAnchor.UpperCenter or TextAnchor.MiddleCenter or TextAnchor.LowerCenter => (rect.width - textSize.x) * 0.5f,
-            TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight    => rect.width - textSize.x,
-            _                                                                           => 0f
-        }, m_Alignment switch
-        {
-            TextAnchor.UpperLeft or TextAnchor.UpperCenter or TextAnchor.UpperRight    => 0f,
-            TextAnchor.MiddleLeft or TextAnchor.MiddleCenter or TextAnchor.MiddleRight => (rect.height - textSize.y) * 0.5f,
-            TextAnchor.LowerLeft or TextAnchor.LowerCenter or TextAnchor.LowerRight    => rect.height - textSize.y,
-            _                                                                          => 0f
-        });
-    private Vector2 CalculateTextSize(
+    public Vector2 CalculateTextSize(
         string text, Font font, int fontSize, float pixelsPerUnit,
         float spaceWidth)
     {
