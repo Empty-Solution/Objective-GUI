@@ -4,20 +4,13 @@ using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element;
-public class OgElement : IOgElement, IOgEventCallback<IOgLayoutEvent>
+public class OgElement(string name, IOgEventHandlerProvider provider) : IOgElement, IOgEventCallback<IOgLayoutEvent>
 {
-    private readonly IOgEventHandlerProvider m_Provider;
-    public OgElement(string name, IOgEventHandlerProvider provider)
-    {
-        m_Provider = provider;
-        Name       = name;
-        IsActive   = true;
-    }
-    public bool                IsActive    { get; set; }
+    public bool                IsActive    { get; set; } = true;
     public Rect                ElementRect { get; protected set; }
     public IOgOptionsContainer Options     { get; set; }
-    public string              Name        { get; }
-    public bool ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handle(reason);
+    public string              Name        { get; } = name;
+    public bool ProcessEvent(IOgEvent reason) => IsActive && provider.Handle(reason);
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
         Rect rect = new();
