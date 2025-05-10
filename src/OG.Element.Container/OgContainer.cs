@@ -40,18 +40,28 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     {
         Rect                               lastRect     = Rect.zero;
         int                                count        = m_Elements.Count;
+        Rect                               parentRect   = ElementRect;
         IOrderedEnumerable<IOgTransformer> transformers = reason.Transformers.OrderBy(t => t.Order);
         for(int i = 0; i < count; i++)
         {
             TElement element = m_Elements[i];
-            element.ElementRect = new();
+            Rect rect = new();
             foreach(IOgTransformer transformer in transformers)
             {
                 if(!element.TryGetOption(transformer, out IOgTransformerOption option)) continue;
-                element.ElementRect = transformer.Transform(element.ElementRect, ElementRect, lastRect, count - i,
-                                                            option);
+                rect = transformer.Transform(rect, parentRect, lastRect, count - i, option);
+                //for(int j = 0; j < i; j++)
+                //{
+                //    TElement suspect = m_Elements[j];
+                //    if(!suspect.ElementRect.Overlaps(rect)) continue;
+                //    element.RemoveOption(option);
+                //    rect = element.ElementRect;
+                //    break;
+                //}
+                //element.ElementRect = rect;
             }
-            lastRect = element.ElementRect;
+            element.ElementRect = rect;
+            lastRect            = rect;
             element.ProcessEvent(reason);
         }
         return false;
