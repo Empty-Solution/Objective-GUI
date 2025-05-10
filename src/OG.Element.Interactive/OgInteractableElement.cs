@@ -5,10 +5,10 @@ using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 namespace OG.Element.Interactive;
-public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOgInteractiveElement<TElement>, IOgEventCallback<IOgMouseKeyDownEvent>,
+public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOgInteractableElement<TElement>, IOgEventCallback<IOgMouseKeyDownEvent>,
                                                IOgEventCallback<IOgMouseKeyUpEvent> where TElement : IOgElement
 {
-    public OgInteractableElement(string name, IOgEventHandlerProvider provider) : base(name, provider)
+    protected OgInteractableElement(string name, IOgEventHandlerProvider provider) : base(name, provider)
     {
         provider.Register<IOgMouseKeyDownEvent>(this);
         provider.Register<IOgMouseMoveEvent>(this);

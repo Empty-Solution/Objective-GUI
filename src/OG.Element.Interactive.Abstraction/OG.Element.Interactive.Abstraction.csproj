@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+        <ProjectReference Include="..\OG.DataTypes.ElementState\OG.DataTypes.ElementState.csproj"/>
         <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Element.Container.Abstraction\OG.Element.Container.Abstraction.csproj"/>
     </ItemGroup>

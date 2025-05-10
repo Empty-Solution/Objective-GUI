@@ -6,7 +6,7 @@ using OG.Event.Prefab.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
 public class OgVector<TElement>(string name, IOgEventHandlerProvider provider)
-    : OgDraggableValueElement<TElement, Vector2>(name, provider), IOgVectorValue<TElement> where TElement : IOgElement
+    : OgDraggableValueElement<TElement, Vector2>(name, provider), IOgVectorValueElement<TElement> where TElement : IOgElement
 {
     public IDkReadOnlyRange<Vector2>? Range { get; set; }
     protected override Vector2 CalculateValue(IOgMouseEvent reason, Vector2 value)

@@ -2,7 +2,7 @@
 using OG.Element.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive.Abstraction;
-public interface IOgVectorValue<TElement> : IOgInteractableValueElement<TElement, Vector2> where TElement : IOgElement
+public interface IOgVectorValueElement<TElement> : IOgInteractableValueElement<TElement, Vector2> where TElement : IOgElement
 {
     IDkReadOnlyRange<Vector2>? Range { get; }
 }

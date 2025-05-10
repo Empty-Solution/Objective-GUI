@@ -14,16 +14,6 @@ public class OgQuadElement(string name, IOgEventHandlerProvider provider) : OgVi
             MarkDirty();
         }
     }
-    public Color Color
-    {
-        get;
-        set
-        {
-            if(field == value) return;
-            field = value;
-            MarkDirty();
-        }
-    } = Color.white;
     protected override void BuildContext(OgGraphicsContext context)
     {
         FillContext(context);

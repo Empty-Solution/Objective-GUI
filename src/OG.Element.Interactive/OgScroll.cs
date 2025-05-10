@@ -6,7 +6,7 @@ using OG.Event.Prefab.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
 public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider)
-    : OgInteractableValueElement<TElement, Vector2>(name, provider), IOgVectorValue<TElement>, IOgEventCallback<IOgMouseWheelEvent>
+    : OgInteractableValueElement<TElement, Vector2>(name, provider), IOgVectorValueElement<TElement>, IOgEventCallback<IOgMouseWheelEvent>
     where TElement : IOgElement
 {
     public bool Invoke(IOgMouseWheelEvent reason)

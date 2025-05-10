@@ -4,13 +4,13 @@ using UnityEngine;
 namespace OG.Element.Visual;
 public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVisualElement(name, provider)
 {
-    private TextAnchor m_Alignment     = TextAnchor.UpperLeft;
-    private Color      m_Color         = Color.white;
-    private Font       m_Font          = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-    private int        m_FontSize      = 14;
-    private FontStyle  m_FontStyle     = FontStyle.Normal;
-    private float      m_PixelsPerUnit = 1f;
-    private string     m_Text          = string.Empty;
+    private readonly Color      m_Color         = Color.white;
+    private          TextAnchor m_Alignment     = TextAnchor.UpperLeft;
+    private          Font       m_Font          = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+    private          int        m_FontSize      = 14;
+    private          FontStyle  m_FontStyle     = FontStyle.Normal;
+    private          float      m_PixelsPerUnit = 1f;
+    private          string     m_Text          = string.Empty;
     public string Text
     {
         get => m_Text;
@@ -71,16 +71,6 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
             MarkDirty();
         }
     } = false;
-    public Color Color
-    {
-        get => m_Color;
-        set
-        {
-            if(m_Color == value) return;
-            m_Color = value;
-            MarkDirty();
-        }
-    }
     public float PixelsPerUnit
     {
         get => m_PixelsPerUnit;

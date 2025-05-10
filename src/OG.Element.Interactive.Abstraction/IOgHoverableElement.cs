@@ -2,7 +2,7 @@
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 namespace OG.Element.Interactive.Abstraction;
-public interface IOgHoverableElement<TElement> : IOgContainer<TElement> where TElement : IOgElement
+public interface IOgHoverableElement<TElement> : IOgContainer<TElement>, IOgStatedElement where TElement : IOgElement
 {
     IDkObservableProperty<bool>? IsHovering { get; }
 }
