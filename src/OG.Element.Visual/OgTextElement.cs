@@ -100,16 +100,16 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
     }
     private void RegenerateTextMesh(OgGraphicsContext context)
     {
-        if(string.IsNullOrEmpty(m_Text) || (m_Font == null)) return;
+        if(string.IsNullOrEmpty(m_Text) || m_Font == null) return;
         m_Font.RequestCharactersInTexture(m_Text, m_FontSize, m_FontStyle);
         float x          = 0f;
         float y          = 0f;
-        float lineHeight = (m_Font.lineHeight * m_FontSize) / m_PixelsPerUnit;
+        float lineHeight = m_Font.lineHeight * m_FontSize / m_PixelsPerUnit;
         float spaceWidth = m_Font.GetCharacterInfo(' ', out CharacterInfo spaceInfo, m_FontSize, m_FontStyle) ? spaceInfo.advance / m_PixelsPerUnit
-            : m_FontSize * 0.5f;
+                               : m_FontSize * 0.5f;
 
-        // Vector2 textSize = CalculateTextSize(m_Text, m_Font, m_FontSize, m_PixelsPerUnit, spaceWidth);
-        Vector2 alignmentOffset = Vector2.zero /* GetAlignmentOffset(textSize) */;
+        //Vector2 textSize = CalculateTextSize(m_Text, m_Font, m_FontSize, m_PixelsPerUnit, spaceWidth);
+        Vector2 alignmentOffset = Vector2.zero; //GetAlignmentOffset(textSize);
         int     vertexIndex     = context.IndicesCount;
         foreach(char c in m_Text)
         {
@@ -129,10 +129,10 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
                                      -(y + (charInfo.minY / m_PixelsPerUnit)) + alignmentOffset.y, 0);
             Vector3 topRight = new(x + (charInfo.maxX / m_PixelsPerUnit) + alignmentOffset.x, -(y + (charInfo.maxY / m_PixelsPerUnit)) + alignmentOffset.y,
                                    0);
-            context.AddVertex(new(new(bottomLeft.x, bottomLeft.y, 0), m_Color, new Vector2(charInfo.uvBottomLeft.x, charInfo.uvBottomLeft.y)));
-            context.AddVertex(new(new(bottomLeft.x, topRight.y, 0), m_Color, new Vector2(charInfo.uvTopLeft.x, charInfo.uvTopLeft.y)));
-            context.AddVertex(new(new(topRight.x, topRight.y, 0), m_Color, new Vector2(charInfo.uvTopRight.x, charInfo.uvTopRight.y)));
-            context.AddVertex(new(new(topRight.x, bottomLeft.y, 0), m_Color, new Vector2(charInfo.uvBottomRight.x, charInfo.uvBottomRight.y)));
+            context.AddVertex(new(new(bottomLeft.x, bottomLeft.y, 0), m_Color, new(charInfo.uvBottomLeft.x, charInfo.uvBottomLeft.y)));
+            context.AddVertex(new(new(bottomLeft.x, topRight.y, 0), m_Color, new(charInfo.uvTopLeft.x, charInfo.uvTopLeft.y)));
+            context.AddVertex(new(new(topRight.x, topRight.y, 0), m_Color, new(charInfo.uvTopRight.x, charInfo.uvTopRight.y)));
+            context.AddVertex(new(new(topRight.x, bottomLeft.y, 0), m_Color, new(charInfo.uvBottomRight.x, charInfo.uvBottomRight.y)));
             context.AddIndex(vertexIndex);
             context.AddIndex(vertexIndex + 1);
             context.AddIndex(vertexIndex + 2);
@@ -143,8 +143,24 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
             x           += charInfo.advance / m_PixelsPerUnit;
         }
     }
-    private Vector2 CalculateTextSize(string text, Font font, int fontSize, float pixelsPerUnit,
-                                      float  spaceWidth)
+    private Vector2 GetAlignmentOffset(Vector2 textSize)
+    {
+        Vector2 offset = new(offset.x = m_Alignment switch
+        {
+            TextAnchor.UpperCenter or TextAnchor.MiddleCenter or TextAnchor.LowerCenter => textSize.x * 0.5f,
+            TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight    => textSize.x,
+            _                                                                           => 0
+        }, offset.y = m_Alignment switch
+        {
+            TextAnchor.MiddleLeft or TextAnchor.MiddleCenter or TextAnchor.MiddleRight => textSize.y * 0.5f,
+            TextAnchor.LowerLeft or TextAnchor.LowerCenter or TextAnchor.LowerRight    => textSize.y,
+            _                                                                          => 0
+        });
+        return offset;
+    }
+    private Vector2 CalculateTextSize(
+        string text, Font font, int fontSize, float pixelsPerUnit,
+        float spaceWidth)
     {
         float width     = 0f;
         float maxWidth  = 0f;
@@ -162,13 +178,10 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
                     width += spaceWidth;
                     continue;
             }
-            if(font.GetCharacterInfo(c, out CharacterInfo charInfo, fontSize, m_FontStyle))
-            {
-                width += charInfo.advance / pixelsPerUnit;
-            }
+            if(font.GetCharacterInfo(c, out CharacterInfo charInfo, fontSize, m_FontStyle)) width += charInfo.advance / pixelsPerUnit;
         }
         maxWidth = Mathf.Max(maxWidth, width);
-        float height = (lineCount * font.lineHeight * fontSize) / pixelsPerUnit;
+        float height = lineCount * font.lineHeight * fontSize / pixelsPerUnit;
         return new(maxWidth, height);
     }
 }

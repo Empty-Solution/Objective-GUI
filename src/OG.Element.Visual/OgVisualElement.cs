@@ -6,7 +6,7 @@ using OG.Graphics;
 namespace OG.Element.Visual;
 public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCallback<IOgRenderEvent>
 {
-    private bool               m_IsDirty;
+    private bool               m_IsDirty = true;
     private OgGraphicsContext? m_RenderContext;
     protected OgVisualElement(string name, IOgEventHandlerProvider provider) : base(name, provider) => provider.Register(this);
     bool IOgEventCallback<IOgRenderEvent>.Invoke(IOgRenderEvent reason)
@@ -21,6 +21,6 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
         reason.Graphics.Render(m_RenderContext);
         return false;
     }
-    protected          void MarkDirty() => m_IsDirty = true;
+    protected void MarkDirty() => m_IsDirty = true;
     protected abstract void BuildContext(OgGraphicsContext context);
 }

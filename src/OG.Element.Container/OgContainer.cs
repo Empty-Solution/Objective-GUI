@@ -42,10 +42,11 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         for(int i = 0; i < count; i++)
         {
             TElement element = m_Elements[i];
+            element.ElementRect = new();
             foreach(IOgTransformer transformer in reason.Transformers)
             {
                 if(!element.TryGetOption(transformer, out IOgTransformerOption option)) continue;
-                element.ElementRect = transformer.Transform(element.ElementRect, ElementRect, lastRect, count - i - 1,
+                element.ElementRect = transformer.Transform(element.ElementRect, ElementRect, lastRect, count - i,
                                                             option);
             }
             lastRect = element.ElementRect;

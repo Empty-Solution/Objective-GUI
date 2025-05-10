@@ -9,6 +9,8 @@ public interface IOgElement
     string                            Name               { get; }
     bool                              IsActive           { get; }
     Rect                              ElementRect        { get; set; }
+    void AddOption(IOgTransformerOption option);
+    bool RemoveOption(IOgTransformerOption option);
     bool ProcessEvent(IOgEvent reason);
     bool TryGetOption(IOgTransformer transformer, out IOgTransformerOption option);
 }
