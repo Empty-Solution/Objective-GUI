@@ -3,7 +3,7 @@ using UnityEngine;
 namespace OG.Transformer.Transformers;
 public class OgMarginTransformer : OgTransformerBase<OgMarginOption>
 {
-    public override int Order => 1;
+    public override int Order => 20;
     public override Rect Transform(
         Rect rect, Rect parentRect, Rect lastRect, int remaining,
         OgMarginOption option) =>

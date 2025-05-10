@@ -5,6 +5,7 @@ using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Abstraction;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace OG.Element.Container;
 public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgEvent>, IOgEventCallback<IOgInputEvent>,
@@ -37,13 +38,14 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     bool IOgEventCallback<IOgInputEvent>.Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
     bool IOgEventCallback<IOgLayoutEvent>.Invoke(IOgLayoutEvent reason)
     {
-        Rect lastRect = Rect.zero;
-        int  count    = m_Elements.Count;
+        Rect                               lastRect     = Rect.zero;
+        int                                count        = m_Elements.Count;
+        IOrderedEnumerable<IOgTransformer> transformers = reason.Transformers.OrderBy(t => t.Order);
         for(int i = 0; i < count; i++)
         {
             TElement element = m_Elements[i];
             element.ElementRect = new();
-            foreach(IOgTransformer transformer in reason.Transformers)
+            foreach(IOgTransformer transformer in transformers)
             {
                 if(!element.TryGetOption(transformer, out IOgTransformerOption option)) continue;
                 element.ElementRect = transformer.Transform(element.ElementRect, ElementRect, lastRect, count - i,
