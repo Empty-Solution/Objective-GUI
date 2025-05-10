@@ -1,6 +1,7 @@
-﻿using OG.Element.Abstraction;
+﻿using DK.Property.Observing.Abstraction.Generic;
+using OG.Element.Abstraction;
 namespace OG.Element.Interactive.Abstraction;
-public interface IOgInteractiveElement : IOgElement
+public interface IOgInteractiveElement<TElement> : IOgHoverableElement<TElement> where TElement : IOgElement
 {
-    bool IsInteracting { get; }
+    IDkObservableProperty<bool>? IsInteracting { get; }
 }

@@ -9,7 +9,8 @@ using System.Linq;
 using UnityEngine;
 namespace OG.Element.Container;
 public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgEvent>, IOgEventCallback<IOgInputEvent>,
-                                     IOgEventCallback<IOgRenderEvent>, IOgEventCallback<IOgLayoutEvent> where TElement : IOgElement
+                                     IOgEventCallback<IOgRenderEvent>, IOgEventCallback<IOgLayoutEvent>,
+                                     IOgEventCallback<IOgMouseEvent> where TElement : IOgElement
 {
     private readonly List<TElement> m_Elements = [];
     public OgContainer(string name, IOgEventHandlerProvider provider) : base(name, provider)
@@ -34,9 +35,9 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         m_Elements.RemoveAt(index);
         return true;
     }
-    bool IOgEventCallback<IOgEvent>.Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
-    bool IOgEventCallback<IOgInputEvent>.Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
-    bool IOgEventCallback<IOgLayoutEvent>.Invoke(IOgLayoutEvent reason)
+    public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
+    public bool Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
+    public virtual bool Invoke(IOgLayoutEvent reason)
     {
         Rect                               lastRect     = Rect.zero;
         int                                count        = m_Elements.Count;
@@ -45,11 +46,12 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         for(int i = 0; i < count; i++)
         {
             TElement element = m_Elements[i];
-            Rect rect = new();
+            Rect     rect    = new();
             foreach(IOgTransformer transformer in transformers)
             {
                 if(!element.TryGetOption(transformer, out IOgTransformerOption option)) continue;
-                rect = transformer.Transform(rect, parentRect, lastRect, count - i, option);
+                rect = transformer.Transform(rect, parentRect, lastRect, count - i,
+                                             option);
                 //for(int j = 0; j < i; j++)
                 //{
                 //    TElement suspect = m_Elements[j];
@@ -66,7 +68,14 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         }
         return false;
     }
-    bool IOgEventCallback<IOgRenderEvent>.Invoke(IOgRenderEvent reason)
+    public bool Invoke(IOgMouseEvent reason)
+    {
+        reason.LocalPosition -= ElementRect.position;
+        bool isUsed = ProcessElementsEventForward(reason);
+        reason.LocalPosition += ElementRect.position;
+        return isUsed;
+    }
+    public virtual bool Invoke(IOgRenderEvent reason)
     {
         reason.Enter(ElementRect);
         bool isUsed = ProcessElementsEventForward(reason);
@@ -82,7 +91,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         }
         return false;
     }
-    protected bool ProcessElementsEventBackward(IOgEvent reason)
+    protected bool ProcessElementsEventBackward(IOgInputEvent reason)
     {
         for(int i = m_Elements.Count - 1; i >= 0; i--)
         {
