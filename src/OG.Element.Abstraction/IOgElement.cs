@@ -4,9 +4,9 @@ using UnityEngine;
 namespace OG.Element.Abstraction;
 public interface IOgElement
 {
-    string              Name        { get; set; }
-    bool                IsActive    { get; }
     Rect                ElementRect { get; }
+    string              Name        { get; }
+    bool                IsActive    { get; set; }
     IOgOptionsContainer Options     { get; set; }
     bool ProcessEvent(IOgEvent reason);
 }

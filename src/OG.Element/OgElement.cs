@@ -16,7 +16,7 @@ public class OgElement : IOgElement, IOgEventCallback<IOgLayoutEvent>
     public bool                IsActive    { get; set; }
     public Rect                ElementRect { get; protected set; }
     public IOgOptionsContainer Options     { get; set; }
-    public string              Name        { get; set; }
+    public string              Name        { get; }
     public bool ProcessEvent(IOgEvent reason) => IsActive && m_Provider.Handle(reason);
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
