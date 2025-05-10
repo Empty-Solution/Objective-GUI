@@ -10,6 +10,7 @@ public class OgUnityEventSystem(IOgEventHandlerProvider provider, IEnumerable<IO
     public void Unregister(IOgEventPipe<UeEvent> pipe) => m_Pipes.Remove(pipe);
     public void Handle()
     {
-        foreach(IOgEventPipe<UeEvent> pipe in m_Pipes) provider.Handle(pipe.GetEvent(UeEvent.current));
+        foreach(IOgEventPipe<UeEvent> pipe in m_Pipes)
+            provider.Handle(pipe.GetEvent(UeEvent.current));
     }
 }

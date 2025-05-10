@@ -22,8 +22,9 @@ public class OgQuadElement(string name, IOgEventHandlerProvider provider) : OgVi
     }
     protected virtual void FillContext(OgGraphicsContext context)
     {
+        int verticesCount = context.VerticesCount;
         FillVertex(context, Color);
-        FillIndices(context, context.VerticesCount);
+        FillIndices(context, verticesCount);
     }
     protected virtual void FillVertex(OgGraphicsContext context, Color color)
     {

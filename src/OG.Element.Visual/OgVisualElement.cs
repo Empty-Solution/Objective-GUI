@@ -31,7 +31,7 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
             field = value;
             MarkDirty();
         }
-    } = Color.white;
+    }
     protected void MarkDirty() => m_IsDirty = true;
     protected abstract void BuildContext(OgGraphicsContext context);
 }
