@@ -4,6 +4,7 @@
         <ProjectReference Include="..\OG.Transformer.Abstraction\OG.Transformer.Abstraction.csproj"/>
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="DK.Matching" Version="1.2.5"/>
         <PackageReference Include="UnityEngine.TextRenderingModule" Version="2020.3.1"/>
     </ItemGroup>
 </Project>
