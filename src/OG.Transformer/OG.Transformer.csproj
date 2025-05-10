@@ -3,4 +3,7 @@
         <ProjectReference Include="..\OG.DataTypes.Orientation\OG.DataTypes.Orientation.csproj"/>
         <ProjectReference Include="..\OG.Transformer.Abstraction\OG.Transformer.Abstraction.csproj"/>
     </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="UnityEngine.TextRenderingModule" Version="2020.3.1"/>
+    </ItemGroup>
 </Project>
