@@ -9,7 +9,7 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
 {
     private bool               m_IsDirty = true;
     private OgGraphicsContext? m_RenderContext;
-    protected OgVisualElement(string name, IOgEventHandlerProvider provider) : base(name, provider) => provider.Register(this);
+    protected OgVisualElement(string name, IOgEventHandlerProvider provider) : base(name, provider) => provider.Register<IOgRenderEvent>(this);
     bool IOgEventCallback<IOgRenderEvent>.Invoke(IOgRenderEvent reason)
     {
         m_RenderContext ??= new();

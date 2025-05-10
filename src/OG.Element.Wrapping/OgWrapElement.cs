@@ -15,5 +15,4 @@ public class OgWrapElement<TSource>(string name, TSource source) : IOgElement wh
     public void AddOption(IOgTransformerOption option) => Source.AddOption(option);
     public bool RemoveOption(IOgTransformerOption option) => Source.RemoveOption(option);
     public bool ProcessEvent(IOgEvent reason) => Source.ProcessEvent(reason);
-    public bool TryGetOption(IOgTransformer transformer, out IOgTransformerOption option) => Source.TryGetOption(transformer, out option);
 }

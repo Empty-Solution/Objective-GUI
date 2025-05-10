@@ -3,10 +3,7 @@ using OG.Element.Container.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
-using OG.Transformer.Abstraction;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 namespace OG.Element.Container;
 public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgEvent>, IOgEventCallback<IOgInputEvent>,
                                      IOgEventCallback<IOgRenderEvent>, IOgEventCallback<IOgLayoutEvent>,
@@ -37,32 +34,14 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     }
     public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
     public bool Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
-    public virtual bool Invoke(IOgLayoutEvent reason)
+    public override bool Invoke(IOgLayoutEvent reason)
     {
-        Rect                               lastRect     = Rect.zero;
-        int                                count        = m_Elements.Count;
-        Rect                               parentRect   = ElementRect;
+        reason.ParentRect = ElementRect;
+        int count = m_Elements.Count;
         for(int i = 0; i < count; i++)
         {
             TElement element = m_Elements[i];
-            Rect     rect    = new();
-            foreach(IOgTransformer transformer in reason.Transformers)
-            {
-                if(!element.TryGetOption(transformer, out IOgTransformerOption option)) continue;
-                rect = transformer.Transform(rect, parentRect, lastRect, count - i,
-                                             option);
-                //for(int j = 0; j < i; j++)
-                //{
-                //    TElement suspect = m_Elements[j];
-                //    if(!suspect.ElementRect.Overlaps(rect)) continue;
-                //    element.RemoveOption(option);
-                //    rect = element.ElementRect;
-                //    break;
-                //}
-                //element.ElementRect = rect;
-            }
-            element.ElementRect = rect;
-            lastRect            = rect;
+            reason.RemainingLayoutItems = count - i;
             element.ProcessEvent(reason);
         }
         return false;

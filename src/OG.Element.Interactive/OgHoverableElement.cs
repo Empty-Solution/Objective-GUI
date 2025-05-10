@@ -19,15 +19,6 @@ public abstract class OgHoverableElement<TElement> : OgContainer<TElement>, IOgH
         State!.Set(containsMouse ? EOgElementState.HOVERED : EOgElementState.IDLE);
         return false;
     }
-    public override bool IsActive
-    {
-        get;
-        set
-        {
-            field = value;
-            State!.Set(value ? EOgElementState.APPEAR : EOgElementState.DISAPPEAR);
-        }
-    }
     public IDkObservableProperty<bool>?            IsHovering { get; set; }
     public IDkObservableProperty<EOgElementState>? State      { get; set; }
 }

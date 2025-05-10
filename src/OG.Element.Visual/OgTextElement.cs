@@ -4,7 +4,7 @@ using UnityEngine;
 namespace OG.Element.Visual;
 public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVisualElement(name, provider)
 {
-    private TextAnchor m_Alignment     = TextAnchor.UpperLeft;
+    private TextAnchor m_Alignment = TextAnchor.UpperLeft;
     private Font?      m_Font;
     private int        m_FontSize      = 14;
     private FontStyle  m_FontStyle     = FontStyle.Normal;
