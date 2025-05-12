@@ -1,5 +1,4 @@
 ﻿using DK.Property.Observing.Abstraction.Generic;
-using OG.DataTypes.ElementState;
 using OG.Element.Abstraction;
 using OG.Element.Container;
 using OG.Element.Interactive.Abstraction;
@@ -18,9 +17,7 @@ public abstract class OgHoverableElement<TElement> : OgContainer<TElement>, IOgH
         bool containsMouse = ElementRect.Contains(reason.LocalPosition);
         if(IsHovering!.Get() == containsMouse) return false;
         IsHovering!.Set(containsMouse);
-        State!.Set(containsMouse ? EOgElementState.HOVERED : EOgElementState.IDLE);
         return false;
     }
     public IDkObservableProperty<bool>?            IsHovering { get; set; }
-    public IDkObservableProperty<EOgElementState>? State      { get; set; }
 }

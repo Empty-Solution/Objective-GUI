@@ -1,5 +1,4 @@
 ﻿using DK.Property.Observing.Abstraction.Generic;
-using OG.DataTypes.ElementState;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
@@ -20,13 +19,11 @@ public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOg
     public IDkObservableProperty<bool>? IsInteracting                       { get; set; }
     protected virtual bool BeginControl(IOgMouseKeyDownEvent reason)
     {
-        State!.Set(EOgElementState.INTERACTING);
         IsInteracting!.Set(true);
         return false;
     }
     protected virtual bool EndControl(IOgMouseKeyUpEvent reason)
     {
-        State!.Set(EOgElementState.IDLE);
         IsInteracting!.Set(false);
         return false;
     }

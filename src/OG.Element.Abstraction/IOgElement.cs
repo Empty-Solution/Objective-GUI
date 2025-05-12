@@ -8,5 +8,6 @@ public interface IOgElement
     string              Name        { get; }
     bool                IsActive    { get; set; }
     IOgOptionsContainer Options     { get; }
+    Rect                QueuedRect  { get; set; }
     bool                ProcessEvent(IOgEvent reason);
 }

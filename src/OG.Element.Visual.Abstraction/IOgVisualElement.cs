@@ -3,5 +3,5 @@ using UnityEngine;
 namespace OG.Element.Visual.Abstraction;
 public interface IOgVisualElement : IOgElement
 {
-    public Color Color { get; set; }
+    public Color Color      { get; set; }
 }

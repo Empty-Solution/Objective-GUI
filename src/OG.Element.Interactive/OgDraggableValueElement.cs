@@ -1,5 +1,4 @@
-﻿using OG.DataTypes.ElementState;
-using OG.Element.Abstraction;
+﻿using OG.Element.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Abstraction;
@@ -16,7 +15,6 @@ public abstract class OgDraggableValueElement<TElement, TValue>(string name, IOg
         TValue value    = Value!.Get();
         TValue newValue = CalculateValue(reason, value);
         if(Equals(value, newValue)) return false;
-        State!.Set(EOgElementState.ACTIVE);
         Value!.Set(newValue);
         return true;
     }

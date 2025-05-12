@@ -1,5 +1,4 @@
 ﻿using DK.Property.Observing.Abstraction.Generic;
-using OG.DataTypes.ElementState;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
@@ -18,7 +17,6 @@ public class OgDraggableElement<TElement>(string name, IOgEventHandlerProvider p
         Vector2 dragDelta = DragDelta!.Get();
         dragDelta += reason.Delta;
         DragDelta!.Set(dragDelta);
-        State!.Set(EOgElementState.ACTIVE);
         return PerformDrag(reason, dragDelta);
     }
     public override bool Invoke(IOgLayoutEvent reason)
