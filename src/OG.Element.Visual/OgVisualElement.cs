@@ -34,15 +34,6 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
             MarkDirty();
         }
     }
-    public override Rect QueuedRect
-    {
-        get;
-        set
-        {
-            field = value;
-            MarkDirty();
-        }
-    }
     protected          void MarkDirty() => m_IsDirty = true;
     protected abstract void BuildContext(OgGraphicsContext context);
 }

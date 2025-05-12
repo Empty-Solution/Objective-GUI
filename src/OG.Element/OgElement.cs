@@ -10,17 +10,9 @@ public class OgElement(string name, IOgEventHandlerProvider provider, IOgOptions
     public         bool                IsActive    { get; set; } = true;
     public         Rect                ElementRect { get; protected set; }
     public         IOgOptionsContainer Options     => options;
-    public virtual Rect                QueuedRect  { get; set; }
     public bool                ProcessEvent(IOgEvent reason) => IsActive && provider.Handle(reason);
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
-        Rect queuedRect  = QueuedRect;
-        if(queuedRect != Rect.zero)
-        {
-            ElementRect = queuedRect;
-            QueuedRect  = Rect.zero;
-            return false;
-        }
         Rect rect = new();
         foreach(IOgTransformer transformer in reason.Transformers)
         {
