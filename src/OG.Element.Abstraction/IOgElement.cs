@@ -7,6 +7,6 @@ public interface IOgElement
     Rect                ElementRect { get; }
     string              Name        { get; }
     bool                IsActive    { get; set; }
-    IOgOptionsContainer Options     { get; set; }
-    bool ProcessEvent(IOgEvent reason);
+    IOgOptionsContainer Options     { get; }
+    bool                ProcessEvent(IOgEvent reason);
 }

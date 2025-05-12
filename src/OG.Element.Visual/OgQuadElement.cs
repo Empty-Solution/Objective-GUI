@@ -1,8 +1,9 @@
 ﻿using OG.Event.Abstraction;
 using OG.Graphics;
+using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element.Visual;
-public class OgQuadElement(string name, IOgEventHandlerProvider provider) : OgVisualElement(name, provider)
+public class OgQuadElement(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options) : OgVisualElement(name, provider, options)
 {
     public Material? Material
     {

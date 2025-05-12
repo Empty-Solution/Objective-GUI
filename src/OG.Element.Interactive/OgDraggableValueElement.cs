@@ -2,14 +2,15 @@
 using OG.Element.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
+using OG.Transformer.Abstraction;
 namespace OG.Element.Interactive;
-public abstract class OgDraggableValueElement<TElement, TValue>(string name, IOgEventHandlerProvider provider)
-    : OgInteractableValueElement<TElement, TValue>(name, provider) where TElement : IOgElement
+public abstract class OgDraggableValueElement<TElement, TValue>(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options)
+    : OgInteractableValueElement<TElement, TValue>(name, provider, options) where TElement : IOgElement
 {
-    public override bool Invoke(IOgMouseMoveEvent reason) => base.Invoke(reason) || UpdateValue(reason);
-    protected override bool BeginControl(IOgMouseKeyDownEvent reason) => base.BeginControl(reason) || UpdateValue(reason);
-    protected override bool EndControl(IOgMouseKeyUpEvent reason) => base.EndControl(reason) || UpdateValue(reason);
-    protected abstract TValue CalculateValue(IOgMouseEvent reason, TValue value);
+    public override    bool   Invoke(IOgMouseMoveEvent          reason) => base.Invoke(reason) || UpdateValue(reason);
+    protected override bool   BeginControl(IOgMouseKeyDownEvent reason) => base.BeginControl(reason) || UpdateValue(reason);
+    protected override bool   EndControl(IOgMouseKeyUpEvent     reason) => base.EndControl(reason) || UpdateValue(reason);
+    protected abstract TValue CalculateValue(IOgMouseEvent      reason, TValue value);
     private bool UpdateValue(IOgMouseEvent reason)
     {
         TValue value    = Value!.Get();

@@ -3,10 +3,11 @@ using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
+using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public abstract class OgSlider<TElement>(string name, IOgEventHandlerProvider provider)
-    : OgDraggableValueElement<TElement, float>(name, provider), IOgSlider<TElement> where TElement : IOgElement
+public abstract class OgSlider<TElement>(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options)
+    : OgDraggableValueElement<TElement, float>(name, provider, options), IOgSlider<TElement> where TElement : IOgElement
 {
     public IDkReadOnlyRange<float>? Range { get; set; }
     protected override float CalculateValue(IOgMouseEvent reason, float value) =>

@@ -4,10 +4,11 @@ using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
+using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider)
-    : OgInteractableValueElement<TElement, Vector2>(name, provider), IOgVectorValueElement<TElement>, IOgEventCallback<IOgMouseWheelEvent>
+public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options)
+    : OgInteractableValueElement<TElement, Vector2>(name, provider, options), IOgVectorValueElement<TElement>, IOgEventCallback<IOgMouseWheelEvent>
     where TElement : IOgElement
 {
     public bool Invoke(IOgMouseWheelEvent reason)

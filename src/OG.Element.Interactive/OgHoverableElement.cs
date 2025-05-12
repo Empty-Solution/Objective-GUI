@@ -6,11 +6,13 @@ using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
+using OG.Transformer.Abstraction;
 namespace OG.Element.Interactive;
 public abstract class OgHoverableElement<TElement> : OgContainer<TElement>, IOgHoverableElement<TElement>, IOgEventCallback<IOgMouseMoveEvent>
     where TElement : IOgElement
 {
-    protected OgHoverableElement(string name, IOgEventHandlerProvider provider) : base(name, provider) => provider.Register<IOgMouseMoveEvent>(this);
+    protected OgHoverableElement(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options) : base(name, provider, options) =>
+        provider.Register<IOgMouseMoveEvent>(this);
     public virtual bool Invoke(IOgMouseMoveEvent reason)
     {
         bool containsMouse = ElementRect.Contains(reason.LocalPosition);

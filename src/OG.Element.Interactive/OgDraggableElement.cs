@@ -4,10 +4,11 @@ using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
+using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public class OgDraggableElement<TElement>(string name, IOgEventHandlerProvider provider)
-    : OgInteractableElement<TElement>(name, provider), IOgDraggableElement<TElement> where TElement : IOgElement
+public class OgDraggableElement<TElement>(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options)
+    : OgInteractableElement<TElement>(name, provider, options), IOgDraggableElement<TElement> where TElement : IOgElement
 {
     public IDkObservableProperty<Vector2>? DragDelta { get; set; }
     public override bool Invoke(IOgMouseMoveEvent reason)

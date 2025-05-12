@@ -9,7 +9,7 @@ namespace OG.Event.Pipe;
 public class OgLayoutEventPipe : OgEventPipe<IOgLayoutEvent>
 {
     private readonly IEnumerable<IOgTransformer> m_Transformers;
-    public OgLayoutEventPipe(IEnumerable<IOgTransformer> transformers) => m_Transformers = transformers.OrderBy(o => o.Order);
-    public override bool CanHandle(UeEvent value) => value.type is EventType.Layout;
+    public OgLayoutEventPipe(IEnumerable<IOgTransformer>       transformers) => m_Transformers = transformers.OrderBy(o => o.Order);
+    public override    bool           CanHandle(UeEvent        value)       => value.type is EventType.Layout;
     protected override IOgLayoutEvent InternalGetEvent(UeEvent sourceEvent) => new OgLayoutEvent(m_Transformers);
 }

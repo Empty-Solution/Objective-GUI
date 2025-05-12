@@ -4,19 +4,19 @@ using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element;
-public class OgElement(string name, IOgEventHandlerProvider provider) : IOgElement, IOgEventCallback<IOgLayoutEvent>
+public class OgElement(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options) : IOgElement, IOgEventCallback<IOgLayoutEvent>
 {
-    public bool                IsActive    { get; set; } = true;
-    public Rect                ElementRect { get; protected set; }
-    public IOgOptionsContainer Options     { get; set; }
-    public string              Name        { get; } = name;
-    public bool ProcessEvent(IOgEvent reason) => IsActive && provider.Handle(reason);
+    public string              Name                          => name;
+    public bool                IsActive                      { get; set; } = true;
+    public Rect                ElementRect                   { get; protected set; }
+    public IOgOptionsContainer Options                       => options;
+    public bool                ProcessEvent(IOgEvent reason) => IsActive && provider.Handle(reason);
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
         Rect rect = new();
         foreach(IOgTransformer transformer in reason.Transformers)
         {
-            if(!Options.Provider.TryGetMatcher(transformer, out IOgTransformerOption option)) continue;
+            if(!Options.TryGetOption(transformer, out IOgTransformerOption option)) continue;
             rect = transformer.Transform(rect, reason.ParentRect, reason.LastLayoutRect, reason.RemainingLayoutItems,
                                          option);
         }

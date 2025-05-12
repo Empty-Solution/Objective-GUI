@@ -1,8 +1,9 @@
 ﻿using OG.Event.Abstraction;
 using OG.Graphics;
+using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element.Visual;
-public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVisualElement(name, provider)
+public class OgTextElement(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options) : OgVisualElement(name, provider, options)
 {
     private TextAnchor m_Alignment = TextAnchor.UpperLeft;
     private Font?      m_Font;
@@ -89,13 +90,13 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
     }
     private void RegenerateTextMesh(OgGraphicsContext context)
     {
-        if(string.IsNullOrEmpty(m_Text) || m_Font == null) return;
+        if(string.IsNullOrEmpty(m_Text) || (m_Font == null)) return;
         m_Font.RequestCharactersInTexture(m_Text, m_FontSize, m_FontStyle);
         float x          = 0f;
         float y          = 0f;
-        float lineHeight = m_Font.lineHeight * m_FontSize / m_PixelsPerUnit;
+        float lineHeight = (m_Font.lineHeight * m_FontSize) / m_PixelsPerUnit;
         float spaceWidth = m_Font.GetCharacterInfo(' ', out CharacterInfo spaceInfo, m_FontSize, m_FontStyle) ? spaceInfo.advance / m_PixelsPerUnit
-                               : m_FontSize * 0.5f;
+            : m_FontSize * 0.5f;
 
         //Vector2 textSize = CalculateTextSize(m_Text, m_Font, m_FontSize, m_PixelsPerUnit, spaceWidth);
         Vector2 alignmentOffset = Vector2.zero; //GetAlignmentOffset(textSize, context.Rect);
@@ -133,9 +134,8 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
             x           += charInfo.advance / m_PixelsPerUnit;
         }
     }
-    public Vector2 CalculateTextSize(
-        string text, Font font, int fontSize, float pixelsPerUnit,
-        float spaceWidth)
+    public Vector2 CalculateTextSize(string text, Font font, int fontSize, float pixelsPerUnit,
+                                     float  spaceWidth)
     {
         float width     = 0f;
         float maxWidth  = 0f;
@@ -156,7 +156,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider) : OgVi
             if(font.GetCharacterInfo(c, out CharacterInfo charInfo, fontSize, m_FontStyle)) width += charInfo.advance / pixelsPerUnit;
         }
         maxWidth = Mathf.Max(maxWidth, width);
-        float height = lineCount * font.lineHeight * fontSize / pixelsPerUnit;
+        float height = (lineCount * font.lineHeight * fontSize) / pixelsPerUnit;
         return new(maxWidth, height);
     }
 }
