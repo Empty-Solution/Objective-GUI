@@ -1,16 +1,16 @@
 ﻿using OG.DataTypes.Orientation;
 using OG.Transformer.Abstraction;
 using UnityEngine;
-namespace OG.Transformer.Transformers;
-public class OgFlexibleSizeTransformer : IOgTransformer
+namespace OG.Transformer;
+public class OgFlexibleTransformer : IOgTransformer
 {
     public int Order { get; set; } = 90;
     public Rect Transform(Rect rect, Rect parentRect, Rect lastRect, int remaining, IOgOptionsContainer options)
     {
-        if(!options.TryGetValue("FlexibleSizeOrientation", out EOgOrientation orientation)) return rect;
+        if(!options.TryGetValue("FlexibleOrientation", out EOgOrientation orientation)) return rect;
         float occupied = orientation == EOgOrientation.HORIZONTAL ? lastRect.xMax - parentRect.x : lastRect.yMax - parentRect.y;
         float free     = (orientation == EOgOrientation.HORIZONTAL ? parentRect.width : parentRect.height) - occupied;
-        return orientation == EOgOrientation.HORIZONTAL ? new(rect.x, rect.y, Mathf.Max(free / remaining, 0), parentRect.height)
-                   : new(rect.x, rect.y, parentRect.width, Mathf.Max(free / remaining, 0));
+        return orientation == EOgOrientation.HORIZONTAL ? new(rect.x + occupied, rect.y, Mathf.Max(free / remaining, 0), parentRect.height)
+                   : new(rect.x, rect.y + occupied, parentRect.width, Mathf.Max(free / remaining, 0));
     }
 }

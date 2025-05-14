@@ -1,6 +1,6 @@
 ﻿using OG.Transformer.Abstraction;
 using UnityEngine;
-namespace OG.Transformer.Transformers;
+namespace OG.Transformer;
 public class OgScriptableTransformer(string name, int order, OgScriptableTransformer.TransformHandler handler) : IOgTransformer
 {
     public delegate Rect TransformHandler(Rect rect, Rect parentRect, Rect lastRect, int remaining, IOgOptionsContainer options);

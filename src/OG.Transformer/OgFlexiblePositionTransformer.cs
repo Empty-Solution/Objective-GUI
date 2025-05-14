@@ -1,7 +1,7 @@
 ﻿using OG.DataTypes.Orientation;
 using OG.Transformer.Abstraction;
 using UnityEngine;
-namespace OG.Transformer.Transformers;
+namespace OG.Transformer;
 public class OgFlexiblePositionTransformer : IOgTransformer
 {
     public int Order { get; set; } = 90;

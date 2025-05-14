@@ -1,6 +1,6 @@
 ﻿using OG.Transformer.Abstraction;
 using UnityEngine;
-namespace OG.Transformer.Transformers;
+namespace OG.Transformer;
 public class OgAlignmentTransformer : IOgTransformer
 {
     public int Order { get; set; } = 1000;

@@ -1,6 +1,6 @@
 ﻿using OG.Transformer.Abstraction;
 using UnityEngine;
-namespace OG.Transformer.Transformers;
+namespace OG.Transformer;
 public class OgRelativeSizeTransformer : IOgTransformer
 {
     public int Order { get; set; } = 0;
