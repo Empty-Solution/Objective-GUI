@@ -19,5 +19,5 @@ public abstract class OgHoverableElement<TElement> : OgContainer<TElement>, IOgH
         IsHovering!.Set(containsMouse);
         return false;
     }
-    public IDkObservableProperty<bool>?            IsHovering { get; set; }
+    public IDkObservableProperty<bool>? IsHovering { get; set; }
 }

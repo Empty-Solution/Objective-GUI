@@ -14,10 +14,10 @@ public abstract class OgFocusableElement<TElement, TValue>(string name, IOgEvent
     {
         base.EndControl(reason);
         bool hovering = IsHovering!.Get();
-        if(!IsInteracting!.Get() || (IsFocusing!.Get() == hovering)) return false;
+        if(!IsInteracting!.Get() || IsFocusing!.Get() == hovering) return false;
         IsFocusing!.Set(hovering);
         return hovering ? OnFocus(reason) : OnLostFocus(reason);
     }
-    protected abstract bool OnFocus(IOgMouseKeyUpEvent     reason);
+    protected abstract bool OnFocus(IOgMouseKeyUpEvent reason);
     protected abstract bool OnLostFocus(IOgMouseKeyUpEvent reason);
 }
