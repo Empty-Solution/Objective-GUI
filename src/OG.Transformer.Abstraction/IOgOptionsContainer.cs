@@ -1,7 +1,7 @@
 ﻿namespace OG.Transformer.Abstraction;
 public interface IOgOptionsContainer
 {
-    bool TryGetOption(IOgTransformer transformer, out IOgTransformerOption option);
-    void AddOption(IOgTransformerOption option);
-    bool RemoveOption(IOgTransformerOption option);
+    void AddOption<TValue>(string name, TValue value);
+    bool RemoveOption(string name);
+    bool TryGetValue<TValue>(string name, out TValue value);
 }

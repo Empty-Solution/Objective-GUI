@@ -1,12 +1,7 @@
 ﻿using OG.Event.Prefab.Abstraction;
-using OG.Transformer.Abstraction;
-using System.Collections.Generic;
-using UnityEngine;
+using OG.Layout.Abstraction;
 namespace OG.Event.Prefab;
-public class OgLayoutEvent(IEnumerable<IOgTransformer> transformers) : OgEvent, IOgLayoutEvent
+public class OgLayoutEvent(IOgLayout layout) : OgEvent, IOgLayoutEvent
 {
-    public IEnumerable<IOgTransformer> Transformers         { get; } = transformers;
-    public Rect                        ParentRect           { get; set; }
-    public Rect                        LastLayoutRect       { get; set; }
-    public int                         RemainingLayoutItems { get; set; }
+    public IOgLayout Layout { get; } = layout;
 }

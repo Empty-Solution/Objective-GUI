@@ -1,0 +1,24 @@
+﻿using OG.Layout.Abstraction;
+using OG.Transformer.Abstraction;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+namespace OG.Layout;
+public class OgLayout : IOgLayout
+{
+    protected readonly IEnumerable<IOgTransformer> m_Transformers;
+    protected          Rect                        m_LastLayoutRect;
+    public OgLayout(IEnumerable<IOgTransformer> transformers) => m_Transformers = transformers.OrderBy(t => t.Order);
+    public int  RemainingLayoutItems { get; set; }
+    public Rect ParentRect           { get; set; }
+    public Rect ProcessLayout(IOgOptionsContainer options)
+    {
+        Rect rect       = new();
+        Rect parentRect = ParentRect;
+        int  remaining  = RemainingLayoutItems;
+        // ReSharper disable once LoopCanBeConvertedToQuery
+        foreach(IOgTransformer transformer in m_Transformers) rect = transformer.Transform(rect, parentRect, m_LastLayoutRect, remaining, options);
+        m_LastLayoutRect = rect;
+        return rect;
+    }
+}

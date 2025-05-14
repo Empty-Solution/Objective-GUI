@@ -50,12 +50,12 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     }
     public override bool Invoke(IOgLayoutEvent reason)
     {
-        reason.ParentRect = ElementRect;
+        reason.Layout.ParentRect = ElementRect;
         int count = m_Elements.Count;
         for(int i = 0; i < count; i++)
         {
             TElement element = m_Elements[i];
-            reason.RemainingLayoutItems = count - i;
+            reason.Layout.RemainingLayoutItems = count - i;
             element.ProcessEvent(reason);
         }
         return false;

@@ -1,15 +1,11 @@
 ﻿using OG.Event.Prefab;
 using OG.Event.Prefab.Abstraction;
-using OG.Transformer.Abstraction;
-using System.Collections.Generic;
-using System.Linq;
+using OG.Layout.Abstraction;
 using UnityEngine;
 using UeEvent = UnityEngine.Event;
 namespace OG.Event.Pipe;
-public class OgLayoutEventPipe : OgEventPipe<IOgLayoutEvent>
+public class OgLayoutEventPipe(IOgLayout layout) : OgEventPipe<IOgLayoutEvent>
 {
-    private readonly IEnumerable<IOgTransformer> m_Transformers;
-    public OgLayoutEventPipe(IEnumerable<IOgTransformer> transformers) => m_Transformers = transformers.OrderBy(o => o.Order);
     public override bool CanHandle(UeEvent value) => value.type is EventType.Layout;
-    protected override IOgLayoutEvent InternalGetEvent(UeEvent sourceEvent) => new OgLayoutEvent(m_Transformers);
+    protected override IOgLayoutEvent InternalGetEvent(UeEvent sourceEvent) => new OgLayoutEvent(layout);
 }

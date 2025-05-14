@@ -24,9 +24,8 @@ public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider, I
     {
         Rect rect = ElementRect;
         rect.position += Value!.Get();
-        reason.Enter(rect);
-        bool isUsed = ProcessElementsEventForward(reason);
-        reason.Exit();
-        return isUsed;
+        ElementRect   =  rect;
+        Value!.Set(Vector2.zero);
+        return base.Invoke(reason);
     }
 }

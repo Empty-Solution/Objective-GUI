@@ -1,17 +1,16 @@
-﻿using DK.Matching;
-using OG.Transformer.Abstraction;
+﻿using OG.Transformer.Abstraction;
 using System.Collections.Generic;
 namespace OG.Transformer;
 public class OgOptionsContainer : IOgOptionsContainer
 {
-    private readonly DkCacheMatcherProvider<IOgTransformer, IOgTransformerOption> m_MatchProvider;
-    private readonly List<IOgTransformerOption>                                   m_Options;
-    public OgOptionsContainer()
+    private readonly Dictionary<string, object> m_Options = new();
+    public void AddOption<TValue>(string name, TValue value) => m_Options.Add(name, value!);
+    public bool RemoveOption(string name) => m_Options.Remove(name);
+    public bool TryGetValue<TValue>(string name, out TValue value)
     {
-        m_Options       = [];
-        m_MatchProvider = new(m_Options);
+        value = default!;
+        if(!m_Options.TryGetValue(name, out object? option)) return false;
+        value = (TValue)option;
+        return true;
     }
-    public bool TryGetOption(IOgTransformer transformer, out IOgTransformerOption option) => m_MatchProvider.TryGetMatcher(transformer, out option);
-    public void AddOption(IOgTransformerOption option) => m_Options.Add(option);
-    public bool RemoveOption(IOgTransformerOption option) => m_Options.Remove(option);
 }

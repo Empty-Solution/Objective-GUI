@@ -21,12 +21,11 @@ public class OgDraggableElement<TElement>(string name, IOgEventHandlerProvider p
     }
     public override bool Invoke(IOgLayoutEvent reason)
     {
-        base.Invoke(reason);
         Rect rect = ElementRect;
         rect.position += DragDelta!.Get();
         ElementRect   =  rect;
         DragDelta!.Set(Vector2.zero);
-        return false;
+        return base.Invoke(reason);
     }
     protected virtual bool PerformDrag(IOgMouseMoveEvent reason, Vector2 dragDelta) => false;
 }

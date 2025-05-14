@@ -1,11 +1,11 @@
-﻿using OG.Transformer.Options;
+﻿using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Transformer.Transformers;
-public class OgScriptableTransformer(string name, int order, OgScriptableTransformer.TransformHandler handler) : OgTransformerBase<OgScriptableOption>
+public class OgScriptableTransformer(string name, int order, OgScriptableTransformer.TransformHandler handler) : IOgTransformer
 {
-    public delegate Rect TransformHandler(Rect rect, Rect parentRect, Rect lastRect, int remaining, OgScriptableOption option);
-    public          string Name  => name;
-    public override int    Order { get; set; } = order;
-    public override Rect Transform(Rect rect, Rect parentRect, Rect lastRect, int remaining, OgScriptableOption option) =>
-        handler.Invoke(rect, parentRect, lastRect, remaining, option);
+    public delegate Rect TransformHandler(Rect rect, Rect parentRect, Rect lastRect, int remaining, IOgOptionsContainer options);
+    public string Name  => name;
+    public int    Order { get; set; } = order;
+    public Rect Transform(Rect rect, Rect parentRect, Rect lastRect, int remaining, IOgOptionsContainer options) =>
+        handler.Invoke(rect, parentRect, lastRect, remaining, options);
 }

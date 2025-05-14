@@ -4,7 +4,7 @@ using UnityEngine;
 namespace OG.Element.Abstraction;
 public interface IOgElement
 {
-    Rect                ElementRect { get; set; }
+    Rect                ElementRect { get; }
     string              Name        { get; }
     bool                IsActive    { get; set; }
     IOgOptionsContainer Options     { get; }
