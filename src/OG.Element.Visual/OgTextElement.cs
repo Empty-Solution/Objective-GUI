@@ -134,9 +134,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IOgOpt
             x           += charInfo.advance / m_PixelsPerUnit;
         }
     }
-    public Vector2 CalculateTextSize(
-        string text, Font font, int fontSize, float pixelsPerUnit,
-        float spaceWidth)
+    public Vector2 CalculateTextSize(string text, Font font, int fontSize, float pixelsPerUnit, float spaceWidth)
     {
         float width     = 0f;
         float maxWidth  = 0f;

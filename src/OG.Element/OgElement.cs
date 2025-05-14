@@ -26,8 +26,7 @@ public class OgElement(string name, IOgEventHandlerProvider provider, IOgOptions
         foreach(IOgTransformer transformer in reason.Transformers)
         {
             if(!Options.TryGetOption(transformer, out IOgTransformerOption option)) continue;
-            rect = transformer.Transform(rect, reason.ParentRect, reason.LastLayoutRect, reason.RemainingLayoutItems,
-                                         option);
+            rect = transformer.Transform(rect, reason.ParentRect, reason.LastLayoutRect, reason.RemainingLayoutItems, option);
         }
         if(Modifier != Rect.zero)
         {
