@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <PackageReference Include="DK.Getting.Abstraction.Generic" Version="1.2.5" />
-    <PackageReference Include="DK.Setting.Abstraction.Generic" Version="1.2.5" />
-    <PackageReference Include="UnityEngine.CoreModule" Version="2020.3.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="DK.Getting.Abstraction.Generic" Version="1.2.5"/>
+        <PackageReference Include="DK.Setting.Abstraction.Generic" Version="1.2.5"/>
+        <PackageReference Include="UnityEngine.CoreModule" Version="2020.3.1"/>
+    </ItemGroup>
 </Project>

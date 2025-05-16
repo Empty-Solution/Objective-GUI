@@ -1,7 +1,7 @@
 ﻿using DK.Getting.Abstraction;
 using DK.Getting.Abstraction.Generic;
 using UnityEngine;
-namespace OG.DataKit.Transformer;
+namespace OG.DataKit.Static;
 public class OgStaticRectGetter(Rect rect) : IDkGetProvider<Rect>
 {
     protected Rect m_Rect = rect;

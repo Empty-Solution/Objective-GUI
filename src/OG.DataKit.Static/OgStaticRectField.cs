@@ -1,6 +1,6 @@
 ﻿using DK.Setting.Abstraction.Generic;
 using UnityEngine;
-namespace OG.DataKit.Transformer;
+namespace OG.DataKit.Static;
 public class OgStaticRectField(Rect rect) : OgStaticRectGetter(rect), IDkSetProvider<Rect>
 {
     public bool Set(Rect value)
