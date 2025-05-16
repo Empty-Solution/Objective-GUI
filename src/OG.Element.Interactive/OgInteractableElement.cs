@@ -1,15 +1,16 @@
-﻿using DK.Property.Observing.Abstraction.Generic;
+﻿using DK.Getting.Abstraction.Generic;
+using DK.Property.Observing.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
-using OG.Transformer.Abstraction;
+using UnityEngine;
 namespace OG.Element.Interactive;
 public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOgInteractableElement<TElement>, IOgEventCallback<IOgMouseKeyDownEvent>,
                                                IOgEventCallback<IOgMouseKeyUpEvent> where TElement : IOgElement
 {
-    protected OgInteractableElement(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options) : base(name, provider, options)
+    protected OgInteractableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter)
     {
         provider.Register<IOgMouseKeyDownEvent>(this);
         provider.Register<IOgMouseMoveEvent>(this);

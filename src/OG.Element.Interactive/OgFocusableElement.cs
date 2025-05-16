@@ -1,12 +1,13 @@
-﻿using DK.Property.Observing.Abstraction.Generic;
+﻿using DK.Getting.Abstraction.Generic;
+using DK.Property.Observing.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
-using OG.Transformer.Abstraction;
+using UnityEngine;
 namespace OG.Element.Interactive;
-public abstract class OgFocusableElement<TElement, TValue>(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options)
-    : OgInteractableValueElement<TElement, TValue>(name, provider, options), IOgFocusableElement<TElement, TValue> where TElement : IOgElement
+public abstract class OgFocusableElement<TElement, TValue>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
+    : OgInteractableValueElement<TElement, TValue>(name, provider, rectGetter), IOgFocusableElement<TElement, TValue> where TElement : IOgElement
 {
     public IDkObservableProperty<bool>? IsFocusing         { get; set; }
     public IDkObservableProperty<bool>? IsFocusInteracting { get; set; }

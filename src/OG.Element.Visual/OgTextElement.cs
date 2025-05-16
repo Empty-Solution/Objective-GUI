@@ -1,9 +1,9 @@
-﻿using OG.Event.Abstraction;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.Event.Abstraction;
 using OG.Graphics;
-using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element.Visual;
-public class OgTextElement(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options) : OgVisualElement(name, provider, options)
+public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : OgVisualElement(name, provider, rectGetter)
 {
     private TextAnchor m_Alignment = TextAnchor.UpperLeft;
     private Font?      m_Font;
@@ -86,7 +86,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IOgOpt
         RegenerateTextMesh(context);
         context.Material = m_Font!.material;
         // context.Texture  = m_Font.material.mainTexture;
-        context.Rect = ElementRect;
+        context.Rect = ElementRect.Get();
     }
     private void RegenerateTextMesh(OgGraphicsContext context)
     {

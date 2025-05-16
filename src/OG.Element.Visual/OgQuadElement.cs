@@ -1,9 +1,9 @@
-﻿using OG.Event.Abstraction;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.Event.Abstraction;
 using OG.Graphics;
-using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element.Visual;
-public class OgQuadElement(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options) : OgVisualElement(name, provider, options)
+public class OgQuadElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : OgVisualElement(name, provider, rectGetter)
 {
     public Material? Material
     {
@@ -19,7 +19,7 @@ public class OgQuadElement(string name, IOgEventHandlerProvider provider, IOgOpt
     {
         FillContext(context);
         context.Material = Material;
-        context.Rect     = ElementRect;
+        context.Rect     = ElementRect.Get();
     }
     protected virtual void FillContext(OgGraphicsContext context)
     {

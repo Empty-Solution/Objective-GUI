@@ -1,16 +1,18 @@
-﻿using OG.Element.Abstraction;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
-using OG.Transformer.Abstraction;
 using System.Collections.Generic;
+using UnityEngine;
 namespace OG.Element.Container;
 public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgEvent>, IOgEventCallback<IOgInputEvent>,
-                                     IOgEventCallback<IOgRenderEvent>, IOgEventCallback<IOgMouseEvent> where TElement : IOgElement
+                                     IOgEventCallback<IOgRenderEvent>, IOgEventCallback<IOgMouseEvent>,
+                                     IOgEventCallback<IOgLayoutEvent> where TElement : IOgElement
 {
     private readonly List<TElement> m_Elements = [];
-    public OgContainer(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options) : base(name, provider, options)
+    public OgContainer(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter)
     {
         provider.Register<IOgLayoutEvent>(this);
         provider.Register<IOgRenderEvent>(this);
@@ -34,23 +36,9 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     }
     public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
     public bool Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
-    public bool Invoke(IOgMouseEvent reason)
+    public virtual bool Invoke(IOgLayoutEvent reason)
     {
-        reason.LocalPosition -= ElementRect.position;
-        bool isUsed = ProcessElementsEventForward(reason);
-        reason.LocalPosition += ElementRect.position;
-        return isUsed;
-    }
-    public virtual bool Invoke(IOgRenderEvent reason)
-    {
-        reason.Enter(ElementRect);
-        bool isUsed = ProcessElementsEventForward(reason);
-        reason.Exit();
-        return isUsed;
-    }
-    public override bool Invoke(IOgLayoutEvent reason)
-    {
-        reason.Layout.ParentRect = ElementRect;
+        reason.Layout.ParentRect = ElementRect.Get();
         int count = m_Elements.Count;
         for(int i = 0; i < count; i++)
         {
@@ -59,6 +47,21 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
             element.ProcessEvent(reason);
         }
         return false;
+    }
+    public bool Invoke(IOgMouseEvent reason)
+    {
+        Rect rect = ElementRect.Get();
+        reason.LocalPosition -= rect.position;
+        bool isUsed = ProcessElementsEventForward(reason);
+        reason.LocalPosition += rect.position;
+        return isUsed;
+    }
+    public virtual bool Invoke(IOgRenderEvent reason)
+    {
+        reason.Enter(ElementRect.Get());
+        bool isUsed = ProcessElementsEventForward(reason);
+        reason.Exit();
+        return isUsed;
     }
     protected bool ProcessElementsEventForward(IOgEvent reason)
     {

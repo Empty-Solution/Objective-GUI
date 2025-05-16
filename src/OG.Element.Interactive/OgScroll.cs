@@ -1,13 +1,14 @@
 ﻿using DK.DataTypes.Abstraction;
+using DK.Getting.Abstraction.Generic;
+using DK.Setting.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
-using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options)
-    : OgInteractableValueElement<TElement, Vector2>(name, provider, options), IOgVectorValueElement<TElement>, IOgEventCallback<IOgMouseWheelEvent>
+public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkSetProvider<Rect> elementRectSetter)
+    : OgInteractableValueElement<TElement, Vector2>(name, provider, rectGetter), IOgVectorValueElement<TElement>, IOgEventCallback<IOgMouseWheelEvent>
     where TElement : IOgElement
 {
     public bool Invoke(IOgMouseWheelEvent reason)
@@ -22,9 +23,9 @@ public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider, I
     public IDkReadOnlyRange<Vector2>? Range { get; set; }
     public override bool Invoke(IOgRenderEvent reason)
     {
-        Rect rect = ElementRect;
+        Rect rect = ElementRect.Get();
         rect.position += Value!.Get();
-        ElementRect   =  rect;
+        elementRectSetter.Set(rect);
         Value!.Set(Vector2.zero);
         return base.Invoke(reason);
     }

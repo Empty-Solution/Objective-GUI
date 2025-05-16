@@ -1,10 +1,11 @@
-﻿using OG.Element.Abstraction;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.Element.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
-using OG.Transformer.Abstraction;
+using UnityEngine;
 namespace OG.Element.Interactive;
-public abstract class OgDraggableValueElement<TElement, TValue>(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options)
-    : OgInteractableValueElement<TElement, TValue>(name, provider, options) where TElement : IOgElement
+public abstract class OgDraggableValueElement<TElement, TValue>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
+    : OgInteractableValueElement<TElement, TValue>(name, provider, rectGetter) where TElement : IOgElement
 {
     public override bool Invoke(IOgMouseMoveEvent reason) => base.Invoke(reason) || UpdateValue(reason);
     protected override bool BeginControl(IOgMouseKeyDownEvent reason) => base.BeginControl(reason) || UpdateValue(reason);

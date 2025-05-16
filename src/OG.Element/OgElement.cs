@@ -1,19 +1,13 @@
-﻿using OG.Element.Abstraction;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.Element.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
-using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Element;
-public class OgElement(string name, IOgEventHandlerProvider provider, IOgOptionsContainer options) : IOgElement, IOgEventCallback<IOgLayoutEvent>
+public class OgElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : IOgElement
 {
-    public IOgOptionsContainer Options     => options;
-    public string              Name        => name;
-    public bool                IsActive    { get; set; } = true;
-    public Rect                ElementRect { get; protected set; }
+    public IDkGetProvider<Rect> ElementRect { get; } = rectGetter;
+    public string               Name        => name;
+    public bool                 IsActive    { get; set; } = true;
     public bool ProcessEvent(IOgEvent reason) => IsActive && provider.Handle(reason);
-    public virtual bool Invoke(IOgLayoutEvent reason)
-    {
-        ElementRect = reason.Layout.ProcessLayout(options);
-        return false;
-    }
 }

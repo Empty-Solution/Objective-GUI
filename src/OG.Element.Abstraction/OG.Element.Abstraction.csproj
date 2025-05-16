@@ -4,4 +4,8 @@
         <ProjectReference Include="..\OG.Event.Abstraction\OG.Event.Abstraction.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="dk.getting.abstraction.generic" Version="1.2.5"/>
+    </ItemGroup>
+
 </Project>
