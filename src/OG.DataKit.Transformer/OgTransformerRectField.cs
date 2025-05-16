@@ -1,9 +1,10 @@
 ﻿using DK.Setting.Abstraction.Generic;
+using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.DataKit.Transformer;
-public class OgTransformerRectField(IOgOptionsContainer options) : OgTransformerRectGetter(options), IDkSetProvider<Rect>
+public class OgTransformerRectField(IOgEventHandlerProvider provider, IOgOptionsContainer options) : OgTransformerRectGetter(provider, options), IDkSetProvider<Rect>
 {
     protected Rect m_Modifier = Rect.zero;
     public bool Set(Rect value)

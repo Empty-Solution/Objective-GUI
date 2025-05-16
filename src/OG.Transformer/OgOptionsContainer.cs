@@ -4,7 +4,7 @@ namespace OG.Transformer;
 public class OgOptionsContainer : IOgOptionsContainer
 {
     private readonly Dictionary<string, object> m_Options = new();
-    public void AddOption<TValue>(string name, TValue value) => m_Options.Add(name, value!);
+    public void SetOption<TValue>(string name, TValue value) => m_Options[name] = value!;
     public bool RemoveOption(string name) => m_Options.Remove(name);
     public bool TryGetValue<TValue>(string name, out TValue value)
     {
