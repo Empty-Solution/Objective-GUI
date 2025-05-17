@@ -13,7 +13,7 @@ public abstract class OgAnimationGetter<TValue> : IDkGetProvider<TValue>, IOgEve
     {
         m_OriginalGetter = originalGetter;
         m_Animator       = animator;
-        provider.Register(this);
+        provider.ForceRegister(this);
     }
     public IOgEventCallback<IOgRenderEvent>? RenderCallback { get; set; }
     public TValue Get() => InternalGet(m_OriginalGetter.Get(), m_Animator.Value);

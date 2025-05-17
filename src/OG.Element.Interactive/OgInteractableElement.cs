@@ -10,7 +10,7 @@ namespace OG.Element.Interactive;
 public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOgInteractableElement<TElement>, IOgEventCallback<IOgMouseKeyDownEvent>,
                                                IOgEventCallback<IOgMouseKeyUpEvent> where TElement : IOgElement
 {
-    protected OgInteractableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter)
+    public OgInteractableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter)
     {
         provider.Register<IOgMouseKeyDownEvent>(this);
         provider.Register<IOgMouseMoveEvent>(this);
