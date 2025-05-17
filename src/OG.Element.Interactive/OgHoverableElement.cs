@@ -1,5 +1,5 @@
 ﻿using DK.Getting.Abstraction.Generic;
-using DK.Property.Observing.Abstraction.Generic;
+using DK.Observing.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Container;
 using OG.Element.Interactive.Abstraction;
@@ -13,12 +13,14 @@ public abstract class OgHoverableElement<TElement> : OgContainer<TElement>, IOgH
 {
     protected OgHoverableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter) =>
         provider.Register<IOgMouseMoveEvent>(this);
+    protected bool IsHovering { get; set; }
     public virtual bool Invoke(IOgMouseMoveEvent reason)
     {
         bool containsMouse = ElementRect.Get().Contains(reason.LocalPosition);
-        if(IsHovering!.Get() == containsMouse) return false;
-        IsHovering!.Set(containsMouse);
+        if(IsHovering == containsMouse) return false;
+        IsHovering = containsMouse;
+        IsHoveringObserver!.Notify(IsHovering);
         return false;
     }
-    public IDkObservableProperty<bool>? IsHovering { get; set; }
+    public IDkObservable<bool>? IsHoveringObserver { get; set; }
 }

@@ -1,5 +1,5 @@
 ﻿using DK.Getting.Abstraction.Generic;
-using DK.Property.Observing.Abstraction.Generic;
+using DK.Observing.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
@@ -15,17 +15,20 @@ public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOg
         provider.Register<IOgMouseKeyDownEvent>(this);
         provider.Register<IOgMouseMoveEvent>(this);
     }
-    public bool Invoke(IOgMouseKeyDownEvent reason) => !IsInteracting!.Get() && IsHovering!.Get() && BeginControl(reason);
-    public bool Invoke(IOgMouseKeyUpEvent reason) => IsInteracting!.Get() && EndControl(reason);
-    public IDkObservableProperty<bool>? IsInteracting { get; set; }
+    protected bool IsInteracting { get; set; }
+    public bool Invoke(IOgMouseKeyDownEvent reason) => !IsInteracting && IsHovering && BeginControl(reason);
+    public bool Invoke(IOgMouseKeyUpEvent reason) => IsInteracting && EndControl(reason);
+    public IDkObservable<bool>? IsInteractingObserver { get; set; }
     protected virtual bool BeginControl(IOgMouseKeyDownEvent reason)
     {
-        IsInteracting!.Set(true);
+        IsInteracting = true;
+        IsInteractingObserver!.Notify(true);
         return false;
     }
     protected virtual bool EndControl(IOgMouseKeyUpEvent reason)
     {
-        IsInteracting!.Set(false);
+        IsInteracting = false;
+        IsInteractingObserver!.Notify(false);
         return false;
     }
 }

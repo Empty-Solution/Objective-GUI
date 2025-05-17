@@ -2,7 +2,7 @@
 using DK.Getting.Abstraction.Generic;
 using UnityEngine;
 namespace OG.DataKit.Static;
-public class OgStaticRectGetter(Rect rect) : IDkGetProvider<Rect>
+public class OgReadOnlyRectGetter(Rect rect) : IDkGetProvider<Rect>
 {
     protected Rect m_Rect = rect;
     public Rect Get() => m_Rect;

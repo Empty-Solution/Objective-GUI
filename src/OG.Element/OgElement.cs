@@ -6,7 +6,7 @@ using UnityEngine;
 namespace OG.Element;
 public class OgElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : IOgElement
 {
-    public IDkGetProvider<Rect> ElementRect { get; } = rectGetter;
+    public IDkGetProvider<Rect> ElementRect => rectGetter;
     public string               Name        => name;
     public bool                 IsActive    { get; set; } = true;
     public bool ProcessEvent(IOgEvent reason) => IsActive && provider.Handle(reason);

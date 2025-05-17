@@ -1,13 +1,14 @@
 ﻿using DK.DataTypes.Abstraction;
 using DK.Getting.Abstraction.Generic;
+using DK.Property.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public class OgVector<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
-    : OgDraggableValueElement<TElement, Vector2>(name, provider, rectGetter), IOgVectorValueElement<TElement> where TElement : IOgElement
+public class OgVector<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<Vector2> value)
+    : OgDraggableValueElement<TElement, Vector2>(name, provider, rectGetter, value), IOgVectorValueElement<TElement> where TElement : IOgElement
 {
     public IDkReadOnlyRange<Vector2>? Range { get; set; }
     protected override Vector2 CalculateValue(IOgMouseEvent reason, Vector2 value)

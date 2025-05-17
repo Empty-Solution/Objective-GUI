@@ -1,4 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>OG.DataKit.Static</RootNamespace>
+    </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="DK.Getting.Abstraction.Generic" Version="1.2.5"/>
         <PackageReference Include="DK.Setting.Abstraction.Generic" Version="1.2.5"/>

@@ -1,5 +1,4 @@
 ﻿using DK.Getting.Abstraction.Generic;
-using DK.Property.Observing.Abstraction.Generic;
 using DK.Setting.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
@@ -11,23 +10,14 @@ public class OgDraggableElement<TElement>(string name, IOgEventHandlerProvider p
     IDkSetProvider<Rect> elementRectSetter)
     : OgInteractableElement<TElement>(name, provider, rectGetter), IOgDraggableElement<TElement> where TElement : IOgElement
 {
-    public IDkObservableProperty<Vector2>? DragDelta { get; set; }
     public override bool Invoke(IOgMouseMoveEvent reason)
     {
         base.Invoke(reason);
-        if(!IsInteracting!.Get()) return false;
-        Vector2 dragDelta = DragDelta!.Get();
-        dragDelta += reason.Delta;
-        DragDelta!.Set(dragDelta);
-        return PerformDrag(reason, dragDelta);
+        return IsInteracting && elementRectSetter.Set(PerformDrag(reason.Delta, ElementRect.Get()));
     }
-    public override bool Invoke(IOgLayoutEvent reason)
+    protected virtual Rect PerformDrag(Vector2 delta, Rect newElementRect)
     {
-        Rect rect = ElementRect.Get();
-        rect.position += DragDelta!.Get();
-        elementRectSetter.Set(rect);
-        DragDelta!.Set(Vector2.zero);
-        return base.Invoke(reason);
+        newElementRect.position += delta;
+        return newElementRect;
     }
-    protected virtual bool PerformDrag(IOgMouseMoveEvent reason, Vector2 dragDelta) => false;
 }

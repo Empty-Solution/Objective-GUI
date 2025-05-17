@@ -1,7 +1,7 @@
 ﻿using DK.Setting.Abstraction.Generic;
 using UnityEngine;
 namespace OG.DataKit.Static;
-public class OgStaticRectField(Rect rect) : OgStaticRectGetter(rect), IDkSetProvider<Rect>
+public class OgReadOnlyRectField(Rect rect) : OgReadOnlyRectGetter(rect), IDkSetProvider<Rect>
 {
     public bool Set(Rect value)
     {

@@ -7,7 +7,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Event.Extensions\OG.Event.Extensions.csproj" />
+        <ProjectReference Include="..\OG.Event.Extensions\OG.Event.Extensions.csproj"/>
     </ItemGroup>
 
 </Project>

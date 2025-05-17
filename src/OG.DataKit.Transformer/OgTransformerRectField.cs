@@ -4,7 +4,8 @@ using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.DataKit.Transformer;
-public class OgTransformerRectField(IOgEventHandlerProvider provider, IOgOptionsContainer options) : OgTransformerRectGetter(provider, options), IDkSetProvider<Rect>
+public class OgTransformerRectField(IOgEventHandlerProvider provider, IOgOptionsContainer options)
+    : OgTransformerRectGetter(provider, options), IDkSetProvider<Rect>
 {
     protected Rect m_Modifier = Rect.zero;
     public bool Set(Rect value)
@@ -22,8 +23,7 @@ public class OgTransformerRectField(IOgEventHandlerProvider provider, IOgOptions
     {
         base.Invoke(reason);
         if(m_Modifier == Rect.zero) return false;
-        m_Rect     = new(m_Rect.position + m_Modifier.position, m_Rect.size + m_Modifier.size);
-        m_Modifier = Rect.zero;
+        m_Rect = new(m_Rect.position + m_Modifier.position, m_Rect.size + m_Modifier.size);
         return false;
     }
 }
