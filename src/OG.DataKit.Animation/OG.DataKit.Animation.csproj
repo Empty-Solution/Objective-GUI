@@ -4,4 +4,7 @@
         <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Event.Extensions\OG.Event.Extensions.csproj"/>
     </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="DK.Binding.Abstraction.Generic" Version="1.3.6"/>
+    </ItemGroup>
 </Project>

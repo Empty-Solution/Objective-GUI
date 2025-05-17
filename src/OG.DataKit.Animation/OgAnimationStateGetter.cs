@@ -1,13 +1,11 @@
 ﻿using DK.Getting.Abstraction.Generic;
 using OG.Animator.Abstraction;
 using OG.Event.Abstraction;
-using OG.Event.Prefab.Abstraction;
 using System;
 using System.Collections.Generic;
 namespace OG.DataKit.Animation;
-public abstract class OgAnimationStateGetter<TValue>(IDkGetProvider<TValue> originalGetter, IOgEventHandlerProvider provider, IOgAnimator<TValue> animator,
-    IOgEventCallback<IOgRenderEvent>? renderCallback = null)
-    : OgAnimationGetter<TValue>(originalGetter, provider, animator, renderCallback) where TValue : notnull
+public abstract class OgAnimationStateGetter<TValue>(IDkGetProvider<TValue> originalGetter, IOgEventHandlerProvider provider, IOgAnimator<TValue> animator)
+    : OgAnimationGetter<TValue>(originalGetter, provider, animator) where TValue : notnull
 {
     private readonly Dictionary<EOgAnimationState, TValue> m_Targets = [];
     protected        TValue?                               m_Target;
