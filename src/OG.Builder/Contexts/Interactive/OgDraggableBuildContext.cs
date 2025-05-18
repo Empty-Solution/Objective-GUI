@@ -4,4 +4,4 @@ using OG.Element.Interactive.Abstraction;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Contexts.Interactive;
 public class OgDraggableBuildContext(IOgDraggableElement<IOgElement> element, OgTransformerRectField rectGetter, IOgOptionsContainer transformerOptions)
-    : OgElementBuildContext<IOgDraggableElement<IOgElement>, IOgElement, OgTransformerRectField>(element, rectGetter, transformerOptions);
+    : OgInteractableElementBuildContext<IOgDraggableElement<IOgElement>, IOgElement, OgTransformerRectField>(element, rectGetter, transformerOptions);
