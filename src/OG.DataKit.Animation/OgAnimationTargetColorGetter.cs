@@ -7,5 +7,6 @@ public class OgAnimationTargetColorGetter(IDkGetProvider<Color> originalGetter, 
     : OgAnimationTargetGetter<Color>(originalGetter, provider, animator)
 {
     protected override Color InternalGet(Color originalValue, Color animationValue) =>
-        new(originalValue.r + animationValue.r, originalValue.g + animationValue.g, originalValue.b + animationValue.b, originalValue.a + animationValue.a);
+        new(originalValue.r + animationValue.r, originalValue.g + animationValue.g, originalValue.b + animationValue.b,
+            originalValue.a + animationValue.a);
 }

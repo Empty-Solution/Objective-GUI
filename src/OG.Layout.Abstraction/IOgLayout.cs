@@ -5,5 +5,5 @@ public interface IOgLayout
 {
     public Rect ParentRect           { get; set; }
     public int  RemainingLayoutItems { get; set; }
-    Rect ProcessLayout(IOgOptionsContainer options);
+    Rect ProcessLayout(Rect rect, IOgOptionsContainer options);
 }

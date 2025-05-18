@@ -1,5 +1,4 @@
 ﻿using DK.Getting.Abstraction.Generic;
-using DK.Observing.Abstraction.Generic;
 using DK.Property.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Event.Abstraction;

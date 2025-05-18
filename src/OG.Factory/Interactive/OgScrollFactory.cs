@@ -8,5 +8,6 @@ namespace OG.Factory.Interactive;
 public class OgScrollFactory<TElement> : IOgElementFactory<IOgVectorValueElement<TElement>, OgScrollFactoryArguments> where TElement : IOgElement
 {
     public IOgVectorValueElement<TElement> Create(OgScrollFactoryArguments arguments) =>
-        new OgScroll<TElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider, arguments.RectSetProvider, arguments.ValueProvider);
+        new OgScroll<TElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
+                               arguments.RectSetProvider, arguments.ValueProvider);
 }

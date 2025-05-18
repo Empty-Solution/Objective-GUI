@@ -8,5 +8,6 @@ namespace OG.Factory.Interactive;
 public class OgHorizontalSliderFactory<TElement> : IOgElementFactory<IOgSlider<TElement>, OgSliderFactoryArguments> where TElement : IOgElement
 {
     public IOgSlider<TElement> Create(OgSliderFactoryArguments arguments) =>
-        new OgHorizontalSlider<TElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider, arguments.ValueProvider);
+        new OgHorizontalSlider<TElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
+                                         arguments.ValueProvider);
 }

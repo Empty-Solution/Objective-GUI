@@ -34,8 +34,6 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         m_Elements.RemoveAt(index);
         return true;
     }
-    public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
-    public bool Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
         reason.Layout.ParentRect = ElementRect.Get();
@@ -48,19 +46,21 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         }
         return false;
     }
+    public virtual bool Invoke(IOgRenderEvent reason)
+    {
+        reason.Enter(ElementRect.Get());
+        bool isUsed = ProcessElementsEventForward(reason);
+        reason.Exit();
+        return isUsed;
+    }
+    public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
+    public bool Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
     public bool Invoke(IOgMouseEvent reason)
     {
         Rect rect = ElementRect.Get();
         reason.LocalPosition -= rect.position;
         bool isUsed = ProcessElementsEventForward(reason);
         reason.LocalPosition += rect.position;
-        return isUsed;
-    }
-    public virtual bool Invoke(IOgRenderEvent reason)
-    {
-        reason.Enter(ElementRect.Get());
-        bool isUsed = ProcessElementsEventForward(reason);
-        reason.Exit();
         return isUsed;
     }
     protected bool ProcessElementsEventForward(IOgEvent reason)

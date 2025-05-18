@@ -21,6 +21,7 @@ public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider, I
         if(Equals(value, newValue)) return false;
         Rect rect = ElementRect.Get();
         rect.position += newValue;
+        Value.Set(Vector2.zero);
         return elementRectSetter.Set(rect);
     }
     public IDkReadOnlyRange<Vector2>? Range { get; set; }

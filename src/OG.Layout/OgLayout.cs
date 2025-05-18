@@ -11,9 +11,8 @@ public class OgLayout : IOgLayout
     public OgLayout(IEnumerable<IOgTransformer> transformers) => m_Transformers = transformers.OrderBy(t => t.Order);
     public int  RemainingLayoutItems { get; set; }
     public Rect ParentRect           { get; set; }
-    public Rect ProcessLayout(IOgOptionsContainer options)
+    public Rect ProcessLayout(Rect rect, IOgOptionsContainer options)
     {
-        Rect rect       = new();
         Rect parentRect = ParentRect;
         int  remaining  = RemainingLayoutItems;
         // ReSharper disable once LoopCanBeConvertedToQuery
