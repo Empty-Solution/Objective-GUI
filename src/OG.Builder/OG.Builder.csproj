@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
+        <ProjectReference Include="..\OG.Animator\OG.Animator.csproj"/>
         <ProjectReference Include="..\OG.Builder.Abstraction\OG.Builder.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.DataKit.Animation\OG.DataKit.Animation.csproj"/>
         <ProjectReference Include="..\OG.DataKit.ReadOnly\OG.DataKit.ReadOnly.csproj"/>
@@ -11,8 +12,5 @@
         <PackageReference Include="DK.Observing.Generic" Version="1.3.6"/>
         <PackageReference Include="DK.Processing.Abstraction.Generic" Version="1.3.6"/>
         <PackageReference Include="DK.Property.Observing.Generic" Version="1.3.6"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Visual\"/>
     </ItemGroup>
 </Project>

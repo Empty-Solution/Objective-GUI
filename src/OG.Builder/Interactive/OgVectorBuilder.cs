@@ -23,7 +23,7 @@ public class OgVectorBuilder(IOgElementFactory<IOgVectorValueElement<IOgVisualEl
         OgEventHandlerProvider        provider   = new();
         OgTransformerRectGetter       getter     = new(provider, options);
         DkObservable<Vector2>         observable = new([]);
-        DkObservableProperty<Vector2> property   = new(observable, args.InitialValue);
+        DkObservableProperty<Vector2> property   = new(observable, args.Value);
         OgVectorFactoryArguments factoryArguments = new(args.Name, getter, property)
         {
             EventProvider = provider

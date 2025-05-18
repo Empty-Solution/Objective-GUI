@@ -1,5 +1,5 @@
 ﻿namespace OG.Builder.Arguments;
-public class OgValueElementBuildArguments<TValue>(string name, TValue initial) : OgElementBuildArguments(name)
+public class OgValueElementBuildArguments<TValue>(string name, TValue value) : OgElementBuildArguments(name)
 {
-    public TValue InitialValue => initial;
+    public TValue Value => value;
 }

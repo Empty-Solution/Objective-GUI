@@ -22,7 +22,7 @@ public class OgScrollBuilder(IOgElementFactory<IOgVectorValueElement<IOgElement>
         OgEventHandlerProvider        provider   = new();
         OgTransformerRectField        field      = new(provider, options);
         DkObservable<Vector2>         observable = new([]);
-        DkObservableProperty<Vector2> property   = new(observable, args.InitialValue);
+        DkObservableProperty<Vector2> property   = new(observable, args.Value);
         OgScrollFactoryArguments factoryArguments = new(args.Name, field, property, field)
         {
             EventProvider = provider

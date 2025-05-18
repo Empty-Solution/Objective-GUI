@@ -8,7 +8,7 @@ public class OgTextureFactory : IOgElementFactory<OgQuadElement, OgTextureFactor
     public OgQuadElement Create(OgTextureFactoryArguments arguments) =>
         new(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider)
         {
-            Color = arguments.Color,
+            Color    = arguments.Color,
             Material = arguments.Material
         };
 }

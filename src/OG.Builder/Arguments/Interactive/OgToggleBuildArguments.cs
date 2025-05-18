@@ -1,2 +1,2 @@
 ﻿namespace OG.Builder.Arguments.Interactive;
-public class OgToggleBuildArguments(string name, bool initial) : OgValueElementBuildArguments<bool>(name, initial);
+public class OgToggleBuildArguments(string name, bool value) : OgValueElementBuildArguments<bool>(name, value);

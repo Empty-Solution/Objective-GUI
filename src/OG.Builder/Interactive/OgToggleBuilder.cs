@@ -22,7 +22,7 @@ public class OgToggleBuilder(IOgElementFactory<IOgToggle<IOgVisualElement>, OgEl
         OgEventHandlerProvider     provider   = new();
         OgTransformerRectGetter    getter     = new(provider, options);
         DkObservable<bool>         observable = new([]);
-        DkObservableProperty<bool> property   = new(observable, args.InitialValue);
+        DkObservableProperty<bool> property   = new(observable, args.Value);
         OgToggleFactoryArguments factoryArguments = new(args.Name, getter, property)
         {
             EventProvider = provider

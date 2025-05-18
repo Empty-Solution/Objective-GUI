@@ -22,7 +22,7 @@ public class OgSliderBuilder<TFactory>(TFactory factory, IDkProcessor<OgSliderBu
         OgEventHandlerProvider      provider   = new();
         OgTransformerRectGetter     getter     = new(provider, options);
         DkObservable<float>         observable = new([]);
-        DkObservableProperty<float> property   = new(observable, args.InitialValue);
+        DkObservableProperty<float> property   = new(observable, args.Value);
         OgSliderFactoryArguments factoryArguments = new(args.Name, getter, property)
         {
             EventProvider = provider
