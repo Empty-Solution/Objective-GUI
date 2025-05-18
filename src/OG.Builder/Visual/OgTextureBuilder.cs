@@ -24,7 +24,7 @@ public abstract class OgTextureBuilder<TGetter, TContext>(IOgElementFactory<OgQu
         OgEventHandlerProvider  provider    = new();
         OgTransformerRectGetter transformer = new(provider, options);
         TGetter                 getter      = BuildGetter(transformer, provider, new OgRectAnimator()); // таргеты надо в процессоре пихать если что
-        OgTextureFactoryArguments factoryArguments = new(args.Name, getter, args.Value, args.Material)
+        OgTextureFactoryArguments factoryArguments = new(args.Name, getter, args.Value, args.Material, args.Borders)
             // я не осилил придумать, откуда пиздить материал, ибо он по идеи должен билдиться при ините чита, так что пусть в чите уже статикой или еще как лежит
             {
                 EventProvider = provider

@@ -24,16 +24,7 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
         reason.Graphics.Render(m_RenderContext);
         return false;
     }
-    public Color Color
-    {
-        get;
-        set
-        {
-            if(field == value) return;
-            field = value;
-            MarkDirty();
-        }
-    }
+    public abstract Color Color { get; set; }
     protected void MarkDirty() => m_IsDirty = true;
     protected abstract void BuildContext(OgGraphicsContext context);
 }

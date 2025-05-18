@@ -11,6 +11,16 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
     private FontStyle  m_FontStyle     = FontStyle.Normal;
     private float      m_PixelsPerUnit = 1f;
     private string     m_Text          = string.Empty;
+    public override Color Color
+    {
+        get;
+        set
+        {
+            if(field == value) return;
+            field = value;
+            MarkDirty();
+        }
+    }
     public string Text
     {
         get => m_Text;
