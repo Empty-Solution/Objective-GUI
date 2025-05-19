@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <PackageReference Include="dk.matching.abstraction" Version="1.2.5"/>
+        <PackageReference Include="dk.matching.abstraction" Version="1.3.6" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj" />
     </ItemGroup>
 </Project>

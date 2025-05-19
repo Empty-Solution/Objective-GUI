@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Graphics.Abstraction\OG.Graphics.Abstraction.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="UnityEngine.IMGUIModule" Version="2020.3.1"/>
-        <PackageReference Include="DK.Matching" Version="1.2.5"/>
+        <PackageReference Include="UnityEngine.IMGUIModule" Version="2020.3.1" />
+        <PackageReference Include="DK.Matching" Version="1.3.6" />
     </ItemGroup>
 </Project>
