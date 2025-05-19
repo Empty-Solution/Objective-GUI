@@ -1,4 +1,4 @@
-﻿using DK.Getting.Abstraction.Generic;
+using DK.Getting.Abstraction.Generic;
 using OG.Event.Abstraction;
 using OG.Graphics;
 using UnityEngine;
@@ -12,18 +12,7 @@ public class OgQuadElement(string name, IOgEventHandlerProvider provider, IDkGet
         {
             if(field == value) return;
             field = value;
-            Material?.SetVector("_Radius", Borders);
             MarkDirty();
-        }
-    }
-    public Vector4 Borders
-    {
-        get;
-        set
-        {
-            if(field == value) return;
-            field = value;
-            Material?.SetVector("_Radius", value);
         }
     }
     public override Color Color
@@ -33,7 +22,6 @@ public class OgQuadElement(string name, IOgEventHandlerProvider provider, IDkGet
         {
             if(field == value) return;
             field = value;
-            Material?.SetColor("_Color", field);
             MarkDirty();
         }
     }

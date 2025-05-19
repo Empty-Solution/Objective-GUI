@@ -2,5 +2,5 @@
 using OG.Element.Visual;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Contexts.Visual;
-public class OgTextureTargetBuildContext(OgQuadElement element, OgAnimationTargetRectGetter rectGetter, IOgOptionsContainer transformerOptions)
+public class OgTextureTargetBuildContext(OgTextureElement element, OgAnimationTargetRectGetter rectGetter, IOgOptionsContainer transformerOptions)
     : OgTextureBuildContext<OgAnimationTargetRectGetter>(element, rectGetter, transformerOptions);

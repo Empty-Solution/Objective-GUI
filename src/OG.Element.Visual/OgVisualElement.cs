@@ -13,7 +13,7 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
     private OgGraphicsContext? m_RenderContext;
     protected OgVisualElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter) =>
         provider.Register(this);
-    bool IOgEventCallback<IOgRenderEvent>.Invoke(IOgRenderEvent reason)
+    public virtual bool Invoke(IOgRenderEvent reason)
     {
         m_RenderContext ??= new();
         if(m_IsDirty)

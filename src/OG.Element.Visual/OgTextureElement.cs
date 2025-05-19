@@ -1,0 +1,23 @@
+﻿using DK.Getting.Abstraction.Generic;
+using OG.Event.Abstraction;
+using OG.Event.Prefab.Abstraction;
+using UnityEngine;
+namespace OG.Element.Visual;
+public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : OgQuadElement(name, provider, rectGetter)
+{
+    public Vector4 Borders
+    {
+        get;
+        set
+        {
+            if(field.Equals(value)) return;
+            field = value;
+        }
+    }
+    public override bool Invoke(IOgRenderEvent reason)
+    {
+        Material?.SetVector("_Radius", Borders);
+        Material?.SetColor("_Color", Color);
+        return base.Invoke(reason);
+    }
+}

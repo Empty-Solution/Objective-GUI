@@ -1,4 +1,4 @@
-﻿using DK.Processing.Abstraction.Generic;
+using DK.Processing.Abstraction.Generic;
 using OG.Animator.Abstraction;
 using OG.Builder.Contexts.Visual;
 using OG.DataKit.Animation;
@@ -10,12 +10,14 @@ using OG.Factory.Arguments;
 using OG.Transformer;
 using UnityEngine;
 namespace OG.Builder.Visual;
-public class OgTextureStateBuilder(IOgElementFactory<OgTextureElement, OgTextureFactoryArguments> factory,
-    IDkProcessor<OgTextureStateBuildContext> processor) : OgTextureBuilder<OgAnimationStateRectGetter, OgTextureStateBuildContext>(factory, processor)
+public class OgBlurTextureStateBuilder(IOgElementFactory<OgBlurTextureElement, OgTextureFactoryArguments> factory,
+    IDkProcessor<OgBlurTextureStateBuildContext> processor)
+    : OgBlurTextureBuilder<OgAnimationStateRectGetter, OgBlurTextureStateBuildContext>(factory, processor)
 {
     public override OgAnimationStateRectGetter BuildGetter(OgTransformerRectGetter transformer, OgEventHandlerProvider provider,
         IOgAnimator<Rect> animator) =>
         new(transformer, provider, animator);
-    public override OgTextureStateBuildContext BuildContext(OgTextureElement element, OgAnimationStateRectGetter getter, OgOptionsContainer options) =>
+    public override OgBlurTextureStateBuildContext BuildContext(OgBlurTextureElement element, OgAnimationStateRectGetter getter,
+        OgOptionsContainer options) =>
         new(element, getter, options);
 }

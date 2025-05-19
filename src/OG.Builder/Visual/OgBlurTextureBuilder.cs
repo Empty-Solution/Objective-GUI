@@ -14,26 +14,25 @@ using OG.Factory.Arguments;
 using OG.Transformer;
 using UnityEngine;
 namespace OG.Builder.Visual;
-public abstract class OgTextureBuilder<TGetter, TContext>(IOgElementFactory<OgTextureElement, OgTextureFactoryArguments> factory,
+public abstract class OgBlurTextureBuilder<TGetter, TContext>(IOgElementFactory<OgBlurTextureElement, OgTextureFactoryArguments> factory,
     IDkProcessor<TContext> processor)
-    : IOgElementBuilder<OgTextureBuildArguments> where TGetter : OgAnimationGetter<Rect> where TContext : OgTextureBuildContext<TGetter>
+    : IOgElementBuilder<OgBlurTextureBuildArguments> where TGetter : OgAnimationGetter<Rect> where TContext : OgBlurTextureBuildContext<TGetter>
 {
-    public IOgElement Build(OgTextureBuildArguments args)
+    public IOgElement Build(OgBlurTextureBuildArguments args)
     {
         OgOptionsContainer      options     = new();
         OgEventHandlerProvider  provider    = new();
         OgTransformerRectGetter transformer = new(provider, options);
-        TGetter                 getter      = BuildGetter(transformer, provider, new OgRectAnimator()); // таргеты надо в процессоре пихать если что
+        TGetter                 getter      = BuildGetter(transformer, provider, new OgRectAnimator());
         OgTextureFactoryArguments factoryArguments = new(args.Name, getter, args.Value, args.Material, args.Borders)
-            // я не осилил придумать, откуда пиздить материал, ибо он по идеи должен билдиться при ините чита, так что пусть в чите уже статикой или еще как лежит
-            {
-                EventProvider = provider
-            };
-        OgTextureElement element = factory.Create(factoryArguments);
+        {
+            EventProvider = provider
+        };
+        OgBlurTextureElement element = factory.Create(factoryArguments);
         getter.RenderCallback = element;
         processor.Process(BuildContext(element, getter, options));
         return element;
     }
     public abstract TGetter BuildGetter(OgTransformerRectGetter transformer, OgEventHandlerProvider provider, IOgAnimator<Rect> animator);
-    public abstract TContext BuildContext(OgTextureElement element, TGetter getter, OgOptionsContainer options);
+    public abstract TContext BuildContext(OgBlurTextureElement element, TGetter getter, OgOptionsContainer options);
 }
