@@ -2,10 +2,11 @@
 using UnityEngine;
 namespace OG.Factory.Arguments;
 public class OgTextFactoryArguments(string name, IDkGetProvider<Rect> rectGetProvider, Color color, Font font, int fontSize, FontStyle fontStyle,
-    float pixelsPerUnit) : OgVisualFactoryArguments(name, rectGetProvider, color)
+    float pixelsPerUnit, float spacing) : OgVisualFactoryArguments(name, rectGetProvider, color)
 {
-    public Font      Font          { get; set; } = font;
-    public int       FontSize      { get; set; } = fontSize;
-    public FontStyle FontStyle     { get; set; } = fontStyle;
-    public float     PixelsPerUnit { get; set; } = pixelsPerUnit;
+    public Font      Font          => font;
+    public int       FontSize      => fontSize;
+    public FontStyle FontStyle     => fontStyle;
+    public float     PixelsPerUnit => pixelsPerUnit;
+    public float     Spacing       => spacing;
 }
