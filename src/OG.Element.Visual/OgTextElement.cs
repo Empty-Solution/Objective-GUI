@@ -5,12 +5,12 @@ using UnityEngine;
 namespace OG.Element.Visual;
 public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : OgVisualElement(name, provider, rectGetter)
 {
-    private TextAnchor m_Alignment = TextAnchor.UpperLeft;
-    private Font?      m_Font;
-    private int        m_FontSize      = 14;
-    private FontStyle  m_FontStyle     = FontStyle.Normal;
-    private float      m_PixelsPerUnit = 1f;
-    private string     m_Text          = string.Empty;
+    private Font?     m_Font;
+    private int       m_FontSize      = 14;
+    private FontStyle m_FontStyle     = FontStyle.Normal;
+    private float     m_PixelsPerUnit = 1f;
+    private float     m_Spacing       = 1f;
+    private string    m_Text          = string.Empty;
     public override Color Color
     {
         get;
@@ -28,6 +28,16 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
         {
             if(m_Text == value) return;
             m_Text = value;
+            MarkDirty();
+        }
+    }
+    public float Spacing
+    {
+        get => m_Spacing;
+        set
+        {
+            if(Mathf.Approximately(m_Spacing, value)) return;
+            m_Spacing = value;
             MarkDirty();
         }
     }
@@ -61,16 +71,6 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
             MarkDirty();
         }
     }
-    public TextAnchor Alignment
-    {
-        get => m_Alignment;
-        set
-        {
-            if(m_Alignment == value) return;
-            m_Alignment = value;
-            MarkDirty();
-        }
-    }
     public bool RichText
     {
         get;
@@ -95,41 +95,37 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
     {
         RegenerateTextMesh(context);
         context.Material = m_Font!.material;
-        // context.Texture  = m_Font.material.mainTexture;
-        context.Rect = ElementRect.Get();
+        Rect rect = ElementRect.Get();
+        if(m_Font is not null && context.VerticesCount != 0)
+            rect.position += new Vector2(0, context.Vertices[context.VerticesCount - 1].Position.y * rect.height);
+        context.Rect = rect;
     }
     private void RegenerateTextMesh(OgGraphicsContext context)
     {
-        if(string.IsNullOrEmpty(m_Text) || m_Font == null) return;
+        if(string.IsNullOrEmpty(m_Text) || m_Font is null) return;
         m_Font.RequestCharactersInTexture(m_Text, m_FontSize, m_FontStyle);
         float x          = 0f;
         float y          = 0f;
-        float lineHeight = m_Font.lineHeight * m_FontSize / m_PixelsPerUnit;
+        float lineHeight = m_Font.lineHeight * m_FontSize / m_PixelsPerUnit * (m_Spacing * 0.05f);
         float spaceWidth = m_Font.GetCharacterInfo(' ', out CharacterInfo spaceInfo, m_FontSize, m_FontStyle) ? spaceInfo.advance / m_PixelsPerUnit
                                : m_FontSize * 0.5f;
-
-        //Vector2 textSize = CalculateTextSize(m_Text, m_Font, m_FontSize, m_PixelsPerUnit, spaceWidth);
-        Vector2 alignmentOffset = Vector2.zero; //GetAlignmentOffset(textSize, context.Rect);
-        int     vertexIndex     = context.IndicesCount;
-        Color   color           = Color;
+        int   vertexIndex = context.IndicesCount;
+        Color color       = Color;
         foreach(char c in m_Text)
         {
-            if(c == '\n')
+            switch (c)
             {
-                x =  0f;
-                y -= lineHeight;
-                continue;
+                case '\n':
+                    x =  0f;
+                    y -= lineHeight;
+                    continue;
+                case ' ':
+                    x += spaceWidth;
+                    continue;
             }
             if(!m_Font.GetCharacterInfo(c, out CharacterInfo charInfo, m_FontSize, m_FontStyle)) continue;
-            if(c == ' ')
-            {
-                x += spaceWidth;
-                continue;
-            }
-            Vector3 bottomLeft = new(x + (charInfo.minX / m_PixelsPerUnit) + alignmentOffset.x,
-                                     -(y + (charInfo.minY / m_PixelsPerUnit)) + alignmentOffset.y, 0);
-            Vector3 topRight = new(x + (charInfo.maxX / m_PixelsPerUnit) + alignmentOffset.x, -(y + (charInfo.maxY / m_PixelsPerUnit)) + alignmentOffset.y,
-                                   0);
+            Vector3 bottomLeft = new(x + (charInfo.minX / m_PixelsPerUnit), -(y + (charInfo.minY / m_PixelsPerUnit)), 0);
+            Vector3 topRight   = new(x + (charInfo.maxX / m_PixelsPerUnit), -(y + (charInfo.maxY / m_PixelsPerUnit)), 0);
             context.AddVertex(new(new(bottomLeft.x, bottomLeft.y, 0), color, new(charInfo.uvBottomLeft.x, charInfo.uvBottomLeft.y)));
             context.AddVertex(new(new(bottomLeft.x, topRight.y, 0), color, new(charInfo.uvTopLeft.x, charInfo.uvTopLeft.y)));
             context.AddVertex(new(new(topRight.x, topRight.y, 0), color, new(charInfo.uvTopRight.x, charInfo.uvTopRight.y)));
@@ -143,29 +139,5 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
             vertexIndex += 4;
             x           += charInfo.advance / m_PixelsPerUnit;
         }
-    }
-    public Vector2 CalculateTextSize(string text, Font font, int fontSize, float pixelsPerUnit, float spaceWidth)
-    {
-        float width     = 0f;
-        float maxWidth  = 0f;
-        int   lineCount = 1;
-        foreach(char c in text)
-        {
-            switch(c)
-            {
-                case '\n':
-                    maxWidth = Mathf.Max(maxWidth, width);
-                    width    = 0f;
-                    lineCount++;
-                    continue;
-                case ' ':
-                    width += spaceWidth;
-                    continue;
-            }
-            if(font.GetCharacterInfo(c, out CharacterInfo charInfo, fontSize, m_FontStyle)) width += charInfo.advance / pixelsPerUnit;
-        }
-        maxWidth = Mathf.Max(maxWidth, width);
-        float height = lineCount * font.lineHeight * fontSize / pixelsPerUnit;
-        return new(maxWidth, height);
     }
 }

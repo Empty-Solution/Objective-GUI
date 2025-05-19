@@ -9,7 +9,6 @@ public class OgTextFactory : IOgElementFactory<OgTextElement, OgTextFactoryArgum
         new(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider)
         {
             Color         = arguments.Color,
-            Alignment     = arguments.Alignment,
             Font          = arguments.Font,
             FontSize      = arguments.FontSize,
             FontStyle     = arguments.FontStyle,
