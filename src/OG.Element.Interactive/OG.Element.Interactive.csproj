@@ -2,5 +2,10 @@
     <ItemGroup>
         <ProjectReference Include="..\OG.Element.Container\OG.Element.Container.csproj"/>
         <ProjectReference Include="..\OG.Element.Interactive.Abstraction\OG.Element.Interactive.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Element.Visual.Abstraction\OG.Element.Visual.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.TextController.Abstraction\OG.TextController.Abstraction.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="UnityEngine.TextRenderingModule" Version="2020.3.1"/>
     </ItemGroup>
 </Project>

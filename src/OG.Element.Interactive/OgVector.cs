@@ -13,7 +13,7 @@ public class OgVector<TElement>(string name, IOgEventHandlerProvider provider, I
     public IDkReadOnlyRange<Vector2>? Range { get; set; }
     protected override Vector2 CalculateValue(IOgMouseEvent reason, Vector2 value)
     {
-        Vector2 mousePosition = reason.LocalPosition;
+        Vector2 mousePosition = reason.LocalMousePosition;
         Vector2 min           = Range!.Min;
         Vector2 max           = Range.Max;
         Rect    rect          = ElementRect.Get();

@@ -12,6 +12,6 @@ public abstract class OgSlider<TElement>(string name, IOgEventHandlerProvider pr
 {
     public IDkReadOnlyRange<float>? Range { get; set; }
     protected override float CalculateValue(IOgMouseEvent reason, float value) =>
-        Mathf.Lerp(Range?.Min ?? 0f, Range?.Max ?? 1f, InverseLerp(ElementRect.Get(), reason.LocalPosition));
+        Mathf.Lerp(Range?.Min ?? 0f, Range?.Max ?? 1f, InverseLerp(ElementRect.Get(), reason.LocalMousePosition));
     protected abstract float InverseLerp(Rect rect, Vector2 mousePosition);
 }

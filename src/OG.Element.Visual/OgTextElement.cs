@@ -1,9 +1,11 @@
 ﻿using DK.Getting.Abstraction.Generic;
+using OG.Element.Visual.Abstraction;
 using OG.Event.Abstraction;
 using OG.Graphics;
 using UnityEngine;
 namespace OG.Element.Visual;
-public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : OgVisualElement(name, provider, rectGetter)
+public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
+    : OgVisualElement(name, provider, rectGetter), IOgTextElement
 {
     private Font?     m_Font;
     private int       m_FontSize      = 14;
@@ -11,26 +13,6 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
     private float     m_PixelsPerUnit = 1f;
     private float     m_Spacing       = 1f;
     private string    m_Text          = string.Empty;
-    public override Color Color
-    {
-        get;
-        set
-        {
-            if(field == value) return;
-            field = value;
-            MarkDirty();
-        }
-    }
-    public string Text
-    {
-        get => m_Text;
-        set
-        {
-            if(m_Text == value) return;
-            m_Text = value;
-            MarkDirty();
-        }
-    }
     public float Spacing
     {
         get => m_Spacing;
@@ -78,6 +60,26 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
         {
             if(Mathf.Approximately(m_PixelsPerUnit, value)) return;
             m_PixelsPerUnit = value;
+            MarkDirty();
+        }
+    }
+    public override Color Color
+    {
+        get;
+        set
+        {
+            if(field == value) return;
+            field = value;
+            MarkDirty();
+        }
+    }
+    public string Text
+    {
+        get => m_Text;
+        set
+        {
+            if(m_Text == value) return;
+            m_Text = value;
             MarkDirty();
         }
     }

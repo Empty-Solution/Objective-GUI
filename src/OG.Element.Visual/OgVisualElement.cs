@@ -4,6 +4,7 @@ using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 using OG.Graphics;
+using OG.Graphics.Abstraction;
 using UnityEngine;
 namespace OG.Element.Visual;
 public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCallback<IOgRenderEvent>
@@ -24,7 +25,8 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
         reason.Graphics.Render(m_RenderContext);
         return false;
     }
-    public abstract Color Color { get; set; }
+    public abstract Color              Color   { get; set; }
+    public          IOgGraphicsContext Context => m_RenderContext!;
     protected void MarkDirty() => m_IsDirty = true;
     protected abstract void BuildContext(OgGraphicsContext context);
 }

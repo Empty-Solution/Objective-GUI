@@ -8,8 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace OG.Element.Container;
 public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgEvent>, IOgEventCallback<IOgInputEvent>,
-                                     IOgEventCallback<IOgRenderEvent>, IOgEventCallback<IOgMouseEvent>,
-                                     IOgEventCallback<IOgLayoutEvent> where TElement : IOgElement
+                                     IOgEventCallback<IOgRenderEvent>, IOgEventCallback<IOgLayoutEvent> where TElement : IOgElement
 {
     private readonly List<TElement> m_Elements = [];
     public OgContainer(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter)
@@ -54,13 +53,12 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         return isUsed;
     }
     public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
-    public bool Invoke(IOgInputEvent reason) => ProcessElementsEventBackward(reason);
-    public bool Invoke(IOgMouseEvent reason)
+    public bool Invoke(IOgInputEvent reason)
     {
         Rect rect = ElementRect.Get();
-        reason.LocalPosition -= rect.position;
-        bool isUsed = ProcessElementsEventForward(reason);
-        reason.LocalPosition += rect.position;
+        reason.LocalMousePosition -= rect.position;
+        bool isUsed = ProcessElementsEventBackward(reason);
+        reason.LocalMousePosition += rect.position;
         return isUsed;
     }
     protected bool ProcessElementsEventForward(IOgEvent reason)

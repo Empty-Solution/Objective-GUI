@@ -16,7 +16,7 @@ public abstract class OgHoverableElement<TElement> : OgContainer<TElement>, IOgH
     protected bool IsHovering { get; set; }
     public virtual bool Invoke(IOgMouseMoveEvent reason)
     {
-        bool containsMouse = ElementRect.Get().Contains(reason.LocalPosition);
+        bool containsMouse = ElementRect.Get().Contains(reason.LocalMousePosition);
         if(IsHovering == containsMouse) return false;
         IsHovering = containsMouse;
         IsHoveringObserver!.Notify(IsHovering);
