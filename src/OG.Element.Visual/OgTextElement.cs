@@ -71,16 +71,6 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
             MarkDirty();
         }
     }
-    public bool RichText
-    {
-        get;
-        set
-        {
-            if(field == value) return;
-            field = value;
-            MarkDirty();
-        }
-    } = false;
     public float PixelsPerUnit
     {
         get => m_PixelsPerUnit;
@@ -113,7 +103,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
         Color color       = Color;
         foreach(char c in m_Text)
         {
-            switch (c)
+            switch(c)
             {
                 case '\n':
                     x =  0f;
