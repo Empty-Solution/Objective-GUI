@@ -1,31 +1,25 @@
 ﻿using DK.Processing.Abstraction.Generic;
-using OG.Builder.Abstraction;
 using OG.Builder.Arguments;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Transformer;
-using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual.Abstraction;
-using OG.Event;
+using OG.Event.Abstraction;
 using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
-using OG.Transformer;
+using OG.Transformer.Abstraction;
 namespace OG.Builder.Interactive;
 public class OgButtonBuilder(IOgElementFactory<IOgInteractableElement<IOgVisualElement>, OgElementFactoryArguments> factory,
-    IDkProcessor<OgButtonBuildContext> processor) : IOgElementBuilder<OgElementBuildArguments>
+    IDkProcessor<OgButtonBuildContext> processor)
+    : OgInteractableBuilder<IOgElementFactory<IOgInteractableElement<IOgVisualElement>, OgElementFactoryArguments>,
+        IOgInteractableElement<IOgVisualElement>, OgElementFactoryArguments, OgElementBuildArguments, OgButtonBuildContext, OgTransformerRectGetter,
+        IOgVisualElement>(factory, processor)
 {
-    public IOgElement Build(OgElementBuildArguments args)
-    {
-        OgOptionsContainer      options  = new();
-        OgEventHandlerProvider  provider = new();
-        OgTransformerRectGetter getter   = new(provider, options);
-        OgElementFactoryArguments factoryArguments = new(args.Name, getter)
-        {
-            EventProvider = provider
-        };
-        IOgInteractableElement<IOgVisualElement> element = factory.Create(factoryArguments);
-        getter.LayoutCallback = element;
-        processor.Process(new(element, getter, options));
-        return element;
-    }
+    protected override OgTransformerRectGetter BuildGetter(IOgEventHandlerProvider provider, IOgOptionsContainer container) => new(provider, container);
+    protected override OgElementFactoryArguments BuildFactoryArguments(OgButtonBuildContext context, OgElementBuildArguments args,
+        IOgEventHandlerProvider provider) =>
+        new(args.Name, context.RectGetProvider, provider);
+    protected override OgButtonBuildContext BuildContext(OgElementBuildArguments args, IOgOptionsContainer container, IOgEventHandlerProvider provider,
+        OgTransformerRectGetter getter) =>
+        new(null!, getter, container);
 }

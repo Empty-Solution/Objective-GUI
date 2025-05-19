@@ -1,6 +1,6 @@
 ﻿using DK.Observing.Abstraction.Generic;
 namespace OG.DataKit.Animation;
-public class OgAnimationTargetObserver<TValue>(OgAnimationTargetGetter<TValue> getter, TValue offTarget, TValue onTarget)
+public class OgAnimationTargetObserver<TValue>(OgAnimationGetter<TValue> getter, TValue offTarget, TValue onTarget)
     : IDkObserver<bool> where TValue : notnull
 {
     public void Update(bool state) => getter.Target = state ? onTarget : offTarget;

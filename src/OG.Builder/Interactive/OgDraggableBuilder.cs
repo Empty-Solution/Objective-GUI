@@ -1,30 +1,24 @@
 ﻿using DK.Processing.Abstraction.Generic;
-using OG.Builder.Abstraction;
 using OG.Builder.Arguments;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Transformer;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
-using OG.Event;
+using OG.Event.Abstraction;
 using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
-using OG.Transformer;
+using OG.Transformer.Abstraction;
 namespace OG.Builder.Interactive;
 public class OgDraggableBuilder(IOgElementFactory<IOgDraggableElement<IOgElement>, OgDraggableFactoryArguments> factory,
-    IDkProcessor<OgDraggableBuildContext> processor) : IOgElementBuilder<OgElementBuildArguments>
+    IDkProcessor<OgDraggableBuildContext> processor)
+    : OgInteractableBuilder<IOgElementFactory<IOgDraggableElement<IOgElement>, OgDraggableFactoryArguments>, IOgDraggableElement<IOgElement>,
+        OgDraggableFactoryArguments, OgElementBuildArguments, OgDraggableBuildContext, OgTransformerRectField, IOgElement>(factory, processor)
 {
-    public IOgElement Build(OgElementBuildArguments args)
-    {
-        OgOptionsContainer     options  = new();
-        OgEventHandlerProvider provider = new();
-        OgTransformerRectField field    = new(provider, options);
-        OgDraggableFactoryArguments factoryArguments = new(args.Name, field, field)
-        {
-            EventProvider = provider
-        };
-        IOgDraggableElement<IOgElement> element = factory.Create(factoryArguments);
-        field.LayoutCallback = element;
-        processor.Process(new(element, field, options));
-        return element;
-    }
+    protected override OgTransformerRectField BuildGetter(IOgEventHandlerProvider provider, IOgOptionsContainer container) => new(provider, container);
+    protected override OgDraggableFactoryArguments BuildFactoryArguments(OgDraggableBuildContext context, OgElementBuildArguments args,
+        IOgEventHandlerProvider provider) =>
+        new(args.Name, context.RectGetProvider, context.RectGetProvider, provider);
+    protected override OgDraggableBuildContext BuildContext(OgElementBuildArguments args, IOgOptionsContainer container, IOgEventHandlerProvider provider,
+        OgTransformerRectField getter) =>
+        new(null!, getter, container);
 }

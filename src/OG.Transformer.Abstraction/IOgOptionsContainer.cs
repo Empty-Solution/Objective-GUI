@@ -1,7 +1,8 @@
-﻿namespace OG.Transformer.Abstraction;
+﻿using System.Collections.Generic;
+namespace OG.Transformer.Abstraction;
 public interface IOgOptionsContainer
 {
-    IOgOptionsContainer SetOption<TValue>(string name, TValue value);
-    IOgOptionsContainer RemoveOption(string name);
-    bool TryGetValue<TValue>(string name, out TValue value);
+    IEnumerable<IOgTransformerOption> Options { get; }
+    IOgOptionsContainer SetOption(IOgTransformerOption option);
+    IOgOptionsContainer RemoveOption(IOgTransformerOption option);
 }

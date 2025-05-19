@@ -16,8 +16,7 @@ public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDk
     }
     public override bool Invoke(IOgRenderEvent reason)
     {
-        Material?.SetVector("_Radius", Borders);
-        Material?.SetColor("_Color", Color);
+        Material?.SetVector("_Borders", Borders);
         return base.Invoke(reason);
     }
 }

@@ -1,10 +1,10 @@
-﻿using OG.Transformer.Abstraction;
+﻿using OG.Transformer.Options;
 using UnityEngine;
 namespace OG.Transformer;
-public class OgRelativeSizeTransformer : IOgTransformer
+public class OgRelativeSizeTransformer : OgBaseTransformer<OgRelativeSizeTransformerOption>
 {
-    public int Order { get; set; } = 0;
-    public Rect Transform(Rect rect, Rect parentRect, Rect lastRect, int remaining, IOgOptionsContainer options) =>
-        new(rect.x, rect.y, !options.TryGetValue("RelativeWidth", out float relativeWidth) ? rect.width : parentRect.width * (1 + relativeWidth),
-            !options.TryGetValue("RelativeHeight", out float relativeHeight) ? rect.height : parentRect.height * (1 + relativeHeight));
+    public override int Order { get; set; } = 0;
+    public override Rect Transform(Rect rect, Rect parentRect, Rect lastRect, int remaining, OgRelativeSizeTransformerOption option) =>
+        new(rect.x, rect.y, option.RelativeWidth == 0 ? rect.width : parentRect.width * (1 + option.RelativeWidth),
+            option.RelativeHeight == 0 ? rect.height : parentRect.height * (1 + option.RelativeHeight));
 }

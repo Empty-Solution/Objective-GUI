@@ -1,13 +1,13 @@
-﻿using OG.Element.Abstraction;
-using OG.Element.Interactive;
+﻿using OG.Element.Interactive;
 using OG.Element.Interactive.Abstraction;
+using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
 namespace OG.Factory.Interactive;
-public class OgHorizontalSliderFactory<TElement> : IOgElementFactory<IOgSlider<TElement>, OgSliderFactoryArguments> where TElement : IOgElement
+public class OgHorizontalSliderFactory : IOgElementFactory<IOgSlider<IOgVisualElement>, OgSliderFactoryArguments>
 {
-    public IOgSlider<TElement> Create(OgSliderFactoryArguments arguments) =>
-        new OgHorizontalSlider<TElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
-                                         arguments.ValueProvider);
+    public IOgSlider<IOgVisualElement> Create(OgSliderFactoryArguments arguments) =>
+        new OgHorizontalSlider<IOgVisualElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
+                                                 arguments.ValueProvider);
 }

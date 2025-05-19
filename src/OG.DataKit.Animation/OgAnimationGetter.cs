@@ -15,15 +15,15 @@ public abstract class OgAnimationGetter<TValue> : IDkGetProvider<TValue>, IOgEve
         m_Animator       = animator;
         provider.Register(this);
     }
+    public TValue?                           Target         { get; set; }
     public IOgEventCallback<IOgRenderEvent>? RenderCallback { get; set; }
     public TValue Get() => InternalGet(m_OriginalGetter.Get(), m_Animator.Value);
     object IDkGetProvider.Get() => Get();
     public bool Invoke(IOgRenderEvent reason)
     {
-        m_Animator.Animate(reason.DeltaTime, GetTarget());
+        m_Animator.Animate(reason.DeltaTime, Target!);
         RenderCallback!.Invoke(reason);
         return false;
     }
     protected abstract TValue InternalGet(TValue originalValue, TValue animationValue);
-    protected abstract TValue GetTarget();
 }

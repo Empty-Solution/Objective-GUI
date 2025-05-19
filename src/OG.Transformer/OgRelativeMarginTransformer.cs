@@ -1,10 +1,10 @@
-﻿using OG.Transformer.Abstraction;
+﻿using OG.Transformer.Options;
 using UnityEngine;
 namespace OG.Transformer;
-public class OgRelativeMarginTransformer : IOgTransformer
+public class OgRelativeMarginTransformer : OgBaseTransformer<OgRelativeMarginTransformerOption>
 {
-    public int Order { get; set; } = 20;
-    public Rect Transform(Rect rect, Rect parentRect, Rect lastRect, int remaining, IOgOptionsContainer options) =>
-        new(!options.TryGetValue("RelativeMarginX", out float relativeX) ? rect.x : parentRect.x * (1 + relativeX),
-            !options.TryGetValue("RelativeMarginY", out float relativeY) ? rect.y : parentRect.y * (1 + relativeY), rect.width, rect.height);
+    public override int Order { get; set; } = 20;
+    public override Rect Transform(Rect rect, Rect parentRect, Rect lastRect, int remaining, OgRelativeMarginTransformerOption option) =>
+        new(option.RelativeMarginX == 0 ? rect.x : parentRect.x * (1 + option.RelativeMarginX),
+            option.RelativeMarginY == 0 ? rect.y : parentRect.y * (1 + option.RelativeMarginY), rect.width, rect.height);
 }

@@ -1,39 +1,26 @@
 ﻿using DK.Processing.Abstraction.Generic;
 using OG.Animator;
-using OG.Animator.Abstraction;
-using OG.Builder.Abstraction;
 using OG.Builder.Arguments.Visual;
 using OG.Builder.Contexts.Visual;
 using OG.DataKit.Animation;
 using OG.DataKit.Transformer;
-using OG.Element.Abstraction;
 using OG.Element.Visual;
-using OG.Event;
+using OG.Event.Abstraction;
 using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
-using OG.Transformer;
-using UnityEngine;
+using OG.Transformer.Abstraction;
 namespace OG.Builder.Visual;
-public abstract class OgTextureBuilder<TGetter, TContext>(IOgElementFactory<OgTextureElement, OgTextureFactoryArguments> factory,
-    IDkProcessor<TContext> processor)
-    : IOgElementBuilder<OgTextureBuildArguments> where TGetter : OgAnimationGetter<Rect> where TContext : OgTextureBuildContext<TGetter>
+public class OgTextureBuilder(IOgElementFactory<OgTextureElement, OgTextureFactoryArguments> factory, IDkProcessor<OgTextureBuildContext> processor)
+    : OgBaseBuilder<IOgElementFactory<OgTextureElement, OgTextureFactoryArguments>, OgTextureElement, OgTextureFactoryArguments, OgTextureBuildArguments,
+        OgTextureBuildContext, OgAnimationRectGetter>(factory, processor)
 {
-    public IOgElement Build(OgTextureBuildArguments args)
-    {
-        OgOptionsContainer      options     = new();
-        OgEventHandlerProvider  provider    = new();
-        OgTransformerRectGetter transformer = new(provider, options);
-        TGetter                 getter      = BuildGetter(transformer, provider, new OgRectAnimator()); // таргеты надо в процессоре пихать если что
-        OgTextureFactoryArguments factoryArguments = new(args.Name, getter, args.Value, args.Material, args.Borders)
-            // я не осилил придумать, откуда пиздить материал, ибо он по идеи должен билдиться при ините чита, так что пусть в чите уже статикой или еще как лежит
-            {
-                EventProvider = provider
-            };
-        OgTextureElement element = factory.Create(factoryArguments);
-        getter.RenderCallback = element;
-        processor.Process(BuildContext(element, getter, options));
-        return element;
-    }
-    public abstract TGetter BuildGetter(OgTransformerRectGetter transformer, OgEventHandlerProvider provider, IOgAnimator<Rect> animator);
-    public abstract TContext BuildContext(OgTextureElement element, TGetter getter, OgOptionsContainer options);
+    protected override OgAnimationRectGetter BuildGetter(IOgEventHandlerProvider provider, IOgOptionsContainer container) =>
+        new(new OgTransformerRectGetter(provider, container), provider, new OgRectAnimator());
+    protected override OgTextureFactoryArguments BuildFactoryArguments(OgTextureBuildContext context, OgTextureBuildArguments args,
+        IOgEventHandlerProvider provider) =>
+        new(args.Name, context.RectGetProvider, provider, args.Value, args.Material, args.Borders);
+    protected override OgTextureBuildContext BuildContext(OgTextureBuildArguments args, IOgOptionsContainer container, IOgEventHandlerProvider provider,
+        OgAnimationRectGetter getter) =>
+        new(null!, getter, container);
+    protected override void InternalProcessContext(OgTextureBuildContext context) => context.RectGetProvider.RenderCallback = context.Element;
 }

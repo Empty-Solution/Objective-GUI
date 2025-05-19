@@ -9,5 +9,5 @@ public interface IOgBuildContext<TElement, TRectProvider> : IOgBuildContext<TEle
 }
 public interface IOgBuildContext<TElement> where TElement : IOgElement
 {
-    TElement Element { get; }
+    TElement Element { get; set; }
 }
