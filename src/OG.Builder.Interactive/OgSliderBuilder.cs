@@ -16,7 +16,8 @@ public class OgSliderBuilder<TFactory>(TFactory factory, IDkProcessor<OgSliderBu
         OgTransformerRectGetter, IOgVisualElement>(factory, processor)
     where TFactory : IOgElementFactory<IOgSlider<IOgVisualElement>, OgSliderFactoryArguments>
 {
-    protected override OgTransformerRectGetter BuildGetter(OgSliderBuildArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container) => new(provider, container);
+    protected override OgTransformerRectGetter BuildGetter(OgSliderBuildArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container) =>
+        new(provider, container);
     protected override OgSliderFactoryArguments BuildFactoryArguments(OgSliderBuildContext context, OgSliderBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, context.ValueProvider);

@@ -25,6 +25,5 @@ public class OgReadOnlyTextureBuilder(IOgElementFactory<OgTextureElement, OgText
         new(null!, getter, container);
     protected override void InternalProcessContext(OgReadOnlyTextureBuildContext context)
     {
-        return;
     }
 }

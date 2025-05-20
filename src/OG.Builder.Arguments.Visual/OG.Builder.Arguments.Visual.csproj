@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Builder.Abstraction\OG.Builder.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Builder.Arguments\OG.Builder.Arguments.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="UnityEngine.TextRenderingModule" Version="2020.3.1"/>
+    </ItemGroup>
+</Project>

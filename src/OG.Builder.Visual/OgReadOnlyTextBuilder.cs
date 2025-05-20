@@ -25,6 +25,5 @@ public class OgReadOnlyTextBuilder(IOgElementFactory<OgTextElement, OgTextFactor
         new(null!, getter, container);
     protected override void InternalProcessContext(OgReadOnlyTextBuildContext context)
     {
-        return;
     }
 }

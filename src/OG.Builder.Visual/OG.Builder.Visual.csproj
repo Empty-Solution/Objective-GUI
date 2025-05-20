@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\OG.Builder.Abstraction\OG.Builder.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Builder.Arguments.Visual\OG.Builder.Arguments.Visual.csproj"/>
+        <ProjectReference Include="..\OG.Builder.Contexts.Visual\OG.Builder.Contexts.Visual.csproj"/>
+        <ProjectReference Include="..\OG.Builder\OG.Builder.csproj"/>
+    </ItemGroup>
+</Project>

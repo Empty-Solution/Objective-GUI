@@ -16,7 +16,8 @@ public class OgToggleBuilder(IOgElementFactory<IOgToggle<IOgVisualElement>, OgEl
     : OgInteractableBuilder<IOgElementFactory<IOgToggle<IOgVisualElement>, OgElementFactoryArguments>, IOgToggle<IOgVisualElement>,
         OgElementFactoryArguments, OgToggleBuildArguments, OgToggleBuildContext, OgTransformerRectGetter, IOgVisualElement>(factory, processor)
 {
-    protected override OgTransformerRectGetter BuildGetter(OgToggleBuildArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container) => new(provider, container);
+    protected override OgTransformerRectGetter BuildGetter(OgToggleBuildArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container) =>
+        new(provider, container);
     protected override OgElementFactoryArguments BuildFactoryArguments(OgToggleBuildContext context, OgToggleBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider);
