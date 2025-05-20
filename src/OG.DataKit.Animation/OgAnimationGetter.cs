@@ -8,7 +8,7 @@ namespace OG.DataKit.Animation;
 public abstract class OgAnimationGetter<TGetter, TValue> : IDkGetProvider<TValue>, IOgEventCallback<IOgRenderEvent>
     where TValue : notnull where TGetter : IDkGetProvider<TValue>
 {
-    private float   m_Time;
+    private float m_Time;
     protected OgAnimationGetter(TGetter originalGetter, IOgEventHandlerProvider provider)
     {
         OriginalGetter = originalGetter;

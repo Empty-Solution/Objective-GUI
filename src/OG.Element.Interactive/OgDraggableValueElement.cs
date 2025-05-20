@@ -16,9 +16,8 @@ public abstract class OgDraggableValueElement<TElement, TValue>(string name, IOg
     {
         if(!IsInteracting) return false;
         TValue value    = Value.Get();
-        TValue newValue = CalculateValue(reason, value);
-        if(Equals(value, newValue)) return false;
-        Value.Set(newValue);
+        value = CalculateValue(reason, value);
+        Value.Set(value);
         return true;
     }
 }
