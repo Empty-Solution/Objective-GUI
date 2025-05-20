@@ -5,9 +5,9 @@ using OG.Event;
 using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
 namespace OG.Factory.Interactive;
-public class OgTextFieldFactory<TElement> : IOgElementFactory<IOgTextField<TElement>, OgTextFieldFactoryArguments> where TElement : IOgVisualElement
+public class OgTextFieldFactory : IOgElementFactory<IOgTextField<IOgVisualElement>, OgTextFieldFactoryArguments>
 {
-    public IOgTextField<TElement> Create(OgTextFieldFactoryArguments arguments) =>
-        new OgTextField<TElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
-                                  arguments.ValueProvider, arguments.TextController, arguments.Font);
+    public IOgTextField<IOgVisualElement> Create(OgTextFieldFactoryArguments arguments) =>
+        new OgTextField<IOgVisualElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
+                                          arguments.ValueProvider, arguments.TextController, arguments.Font);
 }

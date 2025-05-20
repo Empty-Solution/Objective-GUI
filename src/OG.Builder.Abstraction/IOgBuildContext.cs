@@ -7,7 +7,9 @@ public interface IOgBuildContext<TElement, TRectProvider> : IOgBuildContext<TEle
 {
     TRectProvider RectGetProvider { get; }
 }
-public interface IOgBuildContext<TElement> where TElement : IOgElement
+public interface IOgBuildContext<TElement> : IOgBuildContext where TElement : IOgElement
 {
     TElement Element { get; set; }
 }
+
+public interface IOgBuildContext;
