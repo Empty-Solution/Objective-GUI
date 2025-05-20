@@ -13,5 +13,6 @@ public abstract class OgAnimator<TValue>(TValue initial, IDkGetProvider<float>? 
         m_Time =  Mathf.Clamp01(m_Time);
         Value  =  GetValue(targetValue, m_Time);
     }
+    public void ResetTime() => m_Time = 0f;
     protected abstract TValue GetValue(TValue targetValue, float time);
 }

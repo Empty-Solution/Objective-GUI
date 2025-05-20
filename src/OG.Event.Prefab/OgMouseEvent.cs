@@ -1,7 +1,3 @@
 ﻿using OG.Event.Prefab.Abstraction;
-using UnityEngine;
 namespace OG.Event.Prefab;
-public abstract class OgMouseEvent(UnityEngine.Event source) : OgInputEvent(source), IOgMouseEvent
-{
-    public Vector2 LocalPosition { get; set; } = source.mousePosition;
-}
+public abstract class OgMouseEvent(UnityEngine.Event source) : OgInputEvent(source), IOgMouseEvent;

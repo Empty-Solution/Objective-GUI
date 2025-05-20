@@ -7,10 +7,11 @@ using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public abstract class OgSlider<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<float> value)
+public abstract class OgSlider<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<float> value,
+    IDkReadOnlyRange<float>? range)
     : OgDraggableValueElement<TElement, float>(name, provider, rectGetter, value), IOgSlider<TElement> where TElement : IOgElement
 {
-    public IDkReadOnlyRange<float>? Range { get; set; }
+    public IDkReadOnlyRange<float>? Range => range;
     protected override float CalculateValue(IOgMouseEvent reason, float value) =>
         Mathf.Lerp(Range?.Min ?? 0f, Range?.Max ?? 1f, InverseLerp(ElementRect.Get(), reason.LocalMousePosition));
     protected abstract float InverseLerp(Rect rect, Vector2 mousePosition);

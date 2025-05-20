@@ -10,7 +10,7 @@ using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Interactive;
 public class OgButtonBuilder(IOgElementFactory<IOgInteractableElement<IOgVisualElement>, OgElementFactoryArguments> factory,
-    IDkProcessor<OgButtonBuildContext> processor)
+    IDkProcessor<OgButtonBuildContext>? processor)
     : OgInteractableBuilder<IOgElementFactory<IOgInteractableElement<IOgVisualElement>, OgElementFactoryArguments>,
         IOgInteractableElement<IOgVisualElement>, OgElementFactoryArguments, OgElementBuildArguments, OgButtonBuildContext, OgTransformerRectGetter,
         IOgVisualElement>(factory, processor)

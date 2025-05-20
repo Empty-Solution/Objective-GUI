@@ -22,7 +22,7 @@ public class OgTransformerRectGetter : IDkGetProvider<Rect>, IOgEventCallback<IO
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
         m_Rect = reason.Layout.ProcessLayout(OriginalGetter?.Get() ?? Rect.zero, Options);
-        LayoutCallback!.Invoke(reason);
+        LayoutCallback?.Invoke(reason);
         return false;
     }
 }

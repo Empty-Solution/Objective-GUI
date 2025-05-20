@@ -12,12 +12,12 @@ using OG.Transformer.Options;
 using UnityEngine;
 namespace OG.Builder;
 public abstract class
-    OgBaseBuilder<TFactory, TElement, TFactoryArguments, TArguments, TContext, TGetter>(TFactory factory, IDkProcessor<TContext> processor)
-    : IOgElementBuilder<TArguments> where TFactory : IOgElementFactory<TElement, TFactoryArguments> where TFactoryArguments : OgElementFactoryArguments
-                                    where TContext : IOgBuildContext<TElement, TGetter> where TArguments : OgElementBuildArguments
-                                    where TElement : IOgElement where TGetter : IDkGetProvider<Rect>
+    OgBaseBuilder<TFactory, TElement, TFactoryArguments, TArguments, TContext, TGetter>(TFactory factory, IDkProcessor<TContext>? processor)
+    : IOgElementBuilder<TArguments, TElement> where TFactory : IOgElementFactory<TElement, TFactoryArguments>
+                                              where TFactoryArguments : OgElementFactoryArguments where TContext : IOgBuildContext<TElement, TGetter>
+                                              where TArguments : OgElementBuildArguments where TElement : IOgElement where TGetter : IDkGetProvider<Rect>
 {
-    public IOgElement Build(TArguments args)
+    public TElement Build(TArguments args)
     {
         OgOptionsContainer     options          = new();
         OgEventHandlerProvider provider         = new();
@@ -27,7 +27,7 @@ public abstract class
         TElement               element          = factory.Create(factoryArguments);
         context.Element = element;
         InternalProcessContext(context);
-        processor.Process(context);
+        processor?.Process(context);
         return element;
     }
     protected abstract TGetter BuildGetter(TArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container);

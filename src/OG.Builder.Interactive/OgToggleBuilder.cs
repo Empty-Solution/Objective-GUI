@@ -12,7 +12,7 @@ using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Interactive;
 public class OgToggleBuilder(IOgElementFactory<IOgToggle<IOgVisualElement>, OgElementFactoryArguments> factory,
-    IDkProcessor<OgToggleBuildContext> processor)
+    IDkProcessor<OgToggleBuildContext>? processor)
     : OgInteractableBuilder<IOgElementFactory<IOgToggle<IOgVisualElement>, OgElementFactoryArguments>, IOgToggle<IOgVisualElement>,
         OgElementFactoryArguments, OgToggleBuildArguments, OgToggleBuildContext, OgTransformerRectGetter, IOgVisualElement>(factory, processor)
 {

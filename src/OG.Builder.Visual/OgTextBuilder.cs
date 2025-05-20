@@ -10,7 +10,7 @@ using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Visual;
-public class OgTextBuilder(IOgElementFactory<OgTextElement, OgTextFactoryArguments> factory, IDkProcessor<OgTextBuildContext> processor)
+public class OgTextBuilder(IOgElementFactory<OgTextElement, OgTextFactoryArguments> factory, IDkProcessor<OgTextBuildContext>? processor)
     : OgBaseBuilder<IOgElementFactory<OgTextElement, OgTextFactoryArguments>, OgTextElement, OgTextFactoryArguments, OgTextBuildArguments,
         OgTextBuildContext, OgAnimationRectGetter>(factory, processor)
 {

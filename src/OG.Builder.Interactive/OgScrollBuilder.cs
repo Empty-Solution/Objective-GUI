@@ -13,7 +13,7 @@ using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Builder.Interactive;
 public class OgScrollBuilder(IOgElementFactory<IOgVectorValueElement<IOgElement>, OgScrollFactoryArguments> factory,
-    IDkProcessor<OgScrollBuildContext> processor)
+    IDkProcessor<OgScrollBuildContext>? processor)
     : OgInteractableBuilder<IOgElementFactory<IOgVectorValueElement<IOgElement>, OgScrollFactoryArguments>, IOgVectorValueElement<IOgElement>,
         OgScrollFactoryArguments, OgScrollBuildArguments, OgScrollBuildContext, OgTransformerRectField, IOgElement>(factory, processor)
 {

@@ -9,7 +9,7 @@ using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Builder.Visual;
-public class OgReadOnlyTextBuilder(IOgElementFactory<OgTextElement, OgTextFactoryArguments> factory, IDkProcessor<OgReadOnlyTextBuildContext> processor)
+public class OgReadOnlyTextBuilder(IOgElementFactory<OgTextElement, OgTextFactoryArguments> factory, IDkProcessor<OgReadOnlyTextBuildContext>? processor)
     : OgBaseBuilder<IOgElementFactory<OgTextElement, OgTextFactoryArguments>, OgTextElement, OgTextFactoryArguments, OgReadOnlyTextBuildArguments,
         OgReadOnlyTextBuildContext, DkReadOnlyGetter<Rect>>(factory, processor)
 {

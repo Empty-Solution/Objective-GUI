@@ -8,7 +8,8 @@ using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
 namespace OG.Builder.Interactive;
 public abstract class
-    OgInteractableBuilder<TFactory, TElement, TFactoryArguments, TArguments, TContext, TGetter, TChild>(TFactory factory, IDkProcessor<TContext> processor)
+    OgInteractableBuilder<TFactory, TElement, TFactoryArguments, TArguments, TContext, TGetter, TChild>(TFactory factory,
+        IDkProcessor<TContext>? processor)
     : OgBaseBuilder<TFactory, TElement, TFactoryArguments, TArguments, TContext, TGetter>(factory, processor)
     where TFactory : IOgElementFactory<TElement, TFactoryArguments> where TFactoryArguments : OgElementFactoryArguments
     where TContext : IOgBuildContext<TElement, TGetter> where TArguments : OgElementBuildArguments where TElement : IOgContainer<TChild>

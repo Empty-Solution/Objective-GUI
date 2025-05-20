@@ -1,4 +1,5 @@
-﻿using DK.Observing.Generic;
+﻿using DK.DataTypes;
+using DK.Observing.Generic;
 using DK.Processing.Abstraction.Generic;
 using DK.Property.Observing.Generic;
 using OG.Builder.Arguments.Interactive;
@@ -11,7 +12,7 @@ using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Interactive;
-public class OgSliderBuilder<TFactory>(TFactory factory, IDkProcessor<OgSliderBuildContext> processor)
+public class OgSliderBuilder<TFactory>(TFactory factory, IDkProcessor<OgSliderBuildContext>? processor)
     : OgInteractableBuilder<TFactory, IOgSlider<IOgVisualElement>, OgSliderFactoryArguments, OgSliderBuildArguments, OgSliderBuildContext,
         OgTransformerRectGetter, IOgVisualElement>(factory, processor)
     where TFactory : IOgElementFactory<IOgSlider<IOgVisualElement>, OgSliderFactoryArguments>
@@ -20,7 +21,7 @@ public class OgSliderBuilder<TFactory>(TFactory factory, IDkProcessor<OgSliderBu
         new(provider, container);
     protected override OgSliderFactoryArguments BuildFactoryArguments(OgSliderBuildContext context, OgSliderBuildArguments args,
         IOgEventHandlerProvider provider) =>
-        new(args.Name, context.RectGetProvider, provider, context.ValueProvider);
+        new(args.Name, context.RectGetProvider, provider, context.ValueProvider, new DkRange<float>(args.Min, args.Max));
     protected override OgSliderBuildContext BuildContext(OgSliderBuildArguments args, IOgOptionsContainer container, IOgEventHandlerProvider provider,
         OgTransformerRectGetter getter)
     {

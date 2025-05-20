@@ -8,19 +8,20 @@ using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public abstract class OgHoverableElement<TElement> : OgContainer<TElement>, IOgHoverableElement<TElement>, IOgEventCallback<IOgMouseMoveEvent>
+public class OgHoverableElement<TElement> : OgContainer<TElement>, IOgHoverableElement<TElement>, IOgEventCallback<IOgMouseMoveEvent>
     where TElement : IOgElement
 {
-    protected OgHoverableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter) =>
+    public OgHoverableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter) =>
         provider.Register<IOgMouseMoveEvent>(this);
-    protected bool IsHovering { get; set; }
-    public virtual bool Invoke(IOgMouseMoveEvent reason)
+    protected bool IsHovering { get; private set; }
+    public bool Invoke(IOgMouseMoveEvent reason) => HandleMouseMove(reason) || base.Invoke(reason);
+    public IDkObservable<bool>? IsHoveringObserver { get; set; }
+    public virtual bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
         bool containsMouse = ElementRect.Get().Contains(reason.LocalMousePosition);
         if(IsHovering == containsMouse) return false;
         IsHovering = containsMouse;
-        IsHoveringObserver!.Notify(IsHovering);
+        IsHoveringObserver?.Notify(IsHovering);
         return false;
     }
-    public IDkObservable<bool>? IsHoveringObserver { get; set; }
 }

@@ -1,2 +1,6 @@
 ﻿namespace OG.Builder.Arguments.Interactive;
-public class OgSliderBuildArguments(string name, float value) : OgValueElementBuildArguments<float>(name, value);
+public class OgSliderBuildArguments(string name, float value, float min, float max) : OgValueElementBuildArguments<float>(name, value)
+{
+    public float Min { get; } = min;
+    public float Max { get; } = max;
+}

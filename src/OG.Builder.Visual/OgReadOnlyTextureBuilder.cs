@@ -10,7 +10,7 @@ using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Builder.Visual;
 public class OgReadOnlyTextureBuilder(IOgElementFactory<OgTextureElement, OgTextureFactoryArguments> factory,
-    IDkProcessor<OgReadOnlyTextureBuildContext> processor)
+    IDkProcessor<OgReadOnlyTextureBuildContext>? processor)
     : OgBaseBuilder<IOgElementFactory<OgTextureElement, OgTextureFactoryArguments>, OgTextureElement, OgTextureFactoryArguments,
         OgReadOnlyTextureBuildArguments, OgReadOnlyTextureBuildContext, DkReadOnlyGetter<Rect>>(factory, processor)
 {

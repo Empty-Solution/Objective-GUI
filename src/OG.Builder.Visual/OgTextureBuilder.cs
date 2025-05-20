@@ -10,7 +10,7 @@ using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Visual;
-public class OgTextureBuilder(IOgElementFactory<OgTextureElement, OgTextureFactoryArguments> factory, IDkProcessor<OgTextureBuildContext> processor)
+public class OgTextureBuilder(IOgElementFactory<OgTextureElement, OgTextureFactoryArguments> factory, IDkProcessor<OgTextureBuildContext>? processor)
     : OgBaseBuilder<IOgElementFactory<OgTextureElement, OgTextureFactoryArguments>, OgTextureElement, OgTextureFactoryArguments, OgTextureBuildArguments,
         OgTextureBuildContext, OgAnimationRectGetter>(factory, processor)
 {

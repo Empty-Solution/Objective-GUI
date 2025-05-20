@@ -13,7 +13,7 @@ using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Builder.Interactive;
 public class OgVectorBuilder(IOgElementFactory<IOgVectorValueElement<IOgVisualElement>, OgVectorFactoryArguments> factory,
-    IDkProcessor<OgVectorBuildContext> processor)
+    IDkProcessor<OgVectorBuildContext>? processor)
     : OgInteractableBuilder<IOgElementFactory<IOgVectorValueElement<IOgVisualElement>, OgVectorFactoryArguments>, IOgVectorValueElement<IOgVisualElement>,
         OgVectorFactoryArguments, OgVectorBuildArguments, OgVectorBuildContext, OgTransformerRectGetter, IOgVisualElement>(factory, processor)
 {

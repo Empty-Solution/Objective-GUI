@@ -22,7 +22,7 @@ public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider, I
         Rect rect = ElementRect.Get();
         rect.position += newValue;
         Value.Set(Vector2.zero);
-        return elementRectSetter.Set(rect);
+        return elementRectSetter.Set(rect) || base.Invoke(reason);
     }
     public IDkReadOnlyRange<Vector2>? Range { get; set; }
 }

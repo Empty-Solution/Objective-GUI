@@ -10,7 +10,7 @@ using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Interactive;
 public class OgDraggableBuilder(IOgElementFactory<IOgDraggableElement<IOgElement>, OgDraggableFactoryArguments> factory,
-    IDkProcessor<OgDraggableBuildContext> processor)
+    IDkProcessor<OgDraggableBuildContext>? processor)
     : OgInteractableBuilder<IOgElementFactory<IOgDraggableElement<IOgElement>, OgDraggableFactoryArguments>, IOgDraggableElement<IOgElement>,
         OgDraggableFactoryArguments, OgElementBuildArguments, OgDraggableBuildContext, OgTransformerRectField, IOgElement>(factory, processor)
 {
