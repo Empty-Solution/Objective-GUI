@@ -15,7 +15,7 @@ public abstract class OgDraggableValueElement<TElement, TValue>(string name, IOg
     private bool UpdateValue(IOgMouseEvent reason)
     {
         if(!IsInteracting) return false;
-        TValue value    = Value.Get();
+        TValue value = Value.Get();
         value = CalculateValue(reason, value);
         Value.Set(value);
         return true;

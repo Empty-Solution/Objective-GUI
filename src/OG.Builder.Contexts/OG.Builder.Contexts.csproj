@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
         <ProjectReference Include="..\OG.Builder.Abstraction\OG.Builder.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.DataKit.Transformer\OG.DataKit.Transformer.csproj"/>
     </ItemGroup>
 </Project>

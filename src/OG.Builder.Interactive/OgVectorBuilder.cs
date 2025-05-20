@@ -22,8 +22,7 @@ public class OgVectorBuilder(IOgElementFactory<IOgVectorValueElement<IOgVisualEl
     protected override OgVectorFactoryArguments BuildFactoryArguments(OgVectorBuildContext context, OgVectorBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, context.ValueProvider);
-    protected override OgVectorBuildContext BuildContext(OgVectorBuildArguments args, IOgEventHandlerProvider provider,
-        OgTransformerRectGetter getter)
+    protected override OgVectorBuildContext BuildContext(OgVectorBuildArguments args, IOgEventHandlerProvider provider, OgTransformerRectGetter getter)
     {
         DkObservable<Vector2>         observable = new([]);
         DkObservableProperty<Vector2> property   = new(observable, args.Value);

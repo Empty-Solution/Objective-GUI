@@ -13,9 +13,9 @@ using UnityEngine;
 namespace OG.Builder;
 public abstract class
     OgBaseBuilder<TFactory, TElement, TFactoryArguments, TArguments, TContext, TGetter>(TFactory factory, IDkProcessor<TContext>? processor)
-    : IOgElementBuilder<TArguments, TElement> where TFactory : IOgElementFactory<TElement, TFactoryArguments> where TFactoryArguments : OgElementFactoryArguments
-                                              where TContext : IOgBuildContext<TElement, TGetter> where TArguments : OgElementBuildArguments
-                                              where TElement : IOgElement where TGetter : IDkGetProvider<Rect>
+    : IOgElementBuilder<TArguments, TElement> where TFactory : IOgElementFactory<TElement, TFactoryArguments>
+                                              where TFactoryArguments : OgElementFactoryArguments where TContext : IOgBuildContext<TElement, TGetter>
+                                              where TArguments : OgElementBuildArguments where TElement : IOgElement where TGetter : IDkGetProvider<Rect>
 {
     public TElement Build(TArguments args)
     {

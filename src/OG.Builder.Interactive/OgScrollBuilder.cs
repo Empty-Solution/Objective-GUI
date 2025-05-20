@@ -22,8 +22,7 @@ public class OgScrollBuilder(IOgElementFactory<IOgVectorValueElement<IOgElement>
     protected override OgScrollFactoryArguments BuildFactoryArguments(OgScrollBuildContext context, OgScrollBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, context.ValueProvider, context.RectGetProvider);
-    protected override OgScrollBuildContext BuildContext(OgScrollBuildArguments args, IOgEventHandlerProvider provider,
-        OgTransformerRectField getter)
+    protected override OgScrollBuildContext BuildContext(OgScrollBuildArguments args, IOgEventHandlerProvider provider, OgTransformerRectField getter)
     {
         DkObservable<Vector2>         observable = new([]);
         DkObservableProperty<Vector2> property   = new(observable, args.Value);

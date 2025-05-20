@@ -21,8 +21,7 @@ public class OgToggleBuilder(IOgElementFactory<IOgToggle<IOgVisualElement>, OgEl
     protected override OgElementFactoryArguments BuildFactoryArguments(OgToggleBuildContext context, OgToggleBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider);
-    protected override OgToggleBuildContext BuildContext(OgToggleBuildArguments args, IOgEventHandlerProvider provider,
-        OgTransformerRectGetter getter)
+    protected override OgToggleBuildContext BuildContext(OgToggleBuildArguments args, IOgEventHandlerProvider provider, OgTransformerRectGetter getter)
     {
         DkObservable<bool>         observable = new([]);
         DkObservableProperty<bool> property   = new(observable, args.Value);

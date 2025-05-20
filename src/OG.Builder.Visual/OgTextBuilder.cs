@@ -13,7 +13,8 @@ public class OgTextBuilder(IOgElementFactory<OgTextElement, OgTextFactoryArgumen
     : OgBaseBuilder<IOgElementFactory<OgTextElement, OgTextFactoryArguments>, OgTextElement, OgTextFactoryArguments, OgTextBuildArguments,
         OgTextBuildContext, OgAnimationRectGetter<OgTransformerRectGetter>>(factory, processor)
 {
-    protected override OgAnimationRectGetter<OgTransformerRectGetter> BuildGetter(OgTextBuildArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container) =>
+    protected override OgAnimationRectGetter<OgTransformerRectGetter> BuildGetter(OgTextBuildArguments args, IOgEventHandlerProvider provider,
+        IOgOptionsContainer container) =>
         new(new(provider, container), provider);
     protected override OgTextFactoryArguments BuildFactoryArguments(OgTextBuildContext context, OgTextBuildArguments args,
         IOgEventHandlerProvider provider) =>

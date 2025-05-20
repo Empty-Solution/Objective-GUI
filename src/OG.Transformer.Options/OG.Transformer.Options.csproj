@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <ProjectReference Include="..\OG.DataTypes.Alignment\OG.DataTypes.Alignment.csproj" />
+        <ProjectReference Include="..\OG.DataTypes.Alignment\OG.DataTypes.Alignment.csproj"/>
         <ProjectReference Include="..\OG.DataTypes.Orientation\OG.DataTypes.Orientation.csproj"/>
         <ProjectReference Include="..\OG.Transformer.Abstraction\OG.Transformer.Abstraction.csproj"/>
     </ItemGroup>

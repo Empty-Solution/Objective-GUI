@@ -15,8 +15,7 @@ public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOg
         provider.Register<IOgMouseKeyDownEvent>(this);
         provider.Register<IOgMouseKeyUpEvent>(this);
     }
-    protected bool                 IsInteracting         { get; set; }
-    public    IDkObservable<bool>? IsInteractingObserver { get; set; }
+    protected bool IsInteracting { get; set; }
     public bool Invoke(IOgMouseKeyDownEvent reason)
     {
         if(!IsInteracting && IsHovering && BeginControl(reason)) return true;
@@ -27,6 +26,7 @@ public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOg
         if(IsInteracting && EndControl(reason)) return true;
         return base.Invoke(reason);
     }
+    public IDkObservable<bool>? IsInteractingObserver { get; set; }
     protected virtual bool BeginControl(IOgMouseKeyDownEvent reason)
     {
         IsInteracting = true;

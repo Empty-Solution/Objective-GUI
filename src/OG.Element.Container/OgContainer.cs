@@ -7,7 +7,8 @@ using OG.Event.Prefab.Abstraction;
 using System.Collections.Generic;
 using UnityEngine;
 namespace OG.Element.Container;
-public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgInputEvent>, IOgEventCallback<IOgEvent> where TElement : IOgElement
+public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgInputEvent>, IOgEventCallback<IOgEvent>
+    where TElement : IOgElement
 {
     private readonly List<TElement> m_Elements = [];
     public OgContainer(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter)

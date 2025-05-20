@@ -3,7 +3,7 @@ namespace OG.DataTypes.Alignment;
 [Flags]
 public enum EOgAlignment
 {
-    LEFT, 
+    LEFT,
     RIGHT,
     CENTER,
     TOP,

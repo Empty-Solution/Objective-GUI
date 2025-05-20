@@ -3,9 +3,9 @@ using UnityEngine;
 namespace OG.Graphics;
 public class OgGlGraphics : IOgGraphics
 {
-    public  Vector2    Global   { get; set; } // временный костыль
     private int[]      m_IndicesBuffer = new int[32];
     private OgVertex[] m_VertexBuffer  = new OgVertex[32];
+    public  Vector2    Global { get; set; } // временный костыль
     public void Render(IOgGraphicsContext ctx)
     {
         int verticesCount = ctx.VerticesCount;

@@ -19,7 +19,6 @@ public abstract class OgAnimationGetter<TGetter, TValue> : IDkGetProvider<TValue
     public TGetter                           OriginalGetter { get; }
     public float                             Speed          { get; set; } = 1f;
     public TValue Get() => InternalGet(OriginalGetter.Get(), TargetModifier!, m_Time);
-    public void SetTime(float time = 0f) => m_Time = time;
     object IDkGetProvider.Get() => Get();
     public bool Invoke(IOgRenderEvent reason)
     {
@@ -27,5 +26,6 @@ public abstract class OgAnimationGetter<TGetter, TValue> : IDkGetProvider<TValue
         RenderCallback!.Invoke(reason);
         return false;
     }
+    public void SetTime(float time = 0f) => m_Time = time;
     protected abstract TValue InternalGet(TValue originalValue, TValue targetModifier, float time);
 }

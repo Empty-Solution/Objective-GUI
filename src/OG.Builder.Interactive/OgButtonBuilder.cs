@@ -21,7 +21,6 @@ public class OgButtonBuilder(IOgElementFactory<IOgInteractableElement<IOgVisualE
     protected override OgElementFactoryArguments BuildFactoryArguments(OgButtonBuildContext context, OgElementBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider);
-    protected override OgButtonBuildContext BuildContext(OgElementBuildArguments args, IOgEventHandlerProvider provider,
-        OgTransformerRectGetter getter) =>
+    protected override OgButtonBuildContext BuildContext(OgElementBuildArguments args, IOgEventHandlerProvider provider, OgTransformerRectGetter getter) =>
         new(null!, getter);
 }
