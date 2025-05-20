@@ -13,6 +13,7 @@ public class OgTextFactory : IOgElementFactory<OgTextElement, OgTextFactoryArgum
             FontSize      = arguments.FontSize,
             FontStyle     = arguments.FontStyle,
             PixelsPerUnit = arguments.PixelsPerUnit,
-            Spacing       = arguments.Spacing
+            Spacing       = arguments.Spacing,
+            Text = arguments.Text
         };
 }

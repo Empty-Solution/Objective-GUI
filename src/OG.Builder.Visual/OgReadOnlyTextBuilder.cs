@@ -19,7 +19,7 @@ public class OgReadOnlyTextBuilder(IOgElementFactory<OgTextElement, OgTextFactor
     protected override OgTextFactoryArguments BuildFactoryArguments(OgReadOnlyTextBuildContext context, OgReadOnlyTextBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, args.Value, args.Font, args.FontSize,
-            args.FontStyle, args.PixelsPerUnit, 1f);
+            args.FontStyle, args.PixelsPerUnit, 1f, args.Text);
     protected override OgReadOnlyTextBuildContext BuildContext(OgReadOnlyTextBuildArguments args, IOgEventHandlerProvider provider,
         DkReadOnlyGetter<Rect> getter) =>
         new(null!, getter);

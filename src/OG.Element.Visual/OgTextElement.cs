@@ -87,10 +87,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
     {
         RegenerateTextMesh(context);
         context.Material = m_Font!.material;
-        Rect rect = ElementRect.Get();
-        if(m_Font is not null && context.VerticesCount != 0)
-            rect.position += new Vector2(0, context.Vertices[context.VerticesCount - 1].Position.y * rect.height);
-        context.Rect = rect;
+        context.Rect = ElementRect.Get();
     }
     private void RegenerateTextMesh(OgGraphicsContext context)
     {

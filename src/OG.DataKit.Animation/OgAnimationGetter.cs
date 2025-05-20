@@ -15,7 +15,7 @@ public abstract class OgAnimationGetter<TGetter, TValue> : IDkGetProvider<TValue
         OriginalGetter = originalGetter;
         provider.Register(this);
     }
-    public TValue?                           TargetModifier { protected get; set; }
+    public TValue?                           TargetModifier { get; set; }
     public IOgEventCallback<IOgRenderEvent>? RenderCallback { get;           set; }
     public TGetter                           OriginalGetter { get; }
     public float                             Speed          { get; set; } = 1f;
