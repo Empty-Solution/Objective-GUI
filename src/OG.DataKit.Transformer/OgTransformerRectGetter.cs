@@ -12,7 +12,7 @@ public class OgTransformerRectGetter : IDkGetProvider<Rect>, IOgEventCallback<IO
     public OgTransformerRectGetter(IOgEventHandlerProvider provider, IOgOptionsContainer options)
     {
         Options = options;
-        provider.Register(this);
+        provider.Register<IOgLayoutEvent>(this);
     }
     public IOgOptionsContainer               Options        { get; }
     public IDkGetProvider<Rect>?             OriginalGetter { get; set; }

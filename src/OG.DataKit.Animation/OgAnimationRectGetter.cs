@@ -1,11 +1,10 @@
 ﻿using DK.Getting.Abstraction.Generic;
-using OG.Animator.Abstraction;
 using OG.Event.Abstraction;
 using UnityEngine;
 namespace OG.DataKit.Animation;
-public class OgAnimationRectGetter(IDkGetProvider<Rect> originalGetter, IOgEventHandlerProvider provider, IOgAnimator<Rect> animator)
-    : OgAnimationGetter<Rect>(originalGetter, provider, animator)
+public class OgAnimationRectGetter<TGetter>(TGetter originalGetter, IOgEventHandlerProvider provider)
+    : OgAnimationGetter<TGetter, Rect>(originalGetter, provider) where TGetter : IDkGetProvider<Rect>
 {
-    protected override Rect InternalGet(Rect originalValue, Rect animationValue) =>
-        new(originalValue.position + animationValue.position, originalValue.size + animationValue.size);
+    protected override Rect InternalGet(Rect originalValue, Rect targetModifier, float time) =>
+        new(originalValue.position + (targetModifier.position * time), originalValue.size + (targetModifier.size * time));
 }

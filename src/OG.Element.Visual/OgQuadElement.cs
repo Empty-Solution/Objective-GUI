@@ -1,5 +1,6 @@
 using DK.Getting.Abstraction.Generic;
 using OG.Event.Abstraction;
+using OG.Event.Prefab.Abstraction;
 using OG.Graphics;
 using UnityEngine;
 namespace OG.Element.Visual;
@@ -29,7 +30,7 @@ public class OgQuadElement(string name, IOgEventHandlerProvider provider, IDkGet
     {
         FillContext(context);
         context.Material = Material;
-        context.Rect     = ElementRect.Get();
+        context.Rect = ElementRect.Get();
     }
     protected virtual void FillContext(OgGraphicsContext context)
     {

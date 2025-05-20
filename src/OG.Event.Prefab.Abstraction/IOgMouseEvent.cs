@@ -1,2 +1,3 @@
-﻿namespace OG.Event.Prefab.Abstraction;
+﻿using UnityEngine;
+namespace OG.Event.Prefab.Abstraction;
 public interface IOgMouseEvent : IOgInputEvent;

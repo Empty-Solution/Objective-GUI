@@ -1,7 +1,8 @@
-﻿using OG.Transformer.Abstraction;
+﻿using OG.DataTypes.Alignment;
+using OG.Transformer.Abstraction;
 using UnityEngine;
 namespace OG.Transformer.Options;
-public class OgAlignmentTransformerOption(TextAnchor alignment = TextAnchor.UpperLeft) : IOgTransformerOption
+public class OgAlignmentTransformerOption(EOgAlignment alignment) : IOgTransformerOption
 {
-    public TextAnchor Alignment { get; } = alignment;
+    public EOgAlignment Alignment { get; } = alignment;
 }

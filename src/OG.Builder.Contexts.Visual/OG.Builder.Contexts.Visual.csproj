@@ -3,6 +3,7 @@
         <ProjectReference Include="..\OG.Builder.Abstraction\OG.Builder.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Builder.Contexts\OG.Builder.Contexts.csproj"/>
         <ProjectReference Include="..\OG.DataKit.Animation\OG.DataKit.Animation.csproj"/>
+        <ProjectReference Include="..\OG.DataKit.Transformer\OG.DataKit.Transformer.csproj" />
         <ProjectReference Include="..\OG.Element.Visual\OG.Element.Visual.csproj"/>
     </ItemGroup>
 </Project>

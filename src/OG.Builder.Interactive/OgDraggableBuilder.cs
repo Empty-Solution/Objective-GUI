@@ -19,7 +19,7 @@ public class OgDraggableBuilder(IOgElementFactory<IOgDraggableElement<IOgElement
     protected override OgDraggableFactoryArguments BuildFactoryArguments(OgDraggableBuildContext context, OgElementBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, context.RectGetProvider, provider);
-    protected override OgDraggableBuildContext BuildContext(OgElementBuildArguments args, IOgOptionsContainer container, IOgEventHandlerProvider provider,
+    protected override OgDraggableBuildContext BuildContext(OgElementBuildArguments args, IOgEventHandlerProvider provider,
         OgTransformerRectField getter) =>
-        new(null!, getter, container);
+        new(null!, getter);
 }

@@ -5,8 +5,8 @@ using OG.Element.Abstraction;
 using OG.Event.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public class OgHorizontalSlider<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<float> value,
-    IDkReadOnlyRange<float>? range) : OgSlider<TElement>(name, provider, rectGetter, value, range) where TElement : IOgElement
+public class OgHorizontalSlider<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<float> value, IDkReadOnlyRange<float>? range)
+    : OgSlider<TElement>(name, provider, rectGetter, value, range) where TElement : IOgElement
 {
     protected override float InverseLerp(Rect rect, Vector2 mousePosition) => Mathf.InverseLerp(rect.xMin, rect.xMax, mousePosition.x);
 }

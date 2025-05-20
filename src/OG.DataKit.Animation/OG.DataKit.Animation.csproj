@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <ProjectReference Include="..\OG.Animator.Abstraction\OG.Animator.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Event.Extensions\OG.Event.Extensions.csproj"/>
     </ItemGroup>

@@ -20,9 +20,9 @@ public class OgReadOnlyTextureBuilder(IOgElementFactory<OgTextureElement, OgText
     protected override OgTextureFactoryArguments BuildFactoryArguments(OgReadOnlyTextureBuildContext context, OgReadOnlyTextureBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, args.Value, args.Material, args.Borders);
-    protected override OgReadOnlyTextureBuildContext BuildContext(OgReadOnlyTextureBuildArguments args, IOgOptionsContainer container,
+    protected override OgReadOnlyTextureBuildContext BuildContext(OgReadOnlyTextureBuildArguments args,
         IOgEventHandlerProvider provider, DkReadOnlyGetter<Rect> getter) =>
-        new(null!, getter, container);
+        new(null!, getter);
     protected override void InternalProcessContext(OgReadOnlyTextureBuildContext context)
     {
     }

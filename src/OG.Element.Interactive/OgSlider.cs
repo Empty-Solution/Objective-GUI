@@ -7,8 +7,7 @@ using OG.Event.Abstraction;
 using OG.Event.Prefab.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public abstract class OgSlider<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<float> value,
-    IDkReadOnlyRange<float>? range)
+public abstract class OgSlider<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<float> value, IDkReadOnlyRange<float>? range)
     : OgDraggableValueElement<TElement, float>(name, provider, rectGetter, value), IOgSlider<TElement> where TElement : IOgElement
 {
     public IDkReadOnlyRange<float>? Range => range;

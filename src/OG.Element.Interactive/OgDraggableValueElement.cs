@@ -8,12 +8,13 @@ namespace OG.Element.Interactive;
 public abstract class OgDraggableValueElement<TElement, TValue>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter,
     IDkFieldProvider<TValue> value) : OgInteractableValueElement<TElement, TValue>(name, provider, rectGetter, value) where TElement : IOgElement
 {
-    public override bool HandleMouseMove(IOgMouseMoveEvent reason) => base.HandleMouseMove(reason) || UpdateValue(reason);
+    protected override bool HandleMouseMove(IOgMouseMoveEvent reason) => base.HandleMouseMove(reason) || UpdateValue(reason);
     protected override bool BeginControl(IOgMouseKeyDownEvent reason) => base.BeginControl(reason) || UpdateValue(reason);
     protected override bool EndControl(IOgMouseKeyUpEvent reason) => base.EndControl(reason) || UpdateValue(reason);
     protected abstract TValue CalculateValue(IOgMouseEvent reason, TValue value);
     private bool UpdateValue(IOgMouseEvent reason)
     {
+        if(!IsInteracting) return false;
         TValue value    = Value.Get();
         TValue newValue = CalculateValue(reason, value);
         if(Equals(value, newValue)) return false;

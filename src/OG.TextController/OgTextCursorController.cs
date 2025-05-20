@@ -48,13 +48,16 @@ public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCur
         OgVertex[] vertices                          = m_Vertices;
         if(verticesCount > vertices.Length) vertices = m_Vertices = new OgVertex[verticesCount * 2];
         context.CopyVertices(vertices);
+        
         float    lineHeight = m_Vertices[context.VerticesCount - 1].Position.y * context.Rect.height;
         string[] lines      = text.Split('\n');
         int      lineIndex  = (int)Mathf.Floor((context.Rect.y - position.y) / lineHeight);
+        
         if(lineIndex < 0 || lineIndex >= lines.Length) return 0;
         string currentLineText = lines[lineIndex];
         float  xOffset         = position.x - context.Rect.x;
         float  currentWidth    = 0f;
+        
         for(int i = 0; i < currentLineText.Length; i++)
         {
             currentWidth += m_Vertices[i == 0 ? 4 : i * 4].Position.x;
@@ -68,14 +71,17 @@ public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCur
     private Vector2 GetCharPositionInString(string text, int characterIndex, IOgGraphicsContext context)
     {
         if(string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length) return new();
+        
         int verticesCount = context.VerticesCount;
         if(verticesCount is 0) return new();
         OgVertex[] vertices                          = m_Vertices;
         if(verticesCount > vertices.Length) vertices = m_Vertices = new OgVertex[verticesCount * 2];
         context.CopyVertices(vertices);
+        
         float xOffset     = 0f;
         float yOffset     = 0f;
         int   currentLine = 0;
+        
         float lineHeight  = m_Vertices[context.VerticesCount - 1].Position.y * context.Rect.height;
         for(int i = 0; i <= characterIndex; i++)
         {

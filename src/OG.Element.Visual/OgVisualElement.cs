@@ -10,9 +10,9 @@ namespace OG.Element.Visual;
 public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCallback<IOgRenderEvent>
 {
     private bool               m_IsDirty = true;
-    private OgGraphicsContext? m_RenderContext;
+    protected OgGraphicsContext? m_RenderContext;
     protected OgVisualElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter) =>
-        provider.Register(this);
+        provider.RegisterToEnd(this);
     public virtual bool Invoke(IOgRenderEvent reason)
     {
         m_RenderContext ??= new();
@@ -20,8 +20,9 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
         {
             m_RenderContext.Clear();
             BuildContext(m_RenderContext);
-            m_IsDirty = false;
+            m_IsDirty            =  false;
         }
+        m_RenderContext.Rect = ElementRect.Get();
         reason.Graphics.Render(m_RenderContext);
         return false;
     }

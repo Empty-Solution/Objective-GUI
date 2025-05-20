@@ -1,21 +1,28 @@
-﻿using OG.Transformer.Options;
+﻿using OG.DataTypes.Alignment;
+using OG.Transformer.Options;
 using UnityEngine;
 namespace OG.Transformer;
 public class OgAlignmentTransformer : OgBaseTransformer<OgAlignmentTransformerOption>
 {
     public override int Order { get; set; } = 1000;
-    public override Rect Transform(Rect rect, Rect parentRect, Rect lastRect, int remaining, OgAlignmentTransformerOption option) =>
-        new(option.Alignment switch
-        {
-            TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight    => parentRect.xMax - rect.width,
-            TextAnchor.UpperCenter or TextAnchor.MiddleCenter or TextAnchor.LowerCenter => parentRect.x + ((parentRect.width - rect.width) / 2),
-            TextAnchor.UpperLeft or TextAnchor.MiddleLeft or TextAnchor.LowerLeft       => parentRect.x,
-            _                                                                           => rect.x
-        }, option.Alignment switch
-        {
-            TextAnchor.LowerLeft or TextAnchor.LowerCenter or TextAnchor.LowerRight    => parentRect.yMax - rect.height,
-            TextAnchor.MiddleLeft or TextAnchor.MiddleCenter or TextAnchor.MiddleRight => parentRect.y + ((parentRect.height - rect.height) / 2),
-            TextAnchor.UpperLeft or TextAnchor.UpperCenter or TextAnchor.UpperRight    => parentRect.y,
-            _                                                                          => rect.y
-        }, rect.width, rect.height);
+    public override Rect Transform(Rect rect, Rect parentRect, Rect lastRect, int remaining, OgAlignmentTransformerOption option)
+    {
+        Vector2 position = rect.position;
+    
+        if (option.Alignment.HasFlag(EOgAlignment.CENTER))
+            position.x = parentRect.x + (parentRect.width - rect.width) / 2;
+        else if (option.Alignment.HasFlag(EOgAlignment.RIGHT))
+            position.x = parentRect.x + parentRect.width - rect.width;
+        else if (option.Alignment.HasFlag(EOgAlignment.LEFT))
+            position.x = parentRect.x;
+    
+        if (option.Alignment.HasFlag(EOgAlignment.MIDDLE))
+            position.y = parentRect.y + (parentRect.height - rect.height) / 2;
+        else if (option.Alignment.HasFlag(EOgAlignment.BOTTOM))
+            position.y = parentRect.y + parentRect.height - rect.height;
+        else if (option.Alignment.HasFlag(EOgAlignment.TOP))
+            position.y = parentRect.y;
+    
+        return new(position, rect.size);
+    }
 }

@@ -22,11 +22,11 @@ public class OgSliderBuilder<TFactory>(TFactory factory, IDkProcessor<OgSliderBu
     protected override OgSliderFactoryArguments BuildFactoryArguments(OgSliderBuildContext context, OgSliderBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, context.ValueProvider, new DkRange<float>(args.Min, args.Max));
-    protected override OgSliderBuildContext BuildContext(OgSliderBuildArguments args, IOgOptionsContainer container, IOgEventHandlerProvider provider,
+    protected override OgSliderBuildContext BuildContext(OgSliderBuildArguments args, IOgEventHandlerProvider provider,
         OgTransformerRectGetter getter)
     {
         DkObservable<float>         observable = new([]);
         DkObservableProperty<float> property   = new(observable, args.Value);
-        return new(null!, getter, container, property, observable);
+        return new(null!, getter, property, observable);
     }
 }

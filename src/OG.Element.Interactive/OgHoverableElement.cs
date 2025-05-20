@@ -15,8 +15,7 @@ public class OgHoverableElement<TElement> : OgContainer<TElement>, IOgHoverableE
         provider.Register<IOgMouseMoveEvent>(this);
     protected bool IsHovering { get; private set; }
     public bool Invoke(IOgMouseMoveEvent reason) => HandleMouseMove(reason) || base.Invoke(reason);
-    public IDkObservable<bool>? IsHoveringObserver { get; set; }
-    public virtual bool HandleMouseMove(IOgMouseMoveEvent reason)
+    protected virtual bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
         bool containsMouse = ElementRect.Get().Contains(reason.LocalMousePosition);
         if(IsHovering == containsMouse) return false;
@@ -24,4 +23,5 @@ public class OgHoverableElement<TElement> : OgContainer<TElement>, IOgHoverableE
         IsHoveringObserver?.Notify(IsHovering);
         return false;
     }
+    public IDkObservable<bool>? IsHoveringObserver { get; set; }
 }

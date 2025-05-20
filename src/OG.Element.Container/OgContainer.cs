@@ -7,16 +7,15 @@ using OG.Event.Prefab.Abstraction;
 using System.Collections.Generic;
 using UnityEngine;
 namespace OG.Element.Container;
-public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgInputEvent>, IOgEventCallback<IOgEvent>
-    where TElement : IOgElement
+public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgInputEvent>, IOgEventCallback<IOgEvent> where TElement : IOgElement
 {
     private readonly List<TElement> m_Elements = [];
     public OgContainer(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter)
     {
         provider.Register<IOgInputEvent>(this);
-        provider.Register<IOgLayoutEvent>(this);
         provider.Register<IOgRenderEvent>(this);
-        provider.Register<IOgEvent>(this);
+        provider.RegisterToEnd<IOgLayoutEvent>(this);
+        provider.RegisterToEnd<IOgEvent>(this);
     }
     public IEnumerable<TElement> Elements => m_Elements;
     public bool Contains(TElement element) => m_Elements.Contains(element);
@@ -47,10 +46,13 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     }
     public virtual bool Invoke(IOgRenderEvent reason)
     {
-        reason.Enter(ElementRect.Get());
-        bool isUsed = ProcessElementsEventForward(reason);
+        Rect rect = ElementRect.Get();
+        reason.Graphics.Global += rect.position;
+        reason.Enter(rect);
+        ProcessElementsEventForward(reason);
         reason.Exit();
-        return isUsed;
+        reason.Graphics.Global -= rect.position;
+        return false;
     }
     public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
     public bool Invoke(IOgInputEvent reason)

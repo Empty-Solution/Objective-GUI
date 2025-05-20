@@ -10,7 +10,7 @@ public class OgDraggableElement<TElement>(string name, IOgEventHandlerProvider p
     IDkSetProvider<Rect> elementRectSetter)
     : OgInteractableElement<TElement>(name, provider, rectGetter), IOgDraggableElement<TElement> where TElement : IOgElement
 {
-    public override bool HandleMouseMove(IOgMouseMoveEvent reason) => IsInteracting && elementRectSetter.Set(PerformDrag(reason.Delta, ElementRect.Get()));
+    protected override bool HandleMouseMove(IOgMouseMoveEvent reason) => IsInteracting && elementRectSetter.Set(PerformDrag(reason.Delta, ElementRect.Get()));
     protected virtual Rect PerformDrag(Vector2 delta, Rect elementRect)
     {
         elementRect.position += delta;

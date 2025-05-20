@@ -3,6 +3,7 @@ using UnityEngine;
 namespace OG.Graphics;
 public class OgGlGraphics : IOgGraphics
 {
+    public  Vector2    Global   { get; set; } // временный костыль
     private int[]      m_IndicesBuffer = new int[32];
     private OgVertex[] m_VertexBuffer  = new OgVertex[32];
     public void Render(IOgGraphicsContext ctx)
@@ -23,6 +24,7 @@ public class OgGlGraphics : IOgGraphics
         GL.MultMatrix(Matrix4x4.TRS(ctx.Position, ctx.Rotation, ctx.Scale));
         GL.Begin(GL.TRIANGLES);
         Rect rect = ctx.Rect;
+        //rect.position += Global;
         for(int i = 0; i < indicesCount; i += 3)
         {
             int      idx0 = indices[i];

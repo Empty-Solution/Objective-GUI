@@ -13,18 +13,16 @@ using UnityEngine;
 namespace OG.Builder;
 public abstract class
     OgBaseBuilder<TFactory, TElement, TFactoryArguments, TArguments, TContext, TGetter>(TFactory factory, IDkProcessor<TContext>? processor)
-    : IOgElementBuilder<TArguments, TElement> where TFactory : IOgElementFactory<TElement, TFactoryArguments>
-                                              where TFactoryArguments : OgElementFactoryArguments where TContext : IOgBuildContext<TElement, TGetter>
-                                              where TArguments : OgElementBuildArguments where TElement : IOgElement where TGetter : IDkGetProvider<Rect>
+    : IOgElementBuilder<TArguments, TElement> where TFactory : IOgElementFactory<TElement, TFactoryArguments> where TFactoryArguments : OgElementFactoryArguments
+                                              where TContext : IOgBuildContext<TElement, TGetter> where TArguments : OgElementBuildArguments
+                                              where TElement : IOgElement where TGetter : IDkGetProvider<Rect>
 {
     public TElement Build(TArguments args)
     {
-        OgOptionsContainer     options          = new();
-        OgEventHandlerProvider provider         = new();
-        TGetter                getter           = BuildGetter(args, provider, options);
-        TContext               context          = BuildContext(args, options, provider, getter);
-        TFactoryArguments      factoryArguments = BuildFactoryArguments(context, args, provider);
-        TElement               element          = factory.Create(factoryArguments);
+        OgOptionsContainer     options  = new();
+        OgEventHandlerProvider provider = new();
+        TContext               context  = BuildContext(args, provider, BuildGetter(args, provider, options));
+        TElement               element  = factory.Create(BuildFactoryArguments(context, args, provider));
         context.Element = element;
         InternalProcessContext(context);
         processor?.Process(context);
@@ -32,6 +30,6 @@ public abstract class
     }
     protected abstract TGetter BuildGetter(TArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container);
     protected abstract TFactoryArguments BuildFactoryArguments(TContext context, TArguments args, IOgEventHandlerProvider provider);
-    protected abstract TContext BuildContext(TArguments args, IOgOptionsContainer container, IOgEventHandlerProvider provider, TGetter getter);
+    protected abstract TContext BuildContext(TArguments args, IOgEventHandlerProvider provider, TGetter getter);
     protected abstract void InternalProcessContext(TContext context);
 }
