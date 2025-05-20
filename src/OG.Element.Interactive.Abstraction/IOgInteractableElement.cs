@@ -3,5 +3,5 @@ using OG.Element.Abstraction;
 namespace OG.Element.Interactive.Abstraction;
 public interface IOgInteractableElement<TElement> : IOgHoverableElement<TElement> where TElement : IOgElement
 {
-    IDkObservable<bool>? IsInteractingObserver { get; }
+    IDkObservable<bool>? IsInteractingObserver { get; set; }
 }
