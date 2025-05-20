@@ -17,7 +17,7 @@ public class OgScrollBuilder(IOgElementFactory<IOgVectorValueElement<IOgElement>
     : OgInteractableBuilder<IOgElementFactory<IOgVectorValueElement<IOgElement>, OgScrollFactoryArguments>, IOgVectorValueElement<IOgElement>,
         OgScrollFactoryArguments, OgScrollBuildArguments, OgScrollBuildContext, OgTransformerRectField, IOgElement>(factory, processor)
 {
-    protected override OgTransformerRectField BuildGetter(IOgEventHandlerProvider provider, IOgOptionsContainer container) => new(provider, container);
+    protected override OgTransformerRectField BuildGetter(OgScrollBuildArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container) => new(provider, container);
     protected override OgScrollFactoryArguments BuildFactoryArguments(OgScrollBuildContext context, OgScrollBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, context.ValueProvider, context.RectGetProvider);

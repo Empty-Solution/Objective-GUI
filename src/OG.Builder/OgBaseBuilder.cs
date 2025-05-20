@@ -21,7 +21,7 @@ public abstract class
     {
         OgOptionsContainer     options          = new();
         OgEventHandlerProvider provider         = new();
-        TGetter                getter           = BuildGetter(provider, options);
+        TGetter                getter           = BuildGetter(args, provider, options);
         TContext               context          = BuildContext(args, options, provider, getter);
         TFactoryArguments      factoryArguments = BuildFactoryArguments(context, args, provider);
         TElement               element          = factory.Create(factoryArguments);
@@ -30,7 +30,7 @@ public abstract class
         processor.Process(context);
         return element;
     }
-    protected abstract TGetter BuildGetter(IOgEventHandlerProvider provider, IOgOptionsContainer container);
+    protected abstract TGetter BuildGetter(TArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container);
     protected abstract TFactoryArguments BuildFactoryArguments(TContext context, TArguments args, IOgEventHandlerProvider provider);
     protected abstract TContext BuildContext(TArguments args, IOgOptionsContainer container, IOgEventHandlerProvider provider, TGetter getter);
     protected abstract void InternalProcessContext(TContext context);

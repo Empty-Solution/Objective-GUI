@@ -17,7 +17,7 @@ public class OgVectorBuilder(IOgElementFactory<IOgVectorValueElement<IOgVisualEl
     : OgInteractableBuilder<IOgElementFactory<IOgVectorValueElement<IOgVisualElement>, OgVectorFactoryArguments>, IOgVectorValueElement<IOgVisualElement>,
         OgVectorFactoryArguments, OgVectorBuildArguments, OgVectorBuildContext, OgTransformerRectGetter, IOgVisualElement>(factory, processor)
 {
-    protected override OgTransformerRectGetter BuildGetter(IOgEventHandlerProvider provider, IOgOptionsContainer container) => new(provider, container);
+    protected override OgTransformerRectGetter BuildGetter(OgVectorBuildArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container) => new(provider, container);
     protected override OgVectorFactoryArguments BuildFactoryArguments(OgVectorBuildContext context, OgVectorBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, context.ValueProvider);
