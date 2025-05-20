@@ -22,7 +22,6 @@ public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCal
             BuildContext(m_RenderContext);
             m_IsDirty = false;
         }
-        m_RenderContext.Rect = ElementRect.Get();
         reason.Graphics.Render(m_RenderContext);
         return false;
     }

@@ -19,6 +19,8 @@ public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDk
         Material?.SetVector("_Borders", Borders);
         Rect rect = ElementRect.Get();
         Material?.SetFloat("_AspectRatio", rect.width / rect.height);
+        if(m_RenderContext != null)
+            m_RenderContext.Rect = rect;
         return base.Invoke(reason);
     }
 }

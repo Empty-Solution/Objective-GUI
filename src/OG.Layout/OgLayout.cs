@@ -7,14 +7,14 @@ namespace OG.Layout;
 public class OgLayout : IOgLayout
 {
     protected readonly IEnumerable<IOgTransformer> m_Transformers;
-    protected          Rect                        m_LastLayoutRect;
+    protected          Rect                        m_LastLayoutRect = Rect.zero;
     public OgLayout(IEnumerable<IOgTransformer> transformers) => m_Transformers = transformers.OrderBy(t => t.Order);
     public int  RemainingLayoutItems { get; set; }
     public Rect ParentRect           { get; set; }
     public Rect ProcessLayout(Rect rect, IOgOptionsContainer container)
     {
-        Rect parentRect = ParentRect;
-        int  remaining  = RemainingLayoutItems;
+        Rect parentRect                                    = ParentRect;
+        int  remaining                                     = RemainingLayoutItems;
         // ReSharper disable once LoopCanBeConvertedToQuery
         foreach(IOgTransformerOption option in container.Options)
         {
@@ -26,5 +26,10 @@ public class OgLayout : IOgLayout
         }
         m_LastLayoutRect = rect;
         return rect;
+    }
+    public IOgLayout ResetLayout()
+    {
+        m_LastLayoutRect = Rect.zero;
+        return this;
     }
 }
