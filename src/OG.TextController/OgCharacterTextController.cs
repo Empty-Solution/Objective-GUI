@@ -1,14 +1,13 @@
-﻿using OG.Event.Prefab.Abstraction;
+﻿using DK.Property.Abstraction.Generic;
 using OG.Graphics.Abstraction;
-using OG.TextController.Abstraction;
+using UnityEngine;
 namespace OG.TextController;
-public abstract class OgCharacterTextController(IOgTextCursorController textCursorController, bool multiLine) : IOgTextController
+public abstract class OgCharacterTextController(bool multiLine, IDkFieldProvider<Vector2>? localCursorPosition,
+    IDkFieldProvider<Vector2>? localSelectionPosition) : OgTextCursorController(localCursorPosition, localSelectionPosition)
 {
-    protected string                  m_Value = string.Empty;
-    public    bool                    Multiline            { get; set; } = multiLine;
-    public    IOgTextCursorController TextCursorController { get; }      = textCursorController;
-    public abstract string HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context);
-    public string HandleCharacter(string text, char character, IOgGraphicsContext context)
+    protected string m_Value = string.Empty;
+    public    bool   Multiline { get; set; } = multiLine;
+    public override string HandleCharacter(string text, char character, IOgGraphicsContext context)
     {
         if(character == '\n' && !Multiline) return text;
         m_Value = text;
@@ -17,18 +16,18 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
     }
     protected void DeleteSelectionIfNeeded(IOgGraphicsContext context)
     {
-        int selectionPosition = TextCursorController.SelectionPosition;
-        int cursorPosition    = TextCursorController.CursorPosition;
+        int selectionPosition = SelectionPosition;
+        int cursorPosition    = CursorPosition;
         if(cursorPosition == selectionPosition) return;
         DeleteSelection(cursorPosition, selectionPosition, context);
     }
     protected void DeleteRange(int from, int to) => m_Value = m_Value.Remove(from, to - from);
     protected void ReplaceSelection(string replace, IOgGraphicsContext context)
     {
-        int cursorPosition = TextCursorController.CursorPosition;
+        int cursorPosition = CursorPosition;
         DeleteSelectionIfNeeded(context);
         m_Value = m_Value.Insert(cursorPosition, replace);
-        TextCursorController.ChangeCursorAndSelectionPositions(m_Value, cursorPosition + replace.Length, context);
+        ChangeCursorAndSelectionPositions(m_Value, cursorPosition + replace.Length, context);
     }
     private void DeleteSelection(int cursorPosition, int selectionPosition, IOgGraphicsContext context)
     {
@@ -40,11 +39,11 @@ public abstract class OgCharacterTextController(IOgTextCursorController textCurs
     private void DeleteSelectionBySelection(int cursorPosition, int selectionPosition, IOgGraphicsContext context)
     {
         DeleteRange(selectionPosition, cursorPosition);
-        TextCursorController.ChangeCursorPosition(m_Value, selectionPosition, context);
+        ChangeCursorPosition(m_Value, selectionPosition, context);
     }
     private void DeleteSelectionByCursor(int cursorPosition, int selectionPosition, IOgGraphicsContext context)
     {
         DeleteRange(cursorPosition, selectionPosition);
-        TextCursorController.ChangeSelectionPosition(m_Value, selectionPosition, context);
+        ChangeSelectionPosition(m_Value, selectionPosition, context);
     }
 }

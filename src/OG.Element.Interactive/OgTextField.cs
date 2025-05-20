@@ -30,14 +30,14 @@ public class OgTextField<TElement>(string name, IOgEventHandlerProvider provider
     {
         IOgGraphicsContext? context = Context;
         if(context is null) return false;
-        TextController.TextCursorController.ChangeCursorAndSelectionPositions(Value.Get(), reason.LocalMousePosition, context);
+        TextController.ChangeCursorAndSelectionPositions(Value.Get(), reason.LocalMousePosition, context);
         return true;
     }
     protected override bool OnLostFocus(IOgMouseKeyUpEvent reason)
     {
         IOgGraphicsContext? context = Context;
         if(context is null) return false;
-        TextController.TextCursorController.ChangeCursorAndSelectionPositions(Value.Get(), reason.LocalMousePosition, context);
+        TextController.ChangeCursorAndSelectionPositions(Value.Get(), reason.LocalMousePosition, context);
         return true;
     }
     protected override bool BeginControl(IOgMouseKeyDownEvent reason)
@@ -45,7 +45,7 @@ public class OgTextField<TElement>(string name, IOgEventHandlerProvider provider
         base.BeginControl(reason);
         IOgGraphicsContext? context = Context;
         if(context is null) return false;
-        TextController.TextCursorController.ChangeCursorPosition(Value.Get(), reason.LocalMousePosition, context);
+        TextController.ChangeCursorPosition(Value.Get(), reason.LocalMousePosition, context);
         return true;
     }
     protected override bool EndControl(IOgMouseKeyUpEvent reason)
@@ -53,7 +53,7 @@ public class OgTextField<TElement>(string name, IOgEventHandlerProvider provider
         base.EndControl(reason);
         IOgGraphicsContext? context = Context;
         if(context is null) return false;
-        TextController.TextCursorController.ChangeSelectionPosition(Value.Get(), reason.LocalMousePosition, context);
+        TextController.ChangeSelectionPosition(Value.Get(), reason.LocalMousePosition, context);
         return true;
     }
     private bool UpdateTextIfNeeded(string newValue) => !Equals(Value.Get(), newValue) && Value.Set(newValue);

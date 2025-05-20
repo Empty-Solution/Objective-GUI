@@ -11,5 +11,4 @@ public interface IOgBuildContext<TElement> : IOgBuildContext where TElement : IO
 {
     TElement Element { get; set; }
 }
-
 public interface IOgBuildContext;

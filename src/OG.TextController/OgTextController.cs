@@ -1,9 +1,10 @@
-﻿using OG.Event.Prefab.Abstraction;
+﻿using DK.Property.Abstraction.Generic;
+using OG.Event.Prefab.Abstraction;
 using OG.Graphics.Abstraction;
-using OG.TextController.Abstraction;
 using UnityEngine;
 namespace OG.TextController;
-public class OgTextController(IOgTextCursorController textCursorController, bool multiLine) : OgCharacterTextController(textCursorController, multiLine)
+public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCursorPosition, IDkFieldProvider<Vector2>? localSelectionPosition)
+    : OgCharacterTextController(multiLine, localCursorPosition, localSelectionPosition)
 {
     public override string HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context)
     {
@@ -72,8 +73,8 @@ public class OgTextController(IOgTextCursorController textCursorController, bool
     }
     private void DeleteChar(bool forward, IOgGraphicsContext context)
     {
-        int cursorPosition = TextCursorController.CursorPosition;
-        if(cursorPosition != TextCursorController.SelectionPosition)
+        int cursorPosition = CursorPosition;
+        if(cursorPosition != SelectionPosition)
         {
             DeleteSelectionIfNeeded(context);
             return;
@@ -85,7 +86,7 @@ public class OgTextController(IOgTextCursorController textCursorController, bool
     {
         string value = m_Value;
         if(string.IsNullOrEmpty(value)) return;
-        int cursorPosition = TextCursorController.CursorPosition;
+        int cursorPosition = CursorPosition;
         int wordBound      = forward ? value.IndexOf(' ', Mathf.Max(0, cursorPosition + 1)) : value.LastIndexOf(' ', Mathf.Max(0, cursorPosition - 1));
         wordBound = Mathf.Clamp(wordBound, 0, value.Length);
         DeleteRangeAndChangeCursorSelectionPositions(wordBound, cursorPosition, context);
@@ -94,19 +95,14 @@ public class OgTextController(IOgTextCursorController textCursorController, bool
     {
         if(reason.Modifiers.HasFlag(EventModifiers.Shift))
         {
-            TextCursorController.ChangeSelectionPosition(m_Value,
-                                                         forward ? Mathf.Min(m_Value.Length, TextCursorController.SelectionPosition + 1)
-                                                             : Mathf.Max(0, TextCursorController.SelectionPosition) - 1, context);
+            ChangeSelectionPosition(m_Value, forward ? Mathf.Min(m_Value.Length, SelectionPosition + 1) : Mathf.Max(0, SelectionPosition) - 1, context);
             return;
         }
-        TextCursorController.ChangeCursorAndSelectionPositions(m_Value,
-                                                               forward ? Mathf.Min(m_Value.Length, TextCursorController.CursorPosition) + 1
-                                                                   : Mathf.Max(0, TextCursorController.CursorPosition - 1), context);
+        ChangeCursorAndSelectionPositions(m_Value, forward ? Mathf.Min(m_Value.Length, CursorPosition) + 1 : Mathf.Max(0, CursorPosition - 1), context);
     }
     private void MoveCursorWord(IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context, bool forward = false)
     {
-        int wordBound = forward ? m_Value.IndexOf(' ', TextCursorController.CursorPosition + 1)
-                            : m_Value.LastIndexOf(' ', Mathf.Max(0, TextCursorController.CursorPosition - 1));
+        int wordBound = forward ? m_Value.IndexOf(' ', CursorPosition + 1) : m_Value.LastIndexOf(' ', Mathf.Max(0, CursorPosition - 1));
         wordBound = Mathf.Clamp(wordBound, 0, m_Value.Length);
         MoveCursorTo(wordBound, reason, context);
     }
@@ -114,30 +110,30 @@ public class OgTextController(IOgTextCursorController textCursorController, bool
     private void MoveCursorToEnd(IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context) => MoveCursorTo(m_Value.Length, reason, context);
     private void MoveCursorTo(int position, IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context)
     {
-        if(reason.Modifiers.HasFlag(EventModifiers.Shift)) TextCursorController.ChangeCursorPosition(m_Value, position, context);
-        TextCursorController.ChangeSelectionPosition(m_Value, position, context);
+        if(reason.Modifiers.HasFlag(EventModifiers.Shift)) ChangeCursorPosition(m_Value, position, context);
+        ChangeSelectionPosition(m_Value, position, context);
     }
     private void SelectAll(IOgGraphicsContext context)
     {
-        TextCursorController.ChangeCursorPosition(m_Value, 0, context);
-        TextCursorController.ChangeSelectionPosition(m_Value, m_Value.Length, context);
+        ChangeCursorPosition(m_Value, 0, context);
+        ChangeSelectionPosition(m_Value, m_Value.Length, context);
     }
     private void Cut(IOgGraphicsContext context)
     {
-        if(TextCursorController.CursorPosition == TextCursorController.SelectionPosition) return;
+        if(CursorPosition == SelectionPosition) return;
         GUIUtility.systemCopyBuffer = GetSelectedText();
         DeleteSelectionIfNeeded(context);
     }
     private void Copy(IOgGraphicsContext context)
     {
-        if(TextCursorController.CursorPosition == TextCursorController.SelectionPosition) return;
+        if(CursorPosition == SelectionPosition) return;
         GUIUtility.systemCopyBuffer = GetSelectedText();
     }
     private void Paste(IOgGraphicsContext context) => ReplaceSelection(GUIUtility.systemCopyBuffer, context);
     private string GetSelectedText()
     {
-        int cursorPosition    = TextCursorController.CursorPosition;
-        int selectionPosition = TextCursorController.SelectionPosition;
+        int cursorPosition    = CursorPosition;
+        int selectionPosition = SelectionPosition;
         if(cursorPosition == selectionPosition) return string.Empty;
         int startIndex = Mathf.Min(cursorPosition, selectionPosition);
         int length     = Mathf.Abs(cursorPosition - selectionPosition);
@@ -147,6 +143,6 @@ public class OgTextController(IOgTextCursorController textCursorController, bool
     {
         if(to < from) (from, to) = (to, from);
         DeleteRange(from, to);
-        TextCursorController.ChangeCursorAndSelectionPositions(m_Value, from, context);
+        ChangeCursorAndSelectionPositions(m_Value, from, context);
     }
 }
