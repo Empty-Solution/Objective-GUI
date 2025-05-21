@@ -1,5 +1,4 @@
 ﻿using DK.DataTypes;
-using DK.Observing.Generic;
 using DK.Processing.Abstraction.Generic;
 using DK.Property.Observing.Generic;
 using OG.Builder.Arguments.Interactive;
@@ -24,8 +23,7 @@ public class OgSliderBuilder<TFactory>(TFactory factory, IDkProcessor<OgSliderBu
         new(args.Name, context.RectGetProvider, provider, context.ValueProvider, new DkRange<float>(args.Min, args.Max));
     protected override OgSliderBuildContext BuildContext(OgSliderBuildArguments args, IOgEventHandlerProvider provider, OgTransformerRectGetter getter)
     {
-        DkObservable<float>         observable = new([]);
-        DkObservableProperty<float> property   = new(observable, args.Value);
-        return new(null!, getter, property, observable);
+        DkObservableProperty<float> property = new(args.Observable, args.Value);
+        return new(null!, getter, property, args.Observable);
     }
 }

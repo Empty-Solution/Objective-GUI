@@ -85,15 +85,9 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
     }
     protected override void BuildContext(OgGraphicsContext context)
     {
-        RegenerateTextMesh(context);
         context.Material = m_Font!.material;
-        context.Rect = ElementRect.Get();
-        Debug.Log(m_Text);
-        Debug.Log(Color);
-        Debug.Log(FontSize);
-        Debug.Log(PixelsPerUnit);
-        Debug.Log(context.Rect);
-        Debug.Log(m_Font);
+        context.Rect     = ElementRect.Get();
+        RegenerateTextMesh(context);
     }
     private void RegenerateTextMesh(OgGraphicsContext context)
     {

@@ -1,5 +1,4 @@
-﻿using DK.Observing.Generic;
-using DK.Processing.Abstraction.Generic;
+﻿using DK.Processing.Abstraction.Generic;
 using DK.Property.Observing.Generic;
 using OG.Builder.Arguments.Interactive;
 using OG.Builder.Contexts.Interactive;
@@ -24,8 +23,7 @@ public class OgVectorBuilder(IOgElementFactory<IOgVectorValueElement<IOgVisualEl
         new(args.Name, context.RectGetProvider, provider, context.ValueProvider);
     protected override OgVectorBuildContext BuildContext(OgVectorBuildArguments args, IOgEventHandlerProvider provider, OgTransformerRectGetter getter)
     {
-        DkObservable<Vector2>         observable = new([]);
-        DkObservableProperty<Vector2> property   = new(observable, args.Value);
-        return new(null!, getter, property, observable);
+        DkObservableProperty<Vector2> property = new(args.Observable, args.Value);
+        return new(null!, getter, property, args.Observable);
     }
 }

@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <PackageReference Include="DK.Observing.Abstraction.Generic" Version="1.3.7" />
-        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.3.7" />
+        <PackageReference Include="DK.Observing.Abstraction.Generic" Version="1.3.7"/>
+        <PackageReference Include="DK.Property.Abstraction.Generic" Version="1.3.7"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj"/>
     </ItemGroup>
 </Project>

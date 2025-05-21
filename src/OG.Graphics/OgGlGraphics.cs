@@ -24,7 +24,6 @@ public class OgGlGraphics : IOgGraphics
         GL.MultMatrix(Matrix4x4.TRS(ctx.Position, ctx.Rotation, ctx.Scale));
         GL.Begin(GL.TRIANGLES);
         Rect rect = ctx.Rect;
-        //rect.position += Global;
         for(int i = 0; i < indicesCount; i += 3)
         {
             int      idx0 = indices[i];

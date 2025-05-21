@@ -17,7 +17,7 @@ public abstract class
                                               where TFactoryArguments : OgElementFactoryArguments where TContext : IOgBuildContext<TElement, TGetter>
                                               where TArguments : OgElementBuildArguments where TElement : IOgElement where TGetter : IDkGetProvider<Rect>
 {
-    public TElement Build(TArguments args)
+    public virtual TElement Build(TArguments args)
     {
         OgOptionsContainer     options  = new();
         OgEventHandlerProvider provider = new();

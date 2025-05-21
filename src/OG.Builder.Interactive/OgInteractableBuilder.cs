@@ -1,4 +1,5 @@
-﻿// ReSharper disable PossibleStructMemberModificationOfNonVariableStructusing DK.Observing.Generic;
+﻿// ReSharper disable PossibleStructMemberModificationOfNonVariableStruct
+
 using DK.Observing.Generic;
 using DK.Processing.Abstraction.Generic;
 using OG.Builder.Abstraction;
@@ -19,8 +20,9 @@ public abstract class
 {
     protected override void InternalProcessContext(TContext context)
     {
-        context.RectGetProvider.LayoutCallback = context.Element;
-        context.Element.IsHoveringObserver     = new DkObservable<bool>([]);
-        context.Element.IsInteractingObserver  = new DkObservable<bool>([]);
+        context.RectGetProvider.LayoutCallback     = context.Element;
+        context.Element.IsHoveringObserver         = new DkObservable<bool>([]);
+        context.Element.IsInteractingObserver      = new DkObservable<bool>([]);
+        context.Element.IsRightInteractingObserver = new DkObservable<bool>([]);
     }
 }

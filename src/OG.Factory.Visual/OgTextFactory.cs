@@ -14,6 +14,6 @@ public class OgTextFactory : IOgElementFactory<OgTextElement, OgTextFactoryArgum
             FontStyle     = arguments.FontStyle,
             PixelsPerUnit = arguments.PixelsPerUnit,
             Spacing       = arguments.Spacing,
-            Text = arguments.Text
+            Text          = arguments.Text
         };
 }

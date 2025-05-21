@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 namespace OG.Builder.Arguments.Visual;
 public class OgTextBuildArguments(string name, Color value, Font font, int fontSize, float pixelsPerUnit, FontStyle fontStyle, string text)
-    : OgValueElementBuildArguments<Color>(name, value)
+    : OgVisualElementBuildArguments(name, value)
 {
     public Font      Font          => font;
     public int       FontSize      { get; } = fontSize;

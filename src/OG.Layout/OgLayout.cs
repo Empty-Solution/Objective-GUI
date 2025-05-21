@@ -13,8 +13,8 @@ public class OgLayout : IOgLayout
     public Rect ParentRect           { get; set; }
     public Rect ProcessLayout(Rect rect, IOgOptionsContainer container)
     {
-        Rect parentRect                                    = ParentRect;
-        int  remaining                                     = RemainingLayoutItems;
+        Rect parentRect = ParentRect;
+        int  remaining  = RemainingLayoutItems;
         // ReSharper disable once LoopCanBeConvertedToQuery
         foreach(IOgTransformerOption option in container.Options)
         {

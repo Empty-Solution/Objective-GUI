@@ -14,7 +14,7 @@ public abstract class OgDraggableValueElement<TElement, TValue>(string name, IOg
     protected abstract TValue CalculateValue(IOgMouseEvent reason, TValue value);
     private bool UpdateValue(IOgMouseEvent reason)
     {
-        TValue value = Value.Get();
+        TValue value    = Value.Get();
         TValue newValue = CalculateValue(reason, value);
         if(newValue!.Equals(value)) return false;
         Value.Set(newValue);
