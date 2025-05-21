@@ -148,6 +148,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Visual", "EH.Bui
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder", "EH.Builder\EH.Builder.csproj", "{27130F2B-A967-40E8-9F1C-21DAAD8EB4ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.DataKit.Animation.Extensions", "OG.DataKit.Animation.Extensions\OG.DataKit.Animation.Extensions.csproj", "{216E608A-CA81-49B9-9FCA-A236525B829D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -350,6 +352,10 @@ Global
 		{27130F2B-A967-40E8-9F1C-21DAAD8EB4ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27130F2B-A967-40E8-9F1C-21DAAD8EB4ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27130F2B-A967-40E8-9F1C-21DAAD8EB4ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216E608A-CA81-49B9-9FCA-A236525B829D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216E608A-CA81-49B9-9FCA-A236525B829D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216E608A-CA81-49B9-9FCA-A236525B829D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216E608A-CA81-49B9-9FCA-A236525B829D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -413,6 +419,7 @@ Global
 		{BF954977-9321-4FBA-BC41-98E7C96104E5} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
 		{7DAA8E60-F8B0-46E8-A6A2-51DB8475F6CF} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
 		{27130F2B-A967-40E8-9F1C-21DAAD8EB4ED} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
+		{216E608A-CA81-49B9-9FCA-A236525B829D} = {CDD3E43B-FB71-457B-88A1-CA1B5EFC88E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8DE026B-F83F-49C3-AAF4-C3924C080D00}

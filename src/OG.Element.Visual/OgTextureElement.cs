@@ -1,25 +1,26 @@
 ﻿using DK.Getting.Abstraction.Generic;
 using OG.Event.Abstraction;
-using OG.Event.Prefab.Abstraction;
+using OG.Graphics;
 using UnityEngine;
 namespace OG.Element.Visual;
-public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : OgQuadElement(name, provider, rectGetter)
+public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
+    : OgVisualElement<OgTextureGraphicsContext>(name, provider, rectGetter)
 {
-    public Vector4 Borders
+    public Texture2D? Texture        { get; set; }
+    public Color      Color          { get; set; }
+    public Vector4    BorderWidths   { get; set; }
+    public Vector4    BorderRadiuses { get; set; }
+    public float      ImageAspect    { get; set; }
+    public bool       AlphaBlend     { get; set; }
+    protected override void FillContext()
     {
-        get;
-        set
-        {
-            if(field.Equals(value)) return;
-            field = value;
-        }
-    }
-    public override bool Invoke(IOgRenderEvent reason)
-    {
-        Material?.SetVector("_Borders", Borders);
-        Rect rect = ElementRect.Get();
-        Material?.SetFloat("_AspectRatio", rect.width / rect.height);
-        if(m_RenderContext != null) m_RenderContext.Rect = rect;
-        return base.Invoke(reason);
+        m_RenderContext                ??= new();
+        m_RenderContext.Color          =   Color;
+        m_RenderContext.Texture        =   Texture;
+        m_RenderContext.BorderRadiuses =   BorderRadiuses;
+        m_RenderContext.BorderWidths   =   BorderWidths;
+        m_RenderContext.ImageAspect    =   ImageAspect;
+        m_RenderContext.AlphaBlend     =   AlphaBlend;
+        m_RenderContext.RenderRect     =   ElementRect.Get();
     }
 }

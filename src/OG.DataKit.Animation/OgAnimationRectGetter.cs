@@ -8,6 +8,6 @@ public class OgAnimationRectGetter<TGetter>(TGetter originalGetter, IOgEventHand
     protected override Rect CalculateValue(Rect currentValue, Rect targetValue, float time) =>
         new(Mathf.Lerp(currentValue.x, targetValue.x, time), Mathf.Lerp(currentValue.y, targetValue.y, time),
             Mathf.Lerp(currentValue.width, targetValue.width, time), Mathf.Lerp(currentValue.height, targetValue.height, time));
-    protected override Rect CalculateValue(Rect originalValue, Rect targetModifier) =>
+    protected override Rect AddValue(Rect originalValue, Rect targetModifier) =>
         new(originalValue.position + targetModifier.position, originalValue.size + targetModifier.size);
 }

@@ -7,57 +7,53 @@ namespace OG.TextController;
 public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCursorPosition, IDkFieldProvider<Vector2>? localSelectionPosition)
     : IOgTextController
 {
-    private OgVertex[]                 m_Vertices = [];
-    public  IDkFieldProvider<Vector2>? LocalCursorPosition    { get; } = localCursorPosition;
-    public  IDkFieldProvider<Vector2>? LocalSelectionPosition { get; } = localSelectionPosition;
-    public  int                        CursorPosition         { get; protected set; }
-    public  int                        SelectionPosition      { get; protected set; }
-    public abstract string HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context);
-    public abstract string HandleCharacter(string text, char character, IOgGraphicsContext context);
-    public void ChangeCursorPosition(string text, Vector2 mousePosition, IOgGraphicsContext context) =>
+    public IDkFieldProvider<Vector2>? LocalCursorPosition    { get; } = localCursorPosition;
+    public IDkFieldProvider<Vector2>? LocalSelectionPosition { get; } = localSelectionPosition;
+    public int                        CursorPosition         { get; protected set; }
+    public int                        SelectionPosition      { get; protected set; }
+    public abstract string HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context);
+    public abstract string HandleCharacter(string text, char character, IOgTextGraphicsContext context);
+    public void ChangeCursorPosition(string text, Vector2 mousePosition, IOgTextGraphicsContext context) =>
         ChangeCursorPosition(text, GetCharacterIndex(text, mousePosition, context), context);
-    public void ChangeSelectionPosition(string text, Vector2 mousePosition, IOgGraphicsContext context) =>
+    public void ChangeSelectionPosition(string text, Vector2 mousePosition, IOgTextGraphicsContext context) =>
         ChangeSelectionPosition(text, GetCharacterIndex(text, mousePosition, context), context);
-    public void ChangeCursorAndSelectionPositions(string text, Vector2 mousePosition, IOgGraphicsContext context)
+    public void ChangeCursorAndSelectionPositions(string text, Vector2 mousePosition, IOgTextGraphicsContext context)
     {
         ChangeSelectionPosition(text, mousePosition, context);
         ChangeCursorPosition(text, mousePosition, context);
     }
-    public void ChangeCursorPosition(string text, int position, IOgGraphicsContext context)
+    public void ChangeCursorPosition(string text, int position, IOgTextGraphicsContext context)
     {
         CursorPosition = position;
         LocalCursorPosition!.Set(GetCharPositionInString(text, position, context));
     }
-    public void ChangeSelectionPosition(string text, int position, IOgGraphicsContext context)
+    public void ChangeSelectionPosition(string text, int position, IOgTextGraphicsContext context)
     {
         SelectionPosition = position;
         LocalSelectionPosition!.Set(GetCharPositionInString(text, position, context));
     }
-    public void ChangeCursorAndSelectionPositions(string text, int position, IOgGraphicsContext context)
+    public void ChangeCursorAndSelectionPositions(string text, int position, IOgTextGraphicsContext context)
     {
         ChangeCursorPosition(text, position, context);
         ChangeSelectionPosition(text, position, context);
     }
-    private int GetCharacterIndex(string text, Vector2 mousePosition, IOgGraphicsContext context) =>
+    private int GetCharacterIndex(string text, Vector2 mousePosition, IOgTextGraphicsContext context) =>
         GetCharacterIndexByVector2(text, mousePosition, context);
-    private int GetCharacterIndexByVector2(string text, Vector2 position, IOgGraphicsContext context)
+    private int GetCharacterIndexByVector2(string text, Vector2 position, IOgTextGraphicsContext context)
     {
-        if(string.IsNullOrEmpty(text)) return 0;
-        int verticesCount = context.VerticesCount;
-        if(verticesCount is 0) return 0;
-        OgVertex[] vertices                          = m_Vertices;
-        if(verticesCount > vertices.Length) vertices = m_Vertices = new OgVertex[verticesCount * 2];
-        context.CopyVertices(vertices);
-        float    lineHeight = m_Vertices[context.VerticesCount - 1].Position.y * context.Rect.height;
+        if(string.IsNullOrEmpty(text) || context.Font is null) return 0;
+        context.Font.RequestCharactersInTexture(text, context.FontSize, context.FontStyle);
+        float    lineHeight = context.Font.lineHeight;
         string[] lines      = text.Split('\n');
-        int      lineIndex  = (int)Mathf.Floor((context.Rect.y - position.y) / lineHeight);
+        int      lineIndex  = (int)Mathf.Floor((context.RenderRect.y - position.y) / lineHeight);
         if(lineIndex < 0 || lineIndex >= lines.Length) return 0;
         string currentLineText = lines[lineIndex];
-        float  xOffset         = position.x - context.Rect.x;
+        float  xOffset         = position.x - context.RenderRect.x;
         float  currentWidth    = 0f;
         for(int i = 0; i < currentLineText.Length; i++)
         {
-            currentWidth += m_Vertices[i == 0 ? 4 : i * 4].Position.x;
+            context.Font.GetCharacterInfo(text[i], out CharacterInfo info);
+            currentWidth += info.advance;
             if(!(currentWidth >= xOffset)) continue;
             int globalIndex                                = 0;
             for(int j = 0; j < lineIndex; j++) globalIndex += lines[j].Length + 1;
@@ -65,18 +61,14 @@ public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCur
         }
         return text.Length;
     }
-    private Vector2 GetCharPositionInString(string text, int characterIndex, IOgGraphicsContext context)
+    private Vector2 GetCharPositionInString(string text, int characterIndex, IOgTextGraphicsContext context)
     {
-        if(string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length) return new();
-        int verticesCount = context.VerticesCount;
-        if(verticesCount is 0) return new();
-        OgVertex[] vertices                          = m_Vertices;
-        if(verticesCount > vertices.Length) vertices = m_Vertices = new OgVertex[verticesCount * 2];
-        context.CopyVertices(vertices);
+        if(string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length || context.Font is null) return new();
+        context.Font.RequestCharactersInTexture(text, context.FontSize, context.FontStyle);
         float xOffset     = 0f;
         float yOffset     = 0f;
         int   currentLine = 0;
-        float lineHeight  = m_Vertices[context.VerticesCount - 1].Position.y * context.Rect.height;
+        float lineHeight  = context.Font.lineHeight;
         for(int i = 0; i <= characterIndex; i++)
         {
             char currentChar = text[i];
@@ -87,8 +79,9 @@ public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCur
                 xOffset = 0f;
                 continue;
             }
-            xOffset += m_Vertices[i == 0 ? 4 : i * 4].Position.x;
+            context.Font.GetCharacterInfo(text[i], out CharacterInfo info);
+            xOffset += info.advance;
         }
-        return new((int)xOffset + context.Rect.x, (int)yOffset + context.Rect.y);
+        return new((int)xOffset + context.RenderRect.x, (int)yOffset + context.RenderRect.y);
     }
 }

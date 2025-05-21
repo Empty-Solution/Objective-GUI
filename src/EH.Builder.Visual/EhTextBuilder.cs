@@ -21,12 +21,12 @@ public class EhTextBuilder
         m_OgTextBuilder = new(new OgTextFactory(), m_Processor);
         m_Context       = context;
     }
-    public OgTextElement Build(string name, IDkGetProvider<Color> colorGetter, int fontSize, float pixelsPerUnit, IDkGetProvider<string> textGetter,
+    public OgTextElement Build(string name, IDkGetProvider<Color> colorGetter, int fontSize, TextAnchor alignment, IDkGetProvider<string> textGetter,
         IDkProcess<OgTextBuildContext> process, out DkBinding<string> textBinding, out DkBinding<Color> colorBinding)
     {
         m_Processor.AddProcess(process);
-        OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter.Get(), m_Context.Font, fontSize, pixelsPerUnit, FontStyle.Normal,
-                                                          textGetter.Get()));
+        OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter.Get(), m_Context.Font, fontSize, alignment, FontStyle.Normal,
+                                                          TextClipping.Clip, false, textGetter.Get()));
         textBinding = new(textGetter, new DkScriptableSetter<string>(text =>
         {
             element.Text = text;
@@ -40,12 +40,12 @@ public class EhTextBuilder
         m_Processor.RemoveProcess(process);
         return element;
     }
-    public OgTextElement Build(string name, IDkGetProvider<Color> colorGetter, int fontSize, float pixelsPerUnit, string text,
+    public OgTextElement Build(string name, IDkGetProvider<Color> colorGetter, int fontSize, TextAnchor alignment, string text,
         IDkProcess<OgTextBuildContext> process, out DkBinding<Color> colorBinding)
     {
         m_Processor.AddProcess(process);
-        OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter.Get(), m_Context.Font, fontSize, pixelsPerUnit, FontStyle.Normal,
-                                                          text));
+        OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter.Get(), m_Context.Font, fontSize, alignment, FontStyle.Normal,
+                                                          TextClipping.Clip, false, text));
         colorBinding = new(colorGetter, new DkScriptableSetter<Color>(color =>
         {
             element.Color = color;
@@ -54,11 +54,11 @@ public class EhTextBuilder
         m_Processor.RemoveProcess(process);
         return element;
     }
-    public OgTextElement Build(string name, Color color, int fontSize, float pixelsPerUnit, string text, IDkProcess<OgTextBuildContext> process)
+    public OgTextElement Build(string name, Color color, int fontSize, TextAnchor alignment, string text, IDkProcess<OgTextBuildContext> process)
     {
         m_Processor.AddProcess(process);
-        OgTextElement element = m_OgTextBuilder.Build(new(name, color, m_Context.Font, fontSize, pixelsPerUnit, FontStyle.Normal,
-                                                          text));
+        OgTextElement element = m_OgTextBuilder.Build(new(name, color, m_Context.Font, fontSize, alignment, FontStyle.Normal,
+                                                          TextClipping.Clip, false, text));
         m_Processor.RemoveProcess(process);
         return element;
     }

@@ -6,7 +6,7 @@ namespace OG.TextController;
 public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCursorPosition, IDkFieldProvider<Vector2>? localSelectionPosition)
     : OgCharacterTextController(multiLine, localCursorPosition, localSelectionPosition)
 {
-    public override string HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context)
+    public override string HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context)
     {
         m_Value = text;
         KeyCode keyCode    = reason.KeyCode;
@@ -65,13 +65,13 @@ public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCu
         }
         return m_Value;
     }
-    private void HandleTab(IOgGraphicsContext context) => m_Value = HandleCharacter(m_Value, '\t', context);
-    private void HandleReturn(IOgGraphicsContext context)
+    private void HandleTab(IOgTextGraphicsContext context) => m_Value = HandleCharacter(m_Value, '\t', context);
+    private void HandleReturn(IOgTextGraphicsContext context)
     {
         if(!Multiline) return;
         m_Value = HandleCharacter(m_Value, '\n', context);
     }
-    private void DeleteChar(bool forward, IOgGraphicsContext context)
+    private void DeleteChar(bool forward, IOgTextGraphicsContext context)
     {
         int cursorPosition = CursorPosition;
         if(cursorPosition != SelectionPosition)
@@ -82,7 +82,7 @@ public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCu
         int target = Mathf.Clamp(forward ? cursorPosition + 1 : cursorPosition - 1, 0, m_Value.Length);
         DeleteRangeAndChangeCursorSelectionPositions(target, cursorPosition, context);
     }
-    private void DeleteWord(bool forward, IOgGraphicsContext context)
+    private void DeleteWord(bool forward, IOgTextGraphicsContext context)
     {
         string value = m_Value;
         if(string.IsNullOrEmpty(value)) return;
@@ -91,7 +91,7 @@ public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCu
         wordBound = Mathf.Clamp(wordBound, 0, value.Length);
         DeleteRangeAndChangeCursorSelectionPositions(wordBound, cursorPosition, context);
     }
-    private void MoveCursorChar(IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context, bool forward = false)
+    private void MoveCursorChar(IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context, bool forward = false)
     {
         if(reason.Modifiers.HasFlag(EventModifiers.Shift))
         {
@@ -100,36 +100,36 @@ public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCu
         }
         ChangeCursorAndSelectionPositions(m_Value, forward ? Mathf.Min(m_Value.Length, CursorPosition) + 1 : Mathf.Max(0, CursorPosition - 1), context);
     }
-    private void MoveCursorWord(IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context, bool forward = false)
+    private void MoveCursorWord(IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context, bool forward = false)
     {
         int wordBound = forward ? m_Value.IndexOf(' ', CursorPosition + 1) : m_Value.LastIndexOf(' ', Mathf.Max(0, CursorPosition - 1));
         wordBound = Mathf.Clamp(wordBound, 0, m_Value.Length);
         MoveCursorTo(wordBound, reason, context);
     }
-    private void MoveCursorToStart(IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context) => MoveCursorTo(0, reason, context);
-    private void MoveCursorToEnd(IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context) => MoveCursorTo(m_Value.Length, reason, context);
-    private void MoveCursorTo(int position, IOgKeyBoardKeyDownEvent reason, IOgGraphicsContext context)
+    private void MoveCursorToStart(IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context) => MoveCursorTo(0, reason, context);
+    private void MoveCursorToEnd(IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context) => MoveCursorTo(m_Value.Length, reason, context);
+    private void MoveCursorTo(int position, IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context)
     {
         if(reason.Modifiers.HasFlag(EventModifiers.Shift)) ChangeCursorPosition(m_Value, position, context);
         ChangeSelectionPosition(m_Value, position, context);
     }
-    private void SelectAll(IOgGraphicsContext context)
+    private void SelectAll(IOgTextGraphicsContext context)
     {
         ChangeCursorPosition(m_Value, 0, context);
         ChangeSelectionPosition(m_Value, m_Value.Length, context);
     }
-    private void Cut(IOgGraphicsContext context)
+    private void Cut(IOgTextGraphicsContext context)
     {
         if(CursorPosition == SelectionPosition) return;
         GUIUtility.systemCopyBuffer = GetSelectedText();
         DeleteSelectionIfNeeded(context);
     }
-    private void Copy(IOgGraphicsContext context)
+    private void Copy(IOgTextGraphicsContext context)
     {
         if(CursorPosition == SelectionPosition) return;
         GUIUtility.systemCopyBuffer = GetSelectedText();
     }
-    private void Paste(IOgGraphicsContext context) => ReplaceSelection(GUIUtility.systemCopyBuffer, context);
+    private void Paste(IOgTextGraphicsContext context) => ReplaceSelection(GUIUtility.systemCopyBuffer, context);
     private string GetSelectedText()
     {
         int cursorPosition    = CursorPosition;
@@ -139,7 +139,7 @@ public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCu
         int length     = Mathf.Abs(cursorPosition - selectionPosition);
         return m_Value.Substring(startIndex, length);
     }
-    private void DeleteRangeAndChangeCursorSelectionPositions(int from, int to, IOgGraphicsContext context)
+    private void DeleteRangeAndChangeCursorSelectionPositions(int from, int to, IOgTextGraphicsContext context)
     {
         if(to < from) (from, to) = (to, from);
         DeleteRange(from, to);

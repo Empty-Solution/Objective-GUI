@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 namespace OG.Builder.Arguments.Visual;
-public class OgTextBuildArguments(string name, Color value, Font font, int fontSize, float pixelsPerUnit, FontStyle fontStyle, string text)
-    : OgVisualElementBuildArguments(name, value)
+public class OgTextBuildArguments(string name, Color value, Font font, int fontSize, TextAnchor alignment, FontStyle fontStyle, TextClipping textClipping,
+    bool wordWrap, string text) : OgVisualElementBuildArguments(name, value)
 {
-    public Font      Font          => font;
-    public int       FontSize      { get; } = fontSize;
-    public float     PixelsPerUnit { get; } = pixelsPerUnit;
-    public FontStyle FontStyle     { get; } = fontStyle;
-    public string    Text          { get; } = text;
+    public Font         Font         => font;
+    public int          FontSize     => fontSize;
+    public FontStyle    FontStyle    => fontStyle;
+    public TextAnchor   Alignment    => alignment;
+    public string       Text         => text;
+    public TextClipping TextClipping => textClipping;
+    public bool         WordWrap     => wordWrap;
 }

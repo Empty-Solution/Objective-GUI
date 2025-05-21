@@ -9,18 +9,17 @@ using OG.TextController.Abstraction;
 using System.Linq;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public class OgTextField<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<string> value,
-    IOgTextController textController, Font font)
-    : OgFocusableElement<TElement, string>(name, provider, rectGetter, value), IOgTextField<TElement>, IOgEventCallback<IOgKeyBoardCharacterKeyDownEvent>
-    where TElement : IOgVisualElement
+public class OgTextField(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<string> value,
+    IOgTextController textController, Font font) : OgFocusableElement<IOgTextElement, string>(name, provider, rectGetter, value),
+                                                   IOgTextField<IOgTextElement>, IOgEventCallback<IOgKeyBoardCharacterKeyDownEvent>
 {
-    protected IOgGraphicsContext? Context        => Elements.FirstOrDefault()?.Context;
-    public    IOgTextController   TextController => textController;
-    public    Font                Font           => font;
+    protected IOgTextGraphicsContext? Context        => Elements.FirstOrDefault()?.Context;
+    public    IOgTextController       TextController => textController;
+    public    Font                    Font           => font;
     public virtual bool Invoke(IOgKeyBoardCharacterKeyDownEvent reason)
     {
         if(!IsFocusing) return false;
-        IOgGraphicsContext? context = Context;
+        IOgTextGraphicsContext? context = Context;
         if(context is null) return false;
         if(UpdateTextIfNeeded(TextController.HandleKeyEvent(Value.Get(), reason, context))) return true;
         char chr = reason.Character;
@@ -28,14 +27,14 @@ public class OgTextField<TElement>(string name, IOgEventHandlerProvider provider
     }
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
-        IOgGraphicsContext? context = Context;
+        IOgTextGraphicsContext? context = Context;
         if(context is null) return false;
         TextController.ChangeCursorAndSelectionPositions(Value.Get(), reason.LocalMousePosition, context);
         return true;
     }
     protected override bool OnLostFocus(IOgMouseKeyUpEvent reason)
     {
-        IOgGraphicsContext? context = Context;
+        IOgTextGraphicsContext? context = Context;
         if(context is null) return false;
         TextController.ChangeCursorAndSelectionPositions(Value.Get(), reason.LocalMousePosition, context);
         return true;
@@ -43,7 +42,7 @@ public class OgTextField<TElement>(string name, IOgEventHandlerProvider provider
     protected override bool BeginControl(IOgMouseKeyDownEvent reason)
     {
         base.BeginControl(reason);
-        IOgGraphicsContext? context = Context;
+        IOgTextGraphicsContext? context = Context;
         if(context is null) return false;
         TextController.ChangeCursorPosition(Value.Get(), reason.LocalMousePosition, context);
         return true;
@@ -51,7 +50,7 @@ public class OgTextField<TElement>(string name, IOgEventHandlerProvider provider
     protected override bool EndControl(IOgMouseKeyUpEvent reason)
     {
         base.EndControl(reason);
-        IOgGraphicsContext? context = Context;
+        IOgTextGraphicsContext? context = Context;
         if(context is null) return false;
         TextController.ChangeSelectionPosition(Value.Get(), reason.LocalMousePosition, context);
         return true;

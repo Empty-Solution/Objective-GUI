@@ -6,6 +6,7 @@
         <ProjectReference Include="..\EH.Builder\EH.Builder.csproj"/>
         <ProjectReference Include="..\OG.Builder.Interactive\OG.Builder.Interactive.csproj"/>
         <ProjectReference Include="..\OG.Builder.Visual\OG.Builder.Visual.csproj"/>
+        <ProjectReference Include="..\OG.DataKit.Animation.Extensions\OG.DataKit.Animation.Extensions.csproj"/>
         <ProjectReference Include="..\OG.DataKit.Animation.Observer\OG.DataKit.Animation.Observer.csproj"/>
         <ProjectReference Include="..\OG.DataKit.Processing\OG.DataKit.Processing.csproj"/>
         <ProjectReference Include="..\OG.Factory.Visual\OG.Factory.Visual.csproj"/>

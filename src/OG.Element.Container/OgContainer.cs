@@ -4,6 +4,7 @@ using OG.Element.Container.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
+using OG.Graphics.Abstraction;
 using System.Collections.Generic;
 using UnityEngine;
 namespace OG.Element.Container;
@@ -47,12 +48,12 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     }
     public virtual bool Invoke(IOgRenderEvent reason)
     {
-        Rect rect = ElementRect.Get();
-        reason.Graphics.Global += rect.position;
+        Rect rect                                                        = ElementRect.Get();
+        foreach(IOgGraphics graphics in reason.Graphics) graphics.Global += rect.position;
         reason.Enter(rect);
         ProcessElementsEventForward(reason);
         reason.Exit();
-        reason.Graphics.Global -= rect.position;
+        foreach(IOgGraphics graphics in reason.Graphics) graphics.Global -= rect.position;
         return false;
     }
     public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);

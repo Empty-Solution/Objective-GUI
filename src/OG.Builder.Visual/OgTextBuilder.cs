@@ -23,7 +23,7 @@ public class OgTextBuilder(IOgElementFactory<OgTextElement, OgTextFactoryArgumen
     protected override OgTextFactoryArguments BuildFactoryArguments(OgTextBuildContext context, OgTextBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, args.Value, args.Font, args.FontSize,
-            args.FontStyle, args.PixelsPerUnit, 1f, args.Text);
+            args.FontStyle, args.Alignment, args.TextClipping, args.WordWrap, args.Text);
     protected override OgTextBuildContext BuildContext(OgTextBuildArguments args, IOgEventHandlerProvider provider,
         OgAnimationRectGetter<OgTransformerRectGetter> getter) =>
         new(null!, getter);

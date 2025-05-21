@@ -3,30 +3,20 @@ using OG.Element.Visual.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
-using OG.Graphics;
 using OG.Graphics.Abstraction;
 using UnityEngine;
 namespace OG.Element.Visual;
-public abstract class OgVisualElement : OgElement, IOgVisualElement, IOgEventCallback<IOgRenderEvent>
+public abstract class OgVisualElement<TContext> : OgElement, IOgVisualElement, IOgEventCallback<IOgRenderEvent> where TContext : IOgGraphicsContext
 {
-    private   bool               m_IsDirty = true;
-    protected OgGraphicsContext? m_RenderContext;
+    protected TContext? m_RenderContext;
     protected OgVisualElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter) =>
         provider.RegisterToEnd(this);
-    public virtual bool Invoke(IOgRenderEvent reason)
+    public bool Invoke(IOgRenderEvent reason)
     {
-        m_RenderContext ??= new();
-        if(m_IsDirty)
-        {
-            m_RenderContext.Clear();
-            BuildContext(m_RenderContext);
-            m_IsDirty = false;
-        }
-        reason.Graphics.Render(m_RenderContext);
+        FillContext();
+        if(m_RenderContext is null) return false;
+        reason.GetGraphics(m_RenderContext!).Render(m_RenderContext!);
         return false;
     }
-    public abstract Color              Color   { get; set; }
-    public          IOgGraphicsContext Context => m_RenderContext!;
-    protected void MarkDirty() => m_IsDirty = true;
-    protected abstract void BuildContext(OgGraphicsContext context);
+    protected abstract void FillContext();
 }

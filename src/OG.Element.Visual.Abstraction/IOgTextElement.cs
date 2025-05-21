@@ -1,5 +1,7 @@
-﻿namespace OG.Element.Visual.Abstraction;
+﻿using OG.Graphics.Abstraction;
+namespace OG.Element.Visual.Abstraction;
 public interface IOgTextElement : IOgVisualElement
 {
-    public string Text { get; set; }
+    string                  Text    { get; set; }
+    IOgTextGraphicsContext? Context { get; }
 }

@@ -1,21 +1,26 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Color = UnityEngine.Color;
 namespace OG.Graphics.Abstraction;
 public interface IOgGraphicsContext
 {
-    int         VerticesCount { get; }
-    int         IndicesCount  { get; }
-    Vector3     Position      { get; set; }
-    Quaternion  Rotation      { get; set; }
-    Vector3     Scale         { get; set; }
-    Rect        ViewPort      { get; set; }
-    public Rect Rect          { get; set; }
-    Material?   Material      { get; set; }
-    void CopyVertices(OgVertex[] array);
-    void CopyIndices(int[] array);
-    void AddVertices(IEnumerable<OgVertex> vertices);
-    void AddIndices(IEnumerable<int> indices);
-    void AddVertex(OgVertex vertex);
-    void AddIndex(int index);
-    void Clear();
+    Rect  RenderRect { get; set; }
+    Color Color      { get; }
+}
+public interface IOgTextureGraphicsContext : IOgGraphicsContext
+{
+    Texture2D? Texture        { get; }
+    Vector4    BorderWidths   { get; }
+    Vector4    BorderRadiuses { get; }
+    float      ImageAspect    { get; }
+    bool       AlphaBlend     { get; }
+}
+public interface IOgTextGraphicsContext : IOgGraphicsContext
+{
+    string       Text         { get; }
+    Font?        Font         { get; }
+    int          FontSize     { get; }
+    FontStyle    FontStyle    { get; }
+    TextAnchor   Alignment    { get; }
+    TextClipping TextClipping { get; }
+    bool         WordWrap     { get; }
 }

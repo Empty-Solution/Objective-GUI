@@ -18,7 +18,8 @@ public class OgTextureBuilder(IOgElementFactory<OgTextureElement, OgTextureFacto
         new(new(provider, container), provider);
     protected override OgTextureFactoryArguments BuildFactoryArguments(OgTextureBuildContext context, OgTextureBuildArguments args,
         IOgEventHandlerProvider provider) =>
-        new(args.Name, context.RectGetProvider, provider, args.Value, args.Material, args.Borders);
+        new(args.Name, context.RectGetProvider, provider, args.Value, args.Texture, args.BorderWidths,
+            args.BorderRadiuses, args.ImageAspect, args.AlphaBlend);
     protected override OgTextureBuildContext BuildContext(OgTextureBuildArguments args, IOgEventHandlerProvider provider,
         OgAnimationRectGetter<OgTransformerRectGetter> getter) =>
         new(null!, getter);
