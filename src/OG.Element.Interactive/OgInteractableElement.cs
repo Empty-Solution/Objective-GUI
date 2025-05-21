@@ -26,16 +26,19 @@ public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOg
         if(IsInteracting && EndControl(reason)) return true;
         return base.Invoke(reason);
     }
-    public IDkObservable<bool>? IsInteractingObserver { get; set; }
+    public IDkObservable<bool>? IsInteractingObserver      { get; set; }
+    public IDkObservable<bool>? IsRightInteractingObserver { get; set; }
     protected virtual bool BeginControl(IOgMouseKeyDownEvent reason)
     {
         IsInteracting = true;
+        if(reason.Key == 1) IsRightInteractingObserver?.Notify(true);
         IsInteractingObserver?.Notify(true);
         return false;
     }
     protected virtual bool EndControl(IOgMouseKeyUpEvent reason)
     {
         IsInteracting = false;
+        if(reason.Key == 1) IsRightInteractingObserver?.Notify(false);
         IsInteractingObserver?.Notify(false);
         return false;
     }
