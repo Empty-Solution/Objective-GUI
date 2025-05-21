@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <PackageReference Include="DK.Processing.Abstraction.Generic" Version="1.3.6"/>
+        <PackageReference Include="DK.Processing.Abstraction.Generic" Version="1.3.7" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\OG.Builder\OG.Builder.csproj"/>
+        <ProjectReference Include="..\OG.Builder\OG.Builder.csproj" />
     </ItemGroup>
 </Project>

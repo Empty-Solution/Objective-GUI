@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Element.Container.Abstraction\OG.Element.Container.Abstraction.csproj"/>
+        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj" />
+        <ProjectReference Include="..\OG.Element.Container.Abstraction\OG.Element.Container.Abstraction.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="dk.datatypes.abstraction" Version="1.3.6"/>
-        <PackageReference Include="DK.Property.Observing.Abstraction.Generic" Version="1.3.6"/>
+        <PackageReference Include="dk.datatypes.abstraction" Version="1.3.7" />
+        <PackageReference Include="DK.Property.Observing.Abstraction.Generic" Version="1.3.7" />
     </ItemGroup>
 
 </Project>
