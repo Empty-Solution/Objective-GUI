@@ -9,5 +9,5 @@ public class OgInteractableValueElement<TElement, TValue>(string name, IOgEventH
     IDkFieldProvider<TValue> value)
     : OgInteractableElement<TElement>(name, provider, rectGetter), IOgInteractableValueElement<TElement, TValue> where TElement : IOgElement
 {
-    protected IDkFieldProvider<TValue> Value => value;
+    public IDkFieldProvider<TValue> Value => value;
 }

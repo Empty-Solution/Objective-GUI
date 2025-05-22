@@ -44,7 +44,7 @@ public class EhSliderOption
         });
     }
     public EhSubTabOption              SubTabOption                { get; }      = new();
-    public DkProperty<float>           AnimationSpeed              { get; set; } = new(1);
+    public DkProperty<float>           AnimationSpeed              { get; set; } = new(0.7f);
     public float                       BackgroundBorder            { get; set; } = 90f;
     public int                         NameFontSize                { get; set; } = 14;
     public int                         ValueFontSize               { get; set; } = 10;

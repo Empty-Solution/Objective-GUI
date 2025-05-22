@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
+        <ProjectReference Include="..\EH.Builder.Interactive.Base\EH.Builder.Interactive.Base.csproj"/>
         <ProjectReference Include="..\EH.Builder.Option.Abstraction\EH.Builder.Option.Abstraction.csproj"/>
         <ProjectReference Include="..\EH.Builder.Option\EH.Builder.Option.csproj"/>
         <ProjectReference Include="..\EH.Builder.Visual\EH.Builder.Visual.csproj"/>
@@ -10,5 +11,8 @@
         <ProjectReference Include="..\OG.DataKit.Animation.Observer\OG.DataKit.Animation.Observer.csproj"/>
         <ProjectReference Include="..\OG.DataKit.Processing\OG.DataKit.Processing.csproj"/>
         <ProjectReference Include="..\OG.Factory.Visual\OG.Factory.Visual.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="ElementBuilders\"/>
     </ItemGroup>
 </Project>

@@ -8,7 +8,6 @@ public class OgTextureGraphics : OgBaseGraphics<IOgTextureGraphicsContext>
         if(ctx.Texture is null) return;
         Rect rect = ctx.RenderRect;
         rect.position += Global;
-        GUI.DrawTexture(rect, ctx.Texture, ScaleMode.StretchToFill, ctx.AlphaBlend, ctx.ImageAspect, ctx.Color,
-                        ctx.BorderWidths, ctx.BorderRadiuses);
+        GUI.DrawTexture(rect, ctx.Texture, ScaleMode.StretchToFill, ctx.AlphaBlend, ctx.ImageAspect, ctx.Color, ctx.BorderWidths, ctx.BorderRadiuses);
     }
 }

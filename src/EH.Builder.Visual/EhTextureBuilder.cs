@@ -22,8 +22,7 @@ public class EhTextureBuilder
         IDkProcess<OgTextureBuildContext> process, out DkBinding<Color> binding)
     {
         m_Processor.AddProcess(process);
-        OgTextureElement element = m_OgTextureBuilder.Build(new(name, colorGetter.Get(), Texture2D.whiteTexture, borderWidths, borderRadiuses, 1,
-                                                                false));
+        OgTextureElement element = m_OgTextureBuilder.Build(new(name, colorGetter.Get(), Texture2D.whiteTexture, borderWidths, borderRadiuses, 1, false));
         binding = new(colorGetter, new DkScriptableSetter<Color>(color =>
         {
             element.Color = color;

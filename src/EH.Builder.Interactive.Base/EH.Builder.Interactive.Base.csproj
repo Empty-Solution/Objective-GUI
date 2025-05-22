@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\EH.Builder.Option.Abstraction\EH.Builder.Option.Abstraction.csproj"/>
+        <ProjectReference Include="..\EH.Builder.Visual\EH.Builder.Visual.csproj"/>
+    </ItemGroup>
+</Project>
