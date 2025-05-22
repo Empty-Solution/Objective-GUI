@@ -1,7 +1,6 @@
 ﻿using DK.Getting.Abstraction.Generic;
 using OG.Element.Visual.Abstraction;
 using OG.Event.Abstraction;
-using OG.Graphics;
 using OG.Graphics.Abstraction;
 using OG.Graphics.Contexts;
 using UnityEngine;

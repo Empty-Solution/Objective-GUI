@@ -5,7 +5,7 @@
         <ProjectReference Include="..\OG.Element\OG.Element.csproj"/>
         <ProjectReference Include="..\OG.Event.Extensions\OG.Event.Extensions.csproj"/>
         <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Graphics.Contexts\OG.Graphics.Contexts.csproj" />
+        <ProjectReference Include="..\OG.Graphics.Contexts\OG.Graphics.Contexts.csproj"/>
         <ProjectReference Include="..\OG.Graphics\OG.Graphics.csproj"/>
     </ItemGroup>
 

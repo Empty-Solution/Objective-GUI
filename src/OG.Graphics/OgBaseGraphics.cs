@@ -1,6 +1,5 @@
 ﻿using OG.Graphics.Abstraction;
 using System.Collections.Generic;
-using UnityEngine;
 namespace OG.Graphics;
 public abstract class OgBaseGraphics<TContext> : IOgGraphics<TContext> where TContext : class, IOgGraphicsContext
 {

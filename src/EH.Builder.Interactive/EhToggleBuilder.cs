@@ -22,7 +22,7 @@ public class EhToggleBuilder(IEhVisualOption context)
     private readonly EhContainerBuilder      m_ContainerBuilder  = new();
     private readonly EhFillBuilder           m_FillBuilder       = new();
     private readonly EhToggleOption          m_Options           = new();
-    private readonly EhElementTextBuilder    m_TextBuilder       = new(context);
+    private readonly EhTextBuilder           m_TextBuilder       = new(context);
     private readonly EhThumbBuilder          m_ThumbBuilder      = new();
     private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
     public IOgElement Build(string name, bool initial) => Build(name, initial, m_Options);
@@ -50,8 +50,8 @@ public class EhToggleBuilder(IEhVisualOption context)
         });
         OgTextureElement thumb = m_ThumbBuilder.Build($"{name}Thumb", options.ThumbColorProperty, thumbObserver, thumbInteractObserver, options.ThumbSize,
                                                       0, offset, options.ThumbBorder, options.AnimationSpeed, options.m_ThumbColorBindings);
-        OgTextureElement fill = m_FillBuilder.Build(name, options.BackgroundFillColorProperty, 0, options.ToggleHeight, 0, 0,
-                                                    options.BackgroundBorder, options.AnimationSpeed, options.m_BackgroundFillColorBindings, context =>
+        OgTextureElement fill = m_FillBuilder.Build(name, options.BackgroundFillColorProperty, 0, options.ToggleHeight, 0, 0, options.BackgroundBorder,
+                                                    options.AnimationSpeed, options.m_BackgroundFillColorBindings, context =>
                                                     {
                                                         fillObserver.Getter         = context.RectGetProvider;
                                                         fillInteractObserver.Getter = context.RectGetProvider;

@@ -11,13 +11,13 @@ public class OgTextGraphics : OgBaseGraphics<IOgTextGraphicsContext>
     protected override void ProcessContext(IOgTextGraphicsContext ctx)
     {
         if(ctx.Font is null) return;
-        tempContent.text           =  ctx.Text;
-        tempStyle!.fontSize        =  ctx.FontSize;
-        tempStyle.normal.textColor =  ctx.Color;
-        tempStyle.alignment        =  ctx.Alignment;
-        tempStyle.fontStyle        =  ctx.FontStyle;
-        tempStyle.clipping         =  ctx.TextClipping;
-        tempStyle.wordWrap         =  ctx.WordWrap;
+        tempContent.text           = ctx.Text;
+        tempStyle!.fontSize        = ctx.FontSize;
+        tempStyle.normal.textColor = ctx.Color;
+        tempStyle.alignment        = ctx.Alignment;
+        tempStyle.fontStyle        = ctx.FontStyle;
+        tempStyle.clipping         = ctx.TextClipping;
+        tempStyle.wordWrap         = ctx.WordWrap;
         tempStyle.Draw(ctx.RenderRect, tempContent, 0);
     }
 }

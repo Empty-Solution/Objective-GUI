@@ -16,8 +16,8 @@ public class EhThumbBuilder
     private readonly EhTextureBuilder m_TextureBuilder = new();
     public OgTextureElement Build<TValue>(string name, DkScriptableProperty<Color> colorProperty,
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, TValue> valueObserver,
-        OgAnimationGetterObserver<OgTransformerRectGetter, Rect, bool> interactObserver, float size, float x = 0, float y = 0,
-        float border = 90f, IDkGetProvider<float>? animationSpeed = null, List<DkBinding<Color>>? bindings = null)
+        OgAnimationGetterObserver<OgTransformerRectGetter, Rect, bool> interactObserver, float size, float x = 0, float y = 0, float border = 90f,
+        IDkGetProvider<float>? animationSpeed = null, List<DkBinding<Color>>? bindings = null)
     {
         OgTextureElement thumb = m_TextureBuilder.Build($"{name}Thumb", colorProperty, new(), new(border, border, border, border),
                                                         new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>

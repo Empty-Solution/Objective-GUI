@@ -24,7 +24,7 @@ public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOg
     public bool Invoke(IOgMouseKeyUpEvent reason) => PreEndControl(reason) || base.Invoke(reason);
     public IDkObservable<bool>? IsInteractingObserver      { get; set; }
     public IDkObservable<bool>? IsRightInteractingObserver { get; set; }
-    protected virtual bool PreBeginControl(IOgMouseKeyDownEvent reason) => !IsInteracting && BeginControl(reason); 
+    protected virtual bool PreBeginControl(IOgMouseKeyDownEvent reason) => !IsInteracting && BeginControl(reason);
     protected virtual bool PreEndControl(IOgMouseKeyUpEvent reason) => IsInteracting && EndControl(reason);
     protected virtual bool BeginControl(IOgMouseKeyDownEvent reason)
     {
