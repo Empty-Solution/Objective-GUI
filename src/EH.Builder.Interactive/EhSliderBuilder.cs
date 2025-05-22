@@ -11,6 +11,7 @@ using OG.DataKit.Animation.Extensions;
 using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
 using OG.DataKit.Transformer;
+using OG.DataTypes.Orientation;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Element.Interactive.Abstraction;
@@ -50,10 +51,7 @@ public class EhSliderBuilder
         IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",
                                                                       new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
                                                                       {
-                                                                          context.RectGetProvider.Options
-                                                                                 .SetOption(new
-                                                                                                OgSizeTransformerOption(options.SubTabOption.TabWidth,
-                                                                                                    options.SubTabOption.TabHeight));
+                                                                          context.RectGetProvider.Options.SetOption(new OgFlexibleSizeTransformerOption(EOgOrientation.ALL));
                                                                       }));
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver = new((getter, value) =>
         {
@@ -105,10 +103,7 @@ public class EhSliderBuilder
                                           new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
                                           {
                                               context.RectGetProvider.OriginalGetter.Options
-                                                     .SetOption(new
-                                                                    OgSizeTransformerOption(options.SubTabOption.TabWidth - options.SliderWidth,
-                                                                                            options.SubTabOption
-                                                                                                   .TabHeight));
+                                                     .SetOption(new OgSizeTransformerOption(options.SubTabOption.TabWidth - options.SliderWidth, options.SubTabOption.TabHeight));
                                           }), out DkBinding<Color> textNameBinding));
         options.m_TextColorBindings.Add(textNameBinding);
         #endregion
@@ -184,8 +179,8 @@ public class EhSliderBuilder
                                                                        context.RectGetProvider.Options
                                                                               .SetOption(new OgSizeTransformerOption(options.SliderWidth,
                                                                                              options.SliderHeight * 2))
-                                                                              .SetOption(new
-                                                                                             OgMarginTransformerOption(options.SubTabOption.TabWidth - options.SliderWidth,
+                                                                              .SetOption(new OgFlexiblePositionTransformerOption())
+                                                                              .SetOption(new OgMarginTransformerOption(0,
                                                                                                  (options.SubTabOption.TabHeight -
                                                                                                   (options.SliderHeight * 2)) / 2));
                                                                        context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);

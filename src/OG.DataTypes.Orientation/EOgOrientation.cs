@@ -2,5 +2,6 @@
 public enum EOgOrientation
 {
     HORIZONTAL,
-    VERTICAL
+    VERTICAL,
+    ALL
 }
