@@ -22,13 +22,15 @@ public class EhSliderBuilder(IEhVisualOption context)
     private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
     private readonly EhContainerBuilder      m_ContainerBuilder  = new();
     private readonly EhFillBuilder           m_FillBuilder       = new();
-    private readonly EhSliderOption          m_Options           = new();
+    private readonly EhSliderOption          m_Option            = new();
     private readonly EhInternalSliderBuilder m_SliderBuilder     = new();
     private readonly EhTextBuilder           m_TextBuilder       = new(context);
     private readonly EhThumbBuilder          m_ThumbBuilder      = new();
-    public IOgElement Build(string name, float initial, float min, float max, string textFormat, bool roundToInt = true) =>
-        Build(name, initial, min, max, textFormat, roundToInt, m_Options);
-    private IOgElement Build(string name, float initial, float min, float max, string textFormat, bool roundToInt, EhSliderOption options)
+    public IOgContainer<IOgElement> Build(string name, float initial, float min, float max, string textFormat, bool roundToInt = true,
+        DkObserver<float>? observer = null) =>
+        Build(name, initial, min, max, textFormat, roundToInt, observer, m_Option);
+    private IOgContainer<IOgElement> Build(string name, float initial, float min, float max, string textFormat, bool roundToInt,
+        DkObserver<float>? observer, EhSliderOption options)
     {
         // Создаем контейнер
         IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",
@@ -87,6 +89,7 @@ public class EhSliderBuilder(IEhVisualOption context)
         IOgSlider<IOgVisualElement> slider = m_SliderBuilder.Build(name, new([thumbObserver, thumbOutlineObserver, textObserver]), initial, min, max,
             new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
             {
+                if(observer is not null) context.Observable.AddObserver(observer);
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(options.SliderWidth, options.SliderHeight * 2))
                        .SetOption(new OgFlexiblePositionTransformerOption()).SetOption(new OgMarginTransformerOption(0, elementY));
                 context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);

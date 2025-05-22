@@ -1,4 +1,5 @@
-﻿using EH.Builder.Interactive.ElementBuilders;
+﻿using DK.Observing.Generic;
+using EH.Builder.Interactive.ElementBuilders;
 using EH.Builder.Option;
 using EH.Builder.Option.Abstraction;
 using OG.Builder.Contexts;
@@ -21,12 +22,12 @@ public class EhToggleBuilder(IEhVisualOption context)
     private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
     private readonly EhContainerBuilder      m_ContainerBuilder  = new();
     private readonly EhFillBuilder           m_FillBuilder       = new();
-    private readonly EhToggleOption          m_Options           = new();
+    private readonly EhToggleOption          m_Option            = new();
     private readonly EhTextBuilder           m_TextBuilder       = new(context);
     private readonly EhThumbBuilder          m_ThumbBuilder      = new();
     private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
-    public IOgElement Build(string name, bool initial) => Build(name, initial, m_Options);
-    private IOgElement Build(string name, bool initial, EhToggleOption options)
+    public IOgContainer<IOgElement> Build(string name, bool initial, DkObserver<bool>? observer = null) => Build(name, initial, observer, m_Option);
+    private IOgContainer<IOgElement> Build(string name, bool initial, DkObserver<bool>? observer, EhToggleOption options)
     {
         IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
@@ -58,6 +59,7 @@ public class EhToggleBuilder(IEhVisualOption context)
         IOgToggle<IOgVisualElement> toggle = m_ToggleBuilder.Build(name, new([fillObserver, thumbObserver]), initial,
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
+                if(observer is not null) context.Observable.AddObserver(observer);
                 context.RectGetProvider.Options.SetOption(new OgMinSizeTransformerOption(options.ToggleWidth, options.ToggleHeight))
                        .SetOption(new OgFlexiblePositionTransformerOption());
                 context.Element.IsInteractingObserver?.AddObserver(fillInteractObserver);
