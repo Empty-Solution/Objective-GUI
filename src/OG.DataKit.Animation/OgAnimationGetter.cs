@@ -29,6 +29,7 @@ public abstract class OgAnimationGetter<TGetter, TValue> : IDkGetProvider<TValue
         return false;
     }
     public void SetTime(float time = 0f) => m_Time = Mathf.Clamp01(time);
+    public float GetTime() => m_Time;
     protected abstract TValue CalculateValue(TValue currentValue, TValue targetValue, float time);
     protected abstract TValue AddValue(TValue originalValue, TValue targetModifier);
 }

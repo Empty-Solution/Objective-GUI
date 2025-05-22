@@ -10,10 +10,9 @@ public class EhContainerBuilder
 {
     private readonly OgContainerBuilder                   m_OgContainerBuilder;
     private readonly DkProcessor<OgContainerBuildContext> m_Processor;
-    public EhContainerBuilder(IDkProcess<OgContainerBuildContext>? process)
+    public EhContainerBuilder()
     {
-        m_Processor = new();
-        if(process is not null) m_Processor.AddProcess(process);
+        m_Processor          = new();
         m_OgContainerBuilder = new(new OgContainerFactory<IOgElement>(), m_Processor);
     }
     public IOgContainer<IOgElement> Build(string name, IDkProcess<OgContainerBuildContext>? process)

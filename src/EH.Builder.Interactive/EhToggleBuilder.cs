@@ -3,7 +3,6 @@ using EH.Builder.Option;
 using EH.Builder.Option.Abstraction;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
-using OG.DataKit.Animation.Extensions;
 using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
 using OG.DataKit.Transformer;
@@ -31,7 +30,7 @@ public class EhToggleBuilder
         m_ThumbBuilder      = new();
         m_FillBuilder       = new();
         m_TextBuilder       = new(context);
-        m_ContainerBuilder  = new(null);
+        m_ContainerBuilder  = new();
         m_ToggleBuilder     = new();
     }
     public IOgElement Build(string name, bool initial) => Build(name, initial, m_Options);
@@ -55,7 +54,8 @@ public class EhToggleBuilder
         });
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver = new((getter, value) =>
         {
-            getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, options.ThumbSize / 4, options.ThumbSize / 4);
+            getter.SetTime();
+            //getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, options.ThumbSize / 8, options.ThumbSize / 8);
         });
         OgTextureElement thumb = m_ThumbBuilder.Build($"{name}Thumb", options.ThumbColorProperty, thumbObserver, thumbInteractObserver, options.ThumbSize,
                                                       options.ThumbSize, 0, thumbY, options.ThumbBorder, options.AnimationSpeed,
@@ -78,8 +78,7 @@ public class EhToggleBuilder
                                                     {
                                                         Rect  thumbRect = thumb.ElementRect.Get();
                                                         float offset    = (options.ToggleHeight - options.ThumbSize) / 2;
-                                                        rect.width = Mathf.Clamp(thumbRect.x + options.ThumbSize + offset, options.ThumbSize,
-                                                                                 options.ToggleWidth);
+                                                        rect.width = thumbRect.x + thumbRect.width + offset;
                                                         return rect;
                                                     });
         toggle.Add(background);

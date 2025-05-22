@@ -33,7 +33,7 @@ public class EhSliderBuilder
         m_FillBuilder       = new();
         m_ThumbBuilder      = new();
         m_TextBuilder       = new(context);
-        m_ContainerBuilder  = new(null);
+        m_ContainerBuilder  = new();
         m_SliderBuilder     = new();
     }
     public IOgElement Build(string name, float initial, float min, float max, string textFormat, bool roundToInt = true) =>
