@@ -9,5 +9,5 @@ public class OgVectorFactory : IOgElementFactory<IOgVectorValueElement<IOgVisual
 {
     public IOgVectorValueElement<IOgVisualElement> Create(OgVectorFactoryArguments arguments) =>
         new OgVector<IOgVisualElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
-                                       arguments.ValueProvider);
+            arguments.ValueProvider);
 }

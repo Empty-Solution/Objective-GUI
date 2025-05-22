@@ -7,6 +7,6 @@ public class OgTextureGraphics : OgBaseGraphics<IOgTextureGraphicsContext>
     {
         if(ctx.Texture is null) return;
         GUI.DrawTexture(ctx.RenderRect, ctx.Texture, ScaleMode.StretchToFill, ctx.AlphaBlend, ctx.ImageAspect, ctx.Color, ctx.BorderWidths,
-                        ctx.BorderRadiuses);
+            ctx.BorderRadiuses);
     }
 }

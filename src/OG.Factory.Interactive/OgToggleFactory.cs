@@ -9,5 +9,5 @@ public class OgToggleFactory : IOgElementFactory<IOgToggle<IOgVisualElement>, Og
 {
     public IOgToggle<IOgVisualElement> Create(OgToggleFactoryArguments arguments) =>
         new OgToggle<IOgVisualElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
-                                       arguments.ValueProvider);
+            arguments.ValueProvider);
 }

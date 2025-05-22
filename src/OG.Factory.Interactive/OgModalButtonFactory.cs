@@ -9,5 +9,5 @@ public class OgModalButtonFactory : IOgElementFactory<IOgModalInteractable<IOgEl
 {
     public IOgModalInteractable<IOgElement> Create(OgModalButtonFactoryArguments arguments) =>
         new OgModalInteractable<IOgElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
-                                            arguments.RightClickOnly);
+            arguments.RightClickOnly);
 }

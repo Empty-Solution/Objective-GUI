@@ -9,5 +9,5 @@ public class OgHorizontalSliderFactory : IOgElementFactory<IOgSlider<IOgVisualEl
 {
     public IOgSlider<IOgVisualElement> Create(OgSliderFactoryArguments arguments) =>
         new OgHorizontalSlider<IOgVisualElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
-                                                 arguments.ValueProvider, arguments.Range);
+            arguments.ValueProvider, arguments.Range);
 }

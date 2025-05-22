@@ -9,5 +9,5 @@ public class OgDraggableFactory : IOgElementFactory<IOgDraggableElement<IOgEleme
 {
     public IOgDraggableElement<IOgElement> Create(OgDraggableFactoryArguments arguments) =>
         new OgDraggableElement<IOgElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
-                                           arguments.RectSetProvider);
+            arguments.RectSetProvider);
 }

@@ -18,6 +18,6 @@ public class OgVector<TElement>(string name, IOgEventHandlerProvider provider, I
         Vector2 max           = Range.Max;
         Rect    rect          = ElementRect.Get();
         return new(Mathf.Lerp(min.x, max.x, Mathf.InverseLerp(rect.x, rect.xMax, mousePosition.x)),
-                   Mathf.Lerp(min.y, max.y, Mathf.InverseLerp(rect.y, rect.yMax, mousePosition.y)));
+            Mathf.Lerp(min.y, max.y, Mathf.InverseLerp(rect.y, rect.yMax, mousePosition.y)));
     }
 }

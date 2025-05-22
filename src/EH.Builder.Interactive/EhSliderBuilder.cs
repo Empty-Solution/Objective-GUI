@@ -17,7 +17,6 @@ using OG.Element.Visual.Abstraction;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-
 public class EhSliderBuilder(IEhVisualOption context)
 {
     private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
@@ -29,7 +28,6 @@ public class EhSliderBuilder(IEhVisualOption context)
     private readonly EhThumbBuilder          m_ThumbBuilder      = new();
     public IOgElement Build(string name, float initial, float min, float max, string textFormat, bool roundToInt = true) =>
         Build(name, initial, min, max, textFormat, roundToInt, m_Options);
-
     private IOgElement Build(string name, float initial, float min, float max, string textFormat, bool roundToInt, EhSliderOption options)
     {
         // Создаем контейнер

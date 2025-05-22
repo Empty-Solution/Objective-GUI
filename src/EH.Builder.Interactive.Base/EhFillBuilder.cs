@@ -18,14 +18,13 @@ public class EhFillBuilder
         Action<OgTextureBuildContext>? action = null)
     {
         OgTextureElement fill = m_TextureBuilder.Build($"{name}Fill", colorProperty, new(), new(border, border, border, border),
-                                                       new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
-                                                       {
-                                                           if(animationSpeed != null) context.RectGetProvider.Speed = animationSpeed;
-                                                           context.RectGetProvider.OriginalGetter.Options
-                                                                  .SetOption(new OgSizeTransformerOption(width, height))
-                                                                  .SetOption(new OgMarginTransformerOption(x, y));
-                                                           action?.Invoke(context);
-                                                       }), out DkBinding<Color> fillBinding);
+            new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
+            {
+                if(animationSpeed != null) context.RectGetProvider.Speed = animationSpeed;
+                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
+                       .SetOption(new OgMarginTransformerOption(x, y));
+                action?.Invoke(context);
+            }), out DkBinding<Color> fillBinding);
         bindings?.Add(fillBinding);
         return fill;
     }

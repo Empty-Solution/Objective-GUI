@@ -9,5 +9,5 @@ public class OgScrollFactory : IOgElementFactory<IOgVectorValueElement<IOgElemen
 {
     public IOgVectorValueElement<IOgElement> Create(OgScrollFactoryArguments arguments) =>
         new OgScroll<IOgElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
-                                 arguments.RectSetProvider, arguments.ValueProvider);
+            arguments.RectSetProvider, arguments.ValueProvider);
 }

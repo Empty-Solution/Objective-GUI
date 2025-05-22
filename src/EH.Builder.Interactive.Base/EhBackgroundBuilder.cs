@@ -15,12 +15,11 @@ public class EhBackgroundBuilder
         float border = 90f, List<DkBinding<Color>>? bindings = null)
     {
         OgTextureElement background = m_TextureBuilder.Build($"{name}Background", colorProperty, new(), new(border, border, border, border),
-                                                             new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
-                                                             {
-                                                                 context.RectGetProvider.OriginalGetter.Options
-                                                                        .SetOption(new OgSizeTransformerOption(width, height))
-                                                                        .SetOption(new OgMarginTransformerOption(x, y));
-                                                             }), out DkBinding<Color> backgroundBinding);
+            new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
+            {
+                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
+                       .SetOption(new OgMarginTransformerOption(x, y));
+            }), out DkBinding<Color> backgroundBinding);
         bindings?.Add(backgroundBinding);
         return background;
     }

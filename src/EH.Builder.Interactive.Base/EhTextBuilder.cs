@@ -18,11 +18,11 @@ public class EhTextBuilder(IEhVisualOption context)
     {
         DkProperty<string> textProperty = new(string.Format(textFormat, initial));
         OgTextElement text = m_TextBuilder.Build($"{name}TextValue", colorProperty, fontSize, alignment, textProperty,
-                                                 new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
-                                                 {
-                                                     context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
-                                                            .SetOption(new OgMarginTransformerOption(x, y));
-                                                 }), out DkBinding<string> textValueBinding, out DkBinding<Color> colorBinding);
+            new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
+            {
+                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
+                       .SetOption(new OgMarginTransformerOption(x, y));
+            }), out DkBinding<string> textValueBinding, out DkBinding<Color> colorBinding);
         DkScriptableObserver<float> textObserver = new();
         textObserver.OnUpdate += value =>
         {
@@ -36,12 +36,11 @@ public class EhTextBuilder(IEhVisualOption context)
         float width, float height, float x = 0, float y = 0, List<DkBinding<Color>>? bindings = null)
     {
         OgTextElement textElement = m_TextBuilder.Build($"{name}Text", colorProperty, fontSize, alignment, text,
-                                                        new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
-                                                        {
-                                                            context.RectGetProvider.OriginalGetter.Options
-                                                                   .SetOption(new OgSizeTransformerOption(width, height))
-                                                                   .SetOption(new OgMarginTransformerOption(x, y));
-                                                        }), out DkBinding<Color> textNameBinding);
+            new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
+            {
+                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
+                       .SetOption(new OgMarginTransformerOption(x, y));
+            }), out DkBinding<Color> textNameBinding);
         bindings?.Add(textNameBinding);
         return textElement;
     }

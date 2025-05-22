@@ -20,15 +20,14 @@ public class EhThumbBuilder
         IDkGetProvider<float>? animationSpeed = null, List<DkBinding<Color>>? bindings = null)
     {
         OgTextureElement thumb = m_TextureBuilder.Build($"{name}Thumb", colorProperty, new(), new(border, border, border, border),
-                                                        new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
-                                                        {
-                                                            if(animationSpeed != null) context.RectGetProvider.Speed = animationSpeed;
-                                                            interactObserver.Getter = context.RectGetProvider;
-                                                            valueObserver.Getter    = context.RectGetProvider;
-                                                            context.RectGetProvider.OriginalGetter.Options
-                                                                   .SetOption(new OgSizeTransformerOption(size, size))
-                                                                   .SetOption(new OgMarginTransformerOption(x, y));
-                                                        }), out DkBinding<Color> thumbBinding);
+            new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
+            {
+                if(animationSpeed != null) context.RectGetProvider.Speed = animationSpeed;
+                interactObserver.Getter = context.RectGetProvider;
+                valueObserver.Getter    = context.RectGetProvider;
+                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(size, size))
+                       .SetOption(new OgMarginTransformerOption(x, y));
+            }), out DkBinding<Color> thumbBinding);
         bindings?.Add(thumbBinding);
         return thumb;
     }

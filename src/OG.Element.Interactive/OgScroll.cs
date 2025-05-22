@@ -17,7 +17,7 @@ public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider, I
     {
         Vector2 value = Value.Get();
         Vector2 newValue = new(Mathf.Clamp(value.x + reason.Delta.x, Range!.Min.x, Range.Max.x),
-                               Mathf.Clamp(value.y + reason.Delta.y, Range.Min.y, Range.Max.y));
+            Mathf.Clamp(value.y + reason.Delta.y, Range.Min.y, Range.Max.y));
         if(Equals(value, newValue)) return false;
         Rect rect = ElementRect.Get();
         rect.position += newValue;

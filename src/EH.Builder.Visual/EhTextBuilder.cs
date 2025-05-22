@@ -26,7 +26,7 @@ public class EhTextBuilder
     {
         m_Processor.AddProcess(process);
         OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter.Get(), m_Context.Font, fontSize, alignment, FontStyle.Normal,
-                                                          TextClipping.Clip, false, textGetter.Get()));
+            TextClipping.Clip, false, textGetter.Get()));
         textBinding = new(textGetter, new DkScriptableSetter<string>(text =>
         {
             element.Text = text;
@@ -45,7 +45,7 @@ public class EhTextBuilder
     {
         m_Processor.AddProcess(process);
         OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter.Get(), m_Context.Font, fontSize, alignment, FontStyle.Normal,
-                                                          TextClipping.Clip, false, text));
+            TextClipping.Clip, false, text));
         colorBinding = new(colorGetter, new DkScriptableSetter<Color>(color =>
         {
             element.Color = color;
@@ -58,7 +58,7 @@ public class EhTextBuilder
     {
         m_Processor.AddProcess(process);
         OgTextElement element = m_OgTextBuilder.Build(new(name, color, m_Context.Font, fontSize, alignment, FontStyle.Normal,
-                                                          TextClipping.Clip, false, text));
+            TextClipping.Clip, false, text));
         m_Processor.RemoveProcess(process);
         return element;
     }
