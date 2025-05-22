@@ -152,6 +152,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.DataKit.Animation.Extens
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Interactive.Base", "EH.Builder.Interactive.Base\EH.Builder.Interactive.Base.csproj", "{ABCA3C6F-DA6C-4A4C-A777-EC53019A1C39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Graphics.Contexts", "OG.Graphics.Contexts\OG.Graphics.Contexts.csproj", "{150BD114-0116-4A06-81D6-B74C19678B05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -362,6 +364,10 @@ Global
 		{ABCA3C6F-DA6C-4A4C-A777-EC53019A1C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABCA3C6F-DA6C-4A4C-A777-EC53019A1C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABCA3C6F-DA6C-4A4C-A777-EC53019A1C39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{150BD114-0116-4A06-81D6-B74C19678B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{150BD114-0116-4A06-81D6-B74C19678B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{150BD114-0116-4A06-81D6-B74C19678B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{150BD114-0116-4A06-81D6-B74C19678B05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -427,6 +433,7 @@ Global
 		{27130F2B-A967-40E8-9F1C-21DAAD8EB4ED} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
 		{216E608A-CA81-49B9-9FCA-A236525B829D} = {CDD3E43B-FB71-457B-88A1-CA1B5EFC88E3}
 		{ABCA3C6F-DA6C-4A4C-A777-EC53019A1C39} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
+		{150BD114-0116-4A06-81D6-B74C19678B05} = {2550EF18-354C-4785-A877-1F7F21D1D52A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8DE026B-F83F-49C3-AAF4-C3924C080D00}

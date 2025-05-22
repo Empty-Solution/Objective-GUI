@@ -18,16 +18,14 @@ public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOg
     protected bool IsInteracting { get; set; }
     public bool Invoke(IOgMouseKeyDownEvent reason)
     {
-        if(!IsInteracting && IsHovering && BeginControl(reason)) return true;
+        if(IsHovering && PreBeginControl(reason)) return true;
         return base.Invoke(reason);
     }
-    public bool Invoke(IOgMouseKeyUpEvent reason)
-    {
-        if(IsInteracting && EndControl(reason)) return true;
-        return base.Invoke(reason);
-    }
+    public bool Invoke(IOgMouseKeyUpEvent reason) => PreEndControl(reason) || base.Invoke(reason);
     public IDkObservable<bool>? IsInteractingObserver      { get; set; }
     public IDkObservable<bool>? IsRightInteractingObserver { get; set; }
+    protected virtual bool PreBeginControl(IOgMouseKeyDownEvent reason) => !IsInteracting && BeginControl(reason); 
+    protected virtual bool PreEndControl(IOgMouseKeyUpEvent reason) => IsInteracting && EndControl(reason);
     protected virtual bool BeginControl(IOgMouseKeyDownEvent reason)
     {
         IsInteracting = true;

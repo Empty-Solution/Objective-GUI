@@ -1,6 +1,6 @@
 ﻿using OG.Graphics.Abstraction;
 using UnityEngine;
-namespace OG.Graphics;
+namespace OG.Graphics.Contexts;
 public class OgTextureGraphicsContext : IOgTextureGraphicsContext
 {
     public Rect       RenderRect     { get; set; }

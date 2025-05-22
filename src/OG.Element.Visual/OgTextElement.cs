@@ -3,6 +3,7 @@ using OG.Element.Visual.Abstraction;
 using OG.Event.Abstraction;
 using OG.Graphics;
 using OG.Graphics.Abstraction;
+using OG.Graphics.Contexts;
 using UnityEngine;
 namespace OG.Element.Visual;
 public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
@@ -28,7 +29,6 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
         m_RenderContext.FontSize     = FontSize;
         m_RenderContext.FontStyle    = FontStyle;
         m_RenderContext.Text         = Text;
-        m_RenderContext.RenderRect   = ElementRect.Get();
         m_RenderContext.WordWrap     = WordWrap;
     }
 }

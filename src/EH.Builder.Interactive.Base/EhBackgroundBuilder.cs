@@ -10,8 +10,7 @@ using UnityEngine;
 namespace EH.Builder.Interactive.ElementBuilders;
 public class EhBackgroundBuilder
 {
-    private readonly EhTextureBuilder m_TextureBuilder;
-    public EhBackgroundBuilder() => m_TextureBuilder = new();
+    private readonly EhTextureBuilder m_TextureBuilder = new();
     public OgTextureElement Build(string name, DkScriptableProperty<Color> colorProperty, float width, float height, float x = 0, float y = 0,
         float border = 90f, List<DkBinding<Color>>? bindings = null)
     {

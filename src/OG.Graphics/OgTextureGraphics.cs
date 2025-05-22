@@ -3,11 +3,9 @@ using UnityEngine;
 namespace OG.Graphics;
 public class OgTextureGraphics : OgBaseGraphics<IOgTextureGraphicsContext>
 {
-    public override void Render(IOgTextureGraphicsContext ctx)
+    protected override void ProcessContext(IOgTextureGraphicsContext ctx)
     {
         if(ctx.Texture is null) return;
-        Rect rect = ctx.RenderRect;
-        rect.position += Global;
-        GUI.DrawTexture(rect, ctx.Texture, ScaleMode.StretchToFill, ctx.AlphaBlend, ctx.ImageAspect, ctx.Color, ctx.BorderWidths, ctx.BorderRadiuses);
+        GUI.DrawTexture(ctx.RenderRect, ctx.Texture, ScaleMode.StretchToFill, ctx.AlphaBlend, ctx.ImageAspect, ctx.Color, ctx.BorderWidths, ctx.BorderRadiuses);
     }
 }

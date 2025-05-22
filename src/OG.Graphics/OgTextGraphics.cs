@@ -8,11 +8,9 @@ public class OgTextGraphics : OgBaseGraphics<IOgTextGraphicsContext>
     //    normal = new()
     //};
     private static readonly GUIContent tempContent = new();
-    public override void Render(IOgTextGraphicsContext ctx)
+    protected override void ProcessContext(IOgTextGraphicsContext ctx)
     {
         if(ctx.Font is null) return;
-        Rect rect = ctx.RenderRect;
-        rect.position              += Global;
         tempContent.text           =  ctx.Text;
         tempStyle!.fontSize        =  ctx.FontSize;
         tempStyle.normal.textColor =  ctx.Color;
@@ -20,8 +18,6 @@ public class OgTextGraphics : OgBaseGraphics<IOgTextGraphicsContext>
         tempStyle.fontStyle        =  ctx.FontStyle;
         tempStyle.clipping         =  ctx.TextClipping;
         tempStyle.wordWrap         =  ctx.WordWrap;
-        tempStyle.Draw(rect, tempContent, 0);
-        Vector2 size = tempStyle.CalcSize(tempContent);
-        ctx.RenderRect = new(ctx.RenderRect.x + (int)size.x, ctx.RenderRect.y + (int)size.y, ctx.RenderRect.width, ctx.RenderRect.height);
+        tempStyle.Draw(ctx.RenderRect, tempContent, 0);
     }
 }

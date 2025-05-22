@@ -10,10 +10,9 @@ using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive.ElementBuilders;
-public class EhElementTextBuilder
+public class EhElementTextBuilder(IEhVisualOption context)
 {
-    private readonly EhTextBuilder m_TextBuilder;
-    public EhElementTextBuilder(IEhVisualOption context) => m_TextBuilder = new(context);
+    private readonly EhTextBuilder m_TextBuilder = new(context);
     public (OgTextElement Element, DkScriptableObserver<float> Observer) BuildValueText(string name, DkScriptableProperty<Color> colorProperty,
         string textFormat, float initial, bool roundToInt, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0,
         List<DkBinding<Color>>? bindings = null)

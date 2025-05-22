@@ -3,7 +3,9 @@ using DK.Getting.Abstraction.Generic;
 using DK.Property.Generic;
 using EH.Builder.Visual;
 using OG.Builder.Contexts.Visual;
+using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
+using OG.DataKit.Transformer;
 using OG.Element.Visual;
 using OG.Transformer.Options;
 using System;
@@ -12,11 +14,10 @@ using UnityEngine;
 namespace EH.Builder.Interactive.ElementBuilders;
 public class EhFillBuilder
 {
-    private readonly EhTextureBuilder m_TextureBuilder;
-    public EhFillBuilder() => m_TextureBuilder = new();
+    private readonly EhTextureBuilder m_TextureBuilder = new();
     public OgTextureElement Build(string name, DkScriptableProperty<Color> colorProperty, float width, float height, float x = 0, float y = 0,
         float border = 90f, IDkGetProvider<float>? animationSpeed = null, List<DkBinding<Color>>? bindings = null,
-        Func<Rect, Rect, Rect, int, Rect>? func = null)
+        Action<OgTextureBuildContext>? action = null)
     {
         OgTextureElement fill = m_TextureBuilder.Build($"{name}Fill", colorProperty, new(), new(border, border, border, border),
                                                        new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
@@ -25,9 +26,7 @@ public class EhFillBuilder
                                                            context.RectGetProvider.OriginalGetter.Options
                                                                   .SetOption(new OgSizeTransformerOption(width, height))
                                                                   .SetOption(new OgMarginTransformerOption(x, y));
-                                                           if(func != null)
-                                                               context.RectGetProvider.OriginalGetter.Options
-                                                                      .SetOption(new OgScriptableTransformerOption(func));
+                                                           action?.Invoke(context);
                                                        }), out DkBinding<Color> fillBinding);
         bindings?.Add(fillBinding);
         return fill;

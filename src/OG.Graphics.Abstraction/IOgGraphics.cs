@@ -3,10 +3,10 @@ using UnityEngine;
 namespace OG.Graphics.Abstraction;
 public interface IOgGraphics<TContext> : IOgGraphics where TContext : IOgGraphicsContext
 {
-    void Render(TContext ctx);
+    void PushContext(TContext ctx);
 }
 public interface IOgGraphics : IDkMatcher<IOgGraphicsContext>
 {
-    Vector2 Global { get; set; }
-    void Render(IOgGraphicsContext ctx);
+    void PushContext(IOgGraphicsContext ctx);
+    void ProcessContexts();
 }

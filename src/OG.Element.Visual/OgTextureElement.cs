@@ -1,6 +1,7 @@
 ﻿using DK.Getting.Abstraction.Generic;
 using OG.Event.Abstraction;
 using OG.Graphics;
+using OG.Graphics.Contexts;
 using UnityEngine;
 namespace OG.Element.Visual;
 public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
@@ -21,6 +22,5 @@ public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDk
         m_RenderContext.BorderWidths   =   BorderWidths;
         m_RenderContext.ImageAspect    =   ImageAspect;
         m_RenderContext.AlphaBlend     =   AlphaBlend;
-        m_RenderContext.RenderRect     =   ElementRect.Get();
     }
 }

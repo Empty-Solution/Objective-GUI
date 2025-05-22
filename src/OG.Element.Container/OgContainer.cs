@@ -48,12 +48,12 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     }
     public virtual bool Invoke(IOgRenderEvent reason)
     {
-        Rect rect                                                        = ElementRect.Get();
-        foreach(IOgGraphics graphics in reason.Graphics) graphics.Global += rect.position;
-        reason.Enter(rect);
+        Rect rect = ElementRect.Get();
+        reason.Global += rect.position;
         ProcessElementsEventForward(reason);
-        reason.Exit();
-        foreach(IOgGraphics graphics in reason.Graphics) graphics.Global -= rect.position;
+        reason.Global -= rect.position;
+        foreach(IOgGraphics graphics in reason.Graphics)
+            graphics.ProcessContexts();
         return false;
     }
     public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);

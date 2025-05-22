@@ -10,9 +10,9 @@ public class EhToggleOption
     public readonly List<DkBinding<Color>> m_TextColorBindings           = [];
     public readonly List<DkBinding<Color>> m_ThumbColorBindings          = [];
     private         Color                  m_BackgroundColor             = new Color32(30, 30, 30, 255);
-    private         Color                  m_BackgroundFillColor         = new Color32(200, 200, 200, 200);
+    private         Color                  m_BackgroundFillColor         = Color.white;
     private         Color                  m_TextColor                   = Color.white;
-    private         Color                  m_ThumbColor                  = Color.white;
+    private         Color                  m_ThumbColor                  = Color.black;
     public EhToggleOption()
     {
         BackgroundColorProperty = new(() => m_BackgroundColor, value =>

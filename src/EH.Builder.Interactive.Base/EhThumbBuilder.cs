@@ -13,14 +13,12 @@ using UnityEngine;
 namespace EH.Builder.Interactive.ElementBuilders;
 public class EhThumbBuilder
 {
-    private readonly EhTextureBuilder m_TextureBuilder;
-    public EhThumbBuilder() => m_TextureBuilder = new();
+    private readonly EhTextureBuilder m_TextureBuilder = new();
     public OgTextureElement Build<TValue>(string name, DkScriptableProperty<Color> colorProperty,
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, TValue> valueObserver,
-        OgAnimationGetterObserver<OgTransformerRectGetter, Rect, bool> interactObserver, float width, float? height = null, float x = 0, float y = 0,
+        OgAnimationGetterObserver<OgTransformerRectGetter, Rect, bool> interactObserver, float size, float x = 0, float y = 0,
         float border = 90f, IDkGetProvider<float>? animationSpeed = null, List<DkBinding<Color>>? bindings = null)
     {
-        float thumbHeight = height ?? width;
         OgTextureElement thumb = m_TextureBuilder.Build($"{name}Thumb", colorProperty, new(), new(border, border, border, border),
                                                         new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
                                                         {
@@ -28,7 +26,7 @@ public class EhThumbBuilder
                                                             interactObserver.Getter = context.RectGetProvider;
                                                             valueObserver.Getter    = context.RectGetProvider;
                                                             context.RectGetProvider.OriginalGetter.Options
-                                                                   .SetOption(new OgSizeTransformerOption(width, thumbHeight))
+                                                                   .SetOption(new OgSizeTransformerOption(size, size))
                                                                    .SetOption(new OgMarginTransformerOption(x, y));
                                                         }), out DkBinding<Color> thumbBinding);
         bindings?.Add(thumbBinding);

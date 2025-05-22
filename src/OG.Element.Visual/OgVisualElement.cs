@@ -15,7 +15,11 @@ public abstract class OgVisualElement<TContext> : OgElement, IOgVisualElement, I
     {
         FillContext();
         if(m_RenderContext is null) return false;
-        reason.GetGraphics(m_RenderContext!).Render(m_RenderContext!);
+        IOgGraphics graphics = reason.GetGraphics(m_RenderContext!);
+        Rect        rect     = ElementRect.Get();
+        rect.position              += reason.Global;
+        m_RenderContext.RenderRect =  rect;
+        graphics.PushContext(m_RenderContext!);
         return false;
     }
     protected abstract void FillContext();

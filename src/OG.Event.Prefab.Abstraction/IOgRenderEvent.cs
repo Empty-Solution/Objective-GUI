@@ -5,7 +5,6 @@ namespace OG.Event.Prefab.Abstraction;
 public interface IOgRenderEvent : IOgEvent
 {
     IEnumerable<IOgGraphics> Graphics { get; }
-    void Enter(Rect rect);
-    void Exit();
+    Vector2                  Global   { get; set; }
     IOgGraphics GetGraphics(IOgGraphicsContext context);
 }
