@@ -19,16 +19,16 @@ public abstract class OgAnimationGetter<TGetter, TValue> : IDkGetProvider<TValue
     public IOgEventCallback<IOgRenderEvent>? RenderCallback { get; set; }
     public TGetter                           OriginalGetter { get; }
     public IDkGetProvider<float>?            Speed          { get; set; }
-    public TValue Get() => m_Value = CalculateValue(m_Value!, AddValue(OriginalGetter.Get(), TargetModifier!), m_Time);
+    public TValue Get() => m_Value!;
     object IDkGetProvider.Get() => Get();
     public bool Invoke(IOgRenderEvent reason)
     {
-        m_Time = Mathf.Clamp01(m_Time + (reason.DeltaTime * Speed?.Get() ?? 1));
+        m_Time  = Mathf.Clamp01(m_Time + (reason.DeltaTime * Speed?.Get() ?? 1));
+        m_Value = CalculateValue(m_Value!, AddValue(OriginalGetter.Get(), TargetModifier!), m_Time);
         RenderCallback!.Invoke(reason);
         return false;
     }
     public void SetTime(float time = 0f) => m_Time = Mathf.Clamp01(time);
-    public float GetTime() => m_Time;
     protected abstract TValue CalculateValue(TValue currentValue, TValue targetValue, float time);
     protected abstract TValue AddValue(TValue originalValue, TValue targetModifier);
 }

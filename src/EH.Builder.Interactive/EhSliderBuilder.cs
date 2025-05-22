@@ -142,27 +142,6 @@ public class EhSliderBuilder
                                                              }), out DkBinding<Color> backgroundBinding);
         options.m_BackgroundColorBindings.Add(backgroundBinding);
         #endregion
-        #region build fill
-        OgTextureElement backgroundFill = m_TextureBuilder.Build($"{name}BackgroundFill", options.BackgroundFillColorProperty, new(),
-                                                                 new(options.BackgroundBorder, options.BackgroundBorder, options.BackgroundBorder,
-                                                                     options.BackgroundBorder),
-                                                                 new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
-                                                                 {
-                                                                     context.RectGetProvider.Speed = options.AnimationSpeed;
-                                                                     context.RectGetProvider.OriginalGetter.Options
-                                                                            .SetOption(new OgSizeTransformerOption(0, options.SliderHeight))
-                                                                            .SetOption(new OgMarginTransformerOption(0,
-                                                                                           ((options.SliderHeight * 2) - options.SliderHeight) / 2));
-                                                                     //.SetOption(new OgScriptableTransformerOption((rect, _, _,
-                                                                     //    _) =>
-                                                                     //                    {
-                                                                     //                        Rect thumbRect = thumbOutline.ElementRect.Get();
-                                                                     //                        rect.width = thumbRect.x + thumbRect.width;
-                                                                     //                        return rect;
-                                                                     //                    }));
-                                                                 }), out DkBinding<Color> backgroundFillBinding);
-        options.m_BackgroundFillColorBindings.Add(backgroundFillBinding);
-        #endregion
         #region build thumb
         OgTextureElement thumb = m_TextureBuilder.Build($"{name}Thumb", options.ThumbColorProperty, new(),
                                                         new(options.ThumbBorder, options.ThumbBorder, options.ThumbBorder, options.ThumbBorder),
@@ -176,6 +155,27 @@ public class EhSliderBuilder
                                                                                   ((options.SliderHeight * 2) - options.SliderThumbSize) / 2));
                                                         }), out DkBinding<Color> thumbBinding);
         options.m_ThumbColorBindings.Add(thumbBinding);
+        #endregion
+        #region build fill
+        OgTextureElement backgroundFill = m_TextureBuilder.Build($"{name}BackgroundFill", options.BackgroundFillColorProperty, new(),
+                                                                 new(options.BackgroundBorder, options.BackgroundBorder, options.BackgroundBorder,
+                                                                     options.BackgroundBorder),
+                                                                 new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
+                                                                 {
+                                                                     context.RectGetProvider.Speed = options.AnimationSpeed;
+                                                                     context.RectGetProvider.OriginalGetter.Options
+                                                                            .SetOption(new OgSizeTransformerOption(0, options.SliderHeight))
+                                                                            .SetOption(new OgMarginTransformerOption(0,
+                                                                                           ((options.SliderHeight * 2) - options.SliderHeight) / 2))
+                                                                     .SetOption(new OgScriptableTransformerOption((rect, parentRect, lastRect,
+                                                                         remaining) =>
+                                                                                         {
+                                                                                             Rect thumbRect = thumb.ElementRect.Get();
+                                                                                             rect.width = thumbRect.x;
+                                                                                             return rect;
+                                                                                         }));
+                                                                 }), out DkBinding<Color> backgroundFillBinding);
+        options.m_BackgroundFillColorBindings.Add(backgroundFillBinding);
         #endregion
         #region build slider
         IOgSlider<IOgVisualElement> slider = m_SliderBuilder.Build(name, new([thumbObserver, thumbOutlineObserver, textObserver]), initial, min, max,
