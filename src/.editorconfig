@@ -3,6 +3,11 @@ root = true
 
 # Файлы C#
 [*.cs]
+csharp_align_multiline_parameter = false
+csharp_align_multiline_argument = false
+csharp_align_multiple_declaration = false
+csharp_align_multiline_array_and_object_initializer = false
+
 
 #### Основные параметры EditorConfig ####
 
