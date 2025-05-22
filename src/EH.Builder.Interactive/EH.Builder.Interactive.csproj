@@ -12,7 +12,4 @@
         <ProjectReference Include="..\OG.DataKit.Processing\OG.DataKit.Processing.csproj"/>
         <ProjectReference Include="..\OG.Factory.Visual\OG.Factory.Visual.csproj"/>
     </ItemGroup>
-    <ItemGroup>
-        <Folder Include="ElementBuilders\"/>
-    </ItemGroup>
 </Project>
