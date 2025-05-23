@@ -8,6 +8,7 @@ using OG.Builder.Contexts.Visual;
 using OG.DataKit.Processing;
 using OG.Element.Visual;
 using OG.Transformer.Options;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive.Base;
@@ -15,7 +16,7 @@ public class EhTextBuilder(IEhVisualOption context)
 {
     private readonly EhInternalTextBuilder m_TextBuilder = new(context);
     public (OgTextElement Element, DkScriptableObserver<float> Observer) BuildSliderValueText(string name, DkScriptableProperty<Color> colorProperty,
-        string textFormat, float initial, bool roundToInt, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0,
+        string textFormat, float initial, int round, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0,
         List<DkBinding<Color>>? bindings = null)
     {
         DkProperty<string> textProperty = new(string.Format(textFormat, initial));
@@ -28,7 +29,7 @@ public class EhTextBuilder(IEhVisualOption context)
         DkScriptableObserver<float> textObserver = new();
         textObserver.OnUpdate += value =>
         {
-            textProperty.Set(string.Format(textFormat, roundToInt ? Mathf.RoundToInt(value) : value));
+            textProperty.Set(string.Format(textFormat, Math.Round(value, round)));
             textValueBinding.Sync();
         };
         bindings?.Add(colorBinding);

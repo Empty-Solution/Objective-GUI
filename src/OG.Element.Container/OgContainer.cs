@@ -20,6 +20,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         provider.RegisterToEnd<IOgEvent>(this);
     }
     public IEnumerable<TElement> Elements => m_Elements;
+    public void Clear() => m_Elements.Clear();
     public bool Contains(TElement element) => m_Elements.Contains(element);
     public bool Add(TElement element)
     {
@@ -37,6 +38,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
         reason.Layout.ParentRect = ElementRect.Get();
+        reason.Layout.ResetLayout();
         int count = m_Elements.Count;
         for(int i = 0; i < count; i++)
         {

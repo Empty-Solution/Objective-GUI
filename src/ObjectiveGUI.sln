@@ -158,6 +158,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Abstraction", "Abstraction"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Abstraction", "EH.Builder.Abstraction\EH.Builder.Abstraction.csproj", "{2408F537-AACA-436C-989D-7B9D4B03C67A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Observing", "EH.Builder.Observing\EH.Builder.Observing.csproj", "{000E658B-A38E-4FA9-93B7-2347259F3C83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -376,6 +378,10 @@ Global
 		{2408F537-AACA-436C-989D-7B9D4B03C67A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2408F537-AACA-436C-989D-7B9D4B03C67A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2408F537-AACA-436C-989D-7B9D4B03C67A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{000E658B-A38E-4FA9-93B7-2347259F3C83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{000E658B-A38E-4FA9-93B7-2347259F3C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{000E658B-A38E-4FA9-93B7-2347259F3C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{000E658B-A38E-4FA9-93B7-2347259F3C83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -444,6 +450,7 @@ Global
 		{150BD114-0116-4A06-81D6-B74C19678B05} = {2550EF18-354C-4785-A877-1F7F21D1D52A}
 		{18443BBF-94E0-47BB-8A40-BBAFD7E5D2E9} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
 		{2408F537-AACA-436C-989D-7B9D4B03C67A} = {18443BBF-94E0-47BB-8A40-BBAFD7E5D2E9}
+		{000E658B-A38E-4FA9-93B7-2347259F3C83} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8DE026B-F83F-49C3-AAF4-C3924C080D00}

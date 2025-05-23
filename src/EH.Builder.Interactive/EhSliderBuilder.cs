@@ -27,11 +27,11 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
     private readonly EhInternalSliderBuilder m_SliderBuilder     = new();
     private readonly EhTextBuilder           m_TextBuilder       = new(context);
     private readonly EhThumbBuilder          m_ThumbBuilder      = new();
-    public IOgContainer<IOgElement> Build(string name, float initial, float min, float max, string textFormat, bool roundToInt = true,
+    public IOgContainer<IOgElement> Build(string name, float initial, float min, float max, string textFormat, int round = 0,
         DkObserver<float>? observer = null) =>
-        Build(name, initial, min, max, textFormat, roundToInt, observer, m_OptionsProvider);
-    private IOgContainer<IOgElement> Build(string name, float initial, float min, float max, string textFormat, bool roundToInt,
-        DkObserver<float>? observer, EhOptionsProvider provider)
+        Build(name, initial, min, max, textFormat, round, observer, m_OptionsProvider);
+    private IOgContainer<IOgElement> Build(string name, float initial, float min, float max, string textFormat, int round, DkObserver<float>? observer,
+        EhOptionsProvider provider)
     {
         EhSliderOption option = provider.SliderOption;
         IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",
@@ -63,7 +63,7 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
             return rect;
         });
         (OgTextElement valueText, DkScriptableObserver<float> textObserver) = m_TextBuilder.BuildSliderValueText(name, option.TextColorProperty,
-            textFormat, initial, roundToInt, option.ValueFontSize, option.ValueAlignment, option.SliderWidth, option.SliderHeight * 2, 0, -14,
+            textFormat, initial, round, option.ValueFontSize, option.ValueAlignment, option.SliderWidth, option.SliderHeight * 2, 0, -14,
             option.m_TextColorBindings);
         OgTextElement nameText = m_TextBuilder.BuildStaticText(name, option.TextColorProperty, name, option.NameFontSize, option.NameAlignment,
             provider.SubTabOption.SubTabWidth - option.SliderWidth, provider.SubTabOption.SubTabHeight, 0, 0, option.m_TextColorBindings);
