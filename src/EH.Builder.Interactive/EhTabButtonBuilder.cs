@@ -8,6 +8,7 @@ using OG.DataKit.Animation;
 using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
 using OG.DataKit.Transformer;
+using OG.DataTypes.Orientation;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Element.Interactive.Abstraction;
@@ -22,13 +23,20 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
     private readonly EhContainerBuilder               m_ContainerBuilder  = new();
     private readonly EhOptionsProvider                m_OptionsProvider   = new();
     private readonly EhInternalToggleBuilder          m_ToggleBuilder     = new();
-    public IOgContainer<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
+    public IOgContainer<IOgElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> tabContainer, float x = 0, float y = 0) =>
         Build(name, texture, separatorSelectorGetter, source, out tabContainer, x, y, m_OptionsProvider);
-    private IOgContainer<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
+    private IOgContainer<IOgElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> tabContainer, float x, float y, EhOptionsProvider provider)
     {
-        EhTabButtonOption option             = provider.TabButtonOption;
+        OgTransformerRectGetter rectGetter = null!;
+        EhTabButtonOption       option     = provider.TabButtonOption;
+        IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        {
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.TabButtonSize, option.TabButtonSize))
+                   .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, option.TabButtonOffset));
+            rectGetter = context.RectGetProvider;
+        }));
         float             tabContainerHeight = provider.WindowOption.WindowHeight - provider.WindowOption.ToolbarContainerHeight;
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundObserver = new((getter, state) =>
         {
@@ -39,12 +47,8 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.TabContainerWidth, tabContainerHeight));
         }));
-        OgTransformerRectGetter rectGetter = null!;
         OgTextureElement image = m_BackgroundBuilder.Build($"{name}Background", provider.BaseAnimationColor, texture, option.TabButtonSize,
-            option.TabButtonSize, 0, 0, option.TabButtonBorder, backgroundObserver, provider.AnimationSpeed, context =>
-            {
-                rectGetter = context.RectGetProvider;
-            });
+            option.TabButtonSize, 0, 0, option.TabButtonBorder, backgroundObserver, provider.AnimationSpeed);
         EhTabObserver tabObserver = new(source, tabContainer, option.TabButtonSize, rectGetter, separatorSelectorGetter);
         IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", false, new([backgroundObserver]),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
@@ -54,6 +58,7 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
                 context.Observable.Notify(false);
             }));
         button.Add(image);
-        return button;
+        container.Add(button);
+        return container;
     }
 }
