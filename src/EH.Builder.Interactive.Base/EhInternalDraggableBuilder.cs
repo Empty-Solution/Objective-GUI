@@ -5,7 +5,7 @@ using OG.Builder.Interactive;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Factory.Interactive;
-namespace EH.Builder.Interactive;
+namespace EH.Builder.Interactive.Base;
 public class EhInternalDraggableBuilder
 {
     private readonly OgDraggableBuilder                   m_OgDraggableBuilder;

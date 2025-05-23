@@ -16,12 +16,8 @@ public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOg
         provider.Register<IOgMouseKeyUpEvent>(this);
     }
     protected bool IsInteracting { get; set; }
-    public bool Invoke(IOgMouseKeyDownEvent reason)
-    {
-        if(IsHovering && PreBeginControl(reason)) return true;
-        return base.Invoke(reason);
-    }
-    public bool Invoke(IOgMouseKeyUpEvent reason) => PreEndControl(reason) || base.Invoke(reason);
+    public bool Invoke(IOgMouseKeyDownEvent reason) => base.Invoke(reason) || (IsHovering && PreBeginControl(reason));
+    public bool Invoke(IOgMouseKeyUpEvent reason) => base.Invoke(reason) || PreEndControl(reason);
     public IDkObservable<bool>? IsInteractingObserver      { get; set; }
     public IDkObservable<bool>? IsRightInteractingObserver { get; set; }
     protected virtual bool PreBeginControl(IOgMouseKeyDownEvent reason) => !IsInteracting && BeginControl(reason);
@@ -31,13 +27,13 @@ public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOg
         IsInteracting = true;
         if(reason.Key == 1) IsRightInteractingObserver?.Notify(true);
         IsInteractingObserver?.Notify(true);
-        return false;
+        return true;
     }
     protected virtual bool EndControl(IOgMouseKeyUpEvent reason)
     {
         IsInteracting = false;
         if(reason.Key == 1) IsRightInteractingObserver?.Notify(false);
         IsInteractingObserver?.Notify(false);
-        return false;
+        return true;
     }
 }

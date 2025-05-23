@@ -8,22 +8,23 @@ namespace OG.Element.Visual;
 public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
     : OgVisualElement<OgTextGraphicsContext>(name, provider, rectGetter), IOgTextElement
 {
-    public TextAnchor              Alignment    { get; set; }
-    public Font?                   Font         { get; set; }
-    public FontStyle               FontStyle    { get; set; }
-    public int                     FontSize     { get; set; }
-    public Color                   Color        { get; set; }
-    public TextClipping            TextClipping { get; set; }
-    public bool                    WordWrap     { get; set; }
-    public string                  Text         { get; set; } = string.Empty;
-    public IOgTextGraphicsContext? Context      { get; private set; }
+    public IDkGetProvider<Color>?  ColorProvider { get; set; }
+    public Color                   Color         { get; set; }
+    public TextAnchor              Alignment     { get; set; }
+    public Font?                   Font          { get; set; }
+    public FontStyle               FontStyle     { get; set; }
+    public int                     FontSize      { get; set; }
+    public TextClipping            TextClipping  { get; set; }
+    public bool                    WordWrap      { get; set; }
+    public string                  Text          { get; set; } = string.Empty;
+    public IOgTextGraphicsContext? Context       { get; private set; }
     protected override void FillContext()
     {
         if(Font is null) return;
         if(m_RenderContext is null) Context = m_RenderContext = new(Text);
+        m_RenderContext.Color        = ColorProvider?.Get() ?? Color;
         m_RenderContext.Alignment    = Alignment;
         m_RenderContext.TextClipping = TextClipping;
-        m_RenderContext.Color        = Color;
         m_RenderContext.Font         = Font;
         m_RenderContext.FontSize     = FontSize;
         m_RenderContext.FontStyle    = FontStyle;

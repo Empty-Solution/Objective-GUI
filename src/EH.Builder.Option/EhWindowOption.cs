@@ -13,8 +13,11 @@ public class EhWindowOption
             m_BackgroundColor = value;
             foreach(DkBinding<Color> binding in m_BackgroundColorBindings) binding.Sync();
         });
-    public float                       WindowWidth             { get; set; } = 640;
-    public float                       WindowHeight            { get; set; } = 480;
-    public float                       WindowBorder            { get; set; } = 15;
-    public DkScriptableProperty<Color> BackgroundColorProperty { get; }
+    public DkScriptableProperty<Color> BackgroundColorProperty   { get; }
+    public float                       WindowWidth               { get; set; } = 668;
+    public float                       WindowHeight              { get; set; } = 600;
+    public float                       WindowBorderRadius        { get; set; } = 15;
+    public float                       TabButtonsContainerOffset { get; set; } = 15;
+    public float                       ToolbarContainerHeight    { get; set; } = 75;
+    public float                       ToolbarContainerOffset    { get; set; } = 7;
 }

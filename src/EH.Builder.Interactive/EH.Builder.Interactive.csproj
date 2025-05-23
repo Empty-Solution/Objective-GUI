@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
+        <ProjectReference Include="..\EH.Builder.Abstraction\EH.Builder.Abstraction.csproj"/>
         <ProjectReference Include="..\EH.Builder.Interactive.Base\EH.Builder.Interactive.Base.csproj"/>
         <ProjectReference Include="..\EH.Builder.Option.Abstraction\EH.Builder.Option.Abstraction.csproj"/>
         <ProjectReference Include="..\EH.Builder.Option\EH.Builder.Option.csproj"/>

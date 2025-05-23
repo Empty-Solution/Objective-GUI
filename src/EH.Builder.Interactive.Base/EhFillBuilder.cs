@@ -9,10 +9,10 @@ using OG.Transformer.Options;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-namespace EH.Builder.Interactive.ElementBuilders;
+namespace EH.Builder.Interactive.Base;
 public class EhFillBuilder
 {
-    private readonly EhTextureBuilder m_TextureBuilder = new();
+    private readonly EhInternalTextureBuilder m_TextureBuilder = new();
     public OgTextureElement Build(string name, DkScriptableProperty<Color> colorProperty, float width, float height, float x = 0, float y = 0,
         float border = 90f, IDkGetProvider<float>? animationSpeed = null, List<DkBinding<Color>>? bindings = null,
         Action<OgTextureBuildContext>? action = null)

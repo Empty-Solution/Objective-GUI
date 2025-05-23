@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
+        <ProjectReference Include="..\OG.DataKit.Animation\OG.DataKit.Animation.csproj"/>
         <ProjectReference Include="..\OG.Element.Container\OG.Element.Container.csproj"/>
         <ProjectReference Include="..\OG.Element.Interactive\OG.Element.Interactive.csproj"/>
         <ProjectReference Include="..\OG.Element.Visual\OG.Element.Visual.csproj"/>

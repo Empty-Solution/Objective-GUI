@@ -6,16 +6,17 @@ namespace OG.Element.Visual;
 public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
     : OgVisualElement<OgTextureGraphicsContext>(name, provider, rectGetter)
 {
-    public Texture2D? Texture        { get; set; }
-    public Color      Color          { get; set; }
-    public Vector4    BorderWidths   { get; set; }
-    public Vector4    BorderRadiuses { get; set; }
-    public float      ImageAspect    { get; set; }
-    public bool       AlphaBlend     { get; set; }
+    public IDkGetProvider<Color>? ColorProvider  { get; set; }
+    public Color                  Color          { get; set; }
+    public Texture2D?             Texture        { get; set; }
+    public Vector4                BorderWidths   { get; set; }
+    public Vector4                BorderRadiuses { get; set; }
+    public float                  ImageAspect    { get; set; }
+    public bool                   AlphaBlend     { get; set; }
     protected override void FillContext()
     {
         m_RenderContext                ??= new();
-        m_RenderContext.Color          =   Color;
+        m_RenderContext.Color          =   ColorProvider?.Get() ?? Color;
         m_RenderContext.Texture        =   Texture;
         m_RenderContext.BorderRadiuses =   BorderRadiuses;
         m_RenderContext.BorderWidths   =   BorderWidths;

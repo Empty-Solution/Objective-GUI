@@ -9,9 +9,5 @@ namespace OG.Element.Interactive;
 public class OgToggle<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<bool> value)
     : OgInteractableValueElement<TElement, bool>(name, provider, rectGetter, value), IOgToggle<TElement> where TElement : IOgElement
 {
-    protected override bool EndControl(IOgMouseKeyUpEvent reason)
-    {
-        base.EndControl(reason);
-        return Value.Set(!Value.Get());
-    }
+    protected override bool EndControl(IOgMouseKeyUpEvent reason) => base.EndControl(reason) | Value.Set(!Value.Get());
 }

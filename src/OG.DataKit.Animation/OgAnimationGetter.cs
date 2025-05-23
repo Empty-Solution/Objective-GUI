@@ -25,7 +25,7 @@ public abstract class OgAnimationGetter<TGetter, TValue> : IDkGetProvider<TValue
     {
         m_Time  = Mathf.Clamp01(m_Time + (reason.DeltaTime * Speed?.Get() ?? 1));
         m_Value = CalculateValue(m_Value!, AddValue(OriginalGetter.Get(), TargetModifier!), m_Time);
-        RenderCallback!.Invoke(reason);
+        RenderCallback?.Invoke(reason);
         return false;
     }
     public void SetTime(float time = 0f) => m_Time = Mathf.Clamp01(time);

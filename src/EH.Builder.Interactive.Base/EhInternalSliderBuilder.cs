@@ -5,7 +5,7 @@ using OG.Builder.Contexts.Interactive;
 using OG.Builder.Interactive;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual.Abstraction;
-namespace EH.Builder.Interactive;
+namespace EH.Builder.Interactive.Base;
 public class EhInternalSliderBuilder
 {
     private readonly OgHorizontalSliderBuilder         m_OgTextureBuilder;

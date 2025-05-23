@@ -154,6 +154,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Interactive.Base
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.Graphics.Contexts", "OG.Graphics.Contexts\OG.Graphics.Contexts.csproj", "{150BD114-0116-4A06-81D6-B74C19678B05}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Abstraction", "Abstraction", "{18443BBF-94E0-47BB-8A40-BBAFD7E5D2E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Abstraction", "EH.Builder.Abstraction\EH.Builder.Abstraction.csproj", "{2408F537-AACA-436C-989D-7B9D4B03C67A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -368,6 +372,10 @@ Global
 		{150BD114-0116-4A06-81D6-B74C19678B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{150BD114-0116-4A06-81D6-B74C19678B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{150BD114-0116-4A06-81D6-B74C19678B05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2408F537-AACA-436C-989D-7B9D4B03C67A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2408F537-AACA-436C-989D-7B9D4B03C67A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2408F537-AACA-436C-989D-7B9D4B03C67A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2408F537-AACA-436C-989D-7B9D4B03C67A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -434,6 +442,8 @@ Global
 		{216E608A-CA81-49B9-9FCA-A236525B829D} = {CDD3E43B-FB71-457B-88A1-CA1B5EFC88E3}
 		{ABCA3C6F-DA6C-4A4C-A777-EC53019A1C39} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
 		{150BD114-0116-4A06-81D6-B74C19678B05} = {2550EF18-354C-4785-A877-1F7F21D1D52A}
+		{18443BBF-94E0-47BB-8A40-BBAFD7E5D2E9} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
+		{2408F537-AACA-436C-989D-7B9D4B03C67A} = {18443BBF-94E0-47BB-8A40-BBAFD7E5D2E9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8DE026B-F83F-49C3-AAF4-C3924C080D00}

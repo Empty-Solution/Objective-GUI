@@ -10,10 +10,10 @@ using OG.Element.Visual;
 using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
-namespace EH.Builder.Interactive.ElementBuilders;
+namespace EH.Builder.Interactive.Base;
 public class EhThumbBuilder
 {
-    private readonly EhTextureBuilder m_TextureBuilder = new();
+    private readonly EhInternalTextureBuilder m_TextureBuilder = new();
     public OgTextureElement Build<TValue>(string name, DkScriptableProperty<Color> colorProperty,
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, TValue> valueObserver,
         OgAnimationGetterObserver<OgTransformerRectGetter, Rect, bool> interactObserver, float size, float x = 0, float y = 0, float border = 90f,

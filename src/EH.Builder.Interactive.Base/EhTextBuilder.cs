@@ -1,18 +1,20 @@
 ﻿using DK.Binding.Generic;
 using DK.Observing.Generic;
+using DK.Property.Abstraction.Generic;
 using DK.Property.Generic;
 using EH.Builder.Option.Abstraction;
+using EH.Builder.Visual;
 using OG.Builder.Contexts.Visual;
 using OG.DataKit.Processing;
 using OG.Element.Visual;
 using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
-namespace EH.Builder.Interactive.ElementBuilders;
+namespace EH.Builder.Interactive.Base;
 public class EhTextBuilder(IEhVisualOption context)
 {
-    private readonly Visual.EhTextBuilder m_TextBuilder = new(context);
-    public (OgTextElement Element, DkScriptableObserver<float> Observer) BuildValueText(string name, DkScriptableProperty<Color> colorProperty,
+    private readonly EhInternalTextBuilder m_TextBuilder = new(context);
+    public (OgTextElement Element, DkScriptableObserver<float> Observer) BuildSliderValueText(string name, DkScriptableProperty<Color> colorProperty,
         string textFormat, float initial, bool roundToInt, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0,
         List<DkBinding<Color>>? bindings = null)
     {
@@ -32,8 +34,8 @@ public class EhTextBuilder(IEhVisualOption context)
         bindings?.Add(colorBinding);
         return (text, textObserver);
     }
-    public OgTextElement BuildStaticText(string name, DkScriptableProperty<Color> colorProperty, string text, int fontSize, TextAnchor alignment,
-        float width, float height, float x = 0, float y = 0, List<DkBinding<Color>>? bindings = null)
+    public OgTextElement BuildStaticText(string name, IDkProperty<Color> colorProperty, string text, int fontSize, TextAnchor alignment, float width,
+        float height, float x = 0, float y = 0, List<DkBinding<Color>>? bindings = null)
     {
         OgTextElement textElement = m_TextBuilder.Build($"{name}Text", colorProperty, fontSize, alignment, text,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>

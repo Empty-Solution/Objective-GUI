@@ -36,8 +36,6 @@ public class EhToggleOption
             foreach(DkBinding<Color> binding in m_ThumbColorBindings) binding.Sync();
         });
     }
-    public EhSubTabOption              SubTabOption                { get; }      = new();
-    public DkProperty<float>           AnimationSpeed              { get; set; } = new(0.7f);
     public float                       BackgroundBorder            { get; set; } = 90f;
     public int                         FontSize                    { get; set; } = 14;
     public float                       ToggleHeight                { get; set; } = 22;
