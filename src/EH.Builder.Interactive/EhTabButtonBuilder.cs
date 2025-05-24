@@ -15,17 +15,19 @@ using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
 using OG.Event;
+using OG.Event.Extensions;
+using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhTabButtonBuilder : IEhTabButtonBuilder
 {
-    private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
-    private readonly EhContainerBuilder      m_ContainerBuilder  = new();
-    private readonly List<EhTabObserver>     m_Observers         = [];
-    private readonly EhOptionsProvider       m_OptionsProvider   = new();
-    private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
+    private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
+    private readonly        EhContainerBuilder      m_ContainerBuilder  = new();
+    private static readonly List<EhTabObserver>     observers           = [];
+    private readonly        EhOptionsProvider       m_OptionsProvider   = new();
+    private readonly        EhInternalToggleBuilder m_ToggleBuilder     = new();
     public IOgContainer<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtTabContainer) =>
         Build(name, texture, separatorSelectorGetter, source, out builtTabContainer, m_OptionsProvider);
@@ -49,10 +51,12 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
             option.TabButtonBorder, context =>
             {
                 context.RectGetProvider.Speed = provider.AnimationSpeed;
+                getter.Speed                  = provider.AnimationSpeed;
                 backgroundObserver.Getter     = getter;
                 getter.RenderCallback         = context.RectGetProvider;
+                eventHandler.Register(getter);
             }, texture, eventHandler);
-        EhTabObserver tabObserver = new(m_Observers, source, builtTabContainer, option.TabButtonSize, separatorSelectorGetter);
+        EhTabObserver tabObserver = new(observers, source, builtTabContainer, option.TabButtonSize, separatorSelectorGetter);
         IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", false, new([backgroundObserver]),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
@@ -63,7 +67,7 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
                 context.Observable.AddObserver(tabObserver);
                 context.Observable.Notify(false);
             }));
-        m_Observers.Add(tabObserver);
+        observers.Add(tabObserver);
         button.Add(image);
         return button;
     }

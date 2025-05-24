@@ -1,10 +1,12 @@
-﻿using DK.Observing.Generic;
+﻿using DK.Getting.Generic;
+using DK.Observing.Generic;
 using EH.Builder.Abstraction;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Option;
 using EH.Builder.Option.Abstraction;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
+using OG.DataKit.Animation;
 using OG.DataKit.Animation.Extensions;
 using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
@@ -15,6 +17,9 @@ using OG.Element.Container.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
+using OG.Event;
+using OG.Event.Extensions;
+using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
@@ -53,14 +58,38 @@ public class EhToggleBuilder(IEhVisualOption context) : IEhToggleBuilder
         {
             getter.SetTime();
         });
-        OgTextureElement thumb = m_ThumbBuilder.Build($"{name}Thumb", option.ThumbColorProperty, thumbObserver, thumbInteractObserver, option.ThumbSize, 0,
-            offset, option.ThumbBorder, provider.AnimationSpeed);
-        OgTextureElement fill = m_FillBuilder.Build(name, option.BackgroundFillColorProperty, 0, option.ToggleHeight, 0, 0, option.BackgroundBorder,
+        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbHoverObserver = new((getter, value) =>
+        {
+            getter.SetTime();
+            getter.TargetModifier = value ? option.ThumbHoverColor.Get() : option.ThumbColor.Get();
+        });
+        OgEventHandlerProvider thumbEventHandler = new();
+        OgAnimationColorGetter thumbGetter       = new(thumbEventHandler);
+        OgTextureElement thumb = m_ThumbBuilder.Build($"{name}Thumb", thumbGetter, thumbObserver, thumbInteractObserver, option.ThumbSize, 0,
+            offset, option.ThumbBorder, provider.AnimationSpeed, thumbEventHandler, context =>
+            {
+                thumbGetter.Speed   = provider.AnimationSpeed;
+                thumbHoverObserver.Getter  = thumbGetter;
+                thumbGetter.RenderCallback = context.RectGetProvider;
+                thumbEventHandler.Register(thumbGetter);
+            });
+        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> fillHoverObserver = new((getter, value) =>
+        {
+            getter.SetTime();
+            getter.TargetModifier = value ? option.BackgroundFillHoverColor.Get() : option.BackgroundFillColor.Get();
+        });
+        OgEventHandlerProvider fillEventHandler = new();
+        OgAnimationColorGetter fillGetter       = new(thumbEventHandler);
+        OgTextureElement fill = m_FillBuilder.Build(name, fillGetter, 0, option.ToggleHeight, 0, 0, option.BackgroundBorder,
             provider.AnimationSpeed, context =>
             {
                 fillObserver.Getter         = context.RectGetProvider;
                 fillInteractObserver.Getter = context.RectGetProvider;
-            });
+                fillGetter.Speed            = provider.AnimationSpeed;
+                fillHoverObserver.Getter    = fillGetter;
+                fillGetter.RenderCallback   = context.RectGetProvider;
+                fillEventHandler.Register(fillGetter);
+            }, fillEventHandler);
         IOgToggle<IOgVisualElement> toggle = m_ToggleBuilder.Build(name, initial, new([fillObserver, thumbObserver]),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
@@ -69,14 +98,17 @@ public class EhToggleBuilder(IEhVisualOption context) : IEhToggleBuilder
                        .SetOption(new OgFlexiblePositionTransformerOption());
                 context.Element.IsInteractingObserver?.AddObserver(fillInteractObserver);
                 context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
+                context.Element.IsHoveringObserver?.AddObserver(fillHoverObserver);
+                context.Element.IsHoveringObserver?.AddObserver(thumbHoverObserver);
                 context.Observable.Notify(initial);
+                context.Element.IsHoveringObserver?.Notify(false);
             }));
-        OgTextureElement background = m_BackgroundBuilder.Build(name, option.BackgroundColorProperty, option.ToggleWidth, option.ToggleHeight, 0, 0,
+        OgTextureElement background = m_BackgroundBuilder.Build(name, option.BackgroundColor, option.ToggleWidth, option.ToggleHeight, 0, 0,
             option.BackgroundBorder);
         toggle.Add(background);
         toggle.Add(fill);
         toggle.Add(thumb);
-        OgTextElement text = m_TextBuilder.BuildStaticText(name, option.TextColorProperty, name, option.FontSize, option.NameAlignment,
+        OgTextElement text = m_TextBuilder.BuildStaticText(name, option.TextColor, name, option.FontSize, option.NameAlignment,
             provider.SubTabOption.SubTabWidth - option.ToggleWidth, option.ToggleHeight);
         container.Add(text);
         container.Add(toggle);
