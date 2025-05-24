@@ -3,3 +3,4 @@ using OG.Graphics.Abstraction;
 using System.Collections.Generic;
 namespace OG.Event.Prefab;
 public class OgPostRenderEvent(IEnumerable<IOgGraphics> graphics) : OgRenderEvent(graphics), IOgPostRenderEvent;
+public class OgPreRenderEvent(IEnumerable<IOgGraphics> graphics) : OgRenderEvent(graphics), IOgPreRenderEvent;

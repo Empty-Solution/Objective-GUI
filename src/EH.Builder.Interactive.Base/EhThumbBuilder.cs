@@ -1,5 +1,4 @@
-﻿using DK.Binding.Generic;
-using DK.Getting.Abstraction.Generic;
+﻿using DK.Getting.Abstraction.Generic;
 using DK.Property.Generic;
 using EH.Builder.Visual;
 using OG.Builder.Contexts.Visual;
@@ -7,19 +6,19 @@ using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
 using OG.DataKit.Transformer;
 using OG.Element.Visual;
+using OG.Event.Abstraction;
 using OG.Transformer.Options;
-using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive.Base;
 public class EhThumbBuilder
 {
     private readonly EhInternalTextureBuilder m_TextureBuilder = new();
-    public OgTextureElement Build<TValue>(string name, DkScriptableProperty<Color> colorProperty,
+    public OgTextureElement Build<TValue>(string name, DkProperty<Color> colorProperty,
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, TValue> valueObserver,
         OgAnimationGetterObserver<OgTransformerRectGetter, Rect, bool> interactObserver, float size, float x = 0, float y = 0, float border = 90f,
-        IDkGetProvider<float>? animationSpeed = null, List<DkBinding<Color>>? bindings = null)
+        IDkGetProvider<float>? animationSpeed = null, IOgEventHandlerProvider? provider = null)
     {
-        OgTextureElement thumb = m_TextureBuilder.Build($"{name}Thumb", colorProperty, new(), new(border, border, border, border),
+        OgTextureElement thumb = m_TextureBuilder.Build($"{name}Thumb", colorProperty, provider, new(), new(border, border, border, border),
             new OgScriptableBuilderProcess<OgTextureBuildContext>(context =>
             {
                 if(animationSpeed != null) context.RectGetProvider.Speed = animationSpeed;
@@ -27,8 +26,7 @@ public class EhThumbBuilder
                 valueObserver.Getter    = context.RectGetProvider;
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(size, size))
                        .SetOption(new OgMarginTransformerOption(x, y));
-            }), out DkBinding<Color> thumbBinding);
-        bindings?.Add(thumbBinding);
+            }), Texture2D.whiteTexture);
         return thumb;
     }
 }

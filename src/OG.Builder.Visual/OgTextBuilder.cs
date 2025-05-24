@@ -10,7 +10,7 @@ using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Visual;
 public class OgTextBuilder(IOgElementFactory<OgTextElement, OgTextFactoryArguments> factory, IDkProcessor<OgTextBuildContext>? processor)
-    : OgBaseBuilder<IOgElementFactory<OgTextElement, OgTextFactoryArguments>, OgTextElement, OgTextFactoryArguments, OgTextBuildArguments,
+    : OgBaseVisualBuilder<IOgElementFactory<OgTextElement, OgTextFactoryArguments>, OgTextElement, OgTextFactoryArguments, OgTextBuildArguments,
         OgTextBuildContext, OgAnimationRectGetter<OgTransformerRectGetter>>(factory, processor)
 {
     protected override OgAnimationRectGetter<OgTransformerRectGetter> BuildGetter(OgTextBuildArguments args, IOgEventHandlerProvider provider,
@@ -22,10 +22,9 @@ public class OgTextBuilder(IOgElementFactory<OgTextElement, OgTextFactoryArgumen
     }
     protected override OgTextFactoryArguments BuildFactoryArguments(OgTextBuildContext context, OgTextBuildArguments args,
         IOgEventHandlerProvider provider) =>
-        new(args.Name, context.RectGetProvider, provider, args.Value, null, args.Font, args.FontSize, args.FontStyle, args.Alignment, args.TextClipping,
+        new(args.Name, context.RectGetProvider, provider, args.Value, args.Font, args.FontSize, args.FontStyle, args.Alignment, args.TextClipping,
             args.WordWrap, args.Text);
     protected override OgTextBuildContext BuildContext(OgTextBuildArguments args, IOgEventHandlerProvider provider,
         OgAnimationRectGetter<OgTransformerRectGetter> getter) =>
         new(null!, getter);
-    protected override void InternalProcessContext(OgTextBuildContext context) => context.RectGetProvider.RenderCallback = context.Element;
 }

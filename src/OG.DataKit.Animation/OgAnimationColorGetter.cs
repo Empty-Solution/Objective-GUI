@@ -1,9 +1,8 @@
-﻿using DK.Getting.Abstraction.Generic;
+﻿using DK.Getting.Generic;
 using OG.Event.Abstraction;
 using UnityEngine;
 namespace OG.DataKit.Animation;
-public class OgAnimationColorGetter<TGetter>(TGetter originalGetter, IOgEventHandlerProvider provider)
-    : OgAnimationGetter<TGetter, Color>(originalGetter, provider) where TGetter : IDkGetProvider<Color>
+public class OgAnimationColorGetter(IOgEventHandlerProvider provider) : OgAnimationGetter<DkReadOnlyGetter<Color>, Color>(new(new(0, 0, 0, 0)), provider)
 {
     protected override Color CalculateValue(Color currentValue, Color targetValue, float time) =>
         new(Mathf.Lerp(currentValue.r, targetValue.r, time), Mathf.Lerp(currentValue.g, targetValue.g, time),

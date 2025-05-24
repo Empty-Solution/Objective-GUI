@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.Event.Abstraction;
+using UnityEngine;
 namespace OG.Builder.Arguments.Visual;
-public class OgVisualElementBuildArguments(string name, Color value) : OgElementBuildArguments(name)
+public class OgVisualElementBuildArguments(string name, IDkGetProvider<Color> value, IOgEventHandlerProvider? provider) : OgElementBuildArguments(name)
 {
-    public Color Value { get; } = value;
+    public IDkGetProvider<Color>    Value    { get; } = value;
+    public IOgEventHandlerProvider? Provider { get; } = provider;
 }

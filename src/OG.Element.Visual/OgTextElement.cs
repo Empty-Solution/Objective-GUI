@@ -9,7 +9,6 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
     : OgVisualElement<OgTextGraphicsContext>(name, provider, rectGetter), IOgTextElement
 {
     public IDkGetProvider<Color>?  ColorProvider { get; set; }
-    public Color                   Color         { get; set; }
     public TextAnchor              Alignment     { get; set; }
     public Font?                   Font          { get; set; }
     public FontStyle               FontStyle     { get; set; }
@@ -22,7 +21,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
     {
         if(Font is null) return;
         if(m_RenderContext is null) Context = m_RenderContext = new(Text);
-        m_RenderContext.Color        = ColorProvider?.Get() ?? Color;
+        m_RenderContext.Color        = ColorProvider!.Get();
         m_RenderContext.Alignment    = Alignment;
         m_RenderContext.TextClipping = TextClipping;
         m_RenderContext.Font         = Font;

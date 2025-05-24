@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.Event.Abstraction;
+using UnityEngine;
 namespace OG.Builder.Arguments.Visual;
-public class OgTextureBuildArguments(string name, Color value, Texture2D texture, Vector4 borderWidths, Vector4 borderRadiuses, float imageAspect,
-    bool alphaBlend) : OgVisualElementBuildArguments(name, value)
+public class OgTextureBuildArguments(string name, IDkGetProvider<Color> value, IOgEventHandlerProvider? provider, Texture2D texture, Vector4 borderWidths,
+    Vector4 borderRadiuses, float imageAspect, bool alphaBlend) : OgVisualElementBuildArguments(name, value, provider)
 {
     public Vector4   BorderWidths   => borderWidths;
     public Vector4   BorderRadiuses => borderRadiuses;

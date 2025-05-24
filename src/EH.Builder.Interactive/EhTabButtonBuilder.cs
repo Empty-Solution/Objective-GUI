@@ -14,17 +14,18 @@ using OG.Element.Container.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
+using OG.Event;
 using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhTabButtonBuilder : IEhTabButtonBuilder
 {
-    private readonly EhAnimatedColorBackgroundBuilder m_BackgroundBuilder = new();
-    private readonly EhContainerBuilder               m_ContainerBuilder  = new();
-    private readonly List<EhTabObserver>              m_Observers         = [];
-    private readonly EhOptionsProvider                m_OptionsProvider   = new();
-    private readonly EhInternalToggleBuilder          m_ToggleBuilder     = new();
+    private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
+    private readonly EhContainerBuilder      m_ContainerBuilder  = new();
+    private readonly List<EhTabObserver>     m_Observers         = [];
+    private readonly EhOptionsProvider       m_OptionsProvider   = new();
+    private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
     public IOgContainer<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtTabContainer) =>
         Build(name, texture, separatorSelectorGetter, source, out builtTabContainer, m_OptionsProvider);
@@ -38,12 +39,19 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
             getter.SetTime();
             getter.TargetModifier = state ? option.BackgroundInteractColorProperty.Get() : option.BackgroundColorProperty.Get();
         });
+        OgEventHandlerProvider eventHandler = new();
+        OgAnimationColorGetter getter       = new(eventHandler);
         builtTabContainer = m_ContainerBuilder.Build($"{name}TabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.TabContainerWidth, tabContainerHeight));
         }));
-        OgTextureElement image = m_BackgroundBuilder.Build($"{name}Background", provider.BaseAnimationColor, texture, option.TabButtonSize,
-            option.TabButtonSize, 0, 0, option.TabButtonBorder, backgroundObserver, provider.AnimationSpeed);
+        OgTextureElement image = m_BackgroundBuilder.Build($"{name}Background", getter, option.TabButtonSize, option.TabButtonSize, 0, 0,
+            option.TabButtonBorder, context =>
+            {
+                context.RectGetProvider.Speed = provider.AnimationSpeed;
+                backgroundObserver.Getter     = getter;
+                getter.RenderCallback         = context.RectGetProvider;
+            }, texture, eventHandler);
         EhTabObserver tabObserver = new(m_Observers, source, builtTabContainer, option.TabButtonSize, separatorSelectorGetter);
         IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", false, new([backgroundObserver]),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>

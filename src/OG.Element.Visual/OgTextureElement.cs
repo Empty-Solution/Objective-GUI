@@ -7,7 +7,6 @@ public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDk
     : OgVisualElement<OgTextureGraphicsContext>(name, provider, rectGetter)
 {
     public IDkGetProvider<Color>? ColorProvider  { get; set; }
-    public Color                  Color          { get; set; }
     public Texture2D?             Texture        { get; set; }
     public Vector4                BorderWidths   { get; set; }
     public Vector4                BorderRadiuses { get; set; }
@@ -16,7 +15,7 @@ public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDk
     protected override void FillContext()
     {
         m_RenderContext                ??= new();
-        m_RenderContext.Color          =   ColorProvider?.Get() ?? Color;
+        m_RenderContext.Color          =   ColorProvider!.Get();
         m_RenderContext.Texture        =   Texture;
         m_RenderContext.BorderRadiuses =   BorderRadiuses;
         m_RenderContext.BorderWidths   =   BorderWidths;

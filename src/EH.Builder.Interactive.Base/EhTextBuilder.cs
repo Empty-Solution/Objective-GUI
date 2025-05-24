@@ -7,44 +7,42 @@ using EH.Builder.Visual;
 using OG.Builder.Contexts.Visual;
 using OG.DataKit.Processing;
 using OG.Element.Visual;
+using OG.Event.Abstraction;
 using OG.Transformer.Options;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive.Base;
 public class EhTextBuilder(IEhVisualOption context)
 {
     private readonly EhInternalTextBuilder m_TextBuilder = new(context);
-    public (OgTextElement Element, DkScriptableObserver<float> Observer) BuildSliderValueText(string name, DkScriptableProperty<Color> colorProperty,
+    public (OgTextElement Element, DkScriptableObserver<float> Observer) BuildSliderValueText(string name, DkProperty<Color> colorGetter,
         string textFormat, float initial, int round, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0,
-        List<DkBinding<Color>>? bindings = null)
+        IOgEventHandlerProvider? provider = null)
     {
         DkProperty<string> textProperty = new(string.Format(textFormat, initial));
-        OgTextElement text = m_TextBuilder.Build($"{name}TextValue", colorProperty, fontSize, alignment, textProperty,
+        OgTextElement text = m_TextBuilder.Build($"{name}TextValue", colorGetter, provider, fontSize, alignment, textProperty,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
                        .SetOption(new OgMarginTransformerOption(x, y));
-            }), out DkBinding<string> textValueBinding, out DkBinding<Color> colorBinding);
+            }), out DkBinding<string> textValueBinding);
         DkScriptableObserver<float> textObserver = new();
         textObserver.OnUpdate += value =>
         {
             textProperty.Set(string.Format(textFormat, Math.Round(value, round)));
             textValueBinding.Sync();
         };
-        bindings?.Add(colorBinding);
         return (text, textObserver);
     }
-    public OgTextElement BuildStaticText(string name, IDkProperty<Color> colorProperty, string text, int fontSize, TextAnchor alignment, float width,
-        float height, float x = 0, float y = 0, List<DkBinding<Color>>? bindings = null)
+    public OgTextElement BuildStaticText(string name, IDkProperty<Color> colorGetter, string text, int fontSize, TextAnchor alignment, float width,
+        float height, float x = 0, float y = 0, IOgEventHandlerProvider? provider = null)
     {
-        OgTextElement textElement = m_TextBuilder.Build($"{name}Text", colorProperty, fontSize, alignment, text,
+        OgTextElement textElement = m_TextBuilder.BuildStatic($"{name}Text", colorGetter, provider, fontSize, alignment, text,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
                        .SetOption(new OgMarginTransformerOption(x, y));
-            }), out DkBinding<Color> textNameBinding);
-        bindings?.Add(textNameBinding);
+            }));
         return textElement;
     }
 }

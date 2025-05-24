@@ -37,7 +37,9 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
         IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
-                context.RectGetProvider.Options.SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL));
+                context.RectGetProvider.Options
+                       .SetOption(new OgSizeTransformerOption(provider.SubTabOption.SubTabWidth, provider.SubTabOption.SubTabHeight))
+                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL));
             }));
         float elementY = (provider.SubTabOption.SubTabHeight - (option.SliderHeight * 2)) / 2;
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver = new((getter, value) =>
@@ -63,22 +65,19 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
             return rect;
         });
         (OgTextElement valueText, DkScriptableObserver<float> textObserver) = m_TextBuilder.BuildSliderValueText(name, option.TextColorProperty,
-            textFormat, initial, round, option.ValueFontSize, option.ValueAlignment, option.SliderWidth, option.SliderHeight * 2, 0, -14,
-            option.m_TextColorBindings);
+            textFormat, initial, round, option.ValueFontSize, option.ValueAlignment, option.SliderWidth, option.SliderHeight * 2, 0, -14);
         OgTextElement nameText = m_TextBuilder.BuildStaticText(name, option.TextColorProperty, name, option.NameFontSize, option.NameAlignment,
-            provider.SubTabOption.SubTabWidth - option.SliderWidth, provider.SubTabOption.SubTabHeight, 0, 0, option.m_TextColorBindings);
+            provider.SubTabOption.SubTabWidth - option.SliderWidth, provider.SubTabOption.SubTabHeight);
         container.Add(nameText);
         OgTextureElement thumbOutline = m_ThumbBuilder.Build($"{name}ThumbOutline", option.ThumbOutlineColorProperty, thumbOutlineObserver,
             thumbOutlineInteractObserver, option.SliderThumbOutlineSize, 0, ((option.SliderHeight * 2) - option.SliderThumbOutlineSize) / 2,
-            option.ThumbBorder, provider.AnimationSpeed, option.m_ThumbOutlineColorBindings);
+            option.ThumbBorder, provider.AnimationSpeed);
         OgTextureElement background = m_BackgroundBuilder.Build(name, option.BackgroundColorProperty, option.SliderWidth, option.SliderHeight, 0,
-            ((option.SliderHeight * 2) - option.SliderHeight) / 2, option.BackgroundBorder, option.m_BackgroundColorBindings);
+            ((option.SliderHeight * 2) - option.SliderHeight) / 2, option.BackgroundBorder);
         OgTextureElement thumb = m_ThumbBuilder.Build($"{name}Thumb", option.ThumbColorProperty, thumbObserver, thumbInteractObserver,
-            option.SliderThumbSize, 0, ((option.SliderHeight * 2) - option.SliderThumbSize) / 2, option.ThumbBorder, provider.AnimationSpeed,
-            option.m_ThumbColorBindings);
+            option.SliderThumbSize, 0, ((option.SliderHeight * 2) - option.SliderThumbSize) / 2, option.ThumbBorder, provider.AnimationSpeed);
         OgTextureElement backgroundFill = m_FillBuilder.Build(name, option.BackgroundFillColorProperty, 0, option.SliderHeight, 0,
-            ((option.SliderHeight * 2) - option.SliderHeight) / 2, option.BackgroundBorder, provider.AnimationSpeed, option.m_BackgroundFillColorBindings,
-            context =>
+            ((option.SliderHeight * 2) - option.SliderHeight) / 2, option.BackgroundBorder, provider.AnimationSpeed, context =>
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgScriptableTransformerOption((rect, _, _, _) =>
                 {

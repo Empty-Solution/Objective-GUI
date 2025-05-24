@@ -52,7 +52,7 @@ public class EhWindowBuilder : IEhWindowBuilder
             option.ToolbarContainerHeight - (provider.SeparatorOffset * 2), xOffset, provider.SeparatorOffset, provider.SeparatorBorder);
         OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorThumbGetter = null!;
         OgTextureElement tabSeparatorThumb = m_BackgroundBuilder.Build("IconRightSeparator", provider.SeparatorThumbColor, provider.SeparatorWidth * 3, 0,
-            xOffset - provider.SeparatorWidth, containerY + option.ToolbarContainerOffset, provider.SeparatorBorder, null, context =>
+            xOffset - provider.SeparatorWidth, containerY + option.ToolbarContainerOffset, provider.SeparatorBorder, context =>
             {
                 context.RectGetProvider.Speed = provider.AnimationSpeed;
                 tabSeparatorThumbGetter       = context.RectGetProvider;
@@ -77,7 +77,7 @@ public class EhWindowBuilder : IEhWindowBuilder
         sourceContainer.Add(tabButtonsContainer);
         sourceContainer.Add(tabContainer);
         window.Add(m_BackgroundBuilder.Build("MainWindowBackground", option.BackgroundColorProperty, option.WindowWidth, option.WindowHeight, x, y,
-            option.WindowBorderRadius, option.m_BackgroundColorBindings));
+            option.WindowBorderRadius));
         window.Add(sourceContainer);
         return window;
     }
