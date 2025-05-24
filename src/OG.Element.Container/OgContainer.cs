@@ -37,14 +37,15 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     }
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
-        reason.Layout.ParentRect = ElementRect.Get();
-        reason.Layout.ResetLayout();
+        reason.Layout.ParentRect     = ElementRect.Get();
+        reason.Layout.LastLayoutRect = Rect.zero;
         int count = m_Elements.Count;
         for(int i = 0; i < count; i++)
         {
             TElement element = m_Elements[i];
-            reason.Layout.RemainingLayoutItems = count - i;
+            reason.Layout.RemainingLayoutItems = count - i - 1;
             element.ProcessEvent(reason);
+            reason.Layout.LastLayoutRect = element.ElementRect.Get();
         }
         return false;
     }

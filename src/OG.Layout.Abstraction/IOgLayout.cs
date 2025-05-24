@@ -5,6 +5,6 @@ public interface IOgLayout
 {
     public Rect ParentRect           { get; set; }
     public int  RemainingLayoutItems { get; set; }
+    public Rect LastLayoutRect       { get; set; }
     Rect ProcessLayout(Rect rect, IOgOptionsContainer container);
-    IOgLayout ResetLayout();
 }

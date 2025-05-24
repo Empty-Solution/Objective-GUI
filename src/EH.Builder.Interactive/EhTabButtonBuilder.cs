@@ -16,17 +16,15 @@ using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Extensions;
-using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Options;
-using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhTabButtonBuilder : IEhTabButtonBuilder
 {
-    private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
-    private readonly        EhContainerBuilder      m_ContainerBuilder  = new();
-    private readonly        EhOptionsProvider       m_OptionsProvider   = new();
-    private readonly        EhInternalToggleBuilder m_ToggleBuilder     = new();
+    private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
+    private readonly EhContainerBuilder      m_ContainerBuilder  = new();
+    private readonly EhOptionsProvider       m_OptionsProvider   = new();
+    private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
     public IOgContainer<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtTabContainer) =>
         Build(name, texture, separatorSelectorGetter, source, out builtTabContainer, m_OptionsProvider);

@@ -7,9 +7,9 @@ namespace OG.Layout;
 public class OgLayout : IOgLayout
 {
     protected readonly IEnumerable<IOgTransformer> m_Transformers;
-    protected          Rect                        m_LastLayoutRect = Rect.zero;
     public OgLayout(IEnumerable<IOgTransformer> transformers) => m_Transformers = transformers.OrderBy(t => t.Order);
     public int  RemainingLayoutItems { get; set; }
+    public Rect LastLayoutRect       { get; set; }
     public Rect ParentRect           { get; set; }
     public Rect ProcessLayout(Rect rect, IOgOptionsContainer container)
     {
@@ -21,15 +21,9 @@ public class OgLayout : IOgLayout
             foreach(IOgTransformer transformer in m_Transformers)
             {
                 if(!transformer.CanHandle(option)) continue;
-                rect = transformer.Transform(rect, parentRect, m_LastLayoutRect, remaining, option);
+                rect = transformer.Transform(rect, parentRect, LastLayoutRect, remaining, option);
             }
         }
-        m_LastLayoutRect = rect;
         return rect;
-    }
-    public IOgLayout ResetLayout()
-    {
-        m_LastLayoutRect = Rect.zero;
-        return this;
     }
 }

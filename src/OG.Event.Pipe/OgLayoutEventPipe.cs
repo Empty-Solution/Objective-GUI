@@ -7,5 +7,5 @@ namespace OG.Event.Pipe;
 public class OgLayoutEventPipe(IOgLayout layout) : OgEventPipe<IOgLayoutEvent>
 {
     public override bool CanHandle(UeEvent value) => value.type is EventType.Layout;
-    protected override IOgLayoutEvent InternalGetEvent(UeEvent sourceEvent) => new OgLayoutEvent(layout.ResetLayout());
+    protected override IOgLayoutEvent InternalGetEvent(UeEvent sourceEvent) => new OgLayoutEvent(layout);
 }

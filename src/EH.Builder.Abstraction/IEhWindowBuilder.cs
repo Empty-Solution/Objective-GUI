@@ -6,5 +6,6 @@ namespace EH.Builder.Abstraction;
 public interface IEhWindowBuilder
 {
     IOgContainer<IOgElement> Build(out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
-        out OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter, float x = 0, float y = 0);
+        out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter,
+        out OgAnimationRectGetter<OgTransformerRectGetter> subTabSeparatorSelectorGetter, float x = 0, float y = 0);
 }
