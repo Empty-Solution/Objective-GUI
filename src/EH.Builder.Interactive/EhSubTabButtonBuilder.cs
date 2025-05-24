@@ -1,5 +1,6 @@
 ﻿using DK.Getting.Generic;
 using EH.Builder.Interactive.Base;
+using EH.Builder.Observing;
 using EH.Builder.Option;
 using EH.Builder.Option.Abstraction;
 using OG.Builder.Contexts;
@@ -17,15 +18,17 @@ using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Extensions;
 using OG.Transformer.Options;
+using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhSubTabButtonBuilder(IEhVisualOption option)
 {
-    private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
-    private readonly EhContainerBuilder      m_ContainerBuilder  = new();
-    private readonly EhOptionsProvider       m_OptionsProvider   = new();
-    private readonly EhTextBuilder           m_TextBuilder       = new(option);
-    private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
+    private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
+    private readonly        EhContainerBuilder      m_ContainerBuilder  = new();
+    private readonly        EhOptionsProvider       m_OptionsProvider   = new();
+    private readonly        EhTextBuilder           m_TextBuilder       = new(option);
+    private readonly        EhInternalToggleBuilder m_ToggleBuilder     = new();
+    private readonly List<EhBaseTabObserver> m_Observers           = [];
     public IOgContainer<IOgVisualElement> Build(string name, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtTabContainer) =>
         Build(name, separatorSelectorGetter, source, out builtTabContainer, m_OptionsProvider);
@@ -78,7 +81,7 @@ public class EhSubTabButtonBuilder(IEhVisualOption option)
                 textGetter.RenderCallback     = context.RectGetProvider;
                 backgroundEventHandler.Register(textGetter);
             }, textEventHandler);
-        EhTabObserver tabObserver = new(source, builtTabContainer, option.Height, separatorSelectorGetter);
+        EhSubTabObserver tabObserver = new(m_Observers, source, builtTabContainer, option.Height, separatorSelectorGetter);
         IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", false,
             new([backgroundObserver, backgroundHoverObserver, textHoverObserver]), new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {

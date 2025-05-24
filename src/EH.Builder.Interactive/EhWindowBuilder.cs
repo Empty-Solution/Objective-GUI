@@ -76,6 +76,7 @@ public class EhWindowBuilder : IEhWindowBuilder
         tabSeparatorSelectorGetter    = tabSeparatorThumbGetter;
         subTabSeparatorSelectorGetter = subTabSeparatorThumbGetter;
         #endregion
+        
         tabButtonsContainer = m_ContainerBuilder.Build("TabButtonsContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonOption.TabButtonSize, tabButtonsContainerHeight))

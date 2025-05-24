@@ -1,6 +1,7 @@
 ﻿using DK.Getting.Generic;
 using EH.Builder.Abstraction;
 using EH.Builder.Interactive.Base;
+using EH.Builder.Observing;
 using EH.Builder.Option;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
@@ -17,14 +18,16 @@ using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Extensions;
 using OG.Transformer.Options;
+using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhTabButtonBuilder : IEhTabButtonBuilder
 {
-    private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
-    private readonly EhContainerBuilder      m_ContainerBuilder  = new();
-    private readonly EhOptionsProvider       m_OptionsProvider   = new();
-    private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
+    private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
+    private readonly        EhContainerBuilder      m_ContainerBuilder  = new();
+    private readonly        EhOptionsProvider       m_OptionsProvider   = new();
+    private readonly        EhInternalToggleBuilder m_ToggleBuilder     = new();
+    private static readonly List<EhBaseTabObserver>     observers         = [];
     public IOgContainer<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtTabContainer) =>
         Build(name, texture, separatorSelectorGetter, source, out builtTabContainer, m_OptionsProvider);
@@ -53,7 +56,7 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
                 getter.RenderCallback         = context.RectGetProvider;
                 eventHandler.Register(getter);
             }, eventHandler, texture);
-        EhTabObserver tabObserver = new(source, builtTabContainer, option.TabButtonSize, separatorSelectorGetter);
+        EhTabObserver tabObserver = new(observers, source, builtTabContainer, option.TabButtonSize, separatorSelectorGetter);
         IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", false, new([backgroundObserver]),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
