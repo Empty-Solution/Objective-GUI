@@ -43,36 +43,36 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options
-                       .SetOption(new OgSizeTransformerOption(provider.SubTabOption.SubTabWidth, provider.SubTabOption.SubTabHeight))
-                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL));
+                       .SetOption(new OgSizeTransformerOption(provider.SubTabOption.Width, provider.SubTabOption.Height))
+                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.SubTabOption.Padding));
             }));
-        float elementY = (provider.SubTabOption.SubTabHeight - (option.SliderHeight * 2)) / 2;
+        float elementY = (provider.SubTabOption.Height - (option.Height * 2)) / 2;
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver = new((getter, value) =>
         {
-            float offset = option.SliderThumbSize / 6;
+            float offset = option.ThumbSize / 6;
             getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, offset, offset);
         });
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbOutlineInteractObserver = new((getter, value) =>
         {
-            float offset = option.SliderThumbOutlineSize / 8;
+            float offset = option.ThumbOutlineSize / 8;
             getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, offset, offset);
         });
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, float> thumbObserver = new((getter, value) =>
         {
             Rect rect = getter.TargetModifier;
-            rect.x = (value / max * option.SliderWidth) - (option.SliderThumbSize / 2);
+            rect.x = (value / max * option.Width) - (option.ThumbSize / 2);
             return rect;
         });
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, float> thumbOutlineObserver = new((getter, value) =>
         {
             Rect rect = getter.TargetModifier;
-            rect.x = (value / max * option.SliderWidth) - (option.SliderThumbOutlineSize / 2);
+            rect.x = (value / max * option.Width) - (option.ThumbOutlineSize / 2);
             return rect;
         });
         (OgTextElement valueText, DkScriptableObserver<float> textObserver) = m_TextBuilder.BuildSliderValueText(name, option.TextColor,
-            textFormat, initial, round, option.ValueFontSize, option.ValueAlignment, option.SliderWidth, option.SliderHeight * 2, 0, -14);
+            textFormat, initial, round, option.ValueFontSize, option.ValueAlignment, option.Width, option.Height * 2, 0, -14);
         OgTextElement nameText = m_TextBuilder.BuildStaticText(name, option.TextColor, name, option.NameFontSize, option.NameAlignment,
-            provider.SubTabOption.SubTabWidth - option.SliderWidth, provider.SubTabOption.SubTabHeight);
+            provider.SubTabOption.Width - option.Width, provider.SubTabOption.Height);
         container.Add(nameText);
         
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbOutlineHoverObserver = new((getter, value) =>
@@ -83,7 +83,7 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
         OgEventHandlerProvider thumbOutlineEventHandler = new();
         OgAnimationColorGetter thumbOutlineGetter       = new(thumbOutlineEventHandler);
         OgTextureElement thumbOutline = m_ThumbBuilder.Build($"{name}ThumbOutline", thumbOutlineGetter, thumbOutlineObserver,
-            thumbOutlineInteractObserver, option.SliderThumbOutlineSize, 0, ((option.SliderHeight * 2) - option.SliderThumbOutlineSize) / 2,
+            thumbOutlineInteractObserver, option.ThumbOutlineSize, 0, ((option.Height * 2) - option.ThumbOutlineSize) / 2,
             option.ThumbBorder, provider.AnimationSpeed, thumbOutlineEventHandler, context =>
             {
                 thumbOutlineGetter.Speed = provider.AnimationSpeed;
@@ -99,7 +99,7 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
         OgEventHandlerProvider thumbEventHandler = new();
         OgAnimationColorGetter thumbGetter       = new(thumbEventHandler);
         OgTextureElement thumb = m_ThumbBuilder.Build($"{name}Thumb", thumbGetter, thumbObserver, thumbInteractObserver,
-            option.SliderThumbSize, 0, ((option.SliderHeight * 2) - option.SliderThumbSize) / 2, option.ThumbBorder, provider.AnimationSpeed, thumbEventHandler,
+            option.ThumbSize, 0, ((option.Height * 2) - option.ThumbSize) / 2, option.ThumbBorder, provider.AnimationSpeed, thumbEventHandler,
             context =>
             {
                 thumbGetter.Speed          = provider.AnimationSpeed;
@@ -114,8 +114,8 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
         });
         OgEventHandlerProvider fillEventHandler = new();
         OgAnimationColorGetter fillGetter       = new(fillEventHandler);
-        OgTextureElement fill = m_FillBuilder.Build(name, fillGetter, 0, option.SliderHeight, 0,
-            ((option.SliderHeight * 2) - option.SliderHeight) / 2, option.BackgroundBorder, provider.AnimationSpeed, context =>
+        OgTextureElement fill = m_FillBuilder.Build(name, fillGetter, 0, option.Height, 0,
+            ((option.Height * 2) - option.Height) / 2, option.BackgroundBorder, provider.AnimationSpeed, context =>
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgScriptableTransformerOption((rect, _, _, _) =>
                 {
@@ -135,8 +135,8 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
         });
         OgEventHandlerProvider backgroundEventHandler = new();
         OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
-        OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, option.SliderWidth, option.SliderHeight, 0,
-            ((option.SliderHeight * 2) - option.SliderHeight) / 2, option.BackgroundBorder, context =>
+        OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, option.Width, option.Height, 0,
+            ((option.Height * 2) - option.Height) / 2, option.BackgroundBorder, context =>
             {
                 backgroundGetter.Speed          = provider.AnimationSpeed;
                 backgroundHoverObserver.Getter  = backgroundGetter;
@@ -147,7 +147,7 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
             new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
             {
                 if(observer is not null) context.Observable.AddObserver(observer);
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.SliderWidth, option.SliderHeight * 2))
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height * 2))
                        .SetOption(new OgFlexiblePositionTransformerOption()).SetOption(new OgMarginTransformerOption(0, elementY));
                 context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
                 context.Element.IsInteractingObserver?.AddObserver(thumbOutlineInteractObserver);

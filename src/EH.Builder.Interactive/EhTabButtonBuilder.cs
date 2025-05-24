@@ -25,7 +25,6 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
 {
     private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
     private readonly        EhContainerBuilder      m_ContainerBuilder  = new();
-    private static readonly List<EhTabObserver>     observers           = [];
     private readonly        EhOptionsProvider       m_OptionsProvider   = new();
     private readonly        EhInternalToggleBuilder m_ToggleBuilder     = new();
     public IOgContainer<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
@@ -56,7 +55,7 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
                 getter.RenderCallback         = context.RectGetProvider;
                 eventHandler.Register(getter);
             }, eventHandler, texture);
-        EhTabObserver tabObserver = new(observers, source, builtTabContainer, option.TabButtonSize, separatorSelectorGetter);
+        EhTabObserver tabObserver = new(source, builtTabContainer, option.TabButtonSize, separatorSelectorGetter);
         IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", false, new([backgroundObserver]),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
@@ -67,7 +66,6 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
                 context.Observable.AddObserver(tabObserver);
                 context.Observable.Notify(false);
             }));
-        observers.Add(tabObserver);
         button.Add(image);
         return button;
     }

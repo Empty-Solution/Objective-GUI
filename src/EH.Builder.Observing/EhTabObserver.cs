@@ -8,13 +8,25 @@ using OG.Element.Visual.Abstraction;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhTabObserver(List<EhTabObserver> observers, IOgContainer<IOgElement> source, IOgContainer<IOgElement> target, float thumbHeight,
-    OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter) : IDkObserver<bool>
+public class EhTabObserver() : IDkObserver<bool>
 {
-    public IOgToggle<IOgVisualElement>? LinkedInteractable { get; set; }
-    public OgTransformerRectGetter?     RectGetter         { get; set; }
-    public IOgContainer<IOgElement>     Target             { get; }      = target;
-    public bool                         ShouldProcess      { get; set; } = true; // сладенький костыль ибо я не хотел делать int currentTABBBBB
+    private readonly        IOgContainer<IOgElement>? m_Source;
+    private readonly        float m_ThumbHeight;
+    private readonly        OgAnimationRectGetter<OgTransformerRectGetter>? m_SeparatorSelectorGetter;
+    private static readonly List<EhTabObserver> observers = [];
+    public                  IOgToggle<IOgVisualElement>? LinkedInteractable { get; set; }
+    public                  OgTransformerRectGetter? RectGetter { get; set; }
+    public                  IOgContainer<IOgElement>? Target { get; }
+    public                  bool ShouldProcess { get; set; } = true; // сладенький костыль ибо я не хотел делать int currentTABBBBB
+    public EhTabObserver(IOgContainer<IOgElement> source, IOgContainer<IOgElement> target, float thumbHeight,
+        OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter) : this()
+    {
+        m_Source                  = source;
+        m_ThumbHeight             = thumbHeight;
+        m_SeparatorSelectorGetter = separatorSelectorGetter;
+        Target                    = target;
+        observers.Add(this);
+    }
     public void Update(bool state)
     {
         if(!ShouldProcess)
@@ -43,14 +55,14 @@ public class EhTabObserver(List<EhTabObserver> observers, IOgContainer<IOgElemen
             LinkedInteractable!.Value.Set(state);
             return;
         }
-        source.Clear();
-        if(state) source.Add(Target);
+        m_Source!.Clear();
+        if(state) m_Source.Add(Target!);
         ShouldProcess = false;
         LinkedInteractable!.Value.Set(state);
-        Rect rect = separatorSelectorGetter.TargetModifier;
-        separatorSelectorGetter.SetTime();
-        rect.y                                 = RectGetter!.Get().y;
-        rect.height                            = state ? thumbHeight : 0;
-        separatorSelectorGetter.TargetModifier = rect;
+        Rect rect = m_SeparatorSelectorGetter!.TargetModifier;
+        m_SeparatorSelectorGetter.SetTime();
+        rect.y                                   = RectGetter!.Get().y;
+        rect.height                              = state ? m_ThumbHeight : 0;
+        m_SeparatorSelectorGetter.TargetModifier = rect;
     }
 }
