@@ -1,7 +1,6 @@
 ﻿using DK.Getting.Generic;
 using DK.Observing.Generic;
 using DK.Property.Observing.Generic;
-using EH.Builder.Abstraction;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Observing;
 using EH.Builder.Option;
@@ -23,7 +22,7 @@ using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhTabButtonBuilder : IEhTabButtonBuilder
+public class EhTabButtonBuilder 
 {
     private static readonly List<EhBaseTabObserver> observers           = [];
     private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
@@ -37,7 +36,7 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtTabContainer, EhOptionsProvider provider)
     {
         EhTabButtonOption option             = provider.TabButtonOption;
-        float             tabContainerHeight = provider.WindowOption.WindowHeight - provider.WindowOption.ToolbarContainerHeight;
+        float             tabContainerHeight = provider.WindowOption.Height - provider.WindowOption.ToolbarContainerHeight;
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundObserver = new((getter, state) =>
         {
             getter.SetTime();

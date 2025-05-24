@@ -1,6 +1,5 @@
 ﻿using DK.Getting.Generic;
 using DK.Property.Observing.Abstraction.Generic;
-using EH.Builder.Abstraction;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Option;
 using EH.Builder.Option.Abstraction;
@@ -22,7 +21,7 @@ using OG.Event.Extensions;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
+public class EhSliderBuilder(IEhVisualOption context)
 {
     private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
     private readonly EhContainerBuilder      m_ContainerBuilder  = new();

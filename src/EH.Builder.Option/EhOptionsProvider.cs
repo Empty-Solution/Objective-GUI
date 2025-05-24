@@ -9,7 +9,6 @@ public class EhOptionsProvider
     public EhWindowOption              WindowOption              { get; }      = new();
     public EhInteractableElementOption InteractableElementOption { get; }      = new();
     public EhTabButtonOption           TabButtonOption           { get; }      = new();
-    public EhSubTabButtonOption        SubTabButtonOption        { get; }      = new();
     public float                       SeparatorOffset           { get; set; } = 8;
     public DkProperty<Color>           SeparatorColor            { get; }      = new(new Color32(100, 100, 100, 150));
     public DkProperty<Color>           SeparatorThumbColor       { get; }      = new(new Color32(255, 255, 255, 255));
