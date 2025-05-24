@@ -128,8 +128,21 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
                 fillHoverObserver.Getter  = fillGetter;
                 fillEventHandler.Register(fillGetter);
             }, fillEventHandler);
-        OgTextureElement background = m_BackgroundBuilder.Build(name, option.BackgroundColor, option.SliderWidth, option.SliderHeight, 0,
-            ((option.SliderHeight * 2) - option.SliderHeight) / 2, option.BackgroundBorder);
+        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
+        {
+            getter.SetTime();
+            getter.TargetModifier = value ? option.BackgroundHoverColor.Get() : option.BackgroundColor.Get();
+        });
+        OgEventHandlerProvider backgroundEventHandler = new();
+        OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
+        OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, option.SliderWidth, option.SliderHeight, 0,
+            ((option.SliderHeight * 2) - option.SliderHeight) / 2, option.BackgroundBorder, context =>
+            {
+                backgroundGetter.Speed          = provider.AnimationSpeed;
+                backgroundHoverObserver.Getter  = backgroundGetter;
+                backgroundGetter.RenderCallback = context.RectGetProvider;
+                backgroundEventHandler.Register(backgroundGetter);
+            }, backgroundEventHandler);
         IOgSlider<IOgVisualElement> slider = m_SliderBuilder.Build(name, new([thumbObserver, thumbOutlineObserver, textObserver]), initial, min, max,
             new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
             {
@@ -141,6 +154,7 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
                 context.Element.IsHoveringObserver?.AddObserver(thumbHoverObserver);
                 context.Element.IsHoveringObserver?.AddObserver(thumbOutlineHoverObserver);
                 context.Element.IsHoveringObserver?.AddObserver(fillHoverObserver);
+                context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
                 context.Observable.Notify(initial);
                 context.Element.IsHoveringObserver?.Notify(false);
             }));

@@ -41,7 +41,7 @@ public class EhToggleBuilder(IEhVisualOption context) : IEhToggleBuilder
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options
-                       .SetOption(new OgSizeTransformerOption(provider.SubTabOption.SubTabWidth, provider.SubTabOption.SubTabHeight))
+                       .SetOption(new OgMinSizeTransformerOption(provider.SubTabOption.SubTabWidth, provider.SubTabOption.SubTabHeight))
                        .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL));
             }));
         float offset = (option.ToggleHeight - option.ThumbSize) / 2;
@@ -76,7 +76,7 @@ public class EhToggleBuilder(IEhVisualOption context) : IEhToggleBuilder
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> fillHoverObserver = new((getter, value) =>
         {
             getter.SetTime();
-            getter.TargetModifier = value ? option.BackgroundFillHoverColor.Get() : option.BackgroundFillColor.Get();
+            getter.TargetModifier = value ? option.FillHoverColor.Get() : option.FillColor.Get();
         });
         OgEventHandlerProvider fillEventHandler = new();
         OgAnimationColorGetter fillGetter       = new(thumbEventHandler);
@@ -90,6 +90,21 @@ public class EhToggleBuilder(IEhVisualOption context) : IEhToggleBuilder
                 fillGetter.RenderCallback   = context.RectGetProvider;
                 fillEventHandler.Register(fillGetter);
             }, fillEventHandler);
+        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
+        {
+            getter.SetTime();
+            getter.TargetModifier = value ? option.BackgroundHoverColor.Get() : option.BackgroundColor.Get();
+        });
+        OgEventHandlerProvider backgroundEventHandler = new();
+        OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
+        OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, option.ToggleWidth, option.ToggleHeight, 0, 0,
+            option.BackgroundBorder, context =>
+            {
+                backgroundGetter.Speed          = provider.AnimationSpeed;
+                backgroundHoverObserver.Getter  = backgroundGetter;
+                backgroundGetter.RenderCallback = context.RectGetProvider;
+                backgroundEventHandler.Register(backgroundGetter);
+            }, backgroundEventHandler);
         IOgToggle<IOgVisualElement> toggle = m_ToggleBuilder.Build(name, initial, new([fillObserver, thumbObserver]),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
@@ -100,11 +115,11 @@ public class EhToggleBuilder(IEhVisualOption context) : IEhToggleBuilder
                 context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
                 context.Element.IsHoveringObserver?.AddObserver(fillHoverObserver);
                 context.Element.IsHoveringObserver?.AddObserver(thumbHoverObserver);
+                context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
                 context.Observable.Notify(initial);
                 context.Element.IsHoveringObserver?.Notify(false);
             }));
-        OgTextureElement background = m_BackgroundBuilder.Build(name, option.BackgroundColor, option.ToggleWidth, option.ToggleHeight, 0, 0,
-            option.BackgroundBorder);
+        
         toggle.Add(background);
         toggle.Add(fill);
         toggle.Add(thumb);
