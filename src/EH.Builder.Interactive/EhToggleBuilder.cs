@@ -121,7 +121,7 @@ public class EhToggleBuilder(IEhVisualOption context) : IEhToggleBuilder
         toggle.Add(fill);
         toggle.Add(thumb);
         OgTextElement text = m_TextBuilder.BuildStaticText(name, option.TextColor, name, option.FontSize, option.NameAlignment,
-            provider.InteractableElementOption.Width - option.Width, option.Height);
+            provider.InteractableElementOption.Width - option.Width, provider.InteractableElementOption.Height);
         container.Add(text);
         container.Add(toggle);
         return container;

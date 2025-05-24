@@ -40,7 +40,7 @@ public class EhTextBuilder(IEhVisualOption context)
         OgTextElement textElement = m_TextBuilder.BuildStatic($"{name}Text", colorGetter, provider, fontSize, alignment, text,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
             {
-                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
+                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgMinSizeTransformerOption(width, height))
                        .SetOption(new OgMarginTransformerOption(x, y));
                 action?.Invoke(context);
             }));
