@@ -1,8 +1,8 @@
-﻿using DK.Observing.Generic;
+﻿using DK.Property.Observing.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 namespace EH.Builder.Abstraction;
 public interface IEhSliderBuilder
 {
-    IOgContainer<IOgElement> Build(string name, float initial, float min, float max, string textFormat, int round = 0, DkObserver<float>? observer = null);
+    IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round = 0);
 }

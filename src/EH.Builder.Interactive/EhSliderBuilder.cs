@@ -1,5 +1,5 @@
 ﻿using DK.Getting.Generic;
-using DK.Observing.Generic;
+using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Abstraction;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Option;
@@ -31,10 +31,9 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
     private readonly EhInternalSliderBuilder m_SliderBuilder     = new();
     private readonly EhTextBuilder           m_TextBuilder       = new(context);
     private readonly EhThumbBuilder          m_ThumbBuilder      = new();
-    public IOgContainer<IOgElement> Build(string name, float initial, float min, float max, string textFormat, int round = 0,
-        DkObserver<float>? observer = null) =>
-        Build(name, initial, min, max, textFormat, round, observer, m_OptionsProvider);
-    private IOgContainer<IOgElement> Build(string name, float initial, float min, float max, string textFormat, int round, DkObserver<float>? observer,
+    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round = 0) =>
+        Build(name, value, min, max, textFormat, round, m_OptionsProvider);
+    private IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round,
         EhOptionsProvider provider)
     {
         EhSliderOption option = provider.SliderOption;
@@ -68,8 +67,8 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
             rect.x = (value / max * option.Width) - (option.ThumbOutlineSize / 2);
             return rect;
         });
-        (OgTextElement valueText, DkScriptableObserver<float> textObserver) = m_TextBuilder.BuildSliderValueText(name, option.TextColor, textFormat,
-            initial, round, option.ValueFontSize, option.ValueAlignment, option.Width, option.Height * 2, 0, -14);
+        OgTextElement valueText = m_TextBuilder.BuildSliderValueText(name, option.TextColor, textFormat, value, round, option.ValueFontSize,
+            option.ValueAlignment, option.Width, option.Height * 2, 0, -14);
         OgTextElement nameText = m_TextBuilder.BuildStaticText(name, option.TextColor, name, option.NameFontSize, option.NameAlignment,
             provider.InteractableElementOption.Width - option.Width, provider.InteractableElementOption.Height);
         container.Add(nameText);
@@ -140,21 +139,21 @@ public class EhSliderBuilder(IEhVisualOption context) : IEhSliderBuilder
                 backgroundGetter.RenderCallback = context.RectGetProvider;
                 backgroundEventHandler.Register(backgroundGetter);
             }, backgroundEventHandler);
-        IOgSlider<IOgVisualElement> slider = m_SliderBuilder.Build(name, new([thumbObserver, thumbOutlineObserver, textObserver]), initial, min, max,
-            new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
-            {
-                if(observer is not null) context.Observable.AddObserver(observer);
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height * 2))
-                       .SetOption(new OgFlexiblePositionTransformerOption()).SetOption(new OgMarginTransformerOption(0, elementY));
-                context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
-                context.Element.IsInteractingObserver?.AddObserver(thumbOutlineInteractObserver);
-                context.Element.IsHoveringObserver?.AddObserver(thumbHoverObserver);
-                context.Element.IsHoveringObserver?.AddObserver(thumbOutlineHoverObserver);
-                context.Element.IsHoveringObserver?.AddObserver(fillHoverObserver);
-                context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
-                context.Observable.Notify(initial);
-                context.Element.IsHoveringObserver?.Notify(false);
-            }));
+        IOgSlider<IOgVisualElement> slider = m_SliderBuilder.Build(name, value, min, max, new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
+        {
+            context.ValueProvider.AddObserver(thumbObserver);
+            context.ValueProvider.AddObserver(thumbOutlineObserver);
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height * 2))
+                   .SetOption(new OgFlexiblePositionTransformerOption()).SetOption(new OgMarginTransformerOption(0, elementY));
+            context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
+            context.Element.IsInteractingObserver?.AddObserver(thumbOutlineInteractObserver);
+            context.Element.IsHoveringObserver?.AddObserver(thumbHoverObserver);
+            context.Element.IsHoveringObserver?.AddObserver(thumbOutlineHoverObserver);
+            context.Element.IsHoveringObserver?.AddObserver(fillHoverObserver);
+            context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
+            context.ValueProvider.Set(context.ValueProvider.Get());
+            context.Element.IsHoveringObserver?.Notify(false);
+        }));
         slider.Add(background);
         slider.Add(fill);
         slider.Add(thumbOutline);

@@ -1,5 +1,4 @@
-﻿using DK.Observing.Generic;
+﻿using DK.Property.Observing.Abstraction.Generic;
 using UnityEngine;
 namespace OG.Builder.Arguments.Interactive;
-public class OgScrollBuildArguments(string name, Vector2 value, DkObservable<Vector2> observable)
-    : OgValueElementBuildArguments<Vector2>(name, value, observable);
+public class OgScrollBuildArguments(string name, IDkObservableProperty<Vector2> value) : OgValueElementBuildArguments<Vector2>(name, value);

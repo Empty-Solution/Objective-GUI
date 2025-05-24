@@ -1,4 +1,6 @@
 ﻿using DK.Getting.Generic;
+using DK.Observing.Generic;
+using DK.Property.Observing.Generic;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Observing;
 using EH.Builder.Option;
@@ -23,12 +25,12 @@ using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhSubTabButtonBuilder(IEhVisualOption option)
 {
-    private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
-    private readonly        EhContainerBuilder      m_ContainerBuilder  = new();
-    private readonly        EhOptionsProvider       m_OptionsProvider   = new();
-    private readonly        EhTextBuilder           m_TextBuilder       = new(option);
-    private readonly        EhInternalToggleBuilder m_ToggleBuilder     = new();
-    private readonly List<EhBaseTabObserver> m_Observers           = [];
+    private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
+    private readonly EhContainerBuilder      m_ContainerBuilder  = new();
+    private readonly List<EhBaseTabObserver> m_Observers         = [];
+    private readonly EhOptionsProvider       m_OptionsProvider   = new();
+    private readonly EhTextBuilder           m_TextBuilder       = new(option);
+    private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
     public IOgContainer<IOgVisualElement> Build(string name, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtTabContainer) =>
         Build(name, separatorSelectorGetter, source, out builtTabContainer, m_OptionsProvider);
@@ -82,14 +84,17 @@ public class EhSubTabButtonBuilder(IEhVisualOption option)
                 backgroundEventHandler.Register(textGetter);
             }, textEventHandler);
         EhSubTabObserver tabObserver = new(m_Observers, source, builtTabContainer, option.Height, separatorSelectorGetter);
-        IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", false,
-            new([backgroundObserver, backgroundHoverObserver, textHoverObserver]), new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
+        IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", new DkObservableProperty<bool>(new DkObservable<bool>([]), false),
+            new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
+                context.ValueProvider.AddObserver(backgroundObserver);
+                context.ValueProvider.AddObserver(backgroundHoverObserver);
+                context.ValueProvider.AddObserver(textHoverObserver);
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height));
                 tabObserver.RectGetter         = context.RectGetProvider;
                 tabObserver.LinkedInteractable = context.Element;
-                context.Observable.AddObserver(tabObserver);
-                context.Observable.Notify(false);
+                context.ValueProvider.AddObserver(tabObserver);
+                context.ValueProvider.Set(false);
             }));
         button.Add(background);
         button.Add(text);

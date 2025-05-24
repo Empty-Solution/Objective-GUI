@@ -1,6 +1,6 @@
-﻿using DK.Observing.Generic;
-using DK.Processing.Abstraction.Generic;
+﻿using DK.Processing.Abstraction.Generic;
 using DK.Processing.Generic;
+using DK.Property.Observing.Abstraction.Generic;
 using OG.Builder.Contexts.Interactive;
 using OG.Builder.Interactive;
 using OG.Element.Interactive.Abstraction;
@@ -16,10 +16,10 @@ public class EhInternalToggleBuilder
         m_Processor       = new();
         m_OgToggleBuilder = new(new OgToggleFactory(), m_Processor);
     }
-    public IOgToggle<IOgVisualElement> Build(string name, bool value, DkObservable<bool> observable, IDkProcess<OgToggleBuildContext> process)
+    public IOgToggle<IOgVisualElement> Build(string name, IDkObservableProperty<bool> value, IDkProcess<OgToggleBuildContext> process)
     {
         m_Processor.AddProcess(process);
-        IOgToggle<IOgVisualElement> element = m_OgToggleBuilder.Build(new(name, value, observable));
+        IOgToggle<IOgVisualElement> element = m_OgToggleBuilder.Build(new(name, value));
         m_Processor.RemoveProcess(process);
         return element;
     }

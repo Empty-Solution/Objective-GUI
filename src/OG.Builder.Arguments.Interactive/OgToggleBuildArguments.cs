@@ -1,3 +1,3 @@
-﻿using DK.Observing.Generic;
+﻿using DK.Property.Observing.Abstraction.Generic;
 namespace OG.Builder.Arguments.Interactive;
-public class OgToggleBuildArguments(string name, bool value, DkObservable<bool> observable) : OgValueElementBuildArguments<bool>(name, value, observable);
+public class OgToggleBuildArguments(string name, IDkObservableProperty<bool> value) : OgValueElementBuildArguments<bool>(name, value);

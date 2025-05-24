@@ -1,4 +1,6 @@
 ﻿using DK.Getting.Generic;
+using DK.Observing.Generic;
+using DK.Property.Observing.Generic;
 using EH.Builder.Abstraction;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Observing;
@@ -23,11 +25,11 @@ using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhTabButtonBuilder : IEhTabButtonBuilder
 {
+    private static readonly List<EhBaseTabObserver> observers           = [];
     private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
     private readonly        EhContainerBuilder      m_ContainerBuilder  = new();
     private readonly        EhOptionsProvider       m_OptionsProvider   = new();
     private readonly        EhInternalToggleBuilder m_ToggleBuilder     = new();
-    private static readonly List<EhBaseTabObserver>     observers         = [];
     public IOgContainer<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtTabContainer) =>
         Build(name, texture, separatorSelectorGetter, source, out builtTabContainer, m_OptionsProvider);
@@ -57,15 +59,16 @@ public class EhTabButtonBuilder : IEhTabButtonBuilder
                 eventHandler.Register(getter);
             }, eventHandler, texture);
         EhTabObserver tabObserver = new(observers, source, builtTabContainer, option.TabButtonSize, separatorSelectorGetter);
-        IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", false, new([backgroundObserver]),
+        IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", new DkObservableProperty<bool>(new DkObservable<bool>([]), false),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
+                context.ValueProvider.AddObserver(backgroundObserver);
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.TabButtonSize, option.TabButtonSize))
                        .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, option.TabButtonOffset));
                 tabObserver.RectGetter         = context.RectGetProvider;
                 tabObserver.LinkedInteractable = context.Element;
-                context.Observable.AddObserver(tabObserver);
-                context.Observable.Notify(false);
+                context.ValueProvider.AddObserver(tabObserver);
+                context.ValueProvider.Set(false);
             }));
         button.Add(image);
         return button;

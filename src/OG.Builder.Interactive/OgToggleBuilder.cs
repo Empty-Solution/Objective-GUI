@@ -1,5 +1,4 @@
 ﻿using DK.Processing.Abstraction.Generic;
-using DK.Property.Observing.Generic;
 using OG.Builder.Arguments.Interactive;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Transformer;
@@ -20,9 +19,6 @@ public class OgToggleBuilder(IOgElementFactory<IOgToggle<IOgVisualElement>, OgTo
     protected override OgToggleFactoryArguments BuildFactoryArguments(OgToggleBuildContext context, OgToggleBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, context.ValueProvider);
-    protected override OgToggleBuildContext BuildContext(OgToggleBuildArguments args, IOgEventHandlerProvider provider, OgTransformerRectGetter getter)
-    {
-        DkObservableProperty<bool> property = new(args.Observable, args.Value);
-        return new(null!, getter, property, args.Observable);
-    }
+    protected override OgToggleBuildContext BuildContext(OgToggleBuildArguments args, IOgEventHandlerProvider provider, OgTransformerRectGetter getter) =>
+        new(null!, getter, args.Value);
 }

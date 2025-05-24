@@ -1,7 +1,6 @@
-﻿using DK.Observing.Generic;
+﻿using DK.Property.Observing.Abstraction.Generic;
 namespace OG.Builder.Arguments;
-public class OgValueElementBuildArguments<TValue>(string name, TValue value, DkObservable<TValue> observable) : OgElementBuildArguments(name)
+public class OgValueElementBuildArguments<TValue>(string name, IDkObservableProperty<TValue> value) : OgElementBuildArguments(name)
 {
-    public TValue               Value      => value;
-    public DkObservable<TValue> Observable => observable;
+    public IDkObservableProperty<TValue> Value => value;
 }

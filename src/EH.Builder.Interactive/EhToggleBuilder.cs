@@ -1,5 +1,5 @@
 ﻿using DK.Getting.Generic;
-using DK.Observing.Generic;
+using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Abstraction;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Option;
@@ -31,9 +31,8 @@ public class EhToggleBuilder(IEhVisualOption context) : IEhToggleBuilder
     private readonly EhTextBuilder           m_TextBuilder       = new(context);
     private readonly EhThumbBuilder          m_ThumbBuilder      = new();
     private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
-    public IOgContainer<IOgElement> Build(string name, bool initial, DkObserver<bool>? observer = null) =>
-        Build(name, initial, observer, m_OptionsProvider);
-    private IOgContainer<IOgElement> Build(string name, bool initial, DkObserver<bool>? observer, EhOptionsProvider provider)
+    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value) => Build(name, value, m_OptionsProvider);
+    private IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value, EhOptionsProvider provider)
     {
         EhToggleOption option = provider.ToggleOption;
         IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",
@@ -103,20 +102,20 @@ public class EhToggleBuilder(IEhVisualOption context) : IEhToggleBuilder
                 backgroundGetter.RenderCallback = context.RectGetProvider;
                 backgroundEventHandler.Register(backgroundGetter);
             }, backgroundEventHandler);
-        IOgToggle<IOgVisualElement> toggle = m_ToggleBuilder.Build(name, initial, new([fillObserver, thumbObserver]),
-            new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
-            {
-                if(observer is not null) context.Observable.AddObserver(observer);
-                context.RectGetProvider.Options.SetOption(new OgMinSizeTransformerOption(option.Width, option.Height))
-                       .SetOption(new OgFlexiblePositionTransformerOption()).SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleLeft));
-                context.Element.IsInteractingObserver?.AddObserver(fillInteractObserver);
-                context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
-                context.Element.IsHoveringObserver?.AddObserver(fillHoverObserver);
-                context.Element.IsHoveringObserver?.AddObserver(thumbHoverObserver);
-                context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
-                context.Observable.Notify(initial);
-                context.Element.IsHoveringObserver?.Notify(false);
-            }));
+        IOgToggle<IOgVisualElement> toggle = m_ToggleBuilder.Build(name, value, new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
+        {
+            context.ValueProvider.AddObserver(fillObserver);
+            context.ValueProvider.AddObserver(thumbObserver);
+            context.RectGetProvider.Options.SetOption(new OgMinSizeTransformerOption(option.Width, option.Height))
+                   .SetOption(new OgFlexiblePositionTransformerOption()).SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleLeft));
+            context.Element.IsInteractingObserver?.AddObserver(fillInteractObserver);
+            context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
+            context.Element.IsHoveringObserver?.AddObserver(fillHoverObserver);
+            context.Element.IsHoveringObserver?.AddObserver(thumbHoverObserver);
+            context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
+            context.ValueProvider.Set(context.ValueProvider.Get());
+            context.Element.IsHoveringObserver?.Notify(false);
+        }));
         toggle.Add(background);
         toggle.Add(fill);
         toggle.Add(thumb);

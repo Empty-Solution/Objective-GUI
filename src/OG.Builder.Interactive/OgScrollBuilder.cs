@@ -1,5 +1,4 @@
 ﻿using DK.Processing.Abstraction.Generic;
-using DK.Property.Observing.Generic;
 using OG.Builder.Arguments.Interactive;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Transformer;
@@ -9,7 +8,6 @@ using OG.Event.Abstraction;
 using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
-using UnityEngine;
 namespace OG.Builder.Interactive;
 public class OgScrollBuilder(IOgElementFactory<IOgVectorValueElement<IOgElement>, OgScrollFactoryArguments> factory,
     IDkProcessor<OgScrollBuildContext>? processor)
@@ -21,9 +19,6 @@ public class OgScrollBuilder(IOgElementFactory<IOgVectorValueElement<IOgElement>
     protected override OgScrollFactoryArguments BuildFactoryArguments(OgScrollBuildContext context, OgScrollBuildArguments args,
         IOgEventHandlerProvider provider) =>
         new(args.Name, context.RectGetProvider, provider, context.ValueProvider, context.RectGetProvider);
-    protected override OgScrollBuildContext BuildContext(OgScrollBuildArguments args, IOgEventHandlerProvider provider, OgTransformerRectField getter)
-    {
-        DkObservableProperty<Vector2> property = new(args.Observable, args.Value);
-        return new(null!, getter, property, args.Observable);
-    }
+    protected override OgScrollBuildContext BuildContext(OgScrollBuildArguments args, IOgEventHandlerProvider provider, OgTransformerRectField getter) =>
+        new(null!, getter, args.Value);
 }

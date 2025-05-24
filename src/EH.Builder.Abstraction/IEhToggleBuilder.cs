@@ -1,8 +1,8 @@
-﻿using DK.Observing.Generic;
+﻿using DK.Property.Observing.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 namespace EH.Builder.Abstraction;
 public interface IEhToggleBuilder
 {
-    IOgContainer<IOgElement> Build(string name, bool initial, DkObserver<bool>? observer = null);
+    IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value);
 }

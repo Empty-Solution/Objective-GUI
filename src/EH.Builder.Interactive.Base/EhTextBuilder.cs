@@ -2,6 +2,7 @@
 using DK.Getting.Abstraction.Generic;
 using DK.Observing.Generic;
 using DK.Property.Generic;
+using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Option.Abstraction;
 using EH.Builder.Visual;
 using OG.Builder.Contexts.Visual;
@@ -15,11 +16,10 @@ namespace EH.Builder.Interactive.Base;
 public class EhTextBuilder(IEhVisualOption context)
 {
     private readonly EhInternalTextBuilder m_TextBuilder = new(context);
-    public (OgTextElement Element, DkScriptableObserver<float> Observer) BuildSliderValueText(string name, IDkGetProvider<Color> colorGetter,
-        string textFormat, float initial, int round, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0,
-        IOgEventHandlerProvider? provider = null)
+    public OgTextElement BuildSliderValueText(string name, IDkGetProvider<Color> colorGetter, string textFormat, IDkObservableProperty<float> value,
+        int round, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0, IOgEventHandlerProvider? provider = null)
     {
-        DkProperty<string> textProperty = new(string.Format(textFormat, initial));
+        DkProperty<string> textProperty = new(string.Format(textFormat, value));
         OgTextElement text = m_TextBuilder.Build($"{name}TextValue", colorGetter, provider, fontSize, alignment, textProperty,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
             {
@@ -27,12 +27,13 @@ public class EhTextBuilder(IEhVisualOption context)
                        .SetOption(new OgMarginTransformerOption(x, y));
             }), out DkBinding<string> textValueBinding);
         DkScriptableObserver<float> textObserver = new();
-        textObserver.OnUpdate += value =>
+        textObserver.OnUpdate += newValue =>
         {
-            textProperty.Set(string.Format(textFormat, Math.Round(value, round)));
+            textProperty.Set(string.Format(textFormat, Math.Round(newValue, round)));
             textValueBinding.Sync();
         };
-        return (text, textObserver);
+        value.AddObserver(textObserver);
+        return text;
     }
     public OgTextElement BuildStaticText(string name, IDkGetProvider<Color> colorGetter, string text, int fontSize, TextAnchor alignment, float width,
         float height, float x = 0, float y = 0, Action<OgTextBuildContext>? action = null, IOgEventHandlerProvider? provider = null)
