@@ -1,4 +1,5 @@
-﻿using DK.Processing.Abstraction.Generic;
+﻿using DK.Observing.Generic;
+using DK.Processing.Abstraction.Generic;
 using OG.Builder.Arguments.Interactive;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Transformer;
@@ -23,4 +24,9 @@ public class OgModalButtonBuilder(IOgElementFactory<IOgModalInteractable<IOgElem
     protected override OgModalButtonBuildContext BuildContext(OgModalButtonBuildArguments args, IOgEventHandlerProvider provider,
         OgTransformerRectGetter getter) =>
         new(null!, getter);
+    protected override void InternalProcessContext(OgModalButtonBuildContext context)
+    {
+        base.InternalProcessContext(context);
+        context.Element.IsModalInteractObserver = new DkObservable<bool>([]);
+    }
 }

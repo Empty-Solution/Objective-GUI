@@ -23,13 +23,13 @@ using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhSliderBuilder(IEhVisualOption context)
 {
-    private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
-    private readonly EhContainerBuilder      m_ContainerBuilder  = new();
-    private readonly EhFillBuilder           m_FillBuilder       = new();
-    private readonly EhOptionsProvider       m_OptionsProvider   = new();
-    private readonly EhInternalSliderBuilder m_SliderBuilder     = new();
-    private readonly EhTextBuilder           m_TextBuilder       = new(context);
-    private readonly EhThumbBuilder          m_ThumbBuilder      = new();
+    private readonly EhBackgroundBuilder               m_BackgroundBuilder = new();
+    private readonly EhContainerBuilder                m_ContainerBuilder  = new();
+    private readonly EhFillBuilder                     m_FillBuilder       = new();
+    private readonly EhOptionsProvider                 m_OptionsProvider   = new();
+    private readonly EhInternalHorizontalSliderBuilder m_SliderBuilder     = new();
+    private readonly EhTextBuilder                     m_TextBuilder       = new(context);
+    private readonly EhThumbBuilder                    m_ThumbBuilder      = new();
     public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round = 0) =>
         Build(name, value, min, max, textFormat, round, m_OptionsProvider);
     private IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round,

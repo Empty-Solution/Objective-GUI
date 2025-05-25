@@ -10,6 +10,7 @@ public class EhOptionsProvider
     public EhInteractableElementOption InteractableElementOption { get; }      = new();
     public EhTabButtonOption           TabButtonOption           { get; }      = new();
     public EhDropdownOption            DropdownOption            { get; }      = new();
+    public EhPickerOption              PickerOption              { get; }      = new();
     public float                       SeparatorOffset           { get; set; } = 8;
     public DkProperty<Color>           SeparatorColor            { get; }      = new(new Color32(100, 100, 100, 150));
     public DkProperty<Color>           SeparatorThumbColor       { get; }      = new(new Color32(255, 255, 255, 255));

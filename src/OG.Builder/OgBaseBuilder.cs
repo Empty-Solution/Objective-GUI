@@ -26,14 +26,10 @@ public abstract class
         context.Element = element;
         InternalProcessContext(context);
         processor?.Process(context);
-        PostProcessContext(context);
         return element;
     }
     protected abstract TGetter BuildGetter(TArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container);
     protected abstract TFactoryArguments BuildFactoryArguments(TContext context, TArguments args, IOgEventHandlerProvider provider);
     protected abstract TContext BuildContext(TArguments args, IOgEventHandlerProvider provider, TGetter getter);
     protected abstract void InternalProcessContext(TContext context);
-    protected virtual void PostProcessContext(TContext context)
-    {
-    }
 }

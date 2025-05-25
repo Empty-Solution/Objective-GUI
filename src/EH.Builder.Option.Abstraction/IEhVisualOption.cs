@@ -2,5 +2,6 @@
 namespace EH.Builder.Option.Abstraction;
 public interface IEhVisualOption
 {
-    Font Font { get; set; }
+    Font     Font     { get; }
+    Material Material { get; }
 }

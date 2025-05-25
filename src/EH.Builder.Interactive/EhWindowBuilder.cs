@@ -7,8 +7,10 @@ using OG.DataKit.Processing;
 using OG.DataKit.Transformer;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
+using OG.Element.Interactive;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
+using OG.Event;
 using OG.Transformer.Options;
 namespace EH.Builder.Interactive;
 public class EhWindowBuilder
@@ -17,11 +19,12 @@ public class EhWindowBuilder
     private readonly EhContainerBuilder         m_ContainerBuilder  = new();
     private readonly EhInternalDraggableBuilder m_DraggableBuilder  = new();
     private readonly EhOptionsProvider          m_OptionsProvider   = new();
-    public IOgContainer<IOgElement> Build(out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer, out IOgContainer<IOgElement> toolbarContainer,
-        out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter,
+    public IOgContainer<IOgElement> Build(out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
+        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter,
         out OgAnimationRectGetter<OgTransformerRectGetter> subTabSeparatorSelectorGetter, float x = 0, float y = 0) =>
-        Build(y, x, out tabButtonsContainer, out tabContainer, out toolbarContainer, out tabSeparatorSelectorGetter, out subTabSeparatorSelectorGetter, m_OptionsProvider);
-    private IOgContainer<IOgElement> Build(float x, float y, out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer, 
+        Build(y, x, out tabButtonsContainer, out tabContainer, out toolbarContainer, out tabSeparatorSelectorGetter, out subTabSeparatorSelectorGetter,
+            m_OptionsProvider);
+    private IOgContainer<IOgElement> Build(float x, float y, out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
         out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter,
         out OgAnimationRectGetter<OgTransformerRectGetter> subTabSeparatorSelectorGetter, EhOptionsProvider provider)
     {
@@ -29,7 +32,7 @@ public class EhWindowBuilder
         IOgDraggableElement<IOgElement> window = m_DraggableBuilder.Build("MainWindow", new OgScriptableBuilderProcess<OgDraggableBuildContext>(context =>
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height))
-                    .SetOption(new OgMarginTransformerOption(x, y));
+                   .SetOption(new OgMarginTransformerOption(x, y));
         }));
         IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build("MainWindowTabButtonsContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
@@ -85,11 +88,17 @@ public class EhWindowBuilder
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonOption.TabButtonSize, tabButtonsContainerHeight))
                    .SetOption(new OgMarginTransformerOption(option.TabButtonsContainerOffset, containerY + option.ToolbarContainerOffset));
         }));
-        tabContainer = m_ContainerBuilder.Build("MainWindowTabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-        {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonOption.TabContainerWidth, tabButtonsContainerHeight))
-                   .SetOption(new OgMarginTransformerOption(tabContainerX + option.TabButtonsContainerOffset, containerY + option.ToolbarContainerOffset));
-        }));
+        OgEventHandlerProvider  eventProvider = new();
+        OgTransformerRectGetter getter        = new(eventProvider, new OgOptionsContainer());
+        getter.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonOption.TabContainerWidth, tabButtonsContainerHeight))
+              .SetOption(new OgMarginTransformerOption(tabContainerX + option.TabButtonsContainerOffset, containerY + option.ToolbarContainerOffset));
+        tabContainer          = new OgInteractableElement<IOgElement>("MainWindowTabContainer", eventProvider, getter);
+        getter.LayoutCallback = tabContainer;
+        //tabContainer = m_ContainerBuilder.Build("MainWindowTabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        //{
+        //    context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonOption.TabContainerWidth, tabButtonsContainerHeight))
+        //           .SetOption(new OgMarginTransformerOption(tabContainerX + option.TabButtonsContainerOffset, containerY + option.ToolbarContainerOffset));
+        //}));
         sourceContainer.Add(tabButtonsContainer);
         sourceContainer.Add(tabContainer);
         window.Add(m_BackgroundBuilder.Build("MainWindowBackground", option.BackgroundColorProperty, option.Width, option.Height, 0, 0,

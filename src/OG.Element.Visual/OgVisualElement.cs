@@ -14,12 +14,12 @@ public abstract class OgVisualElement<TContext> : OgElement, IOgVisualElement, I
     public bool Invoke(IOgRenderEvent reason)
     {
         FillContext();
-        if(m_RenderContext is null) return false;
-        IOgGraphics graphics = reason.GetGraphics(m_RenderContext!);
+        if(m_RenderContext == null) return false;
+        IOgGraphics graphics = reason.GetGraphics(m_RenderContext);
         Rect        rect     = ElementRect.Get();
         rect.position              += reason.Global;
         m_RenderContext.RenderRect =  rect;
-        graphics.PushContext(m_RenderContext!);
+        graphics.PushContext(m_RenderContext);
         return false;
     }
     protected abstract void FillContext();

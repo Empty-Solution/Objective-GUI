@@ -3,37 +3,61 @@ using DK.Observing.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
+using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 using OG.Graphics.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public class OgModalInteractable<TElement>(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, bool rightClickOnly)
-    : OgInteractableElement<TElement>(name, provider, rectGetter), IOgModalInteractable<TElement>, IOgEventCallback<IOgPostRenderEvent>
-    where TElement : IOgElement
+public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgModalInteractable<TElement>, IOgEventCallback<IOgPostRenderEvent>,
+                                             IOgEventCallback<IOgMouseKeyUpEvent>, IOgEventCallback<IOgMouseKeyDownEvent> where TElement : IOgElement
 {
-    protected bool ShouldRender { get; set; }
+    private readonly bool m_RightClickOnly;
+    private          bool OnlyProcessed;
+    public OgModalInteractable(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, bool rightClickOnly) : base(name, provider,
+        rectGetter)
+    {
+        m_RightClickOnly = rightClickOnly;
+        provider.Register<IOgMouseKeyUpEvent>(this);
+        provider.Register<IOgMouseKeyDownEvent>(this);
+    }
+    protected bool ShouldProcess { get; set; }
+    public bool Invoke(IOgMouseKeyDownEvent reason)
+    {
+        if(OnlyProcessed)
+        {
+            OnlyProcessed = false;
+            return true;
+        }
+        if(!ShouldProcess && !IsHovering) return false;
+        base.Invoke(reason);
+        return true;
+    }
+    public bool Invoke(IOgMouseKeyUpEvent reason)
+    {
+        if(ShouldProcess && base.Invoke(reason)) return true;
+        if(m_RightClickOnly && !IsHovering && reason.Key == 1) return false;
+        bool oldShouldProcess = ShouldProcess;
+        ShouldProcess = IsHovering;
+        OnlyProcessed = ShouldProcess;
+        IsModalInteractObserver?.Notify(ShouldProcess);
+        return oldShouldProcess || IsHovering;
+    }
     public bool Invoke(IOgPostRenderEvent reason)
     {
-        if(!ShouldRender) return false;
+        if(!ShouldProcess) return false;
         foreach(IOgGraphics graphics in reason.Graphics) graphics.ProcessContexts();
         return true;
     }
+    public IDkObservable<bool>? IsInteractingObserver   { get; set; }
     public IDkObservable<bool>? IsModalInteractObserver { get; set; }
     public override bool Invoke(IOgRenderEvent reason)
     {
-        if(!ShouldRender) return false;
+        if(!ShouldProcess) return false;
         Rect rect = ElementRect.Get();
         reason.Global += rect.position;
         ProcessElementsEventForward(reason);
         reason.Global -= rect.position;
         return false;
     }
-    protected override bool PreEndControl(IOgMouseKeyUpEvent reason)
-    {
-        base.PreEndControl(reason);
-        if(!rightClickOnly && IsHovering && reason.Key == 1) return false;
-        ShouldRender = IsHovering;
-        IsModalInteractObserver?.Notify(ShouldRender);
-        return false;
-    }
+    public override bool Invoke(IOgInputEvent reason) => ShouldProcess && base.Invoke(reason);
 }

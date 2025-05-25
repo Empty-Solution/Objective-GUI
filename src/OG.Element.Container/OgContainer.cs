@@ -59,7 +59,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         return false;
     }
     public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
-    public bool Invoke(IOgInputEvent reason)
+    public virtual bool Invoke(IOgInputEvent reason)
     {
         Rect rect = ElementRect.Get();
         reason.LocalMousePosition -= rect.position;

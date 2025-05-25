@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using DK.Getting.Abstraction.Generic;
+using UnityEngine;
 namespace OG.Builder.Arguments.Visual;
-public class OgQuadBuildArguments(string name, Color topLeft, Color topRight, Color bottomLeft, Color bottomRight) : OgElementBuildArguments(name)
+public class OgQuadBuildArguments(string name, IDkGetProvider<Color> topLeft, IDkGetProvider<Color> topRight, IDkGetProvider<Color> bottomLeft,
+    IDkGetProvider<Color> bottomRight) : OgElementBuildArguments(name)
 {
-    public Color TopLeft     { get; } = topLeft;
-    public Color TopRight    { get; } = topRight;
-    public Color BottomLeft  { get; } = bottomLeft;
-    public Color BottomRight { get; } = bottomRight;
+    public IDkGetProvider<Color> TopLeft     { get; } = topLeft;
+    public IDkGetProvider<Color> TopRight    { get; } = topRight;
+    public IDkGetProvider<Color> BottomLeft  { get; } = bottomLeft;
+    public IDkGetProvider<Color> BottomRight { get; } = bottomRight;
 }

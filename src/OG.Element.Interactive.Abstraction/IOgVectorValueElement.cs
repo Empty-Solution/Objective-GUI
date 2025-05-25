@@ -4,5 +4,5 @@ using UnityEngine;
 namespace OG.Element.Interactive.Abstraction;
 public interface IOgVectorValueElement<TElement> : IOgInteractableValueElement<TElement, Vector2> where TElement : IOgElement
 {
-    IDkReadOnlyRange<Vector2>? Range { get; }
+    IDkReadOnlyRange<Vector2>? Range { get; set; }
 }
