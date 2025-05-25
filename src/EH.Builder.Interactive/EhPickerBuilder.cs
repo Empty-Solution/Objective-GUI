@@ -11,6 +11,7 @@ using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
 using OG.Builder.Contexts.Visual;
 using OG.DataKit.Processing;
+using OG.DataTypes.Orientation;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Element.Interactive;
@@ -39,7 +40,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height))
-                       .SetOption(new OgMarginTransformerOption(x, y));
+                       .SetOption(new OgMarginTransformerOption(x, y)).SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL));
             }));
         IOgModalInteractable<IOgElement> button = m_ModalInteractableBuilder.Build($"{name}", false,
             new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>
@@ -59,9 +60,9 @@ public class EhPickerBuilder(IEhVisualOption visual)
         float                       huePickerWidth  = option.ModalWindowWidth - (option.PickerOffset * 2);
         float                       huePickerHeight = option.ModalWindowHeight * 0.1f;
         DkObservableProperty<float> hue             = new(new DkObservable<float>([]), hsvaColor.H);
-        button.Add(BuildHuePicker(name, huePickerWidth, huePickerHeight, hsvaColor, option, value, hue));
+        button.Add(BuildHuePicker(name, huePickerWidth, huePickerHeight, option, value, hue));
         float alphaPickerWidth  = option.ModalWindowWidth * 0.1f;
-        float alphaPickerHeight = (option.ModalWindowHeight * 0.8f) - (option.PickerOffset * 2);
+        float alphaPickerHeight = (option.ModalWindowHeight * 0.8f) - option.PickerOffset;
         float alphaPickerX      = option.ModalWindowWidth - alphaPickerWidth - option.PickerOffset;
         float alphaPickerY      = huePickerHeight + (option.PickerOffset * 2);
         button.Add(BuildAlphaPicker(name, alphaPickerWidth, alphaPickerHeight, alphaPickerX, alphaPickerY, hsvaColor, option, value));
@@ -136,7 +137,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
         alphaPicker.Add(alphaBackground);
         return alphaPicker;
     }
-    private IOgSlider<IOgVisualElement> BuildHuePicker(string name, float huePickerWidth, float huePickerHeight, HSVAColor hsvaColor,
+    private IOgSlider<IOgVisualElement> BuildHuePicker(string name, float huePickerWidth, float huePickerHeight,
         EhPickerOption option, IDkProperty<Color> value, DkObservableProperty<float> hue)
     {
         DkScriptableObserver<float> hueObserver = new();
