@@ -3,5 +3,5 @@ using OG.Element.Abstraction;
 namespace OG.Element.Interactive.Abstraction;
 public interface IOgModalInteractable<TElement> : IOgInteractableElement<TElement> where TElement : IOgElement
 {
-    public IDkObservable<bool>? IsRenderModalObserver { get; set; }
+    public IDkObservable<bool>? IsModalInteractObserver { get; set; }
 }

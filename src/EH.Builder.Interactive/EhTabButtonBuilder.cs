@@ -56,7 +56,7 @@ public class EhTabButtonBuilder
                 backgroundObserver.Getter     = getter;
                 getter.RenderCallback         = context.RectGetProvider;
                 eventHandler.Register(getter);
-            }, eventHandler, texture);
+            }, eventHandler, new(), texture);
         EhTabObserver tabObserver = new(observers, source, builtTabContainer, option.TabButtonSize, separatorSelectorGetter);
         IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", new DkObservableProperty<bool>(new DkObservable<bool>([]), false),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>

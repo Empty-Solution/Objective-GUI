@@ -18,7 +18,7 @@ public class OgModalInteractable<TElement>(string name, IOgEventHandlerProvider 
         foreach(IOgGraphics graphics in reason.Graphics) graphics.ProcessContexts();
         return true;
     }
-    public IDkObservable<bool>? IsRenderModalObserver { get; set; }
+    public IDkObservable<bool>? IsModalInteractObserver { get; set; }
     public override bool Invoke(IOgRenderEvent reason)
     {
         if(!ShouldRender) return false;
@@ -33,7 +33,7 @@ public class OgModalInteractable<TElement>(string name, IOgEventHandlerProvider 
         base.PreEndControl(reason);
         if(!rightClickOnly && IsHovering && reason.Key == 1) return false;
         ShouldRender = IsHovering;
-        IsRenderModalObserver?.Notify(ShouldRender);
+        IsModalInteractObserver?.Notify(ShouldRender);
         return false;
     }
 }

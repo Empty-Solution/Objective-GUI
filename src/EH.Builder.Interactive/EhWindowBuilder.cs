@@ -28,13 +28,13 @@ public class EhWindowBuilder
         EhWindowOption option = provider.WindowOption;
         IOgDraggableElement<IOgElement> window = m_DraggableBuilder.Build("MainWindow", new OgScriptableBuilderProcess<OgDraggableBuildContext>(context =>
         {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height));
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height))
+                    .SetOption(new OgMarginTransformerOption(x, y));
         }));
         IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build("MainWindowTabButtonsContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height))
-                       .SetOption(new OgMarginTransformerOption(x, y));
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height));
             }));
         #region separators
         float tabButtonsContainerHeight = option.Height - option.ToolbarContainerHeight;
