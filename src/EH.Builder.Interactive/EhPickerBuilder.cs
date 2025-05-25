@@ -50,26 +50,33 @@ public class EhPickerBuilder(IEhVisualOption visual)
         OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", value, option.Width, option.Height, 0, 0, option.Border);
         container.Add(background);
         container.Add(button);
+        IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}SourceContainer",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.ModalWindowWidth, option.ModalWindowHeight))
+                       .SetOption(new OgMarginTransformerOption(option.Width, option.Height));
+            }));
         OgTextureElement modalBackground = m_BackgroundBuilder.Build($"{name}ModalBackground", option.BackgroundColorProperty, option.ModalWindowWidth,
             option.ModalWindowHeight, 0, 0, option.ModalBorder);
         OgInteractableElement<IOgElement> interactable = new($"{name}ModalInteractable", new OgEventHandlerProvider(),
             new DkReadOnlyGetter<Rect>(new(0, 0, option.ModalWindowWidth, option.ModalWindowHeight)));
         interactable.Add(modalBackground);
-        button.Add(interactable);
-        HSVAColor                   hsvaColor       = (HSVAColor)value.Get();
-        float                       huePickerWidth  = option.ModalWindowWidth - (option.PickerOffset * 2);
-        float                       huePickerHeight = option.ModalWindowHeight * 0.1f;
-        DkObservableProperty<float> hue             = new(new DkObservable<float>([]), hsvaColor.H);
-        button.Add(BuildHuePicker(name, huePickerWidth, huePickerHeight, option, value, hue));
-        float alphaPickerWidth  = option.ModalWindowWidth * 0.1f;
-        float alphaPickerHeight = (option.ModalWindowHeight * 0.8f) - option.PickerOffset;
-        float alphaPickerX      = option.ModalWindowWidth - alphaPickerWidth - option.PickerOffset;
-        float alphaPickerY      = huePickerHeight + (option.PickerOffset * 2);
-        button.Add(BuildAlphaPicker(name, alphaPickerWidth, alphaPickerHeight, alphaPickerX, alphaPickerY, hsvaColor, option, value));
-        button.Add(BuildSVPicker(name, alphaPickerHeight, alphaPickerWidth, alphaPickerY, hsvaColor, option, value, hue));
+        sourceContainer.Add(interactable);
+        HSVAColor                   hsvaColor         = (HSVAColor)value.Get();
+        DkObservableProperty<float> hue               = new(new DkObservable<float>([]), hsvaColor.H);
+        float                       huePickerWidth    = option.ModalWindowWidth - (option.PickerOffset * 2);
+        float                       huePickerHeight   = option.ModalWindowHeight * 0.1f;
+        float                       alphaPickerWidth  = option.ModalWindowWidth * 0.1f;
+        float                       alphaPickerHeight = (option.ModalWindowHeight * 0.8f) - option.PickerOffset;
+        float                       alphaPickerX      = option.ModalWindowWidth - alphaPickerWidth - option.PickerOffset;
+        float                       alphaPickerY      = huePickerHeight + (option.PickerOffset * 2);
+        sourceContainer.Add(BuildHuePicker(name, huePickerWidth, huePickerHeight, option, value, hue));
+        sourceContainer.Add(BuildAlphaPicker(name, alphaPickerWidth, alphaPickerHeight, alphaPickerX, alphaPickerY, hsvaColor, option, value));
+        sourceContainer.Add(BuildSvPicker(name, alphaPickerHeight, alphaPickerWidth, alphaPickerY, hsvaColor, option, value, hue));
+        button.Add(sourceContainer);
         return container;
     }
-    private IOgVectorValueElement<IOgVisualElement> BuildSVPicker(string name, float alphaPickerHeight, float alphaPickerWidth, float alphaPickerY,
+    private IOgVectorValueElement<IOgVisualElement> BuildSvPicker(string name, float alphaPickerHeight, float alphaPickerWidth, float alphaPickerY,
         HSVAColor hsvaColor, EhPickerOption option, IDkProperty<Color> value, DkObservableProperty<float> hue)
     {
         DkObservableProperty<Vector2> sV         = new(new DkObservable<Vector2>([]), new(hsvaColor.S, hsvaColor.V));

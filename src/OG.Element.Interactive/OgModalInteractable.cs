@@ -12,7 +12,6 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgMo
                                              IOgEventCallback<IOgMouseKeyUpEvent>, IOgEventCallback<IOgMouseKeyDownEvent> where TElement : IOgElement
 {
     private readonly bool m_RightClickOnly;
-    private          bool OnlyProcessed;
     public OgModalInteractable(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, bool rightClickOnly) : base(name, provider,
         rectGetter)
     {
@@ -23,11 +22,6 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgMo
     protected bool ShouldProcess { get; set; }
     public bool Invoke(IOgMouseKeyDownEvent reason)
     {
-        if(OnlyProcessed)
-        {
-            OnlyProcessed = false;
-            return true;
-        }
         if(!ShouldProcess && !IsHovering) return false;
         base.Invoke(reason);
         return true;
@@ -37,8 +31,7 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgMo
         if(ShouldProcess && base.Invoke(reason)) return true;
         if(m_RightClickOnly && !IsHovering && reason.Key == 1) return false;
         bool oldShouldProcess = ShouldProcess;
-        ShouldProcess = IsHovering;
-        OnlyProcessed = ShouldProcess;
+        ShouldProcess = IsHovering && !oldShouldProcess;
         IsModalInteractObserver?.Notify(ShouldProcess);
         return oldShouldProcess || IsHovering;
     }
