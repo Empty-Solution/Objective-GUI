@@ -1,4 +1,5 @@
-﻿using DK.Getting.Generic;
+﻿using DK.Getting.Abstraction.Generic;
+using DK.Getting.Generic;
 using DK.Observing.Generic;
 using DK.Property.Observing.Generic;
 using EH.Builder.Interactive.Base;
@@ -22,7 +23,7 @@ using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhTabButtonBuilder 
+public class EhTabBuilder
 {
     private static readonly List<EhBaseTabObserver> observers           = [];
     private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
@@ -30,24 +31,32 @@ public class EhTabButtonBuilder
     private readonly        EhOptionsProvider       m_OptionsProvider   = new();
     private readonly        EhInternalToggleBuilder m_ToggleBuilder     = new();
     public IOgContainer<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
-        IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtTabContainer) =>
-        Build(name, texture, separatorSelectorGetter, source, out builtTabContainer, m_OptionsProvider);
+        IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtLeftTabContainer, out IOgContainer<IOgElement> builtRightTabContainer) =>
+        Build(name, texture, separatorSelectorGetter, source, out builtLeftTabContainer, out builtRightTabContainer, m_OptionsProvider);
     private IOgToggle<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
-        IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtTabContainer, EhOptionsProvider provider)
+        IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtLeftTabContainer, out IOgContainer<IOgElement> builtRightTabContainer,
+        EhOptionsProvider provider)
     {
-        EhTabButtonOption option             = provider.TabButtonOption;
-        float             tabContainerHeight = provider.WindowOption.Height - provider.WindowOption.ToolbarContainerHeight;
+        EhTabButtonOption option = provider.TabButtonOption;
+        float tabContainerHeight = provider.WindowOption.Height - provider.WindowOption.ToolbarContainerHeight - (provider.SeparatorOffset * 2) -
+                                   (provider.WindowOption.ToolbarContainerOffset * 2);
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundObserver = new((getter, state) =>
         {
             getter.SetTime();
-            getter.TargetModifier = state ? option.BackgroundInteractColorProperty.Get() : option.BackgroundColorProperty.Get();
+            getter.TargetModifier = state ? option.InteractColor.Get() : option.ButtonColor.Get();
         });
         OgEventHandlerProvider eventHandler = new();
         OgAnimationColorGetter getter       = new(eventHandler);
-        builtTabContainer = m_ContainerBuilder.Build($"{name}TabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-        {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.TabContainerWidth, tabContainerHeight));
-        }));
+        IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}SourceGlobalTabContainer",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption((option.TabContainerWidth * 2) + (option.TabContainerPadding * 3),
+                    tabContainerHeight));
+            }));
+        sourceContainer.Add(BuildTabContainer(name, out builtLeftTabContainer, option.TabContainerWidth, tabContainerHeight, option.TabButtonOffset,
+            option.BackgroundBorder, option.BackgroundColor));
+        sourceContainer.Add(BuildTabContainer(name, out builtRightTabContainer, option.TabContainerWidth, tabContainerHeight,
+            (option.TabButtonOffset * 2) + option.TabContainerWidth, option.BackgroundBorder, option.BackgroundColor));
         OgTextureElement image = m_BackgroundBuilder.Build($"{name}Background", getter, option.TabButtonSize, option.TabButtonSize, 0, 0,
             option.TabButtonBorder, context =>
             {
@@ -57,7 +66,7 @@ public class EhTabButtonBuilder
                 getter.RenderCallback         = context.RectGetProvider;
                 eventHandler.Register(getter);
             }, eventHandler, new(), texture);
-        EhTabObserver tabObserver = new(observers, source, builtTabContainer, option.TabButtonSize, separatorSelectorGetter);
+        EhTabObserver tabObserver = new(observers, source, sourceContainer, option.TabButtonSize, separatorSelectorGetter);
         IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", new DkObservableProperty<bool>(new DkObservable<bool>([]), false),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
@@ -71,5 +80,21 @@ public class EhTabButtonBuilder
             }));
         button.Add(image);
         return button;
+    }
+    private IOgContainer<IOgElement> BuildTabContainer(string name, out IOgContainer<IOgElement> builtContainer, float width, float height, float x,
+        float border, IDkGetProvider<Color> colorGetter)
+    {
+        IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}SourceTabContainer",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height)).SetOption(new OgMarginTransformerOption(x));
+            }));
+        builtContainer = m_ContainerBuilder.Build($"{name}TabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        {
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height));
+        }));
+        sourceContainer.Add(m_BackgroundBuilder.Build($"{name}TabContainerBackground", colorGetter, width, height, 0, 0, border));
+        sourceContainer.Add(builtContainer);
+        return sourceContainer;
     }
 }

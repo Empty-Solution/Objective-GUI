@@ -41,8 +41,12 @@ public class EhSliderBuilder(IEhVisualOption context)
             {
                 context.RectGetProvider.Options
                        .SetOption(new OgSizeTransformerOption(provider.InteractableElementOption.Width, provider.InteractableElementOption.Height))
-                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementOption.Padding));
+                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementOption.VerticalPadding))
+                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementOption.HorizontalPadding));
             }));
+        OgTextElement nameText = m_TextBuilder.BuildStaticText(name, option.TextColor, name, option.NameFontSize, option.NameAlignment,
+            provider.InteractableElementOption.Width - option.Width, provider.InteractableElementOption.Height);
+        container.Add(nameText);
         float elementY = (provider.InteractableElementOption.Height - (option.Height * 2)) / 2;
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver = new((getter, value) =>
         {
@@ -68,9 +72,6 @@ public class EhSliderBuilder(IEhVisualOption context)
         });
         OgTextElement valueText = m_TextBuilder.BuildSliderValueText(name, option.TextColor, textFormat, value, round, option.ValueFontSize,
             option.ValueAlignment, option.Width, option.Height * 2, 0, -14);
-        OgTextElement nameText = m_TextBuilder.BuildStaticText(name, option.TextColor, name, option.NameFontSize, option.NameAlignment,
-            provider.InteractableElementOption.Width - option.Width, provider.InteractableElementOption.Height);
-        container.Add(nameText);
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbOutlineHoverObserver = new((getter, value) =>
         {
             getter.SetTime();

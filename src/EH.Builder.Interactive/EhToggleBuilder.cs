@@ -38,9 +38,13 @@ public class EhToggleBuilder(IEhVisualOption context)
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options
-                       .SetOption(new OgMinSizeTransformerOption(provider.InteractableElementOption.Width, provider.InteractableElementOption.Height))
-                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementOption.Padding));
+                       .SetOption(new OgSizeTransformerOption(provider.InteractableElementOption.Width, provider.InteractableElementOption.Height))
+                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementOption.VerticalPadding))
+                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementOption.HorizontalPadding));
             }));
+        OgTextElement text = m_TextBuilder.BuildStaticText(name, option.TextColor, name, option.FontSize, option.NameAlignment,
+            provider.InteractableElementOption.Width - option.Width, provider.InteractableElementOption.Height);
+        container.Add(text);
         float offset = (option.Height - option.ThumbSize) / 2;
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbObserver = new((getter, value) =>
             new(value ? option.Width - option.ThumbSize - offset : offset, 0, 0, 0));
@@ -118,9 +122,6 @@ public class EhToggleBuilder(IEhVisualOption context)
         toggle.Add(background);
         toggle.Add(fill);
         toggle.Add(thumb);
-        OgTextElement text = m_TextBuilder.BuildStaticText(name, option.TextColor, name, option.FontSize, option.NameAlignment,
-            provider.InteractableElementOption.Width - option.Width, provider.InteractableElementOption.Height);
-        container.Add(text);
         container.Add(toggle);
         return container;
     }

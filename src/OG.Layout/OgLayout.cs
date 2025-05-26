@@ -1,4 +1,5 @@
-﻿using OG.Layout.Abstraction;
+﻿using DK.Matching;
+using OG.Layout.Abstraction;
 using OG.Transformer.Abstraction;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,13 @@ using UnityEngine;
 namespace OG.Layout;
 public class OgLayout : IOgLayout
 {
-    protected readonly IEnumerable<IOgTransformer> m_Transformers;
-    public OgLayout(IEnumerable<IOgTransformer> transformers) => m_Transformers = transformers.OrderBy(t => t.Order);
+    private readonly   DkTypeCacheMatcherProvider<IOgTransformerOption, IOgTransformer> m_MatcherProvider;
+    protected readonly IEnumerable<IOgTransformer>                                      m_Transformers;
+    public OgLayout(IEnumerable<IOgTransformer> transformers)
+    {
+        m_Transformers    = transformers.OrderBy(t => t.Order);
+        m_MatcherProvider = new(m_Transformers);
+    }
     public int  RemainingLayoutItems { get; set; }
     public Rect LastLayoutRect       { get; set; }
     public Rect ParentRect           { get; set; }
@@ -18,11 +24,8 @@ public class OgLayout : IOgLayout
         // ReSharper disable once LoopCanBeConvertedToQuery
         foreach(IOgTransformerOption option in container.Options)
         {
-            foreach(IOgTransformer transformer in m_Transformers)
-            {
-                if(!transformer.CanHandle(option)) continue;
-                rect = transformer.Transform(rect, parentRect, LastLayoutRect, remaining, option);
-            }
+            if(!m_MatcherProvider.TryGetMatcher(option, out IOgTransformer transformer)) continue;
+            rect = transformer.Transform(rect, parentRect, LastLayoutRect, remaining, option);
         }
         return rect;
     }

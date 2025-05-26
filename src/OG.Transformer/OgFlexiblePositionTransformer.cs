@@ -6,7 +6,6 @@ public class OgFlexiblePositionTransformer : OgBaseTransformer<OgFlexiblePositio
 {
     public override int Order { get; set; } = 90;
     public override Rect Transform(Rect rect, Rect parentRect, Rect lastRect, int remaining, OgFlexiblePositionTransformerOption option) =>
-        option.Orientation == EOgOrientation.HORIZONTAL
-            ? new(lastRect.xMax + (lastRect == Rect.zero ? 0 : option.Padding), rect.y, rect.width, rect.height)
-            : new(rect.x, lastRect.yMax + (lastRect == Rect.zero ? 0 : option.Padding), rect.width, rect.height);
+        option.Orientation == EOgOrientation.HORIZONTAL ? new(lastRect.xMax + option.Padding, rect.y, rect.width, rect.height)
+            : new(rect.x, lastRect.yMax + option.Padding, rect.width, rect.height);
 }
