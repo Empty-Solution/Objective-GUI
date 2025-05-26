@@ -71,7 +71,7 @@ public class EhSliderBuilder(IEhVisualOption context)
             return rect;
         });
         OgTextElement valueText = m_TextBuilder.BuildSliderValueText(name, option.TextColor, textFormat, value, round, option.ValueFontSize,
-            option.ValueAlignment, option.Width, option.Height * 2, 0, -14);
+            option.ValueAlignment, option.Width, option.Height * 2, 0, -(provider.InteractableElementOption.Height - option.Height) / 2);
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbOutlineHoverObserver = new((getter, value) =>
         {
             getter.SetTime();

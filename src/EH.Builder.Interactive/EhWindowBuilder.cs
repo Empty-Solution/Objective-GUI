@@ -42,7 +42,7 @@ public class EhWindowBuilder
         #region separators
         float tabButtonsContainerHeight =
             option.Height - option.ToolbarContainerHeight - (provider.SeparatorOffset * 2) - (option.ToolbarContainerOffset * 2);
-        float tabContainerX = provider.TabButtonOption.TabButtonSize + (provider.SeparatorOffset * 2) + (option.TabButtonsContainerOffset * 2);
+        float tabContainerX = provider.TabOption.TabButtonSize + (provider.SeparatorOffset * 2) + (option.TabButtonsContainerOffset * 2);
         float containerY    = option.ToolbarContainerHeight + option.ToolbarContainerOffset;
         float xOffset       = tabContainerX - option.TabButtonsContainerOffset;
         OgTextureElement tabSeparator = m_BackgroundBuilder.Build("TabSeparator", provider.SeparatorColor, provider.SeparatorWidth,
@@ -86,19 +86,19 @@ public class EhWindowBuilder
         }));
         tabButtonsContainer = m_ContainerBuilder.Build("MainWindowTabButtonsContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonOption.TabButtonSize, tabButtonsContainerHeight))
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabOption.TabButtonSize, tabButtonsContainerHeight))
                    .SetOption(new OgMarginTransformerOption(option.TabButtonsContainerOffset, containerY + option.ToolbarContainerOffset));
         }));
         OgEventHandlerProvider  eventProvider = new();
         OgTransformerRectGetter getter        = new(eventProvider, new OgOptionsContainer());
         getter.Options
-              .SetOption(new OgSizeTransformerOption((provider.TabButtonOption.TabContainerWidth * 2) + (provider.TabButtonOption.TabButtonOffset * 3),
+              .SetOption(new OgSizeTransformerOption((provider.TabOption.TabContainerWidth * 2) + (provider.TabOption.TabButtonOffset * 3),
                   tabButtonsContainerHeight)).SetOption(new OgMarginTransformerOption(tabContainerX, containerY + option.ToolbarContainerOffset));
         tabContainer          = new OgInteractableElement<IOgElement>("MainWindowTabContainer", eventProvider, getter);
         getter.LayoutCallback = tabContainer;
         //tabContainer = m_ContainerBuilder.Build("MainWindowTabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         //{
-        //    context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonOption.TabContainerWidth, tabButtonsContainerHeight))
+        //    context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabOption.TabContainerWidth, tabButtonsContainerHeight))
         //           .SetOption(new OgMarginTransformerOption(tabContainerX + option.TabButtonsContainerOffset, containerY + option.ToolbarContainerOffset));
         //}));
         sourceContainer.Add(tabButtonsContainer);

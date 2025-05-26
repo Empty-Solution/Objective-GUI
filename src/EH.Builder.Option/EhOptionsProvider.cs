@@ -8,7 +8,7 @@ public class EhOptionsProvider
     public EhToggleOption              ToggleOption              { get; }      = new();
     public EhWindowOption              WindowOption              { get; }      = new();
     public EhInteractableElementOption InteractableElementOption { get; }      = new();
-    public EhTabButtonOption           TabButtonOption           { get; }      = new();
+    public EhTabOption           TabOption           { get; }      = new();
     public EhDropdownOption            DropdownOption            { get; }      = new();
     public EhPickerOption              PickerOption              { get; }      = new();
     public float                       SeparatorOffset           { get; set; } = 8;

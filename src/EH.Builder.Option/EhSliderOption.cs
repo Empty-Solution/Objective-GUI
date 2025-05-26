@@ -20,7 +20,7 @@ public class EhSliderOption
     public float             Height                 { get; set; } = 5;
     public float             ThumbOutlineSize       { get; set; } = 16;
     public float             ThumbSize              { get; set; } = 12;
-    public float             Width                  { get; set; } = 150;
+    public float             Width                  { get; set; } = 100;
     public float             ThumbBorder            { get; set; } = 90f;
     public float             BackgroundBorder       { get; set; } = 90f;
     public TextAnchor        NameAlignment          { get; set; } = TextAnchor.MiddleLeft;

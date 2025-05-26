@@ -37,7 +37,7 @@ public class EhTabBuilder
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> builtLeftTabContainer, out IOgContainer<IOgElement> builtRightTabContainer,
         EhOptionsProvider provider)
     {
-        EhTabButtonOption option = provider.TabButtonOption;
+        EhTabOption option = provider.TabOption;
         float tabContainerHeight = provider.WindowOption.Height - provider.WindowOption.ToolbarContainerHeight - (provider.SeparatorOffset * 2) -
                                    (provider.WindowOption.ToolbarContainerOffset * 2);
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundObserver = new((getter, state) =>
