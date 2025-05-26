@@ -28,7 +28,6 @@ public class EhInternalTextBuilder
         m_Processor.AddProcess(process);
         OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter, provider, m_Context.Font, fontSize, alignment, FontStyle.Normal,
             TextClipping.Clip, false, textGetter.Get()));
-        element.ZOrder = 1;
         textBinding = new(textGetter, new DkScriptableSetter<string>(text =>
         {
             element.Text = text;
@@ -43,7 +42,6 @@ public class EhInternalTextBuilder
         m_Processor.AddProcess(process);
         OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter, provider, m_Context.Font, fontSize, alignment, FontStyle.Normal,
             TextClipping.Clip, false, text));
-        element.ZOrder = 1;
         m_Processor.RemoveProcess(process);
         return element;
     }

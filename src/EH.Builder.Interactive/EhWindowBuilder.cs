@@ -96,11 +96,6 @@ public class EhWindowBuilder
                   tabButtonsContainerHeight)).SetOption(new OgMarginTransformerOption(tabContainerX, containerY + option.ToolbarContainerOffset));
         tabContainer          = new OgInteractableElement<IOgElement>("MainWindowTabContainer", eventProvider, getter);
         getter.LayoutCallback = tabContainer;
-        //tabContainer = m_ContainerBuilder.Build("MainWindowTabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-        //{
-        //    context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabOption.TabContainerWidth, tabButtonsContainerHeight))
-        //           .SetOption(new OgMarginTransformerOption(tabContainerX + option.TabButtonsContainerOffset, containerY + option.ToolbarContainerOffset));
-        //}));
         sourceContainer.Add(tabButtonsContainer);
         sourceContainer.Add(tabContainer);
         window.Add(m_BackgroundBuilder.Build("MainWindowBackground", option.BackgroundColorProperty, option.Width, option.Height, 0, 0,

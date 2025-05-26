@@ -24,9 +24,4 @@ public class OgModalButtonBuilder(IOgElementFactory<IOgModalInteractable<IOgElem
     protected override OgModalButtonBuildContext BuildContext(OgModalButtonBuildArguments args, IOgEventHandlerProvider provider,
         OgTransformerRectGetter getter) =>
         new(null!, getter);
-    protected override void InternalProcessContext(OgModalButtonBuildContext context)
-    {
-        base.InternalProcessContext(context);
-        context.Element.IsModalInteractObserver = new DkObservable<bool>([]);
-    }
 }

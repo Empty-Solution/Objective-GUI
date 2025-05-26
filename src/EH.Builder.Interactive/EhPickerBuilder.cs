@@ -58,11 +58,10 @@ public class EhPickerBuilder(IEhVisualOption visual)
             }));
         OgTextureElement modalBackground = m_BackgroundBuilder.Build($"{name}ModalBackground", option.BackgroundColorProperty, option.ModalWindowWidth,
             option.ModalWindowHeight, 0, 0, option.ModalBorder);
-        OgInteractableElement<IOgElement> interactable = new($"{name}ModalInteractable", new OgEventHandlerProvider(),
-            new DkReadOnlyGetter<Rect>(new(0, 0, option.ModalWindowWidth, option.ModalWindowHeight)));
+        sourceContainer.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
+            new DkReadOnlyGetter<Rect>(new(0, 0, option.ModalWindowWidth, option.ModalWindowHeight))));
         modalBackground.ZOrder = 9999;
-        interactable.Add(modalBackground);
-        sourceContainer.Add(interactable);
+        sourceContainer.Add(modalBackground);
         HSVAColor                   hsvaColor         = (HSVAColor)value.Get();
         DkObservableProperty<float> hue               = new(new DkObservable<float>([]), hsvaColor.H);
         float                       huePickerWidth    = option.ModalWindowWidth - (option.PickerOffset * 2);
