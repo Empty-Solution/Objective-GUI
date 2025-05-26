@@ -60,6 +60,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
             option.ModalWindowHeight, 0, 0, option.ModalBorder);
         OgInteractableElement<IOgElement> interactable = new($"{name}ModalInteractable", new OgEventHandlerProvider(),
             new DkReadOnlyGetter<Rect>(new(0, 0, option.ModalWindowWidth, option.ModalWindowHeight)));
+        modalBackground.ZOrder = 9999;
         interactable.Add(modalBackground);
         sourceContainer.Add(interactable);
         HSVAColor                   hsvaColor         = (HSVAColor)value.Get();
@@ -108,6 +109,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(sVPickerWidth, alphaPickerHeight));
             }));
+        sVBackground.ZOrder = 9999;
         sVPicker.Add(sVBackground);
         return sVPicker;
     }
@@ -141,6 +143,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(alphaPickerWidth, alphaPickerHeight));
             }));
+        alphaBackground.ZOrder = 9999;
         alphaPicker.Add(alphaBackground);
         return alphaPicker;
     }
@@ -163,6 +166,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
             }));
         OgTextureElement hueBackground = m_BackgroundBuilder.Build($"{name}HueBackground", new DkReadOnlyGetter<Color>(Color.white), huePickerWidth,
             huePickerHeight, 0, 0, option.HuePickerBorder, null, null, new(), GenerateHueTexture(huePickerWidth, huePickerHeight));
+        hueBackground.ZOrder = 9999;
         huePicker.Add(hueBackground);
         return huePicker;
     }

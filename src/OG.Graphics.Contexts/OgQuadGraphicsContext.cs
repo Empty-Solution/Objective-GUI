@@ -14,6 +14,7 @@ public class OgQuadGraphicsContext : IOgQuadGraphicsContext
     public           Rect           ViewPort      { get; set; } = new(0.0f, 0.0f, Screen.width, Screen.height);
     public           Material?      Material      { get; set; }
     public           Rect           RenderRect    { get; set; }
+    public           int            ZOrder        { get; set; }
     public void CopyVertices(OgVertex[] array) => Vertices.CopyTo(array);
     public void CopyIndices(int[] array) => m_Indices.CopyTo(array);
     public void AddVertex(OgVertex vertex) => Vertices.Add(vertex);

@@ -2,13 +2,14 @@
 using DK.Observing.Abstraction.Generic;
 using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
+using OG.Element.Visual.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 using OG.Graphics.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgModalInteractable<TElement>, IOgEventCallback<IOgPostRenderEvent>,
+public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgModalInteractable<TElement>,
                                              IOgEventCallback<IOgMouseKeyUpEvent>, IOgEventCallback<IOgMouseKeyDownEvent> where TElement : IOgElement
 {
     private readonly bool m_RightClickOnly;
@@ -35,21 +36,13 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgMo
         IsModalInteractObserver?.Notify(ShouldProcess);
         return oldShouldProcess || IsHovering;
     }
-    public bool Invoke(IOgPostRenderEvent reason)
-    {
-        if(!ShouldProcess) return false;
-        foreach(IOgGraphics graphics in reason.Graphics) graphics.ProcessContexts();
-        return true;
-    }
-    public IDkObservable<bool>? IsInteractingObserver   { get; set; }
-    public IDkObservable<bool>? IsModalInteractObserver { get; set; }
+    public IDkObservable<bool>? IsInteractingObserver      { get; set; }
+    public IDkObservable<bool>? IsRightInteractingObserver { get; set; }
+    public IDkObservable<bool>? IsModalInteractObserver    { get; set; }
     public override bool Invoke(IOgRenderEvent reason)
     {
         if(!ShouldProcess) return false;
-        Rect rect = ElementRect.Get();
-        reason.Global += rect.position;
-        ProcessElementsEventForward(reason);
-        reason.Global -= rect.position;
+        base.Invoke(reason);
         return false;
     }
     public override bool Invoke(IOgInputEvent reason) => ShouldProcess && base.Invoke(reason);

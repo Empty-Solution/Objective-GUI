@@ -55,7 +55,6 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         reason.Global += rect.position;
         ProcessElementsEventForward(reason);
         reason.Global -= rect.position;
-        foreach(IOgGraphics graphics in reason.Graphics) graphics.ProcessContexts();
         return false;
     }
     public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);

@@ -2,10 +2,9 @@
 namespace OG.Graphics.Abstraction;
 public interface IOgGraphics<TContext> : IOgGraphics where TContext : IOgGraphicsContext
 {
-    void PushContext(TContext ctx);
+    void ProcessContext(TContext ctx);
 }
 public interface IOgGraphics : IDkMatcher<IOgGraphicsContext>
 {
-    void PushContext(IOgGraphicsContext ctx);
-    void ProcessContexts();
+    void ProcessContext(IOgGraphicsContext ctx);
 }

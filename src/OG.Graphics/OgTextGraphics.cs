@@ -8,7 +8,7 @@ public class OgTextGraphics : OgBaseGraphics<IOgTextGraphicsContext>
     //    normal = new()
     //};
     private static readonly GUIContent tempContent = new();
-    protected override void ProcessContext(IOgTextGraphicsContext ctx)
+    public override void ProcessContext(IOgTextGraphicsContext ctx)
     {
         if(ctx.Font is null) return;
         tempContent.text           = ctx.Text;
