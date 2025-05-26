@@ -34,16 +34,12 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgMo
         bool oldShouldProcess = ShouldProcess;
         ShouldProcess = IsHovering && !oldShouldProcess;
         IsModalInteractObserver?.Notify(ShouldProcess);
+        if(m_RightClickOnly) IsRightInteractingObserver?.Notify(ShouldProcess);
         return oldShouldProcess || IsHovering;
     }
     public IDkObservable<bool>? IsInteractingObserver      { get; set; }
     public IDkObservable<bool>? IsRightInteractingObserver { get; set; }
     public IDkObservable<bool>? IsModalInteractObserver    { get; set; }
-    public override bool Invoke(IOgRenderEvent reason)
-    {
-        if(!ShouldProcess) return false;
-        base.Invoke(reason);
-        return false;
-    }
+    public override bool Invoke(IOgRenderEvent reason) => ShouldProcess && base.Invoke(reason);
     public override bool Invoke(IOgInputEvent reason) => ShouldProcess && base.Invoke(reason);
 }
