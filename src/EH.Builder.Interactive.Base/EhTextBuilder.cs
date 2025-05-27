@@ -48,13 +48,14 @@ public class EhTextBuilder(IEhVisualOption context)
         return textElement;
     }
     public OgTextElement BuildBindableText(string name, IDkGetProvider<Color> colorGetter, IDkObservableProperty<string> value,
-        int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0, IOgEventHandlerProvider? provider = null)
+        int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0, Action<OgTextBuildContext>? action = null, IOgEventHandlerProvider? provider = null)
     {
         OgTextElement text = m_TextBuilder.Build($"{name}TextValue", colorGetter, provider, fontSize, alignment, value,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
                        .SetOption(new OgMarginTransformerOption(x, y));
+                action?.Invoke(context);
             }), out DkBinding<string> textValueBinding);
         DkScriptableObserver<string> textObserver = new();
         textObserver.OnUpdate += newValue =>

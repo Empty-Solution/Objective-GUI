@@ -97,7 +97,7 @@ public class EhToggleBuilder(IEhVisualOption context)
         });
         OgEventHandlerProvider backgroundEventHandler = new();
         OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
-        OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, option.Width, option.Height, 0, 0, option.BackgroundBorder,
+        OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, option.Width, option.Height, 0, 0, new(option.BackgroundBorder, option.BackgroundBorder, option.BackgroundBorder, option.BackgroundBorder),
             context =>
             {
                 backgroundGetter.Speed          = provider.AnimationSpeed;

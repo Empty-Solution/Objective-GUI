@@ -1,6 +1,7 @@
 ﻿using DK.Getting.Generic;
 using DK.Observing.Generic;
 using DK.Property.Abstraction.Generic;
+using DK.Property.Observing.Abstraction.Generic;
 using DK.Property.Observing.Generic;
 using EH.Builder.Abstraction;
 using EH.Builder.Interactive.Base;
@@ -19,6 +20,7 @@ using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
 using OG.Event;
+using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
@@ -47,7 +49,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height));
             }));
-        OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", value, option.Width, option.Height, 0, 0, option.Border);
+        OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", value, option.Width, option.Height, 0, 0, new(option.Border, option.Border, option.Border, option.Border));
         container.Add(background);
         container.Add(button);
         IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}SourceContainer",
@@ -57,7 +59,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
                        .SetOption(new OgMarginTransformerOption(option.Width, option.Height));
             }));
         OgTextureElement modalBackground = m_BackgroundBuilder.Build($"{name}ModalBackground", option.BackgroundColorProperty, option.ModalWindowWidth,
-            option.ModalWindowHeight, 0, 0, option.ModalBorder);
+            option.ModalWindowHeight, 0, 0, new(option.ModalBorder, option.ModalBorder, option.ModalBorder, option.ModalBorder));
         sourceContainer.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
             new DkReadOnlyGetter<Rect>(new(0, 0, option.ModalWindowWidth, option.ModalWindowHeight))));
         modalBackground.ZOrder = 9999;
@@ -164,7 +166,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
                        .SetOption(new OgMarginTransformerOption(option.PickerOffset, option.PickerOffset));
             }));
         OgTextureElement hueBackground = m_BackgroundBuilder.Build($"{name}HueBackground", new DkReadOnlyGetter<Color>(Color.white), huePickerWidth,
-            huePickerHeight, 0, 0, option.HuePickerBorder, null, null, new(), GenerateHueTexture(huePickerWidth, huePickerHeight));
+            huePickerHeight, 0, 0, new(option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder), null, null, new(), GenerateHueTexture(huePickerWidth, huePickerHeight));
         hueBackground.ZOrder = 9999;
         huePicker.Add(hueBackground);
         return huePicker;

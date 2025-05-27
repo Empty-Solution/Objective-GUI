@@ -58,7 +58,7 @@ public class EhTabBuilder
         sourceContainer.Add(BuildTabContainer(name, out builtRightTabContainer, option.TabContainerWidth, tabContainerHeight,
             (option.TabButtonOffset * 2) + option.TabContainerWidth, option.BackgroundBorder, option.BackgroundColor));
         OgTextureElement image = m_BackgroundBuilder.Build($"{name}Background", getter, option.TabButtonSize, option.TabButtonSize, 0, 0,
-            option.TabButtonBorder, context =>
+            new(option.TabButtonBorder, option.TabButtonBorder, option.TabButtonBorder, option.TabButtonBorder), context =>
             {
                 context.RectGetProvider.Speed = provider.AnimationSpeed;
                 getter.Speed                  = provider.AnimationSpeed;
@@ -93,7 +93,7 @@ public class EhTabBuilder
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height));
         }));
-        sourceContainer.Add(m_BackgroundBuilder.Build($"{name}TabContainerBackground", colorGetter, width, height, 0, 0, border));
+        sourceContainer.Add(m_BackgroundBuilder.Build($"{name}TabContainerBackground", colorGetter, width, height, 0, 0, new(border, border, border, border)));
         sourceContainer.Add(builtContainer);
         return sourceContainer;
     }

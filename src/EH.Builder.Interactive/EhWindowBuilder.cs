@@ -12,6 +12,7 @@ using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Event;
 using OG.Transformer.Options;
+using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhWindowBuilder
 {
@@ -20,13 +21,10 @@ public class EhWindowBuilder
     private readonly EhInternalDraggableBuilder m_DraggableBuilder  = new();
     private readonly EhOptionsProvider          m_OptionsProvider   = new();
     public IOgContainer<IOgElement> Build(out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
-        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter,
-        out OgAnimationRectGetter<OgTransformerRectGetter> subTabSeparatorSelectorGetter, float x = 0, float y = 0) =>
-        Build(y, x, out tabButtonsContainer, out tabContainer, out toolbarContainer, out tabSeparatorSelectorGetter, out subTabSeparatorSelectorGetter,
-            m_OptionsProvider);
+        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter, float x = 0, float y = 0) =>
+        Build(y, x, out tabButtonsContainer, out tabContainer, out toolbarContainer, out tabSeparatorSelectorGetter, m_OptionsProvider);
     private IOgContainer<IOgElement> Build(float x, float y, out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
-        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter,
-        out OgAnimationRectGetter<OgTransformerRectGetter> subTabSeparatorSelectorGetter, EhOptionsProvider provider)
+        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter, EhOptionsProvider provider)
     {
         EhWindowOption option = provider.WindowOption;
         IOgDraggableElement<IOgElement> window = m_DraggableBuilder.Build("MainWindow", new OgScriptableBuilderProcess<OgDraggableBuildContext>(context =>
@@ -42,42 +40,34 @@ public class EhWindowBuilder
         #region separators
         float tabButtonsContainerHeight =
             option.Height - option.ToolbarContainerHeight - (provider.SeparatorOffset * 2) - (option.ToolbarContainerOffset * 2);
-        float tabContainerX = provider.TabOption.TabButtonSize + (provider.SeparatorOffset * 2) + (option.TabButtonsContainerOffset * 2);
-        float containerY    = option.ToolbarContainerHeight + option.ToolbarContainerOffset;
-        float xOffset       = tabContainerX - option.TabButtonsContainerOffset;
+        float   tabContainerX   = provider.TabOption.TabButtonSize + (provider.SeparatorOffset * 2) + (option.TabButtonsContainerOffset * 2);
+        float   containerY      = option.ToolbarContainerHeight + option.ToolbarContainerOffset;
+        float   xOffset         = tabContainerX - option.TabButtonsContainerOffset;
+        Vector4 separatorBorder = new(provider.SeparatorBorder, provider.SeparatorBorder, provider.SeparatorBorder, provider.SeparatorBorder);
         OgTextureElement tabSeparator = m_BackgroundBuilder.Build("TabSeparator", provider.SeparatorColor, provider.SeparatorWidth,
             option.Height - containerY - (provider.SeparatorOffset * 2), xOffset, option.ToolbarContainerHeight + provider.SeparatorOffset,
-            provider.SeparatorBorder);
+            separatorBorder);
         OgTextureElement subTabSeparator = m_BackgroundBuilder.Build("SubTabSeparator", provider.SeparatorColor,
             option.Width - xOffset - (provider.SeparatorOffset * 2), provider.SeparatorWidth, xOffset + provider.SeparatorOffset,
-            option.ToolbarContainerHeight, provider.SeparatorBorder);
+            option.ToolbarContainerHeight, separatorBorder);
         OgTextureElement logoBottomSeparator = m_BackgroundBuilder.Build("LogoBottomSeparator", provider.SeparatorColor,
             xOffset - (provider.SeparatorOffset * 2), provider.SeparatorWidth, provider.SeparatorOffset, option.ToolbarContainerHeight,
-            provider.SeparatorBorder);
+            separatorBorder);
         OgTextureElement logoRightSeparator = m_BackgroundBuilder.Build("LogoRightSeparator", provider.SeparatorColor, provider.SeparatorWidth,
-            option.ToolbarContainerHeight - (provider.SeparatorOffset * 2), xOffset, provider.SeparatorOffset, provider.SeparatorBorder);
+            option.ToolbarContainerHeight - (provider.SeparatorOffset * 2), xOffset, provider.SeparatorOffset, separatorBorder);
         OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorThumbGetter = null!;
         OgTextureElement tabSeparatorThumb = m_BackgroundBuilder.Build("LogoBottomSeparator", provider.SeparatorThumbColor, provider.SeparatorWidth * 3, 0,
-            xOffset - provider.SeparatorWidth, containerY + option.ToolbarContainerOffset, provider.SeparatorBorder, context =>
+            xOffset - provider.SeparatorWidth, containerY + option.ToolbarContainerOffset, separatorBorder, context =>
             {
                 context.RectGetProvider.Speed = provider.AnimationSpeed;
                 tabSeparatorThumbGetter       = context.RectGetProvider;
-            });
-        OgAnimationRectGetter<OgTransformerRectGetter> subTabSeparatorThumbGetter = null!;
-        OgTextureElement subTabSeparatorThumb = m_BackgroundBuilder.Build("LogoBottomSeparator", provider.SeparatorThumbColor, 0,
-            provider.SeparatorWidth * 3, 0, option.ToolbarContainerHeight - provider.SeparatorWidth, provider.SeparatorBorder, context =>
-            {
-                context.RectGetProvider.Speed = provider.AnimationSpeed;
-                subTabSeparatorThumbGetter    = context.RectGetProvider;
             });
         sourceContainer.Add(tabSeparator);
         sourceContainer.Add(subTabSeparator);
         sourceContainer.Add(logoBottomSeparator);
         sourceContainer.Add(logoRightSeparator);
         sourceContainer.Add(tabSeparatorThumb);
-        sourceContainer.Add(subTabSeparatorThumb);
         tabSeparatorSelectorGetter    = tabSeparatorThumbGetter;
-        subTabSeparatorSelectorGetter = subTabSeparatorThumbGetter;
         #endregion
         toolbarContainer = m_ContainerBuilder.Build("MainWindowToolbarContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
@@ -99,7 +89,7 @@ public class EhWindowBuilder
         sourceContainer.Add(tabButtonsContainer);
         sourceContainer.Add(tabContainer);
         window.Add(m_BackgroundBuilder.Build("MainWindowBackground", option.BackgroundColorProperty, option.Width, option.Height, 0, 0,
-            option.WindowBorderRadius));
+            new(option.WindowBorderRadius, option.WindowBorderRadius, option.WindowBorderRadius, option.WindowBorderRadius)));
         window.Add(sourceContainer);
         return window;
     }

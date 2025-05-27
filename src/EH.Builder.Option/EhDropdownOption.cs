@@ -5,24 +5,34 @@ public class EhDropdownOption
 {
     public EhDropdownOption()
     {
-        BackgroundColorProperty      = new(new Color32(30, 30, 30, 255));
-        BackgroundHoverColorProperty = new(new Color32(50, 50, 50, 255));
-        TextColorProperty            = new(new Color32(255, 255, 255, 255));
-        SelectedTextColorProperty    = new(new Color32(255, 255, 255, 255));
-        BorderColorProperty          = new(new Color32(255, 255, 255, 255));
+        BackgroundColor          = new(new Color32(35, 35, 35, 255));
+        TextColor                = new(new Color32(255, 255, 255, 255));
+        NameTextColor            = new(new Color32(255, 255, 255, 255));
+        ItemTextColor            = new(new Color32(200, 200, 200, 255));
+        SelectedItemTextColor    = new(new Color32(255, 255, 255, 255));
+        ModalBackgroundColor     = new(new Color32(25, 25, 25, 255));
+        ItemBackgroundColor      = new(new Color32(25, 25, 25, 255));
+        ItemBackgroundHoverColor = new(new Color32(50, 50, 50, 255));
     }
-    public DkProperty<Color> BackgroundColorProperty      { get; }
-    public DkProperty<Color> BackgroundHoverColorProperty { get; }
-    public DkProperty<Color> TextColorProperty            { get; }
-    public DkProperty<Color> SelectedTextColorProperty    { get; }
-    public DkProperty<Color> BorderColorProperty          { get; }
-    public float             Width                        { get; set; } = 200;
-    public float             Height                       { get; set; } = 30;
-    public float             DropdownItemHeight           { get; set; } = 25;
-    public float             DropdownWidth                { get; set; } = 25;
-    public float             DropdownItemPadding          { get; set; } = 25;
-    public float             BorderWidth                  { get; set; } = 1;
-    public float             BorderRadius                 { get; set; } = 5;
-    public int               TextFontSize                 { get; set; } = 14;
-    public TextAnchor        TextAlignment                { get; set; } = TextAnchor.MiddleLeft;
+    public DkProperty<Color> ModalBackgroundColor    { get; }
+    public DkProperty<Color> BackgroundColor         { get; }
+    public DkProperty<Color> ItemBackgroundColor      { get; }
+    public DkProperty<Color> ItemBackgroundHoverColor { get; }
+    public DkProperty<Color> ItemTextColor            { get; }
+    public DkProperty<Color> TextColor                { get; }
+    public DkProperty<Color> NameTextColor            { get; }
+    public DkProperty<Color> SelectedItemTextColor    { get; }
+    public float             Width                    { get; set; } = 100;
+    public float             Height                   { get; set; } = 30;
+    public float             ModalItemHeight          { get; set; } = 25;
+    public float             ModalItemPadding         { get; set; } = 5;
+    public float             ModalBorder              { get; set; } = 5;
+    public float             BorderWidth              { get; set; } = 1;
+    public float             Border                   { get; set; } = 4;
+    public int               TextNameFontSize         { get; set; } = 14;
+    public TextAnchor        TextNameAlignment        { get; set; } = TextAnchor.MiddleLeft;
+    public int               TextFontSize             { get; set; } = 14;
+    public TextAnchor        TextAlignment            { get; set; } = TextAnchor.MiddleCenter;
+    public int               ItemTextFontSize         { get; set; } = 14;
+    public TextAnchor        ItemTextAlignment        { get; set; } = TextAnchor.MiddleCenter;
 }

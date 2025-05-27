@@ -132,7 +132,7 @@ public class EhSliderBuilder(IEhVisualOption context)
         OgEventHandlerProvider backgroundEventHandler = new();
         OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
         OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, option.Width, option.Height, 0,
-            ((option.Height * 2) - option.Height) / 2, option.BackgroundBorder, context =>
+            ((option.Height * 2) - option.Height) / 2, new(option.BackgroundBorder, option.BackgroundBorder, option.BackgroundBorder, option.BackgroundBorder), context =>
             {
                 backgroundGetter.Speed          = provider.AnimationSpeed;
                 backgroundHoverObserver.Getter  = backgroundGetter;
