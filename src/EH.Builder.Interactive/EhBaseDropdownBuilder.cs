@@ -93,15 +93,13 @@ public abstract class EhBaseDropdownBuilder(IEhVisualOption visual)
         button.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
             new DkReadOnlyGetter<Rect>(new(0, 0, option.Width, (option.ModalItemHeight + option.ModalItemPadding) * values.Length))));
         List<EhDropdownTextObserver> observers = [];
-        for(int i = 0; i < values.Length; i++)
-        {
-            sourceContainer.Add(BuildDropdownItem(values[i], i, selected, property, observers, button, provider));
-        }
+        for(int i = 0; i < values.Length; i++) sourceContainer.Add(BuildDropdownItem(values[i], i, selected, property, observers, button, provider));
+        observers[selected.Get()].Update(false);
         button.Add(sourceContainer);
         container.Add(button);
         return container;
     }
-    protected abstract IOgContainer<IOgVisualElement> BuildDropdownItem(string name, int index, IDkProperty<int> selected,
+    protected abstract IOgInteractableElement<IOgVisualElement> BuildDropdownItem(string name, int index, IDkProperty<int> selected,
         DkObservableProperty<string> property, List<EhDropdownTextObserver> observers, IOgModalInteractable<IOgElement> interactable,
         EhOptionsProvider provider);
 }

@@ -1,5 +1,4 @@
 ﻿using DK.Getting.Abstraction.Generic;
-using DK.Property.Generic;
 using EH.Builder.Visual;
 using OG.Builder.Contexts.Visual;
 using OG.DataKit.Animation.Observer;

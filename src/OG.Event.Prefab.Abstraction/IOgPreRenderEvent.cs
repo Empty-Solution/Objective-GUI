@@ -1,2 +1,2 @@
 ﻿namespace OG.Event.Prefab.Abstraction;
-public interface IOgPreRenderEvent : IOgRenderEvent;
+public interface IOgPreRenderEvent : IOgEvent;

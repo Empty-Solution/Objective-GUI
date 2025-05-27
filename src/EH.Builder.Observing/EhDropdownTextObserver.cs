@@ -12,12 +12,8 @@ public class EhDropdownTextObserver(List<EhDropdownTextObserver> observers, int 
 {
     public void Update(bool state)
     {
-        if(!state)
-        {
-            InternalUpdate(false);
-            return;
-        }
-        for(int i = 0; i < observers.Count; i++) observers[i].InternalUpdate(i == index);
+        if(state) return;
+        for(int i = 0; i < observers.Count; i++) observers[i].SetModifier(i == index);
         binding.Sync();
         interactable.ShouldProcess = false;
     }
@@ -25,5 +21,5 @@ public class EhDropdownTextObserver(List<EhDropdownTextObserver> observers, int 
     {
         if(state is bool value) Update(value);
     }
-    private void InternalUpdate(bool state) => getter.TargetModifier = state ? selectedColor.Get() : color.Get();
+    public void SetModifier(bool state) => getter.TargetModifier = state ? selectedColor.Get() : color.Get();
 }

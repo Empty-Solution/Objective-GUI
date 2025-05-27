@@ -10,14 +10,10 @@ using UnityEngine;
 namespace EH.Builder.Observing;
 public abstract class EhBaseTabObserver() : IDkObserver<bool>
 {
-    private readonly        IOgContainer<IOgElement>? m_Source;
-    private readonly        float m_ThumbSize;
-    private readonly        OgAnimationRectGetter<OgTransformerRectGetter>? m_SeparatorSelectorGetter;
-    private readonly List<EhBaseTabObserver> m_Observers = [];
-    public                  IOgToggle<IOgVisualElement>? LinkedInteractable { get; set; }
-    public                  OgTransformerRectGetter? RectGetter { get; set; }
-    public                  IOgContainer<IOgElement>? Target { get; }
-    public                  bool ShouldProcess { get; set; } = true; // сладенький костыль ибо я не хотел делать int currentTABBBBB
+    private readonly List<EhBaseTabObserver>                         m_Observers = [];
+    private readonly OgAnimationRectGetter<OgTransformerRectGetter>? m_SeparatorSelectorGetter;
+    private readonly IOgContainer<IOgElement>?                       m_Source;
+    private readonly float                                           m_ThumbSize;
     public EhBaseTabObserver(List<EhBaseTabObserver> observers, IOgContainer<IOgElement> source, IOgContainer<IOgElement> target, float thumbSize,
         OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter) : this()
     {
@@ -28,6 +24,10 @@ public abstract class EhBaseTabObserver() : IDkObserver<bool>
         m_Observers               = observers;
         observers.Add(this);
     }
+    public IOgToggle<IOgVisualElement>? LinkedInteractable { get; set; }
+    public OgTransformerRectGetter?     RectGetter         { get; set; }
+    public IOgContainer<IOgElement>?    Target             { get; }
+    public bool                         ShouldProcess      { get; set; } = true; // сладенький костыль ибо я не хотел делать int currentTABBBBB
     public void Update(bool state)
     {
         if(!ShouldProcess)
@@ -63,6 +63,5 @@ public abstract class EhBaseTabObserver() : IDkObserver<bool>
         m_SeparatorSelectorGetter!.SetTime();
         m_SeparatorSelectorGetter.TargetModifier = GetRect(m_SeparatorSelectorGetter.TargetModifier, state, m_ThumbSize);
     }
-
     protected abstract Rect GetRect(Rect rect, bool state, float size);
 }

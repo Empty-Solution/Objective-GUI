@@ -4,8 +4,8 @@ using OG.Element.Container.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
-using OG.Graphics.Abstraction;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace OG.Element.Container;
 public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEventCallback<IOgInputEvent>, IOgEventCallback<IOgEvent>
@@ -22,10 +22,12 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     public IEnumerable<TElement> Elements => m_Elements;
     public void Clear() => m_Elements.Clear();
     public bool Contains(TElement element) => m_Elements.Contains(element);
+    public override int CompareTo(IOgElement other) => m_Elements.Sum(element => element.CompareTo(other));
     public bool Add(TElement element)
     {
         if(m_Elements.IndexOf(element) != -1) return false;
         m_Elements.Add(element);
+        m_Elements.Sort((e1, e2) => e1.CompareTo(e2));
         return true;
     }
     public bool Remove(TElement element)

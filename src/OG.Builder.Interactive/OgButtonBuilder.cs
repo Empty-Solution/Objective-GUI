@@ -15,7 +15,8 @@ public class OgButtonBuilder(IOgElementFactory<IOgInteractableElement<IOgVisualE
         IOgInteractableElement<IOgVisualElement>, OgElementFactoryArguments, OgElementBuildArguments, OgButtonBuildContext, OgTransformerRectGetter,
         IOgVisualElement>(factory, processor)
 {
-    protected override OgTransformerRectGetter BuildGetter(OgElementBuildArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container) =>
+    protected override OgTransformerRectGetter
+        BuildGetter(OgElementBuildArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container) =>
         new(provider, container);
     protected override OgElementFactoryArguments BuildFactoryArguments(OgButtonBuildContext context, OgElementBuildArguments args,
         IOgEventHandlerProvider provider) =>

@@ -12,7 +12,6 @@ using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
 using OG.DataTypes.Orientation;
 using OG.Element.Abstraction;
-using OG.Element.Container.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
@@ -24,7 +23,7 @@ using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhDropdownBuilder(IEhVisualOption visual) : EhBaseDropdownBuilder(visual)
 {
-    protected override IOgContainer<IOgVisualElement> BuildDropdownItem(string name, int index, IDkProperty<int> selected,
+    protected override IOgInteractableElement<IOgVisualElement> BuildDropdownItem(string name, int index, IDkProperty<int> selected,
         DkObservableProperty<string> property, List<EhDropdownTextObserver> observers, IOgModalInteractable<IOgElement> interactable,
         EhOptionsProvider provider)
     {
@@ -72,7 +71,6 @@ public class EhDropdownBuilder(IEhVisualOption visual) : EhBaseDropdownBuilder(v
                    .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, option.ModalItemPadding));
             context.Element.IsInteractingObserver?.AddObserver(textObserver);
             context.Element.IsInteractingObserver?.AddObserver(observer);
-            context.Element.IsInteractingObserver?.Notify(selected.Get() == index);
             context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
             context.Element.IsHoveringObserver?.Notify(false);
         }));

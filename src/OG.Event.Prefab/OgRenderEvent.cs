@@ -7,8 +7,8 @@ using UnityEngine;
 namespace OG.Event.Prefab;
 public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRenderEvent
 {
-    private readonly DkTypeCacheMatcherProvider<IOgGraphicsContext, IOgGraphics> m_Provider = new(graphics);
     private readonly List<IOgGraphicsContext>                                    m_Contexts = [];
+    private readonly DkTypeCacheMatcherProvider<IOgGraphicsContext, IOgGraphics> m_Provider = new(graphics);
     public void PushContext(IOgGraphicsContext ctx) => m_Contexts.Add(ctx);
     public Vector2 Global { get; set; }
     public void ProcessContexts()

@@ -80,7 +80,6 @@ public class EhWindowBuilder
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabOption.TabButtonSize, tabButtonsContainerHeight))
                    .SetOption(new OgMarginTransformerOption(option.TabButtonsContainerOffset, containerY + option.ToolbarContainerOffset));
         }));
-        
         OgEventHandlerProvider  eventProvider = new();
         OgTransformerRectGetter getter        = new(eventProvider, new OgOptionsContainer());
         getter.Options

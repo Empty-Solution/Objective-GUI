@@ -22,5 +22,7 @@ public class OgQuadBuilder(IOgElementFactory<OgQuadElement, OgQuadFactoryArgumen
     protected override OgQuadBuildContext BuildContext(OgQuadBuildArguments args, IOgEventHandlerProvider provider,
         OgAnimationRectGetter<OgTransformerRectGetter> getter) =>
         new(null!, getter);
-    protected override void InternalProcessContext(OgQuadBuildContext context) => context.RectGetProvider.RenderCallback = context.Element;
+    protected override void InternalProcessContext(OgQuadBuildContext context)
+    {
+    }
 }

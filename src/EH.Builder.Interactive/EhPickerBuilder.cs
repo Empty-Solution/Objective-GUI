@@ -71,29 +71,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
         float                       alphaPickerHeight = (option.ModalWindowHeight * 0.8f) - option.PickerOffset;
         float                       alphaPickerX      = option.ModalWindowWidth - alphaPickerWidth - option.PickerOffset;
         float                       alphaPickerY      = huePickerHeight + (option.PickerOffset * 2);
-        
-        DkScriptableObserver<float> hueObserver = new();
-        hueObserver.OnUpdate += state =>
-        {
-            HSVAColor hsvaColor = (HSVAColor)value.Get();
-            hsvaColor.H = state;
-            value.Set((Color)hsvaColor);
-        };
-        hue.AddObserver(hueObserver);
-        IOgSlider<IOgVisualElement> huePicker = m_HorizontalSliderBuilder.Build($"{name}HuePicker", hue, 1, 0,
-            new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
-            {
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(huePickerWidth, huePickerHeight))
-                       .SetOption(new OgMarginTransformerOption(option.PickerOffset, option.PickerOffset));
-            }));
-        OgTextureElement hueBackground = m_BackgroundBuilder.Build($"{name}HueBackground", new DkReadOnlyGetter<Color>(Color.white), huePickerWidth,
-            huePickerHeight, 0, 0, new(option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder), null, null, new(),
-            GenerateHueTexture(huePickerWidth, huePickerHeight));
-        hueBackground.ZOrder = 9999;
-        huePicker.Add(hueBackground);
-        sourceContainer.Add(huePicker);
-        
-        DkScriptableObserver<float> alphaObserver = new();
+        DkScriptableObserver<float> alphaObserver     = new();
         alphaObserver.OnUpdate += state =>
         {
             Color got = value.Get();
@@ -123,7 +101,26 @@ public class EhPickerBuilder(IEhVisualOption visual)
         alphaBackground.ZOrder = 9999;
         alphaPicker.Add(alphaBackground);
         sourceContainer.Add(alphaPicker);
-        
+        DkScriptableObserver<float> hueObserver = new();
+        hueObserver.OnUpdate += state =>
+        {
+            HSVAColor hsvaColor = (HSVAColor)value.Get();
+            hsvaColor.H = state;
+            value.Set((Color)hsvaColor);
+        };
+        hue.AddObserver(hueObserver);
+        IOgSlider<IOgVisualElement> huePicker = m_HorizontalSliderBuilder.Build($"{name}HuePicker", hue, 1, 0,
+            new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(huePickerWidth, huePickerHeight))
+                       .SetOption(new OgMarginTransformerOption(option.PickerOffset, option.PickerOffset));
+            }));
+        OgTextureElement hueBackground = m_BackgroundBuilder.Build($"{name}HueBackground", new DkReadOnlyGetter<Color>(Color.white), huePickerWidth,
+            huePickerHeight, 0, 0, new(option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder), null, null, new(),
+            GenerateHueTexture(huePickerWidth, huePickerHeight));
+        hueBackground.ZOrder = 9999;
+        huePicker.Add(hueBackground);
+        sourceContainer.Add(huePicker);
         DkObservableProperty<Vector2> sV         = new(new DkObservable<Vector2>([]), new(hsvaColor.S, hsvaColor.V));
         DkScriptableObserver<Vector2> sVObserver = new();
         sVObserver.OnUpdate += state =>
@@ -159,14 +156,6 @@ public class EhPickerBuilder(IEhVisualOption visual)
         sVBackground.ZOrder = 9999;
         sVPicker.Add(sVBackground);
         sourceContainer.Add(sVPicker);
-        DkScriptableObserver<bool> observer = new();
-        observer.OnUpdate += state =>
-        {
-            sVPicker.Value.Set(sVPicker.Value.Get());
-            alphaPicker.Value.Set(alphaPicker.Value.Get());
-            huePicker.Value.Set(huePicker.Value.Get());
-        };
-        button.IsInteractingObserver?.AddObserver(observer);
         button.Add(sourceContainer);
         return container;
     }
