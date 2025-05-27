@@ -4,7 +4,7 @@ using DK.Observing.Generic;
 using DK.Property.Observing.Generic;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Observing;
-using EH.Builder.Option;
+using EH.Builder.Options;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Animation;
@@ -93,7 +93,8 @@ public class EhTabBuilder
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height));
         }));
-        sourceContainer.Add(m_BackgroundBuilder.Build($"{name}TabContainerBackground", colorGetter, width, height, 0, 0, new(border, border, border, border)));
+        sourceContainer.Add(m_BackgroundBuilder.Build($"{name}TabContainerBackground", colorGetter, width, height, 0, 0,
+            new(border, border, border, border)));
         sourceContainer.Add(builtContainer);
         return sourceContainer;
     }

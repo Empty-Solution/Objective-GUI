@@ -3,7 +3,7 @@
         <ProjectReference Include="..\EH.Builder.Abstraction\EH.Builder.Abstraction.csproj"/>
         <ProjectReference Include="..\EH.Builder.Interactive.Base\EH.Builder.Interactive.Base.csproj"/>
         <ProjectReference Include="..\EH.Builder.Option.Abstraction\EH.Builder.Option.Abstraction.csproj"/>
-        <ProjectReference Include="..\EH.Builder.Option\EH.Builder.Option.csproj"/>
+        <ProjectReference Include="..\EH.Builder.Options\EH.Builder.Options.csproj"/>
         <ProjectReference Include="..\EH.Builder.Visual\EH.Builder.Visual.csproj"/>
         <ProjectReference Include="..\EH.Builder\EH.Builder.csproj"/>
         <ProjectReference Include="..\OG.Builder.Interactive\OG.Builder.Interactive.csproj"/>

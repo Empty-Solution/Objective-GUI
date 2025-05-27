@@ -1,6 +1,6 @@
 ﻿using DK.Property.Generic;
 using UnityEngine;
-namespace EH.Builder.Option;
+namespace EH.Builder.Options;
 public class EhToggleOption
 {
     public EhToggleOption()

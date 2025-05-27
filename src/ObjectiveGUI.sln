@@ -142,7 +142,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Interactive", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Option.Abstraction", "EH.Builder.Option.Abstraction\EH.Builder.Option.Abstraction.csproj", "{E44BB54B-5102-44DA-A9C1-E0DD24CE4264}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Option", "EH.Builder.Option\EH.Builder.Option.csproj", "{BF954977-9321-4FBA-BC41-98E7C96104E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Options", "EH.Builder.Options\EH.Builder.Options.csproj", "{BF954977-9321-4FBA-BC41-98E7C96104E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Visual", "EH.Builder.Visual\EH.Builder.Visual.csproj", "{7DAA8E60-F8B0-46E8-A6A2-51DB8475F6CF}"
 EndProject

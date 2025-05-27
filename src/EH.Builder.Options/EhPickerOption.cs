@@ -1,6 +1,6 @@
 ﻿using DK.Property.Generic;
 using UnityEngine;
-namespace EH.Builder.Option;
+namespace EH.Builder.Options;
 public class EhPickerOption
 {
     public DkProperty<Color> BackgroundColorProperty { get; }      = new(new Color32(30, 30, 30, 255));

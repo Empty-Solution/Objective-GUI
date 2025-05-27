@@ -1,12 +1,11 @@
 ﻿using DK.Getting.Generic;
 using DK.Observing.Generic;
 using DK.Property.Abstraction.Generic;
-using DK.Property.Observing.Abstraction.Generic;
 using DK.Property.Observing.Generic;
 using EH.Builder.Abstraction;
 using EH.Builder.Interactive.Base;
-using EH.Builder.Option;
-using EH.Builder.Option.Abstraction;
+using EH.Builder.Options;
+using EH.Builder.Options.Abstraction;
 using EH.Builder.Visual;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
@@ -20,7 +19,6 @@ using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
 using OG.Event;
-using OG.Event.Prefab.Abstraction;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
@@ -49,7 +47,8 @@ public class EhPickerBuilder(IEhVisualOption visual)
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height));
             }));
-        OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", value, option.Width, option.Height, 0, 0, new(option.Border, option.Border, option.Border, option.Border));
+        OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", value, option.Width, option.Height, 0, 0,
+            new(option.Border, option.Border, option.Border, option.Border));
         container.Add(background);
         container.Add(button);
         IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}SourceContainer",
@@ -148,8 +147,8 @@ public class EhPickerBuilder(IEhVisualOption visual)
         alphaPicker.Add(alphaBackground);
         return alphaPicker;
     }
-    private IOgSlider<IOgVisualElement> BuildHuePicker(string name, float huePickerWidth, float huePickerHeight,
-        EhPickerOption option, IDkProperty<Color> value, DkObservableProperty<float> hue)
+    private IOgSlider<IOgVisualElement> BuildHuePicker(string name, float huePickerWidth, float huePickerHeight, EhPickerOption option,
+        IDkProperty<Color> value, DkObservableProperty<float> hue)
     {
         DkScriptableObserver<float> hueObserver = new();
         hueObserver.OnUpdate += state =>
@@ -166,7 +165,8 @@ public class EhPickerBuilder(IEhVisualOption visual)
                        .SetOption(new OgMarginTransformerOption(option.PickerOffset, option.PickerOffset));
             }));
         OgTextureElement hueBackground = m_BackgroundBuilder.Build($"{name}HueBackground", new DkReadOnlyGetter<Color>(Color.white), huePickerWidth,
-            huePickerHeight, 0, 0, new(option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder), null, null, new(), GenerateHueTexture(huePickerWidth, huePickerHeight));
+            huePickerHeight, 0, 0, new(option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder), null, null, new(),
+            GenerateHueTexture(huePickerWidth, huePickerHeight));
         hueBackground.ZOrder = 9999;
         huePicker.Add(hueBackground);
         return huePicker;

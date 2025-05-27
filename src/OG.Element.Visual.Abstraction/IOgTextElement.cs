@@ -1,7 +1,8 @@
-﻿using OG.Graphics.Abstraction;
+﻿using DK.Getting.Abstraction.Generic;
+using OG.Graphics.Abstraction;
 namespace OG.Element.Visual.Abstraction;
 public interface IOgTextElement : IOgVisualElement
 {
-    string                  Text    { get; set; }
+    IDkGetProvider<string>? Text    { get; set; }
     IOgTextGraphicsContext? Context { get; }
 }

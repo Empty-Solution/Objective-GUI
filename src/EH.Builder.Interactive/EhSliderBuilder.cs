@@ -1,8 +1,8 @@
 ﻿using DK.Getting.Generic;
 using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Interactive.Base;
-using EH.Builder.Option;
-using EH.Builder.Option.Abstraction;
+using EH.Builder.Options;
+using EH.Builder.Options.Abstraction;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Animation;
@@ -132,7 +132,8 @@ public class EhSliderBuilder(IEhVisualOption context)
         OgEventHandlerProvider backgroundEventHandler = new();
         OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
         OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, option.Width, option.Height, 0,
-            ((option.Height * 2) - option.Height) / 2, new(option.BackgroundBorder, option.BackgroundBorder, option.BackgroundBorder, option.BackgroundBorder), context =>
+            ((option.Height * 2) - option.Height) / 2,
+            new(option.BackgroundBorder, option.BackgroundBorder, option.BackgroundBorder, option.BackgroundBorder), context =>
             {
                 backgroundGetter.Speed          = provider.AnimationSpeed;
                 backgroundHoverObserver.Getter  = backgroundGetter;

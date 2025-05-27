@@ -1,9 +1,7 @@
-﻿using DK.Binding.Generic;
-using DK.Getting.Abstraction.Generic;
-using DK.Observing.Generic;
+﻿using DK.Getting.Abstraction.Generic;
 using DK.Property.Generic;
 using DK.Property.Observing.Abstraction.Generic;
-using EH.Builder.Option.Abstraction;
+using EH.Builder.Options.Abstraction;
 using EH.Builder.Visual;
 using OG.Builder.Contexts.Visual;
 using OG.DataKit.Processing;
@@ -19,20 +17,13 @@ public class EhTextBuilder(IEhVisualOption context)
     public OgTextElement BuildSliderValueText(string name, IDkGetProvider<Color> colorGetter, string textFormat, IDkObservableProperty<float> value,
         int round, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0, IOgEventHandlerProvider? provider = null)
     {
-        DkProperty<string> textProperty = new(string.Format(textFormat, value));
+        DkScriptableProperty<string> textProperty = new(() => string.Format(textFormat, value.Get()), s => value.Set(s));
         OgTextElement text = m_TextBuilder.Build($"{name}TextValue", colorGetter, provider, fontSize, alignment, textProperty,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
                        .SetOption(new OgMarginTransformerOption(x, y));
-            }), out DkBinding<string> textValueBinding);
-        DkScriptableObserver<float> textObserver = new();
-        textObserver.OnUpdate += newValue =>
-        {
-            textProperty.Set(string.Format(textFormat, Math.Round(newValue, round)));
-            textValueBinding.Sync();
-        };
-        value.AddObserver(textObserver);
+            }));
         return text;
     }
     public OgTextElement BuildStaticText(string name, IDkGetProvider<Color> colorGetter, string text, int fontSize, TextAnchor alignment, float width,
@@ -47,8 +38,9 @@ public class EhTextBuilder(IEhVisualOption context)
             }));
         return textElement;
     }
-    public OgTextElement BuildBindableText(string name, IDkGetProvider<Color> colorGetter, IDkObservableProperty<string> value,
-        int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0, Action<OgTextBuildContext>? action = null, IOgEventHandlerProvider? provider = null)
+    public OgTextElement BuildBindableText(string name, IDkGetProvider<Color> colorGetter, IDkObservableProperty<string> value, int fontSize,
+        TextAnchor alignment, float width, float height, float x = 0, float y = 0, Action<OgTextBuildContext>? action = null,
+        IOgEventHandlerProvider? provider = null)
     {
         OgTextElement text = m_TextBuilder.Build($"{name}TextValue", colorGetter, provider, fontSize, alignment, value,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
@@ -56,13 +48,7 @@ public class EhTextBuilder(IEhVisualOption context)
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height))
                        .SetOption(new OgMarginTransformerOption(x, y));
                 action?.Invoke(context);
-            }), out DkBinding<string> textValueBinding);
-        DkScriptableObserver<string> textObserver = new();
-        textObserver.OnUpdate += newValue =>
-        {
-            textValueBinding.Sync();
-        };
-        value.AddObserver(textObserver);
+            }));
         return text;
     }
 }

@@ -1,9 +1,8 @@
-﻿using DK.Binding.Generic;
-using DK.Getting.Abstraction.Generic;
+﻿using DK.Getting.Abstraction.Generic;
+using DK.Getting.Generic;
 using DK.Processing.Abstraction.Generic;
 using DK.Processing.Generic;
-using DK.Setting.Generic;
-using EH.Builder.Option.Abstraction;
+using EH.Builder.Options.Abstraction;
 using OG.Builder.Contexts.Visual;
 using OG.Builder.Visual;
 using OG.Element.Visual;
@@ -23,16 +22,11 @@ public class EhInternalTextBuilder
         m_Context       = context;
     }
     public OgTextElement Build(string name, IDkGetProvider<Color> colorGetter, IOgEventHandlerProvider? provider, int fontSize, TextAnchor alignment,
-        IDkGetProvider<string> textGetter, IDkProcess<OgTextBuildContext> process, out DkBinding<string> textBinding)
+        IDkGetProvider<string> textGetter, IDkProcess<OgTextBuildContext> process)
     {
         m_Processor.AddProcess(process);
         OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter, provider, m_Context.Font, fontSize, alignment, FontStyle.Normal,
-            TextClipping.Clip, false, textGetter.Get()));
-        textBinding = new(textGetter, new DkScriptableSetter<string>(text =>
-        {
-            element.Text = text;
-            return true;
-        }));
+            TextClipping.Clip, false, textGetter));
         m_Processor.RemoveProcess(process);
         return element;
     }
@@ -41,7 +35,7 @@ public class EhInternalTextBuilder
     {
         m_Processor.AddProcess(process);
         OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter, provider, m_Context.Font, fontSize, alignment, FontStyle.Normal,
-            TextClipping.Clip, false, text));
+            TextClipping.Clip, false, new DkReadOnlyGetter<string>(text)));
         m_Processor.RemoveProcess(process);
         return element;
     }

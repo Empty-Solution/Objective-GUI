@@ -1,6 +1,6 @@
 using DK.Property.Generic;
 using UnityEngine;
-namespace EH.Builder.Option;
+namespace EH.Builder.Options;
 public class EhDropdownOption
 {
     public EhDropdownOption()
@@ -14,8 +14,8 @@ public class EhDropdownOption
         ItemBackgroundColor      = new(new Color32(25, 25, 25, 255));
         ItemBackgroundHoverColor = new(new Color32(50, 50, 50, 255));
     }
-    public DkProperty<Color> ModalBackgroundColor    { get; }
-    public DkProperty<Color> BackgroundColor         { get; }
+    public DkProperty<Color> ModalBackgroundColor     { get; }
+    public DkProperty<Color> BackgroundColor          { get; }
     public DkProperty<Color> ItemBackgroundColor      { get; }
     public DkProperty<Color> ItemBackgroundHoverColor { get; }
     public DkProperty<Color> ItemTextColor            { get; }

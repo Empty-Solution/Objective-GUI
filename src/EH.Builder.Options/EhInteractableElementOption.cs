@@ -1,4 +1,4 @@
-﻿namespace EH.Builder.Option;
+﻿namespace EH.Builder.Options;
 public class EhInteractableElementOption
 {
     public float Height            { get; set; } = 34;
