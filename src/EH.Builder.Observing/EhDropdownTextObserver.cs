@@ -20,7 +20,6 @@ public class EhDropdownTextObserver(List<EhDropdownTextObserver> observers, int 
         for(int i = 0; i < observers.Count; i++) observers[i].InternalUpdate(i == index);
         binding.Sync();
         interactable.ShouldProcess = false;
-        interactable.IsInteractingObserver?.Notify(false);
     }
     public void Update(object state)
     {
