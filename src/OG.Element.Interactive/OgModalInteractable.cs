@@ -7,7 +7,7 @@ using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgModalInteractable<TElement>, IOgEventCallback<IOgMouseKeyUpEvent>,
+public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgModalInteractable<TElement>,
                                              IOgEventCallback<IOgMouseKeyDownEvent> where TElement : IOgElement
 {
     private readonly bool m_RightClickOnly;
@@ -15,7 +15,6 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgMo
         rectGetter)
     {
         m_RightClickOnly = rightClickOnly;
-        provider.Register<IOgMouseKeyUpEvent>(this);
         provider.Register<IOgMouseKeyDownEvent>(this);
     }
     public bool Invoke(IOgMouseKeyDownEvent reason)
@@ -27,11 +26,6 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgMo
         IsInteractingObserver?.Notify(ShouldProcess);
         if(m_RightClickOnly) IsRightInteractingObserver?.Notify(ShouldProcess);
         return oldShouldProcess || IsHovering;
-    }
-    public bool Invoke(IOgMouseKeyUpEvent reason)
-    {
-        if(ShouldProcess && base.Invoke(reason)) return true;
-        return ShouldProcess || IsHovering;
     }
     public bool                 ShouldProcess              { get; set; }
     public IDkObservable<bool>? IsInteractingObserver      { get; set; }
