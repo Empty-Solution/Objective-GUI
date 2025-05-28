@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 namespace EH.Builder.Options.Abstraction;
-public interface IEhVisualOption
+public interface IEhVisualProvider
 {
     Font     Font     { get; }
     Material Material { get; }

@@ -22,13 +22,13 @@ using OG.Event;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhPickerBuilder(EhOptionsProvider provider, IEhVisualOption visual)
+public class EhPickerBuilder(EhOptionsProvider provider, IEhVisualProvider visualProvider)
 {
     private readonly EhBackgroundBuilder                m_BackgroundBuilder        = new();
     private readonly EhContainerBuilder                 m_ContainerBuilder         = new();
     private readonly EhInternalHorizontalSliderBuilder  m_HorizontalSliderBuilder  = new();
     private readonly EhInternalModalInteractableBuilder m_ModalInteractableBuilder = new();
-    private readonly EhInternalQuadBuilder              m_QuadBuilder              = new(visual.Material);
+    private readonly EhInternalQuadBuilder              m_QuadBuilder              = new(visualProvider.Material);
     private readonly EhInternalVectorBuilder            m_VectorBuilder            = new();
     private readonly EhInternalVerticalSliderBuilder    m_VerticalSliderBuilder    = new();
     public IOgContainer<IOgElement> Build(string name, IDkProperty<Color> value, float x, float y)

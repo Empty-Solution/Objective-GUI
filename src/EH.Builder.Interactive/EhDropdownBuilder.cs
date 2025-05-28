@@ -26,13 +26,13 @@ using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualOption visual)
+public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualProvider visualProvider)
 {
     protected readonly EhBackgroundBuilder                m_BackgroundBuilder        = new();
     protected readonly EhInternalButtonBuilder            m_ButtonBuilder            = new();
     protected readonly EhContainerBuilder                 m_ContainerBuilder         = new();
     protected readonly EhInternalModalInteractableBuilder m_ModalInteractableBuilder = new();
-    protected readonly EhTextBuilder                      m_TextBuilder              = new(visual);
+    protected readonly EhTextBuilder                      m_TextBuilder              = new(visualProvider);
     public IOgContainer<IOgElement> Build(string name, IDkProperty<int> selected, string[] values)
     {
         EhDropdownOption option = provider.DropdownOption;

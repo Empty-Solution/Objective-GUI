@@ -11,9 +11,9 @@ using OG.Transformer.Options;
 using System;
 using UnityEngine;
 namespace EH.Builder.Interactive.Base;
-public class EhTextBuilder(IEhVisualOption context)
+public class EhTextBuilder(IEhVisualProvider visualProvider)
 {
-    private readonly EhInternalTextBuilder m_TextBuilder = new(context);
+    private readonly EhInternalTextBuilder m_TextBuilder = new(visualProvider);
     public OgTextElement BuildSliderValueText(string name, IDkGetProvider<Color> colorGetter, string textFormat, IDkObservableProperty<float> value,
         int round, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0, IOgEventHandlerProvider? provider = null)
     {

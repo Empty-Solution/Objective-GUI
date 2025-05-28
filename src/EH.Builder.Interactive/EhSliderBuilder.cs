@@ -21,13 +21,13 @@ using OG.Event.Extensions;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhSliderBuilder(EhOptionsProvider provider, IEhVisualOption context)
+public class EhSliderBuilder(EhOptionsProvider provider, IEhVisualProvider visualProvider)
 {
     private readonly EhBackgroundBuilder               m_BackgroundBuilder = new();
     private readonly EhContainerBuilder                m_ContainerBuilder  = new();
     private readonly EhFillBuilder                     m_FillBuilder       = new();
     private readonly EhInternalHorizontalSliderBuilder m_SliderBuilder     = new();
-    private readonly EhTextBuilder                     m_TextBuilder       = new(context);
+    private readonly EhTextBuilder                     m_TextBuilder       = new(visualProvider);
     private readonly EhThumbBuilder                    m_ThumbBuilder      = new();
     public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round)
     {

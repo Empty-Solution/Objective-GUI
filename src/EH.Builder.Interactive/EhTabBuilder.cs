@@ -9,11 +9,11 @@ using OG.Element.Container.Abstraction;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhTabBuilder(EhOptionsProvider provider, IEhVisualOption option)
+public class EhTabBuilder(EhOptionsProvider provider, IEhVisualProvider visualProvider)
 {
     private readonly EhBackgroundBuilder m_BackgroundBuilder = new();
     private readonly EhContainerBuilder  m_ContainerBuilder  = new();
-    private readonly EhTextBuilder       m_TextBuilder       = new(option);
+    private readonly EhTextBuilder       m_TextBuilder       = new(visualProvider);
     public void Build(string leftContainerName, string rightContainerName, IOgContainer<IOgElement> sourceTab,
         out IOgContainer<IOgElement> builtLeftContainer, out IOgContainer<IOgElement> builtRightContainer)
     {
