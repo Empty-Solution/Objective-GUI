@@ -138,16 +138,28 @@ public class EhPickerBuilder(IEhVisualOption visual)
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(sVPickerWidth, alphaPickerHeight))
                        .SetOption(new OgMarginTransformerOption(option.PickerOffset, alphaPickerY));
             }));
-        DkScriptableGetter<Color> topRightColor = new(() =>
+        DkScriptableGetter<Color> topLeftColor = new(() =>
         {
-            HSVAColor hsvaColor = (HSVAColor)value.Get();
-            hsvaColor.S = 1;
-            hsvaColor.V = 1;
-            hsvaColor.A = 1;
+            HSVAColor hsvaColor = new(hue.Get(), 0, 1, 1);
             return (Color)hsvaColor;
         });
-        DkReadOnlyGetter<Color> black = new(Color.black);
-        OgQuadElement sVBackground = m_QuadBuilder.Build($"{name}SVBackground", new DkReadOnlyGetter<Color>(new(1, 1, 1, 1f)), topRightColor, black, black,
+        DkScriptableGetter<Color> topRightColor = new(() =>
+        {
+            HSVAColor hsvaColor = new(hue.Get(), 1, 1, 1);
+            return (Color)hsvaColor;
+        });
+        DkScriptableGetter<Color> bottomLeftColor = new(() =>
+        {
+            HSVAColor hsvaColor = new(hue.Get(), 0, 0, 1);
+            return (Color)hsvaColor;
+        });
+        DkScriptableGetter<Color> bottomRightColor = new(() =>
+        {
+            HSVAColor hsvaColor = new(hue.Get(), 1, 0, 1);
+            return (Color)hsvaColor;
+        });
+
+        OgQuadElement sVBackground = m_QuadBuilder.Build($"{name}SVBackground", topLeftColor, topRightColor, bottomLeftColor, bottomRightColor,
             new(option.MainPickerBorder, option.MainPickerBorder, option.MainPickerBorder, option.MainPickerBorder),
             new OgScriptableBuilderProcess<OgQuadBuildContext>(context =>
             {
