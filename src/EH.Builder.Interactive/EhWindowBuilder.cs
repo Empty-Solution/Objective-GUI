@@ -20,7 +20,8 @@ public class EhWindowBuilder(EhConfigProvider provider)
     private readonly EhContainerBuilder         m_ContainerBuilder  = new();
     private readonly EhInternalDraggableBuilder m_DraggableBuilder  = new();
     public IOgContainer<IOgElement> Build(out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
-        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter, float x = 0, float y = 0)
+        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter, float x = 0,
+        float y = 0)
     {
         EhWindowConfig option = provider.WindowConfig;
         IOgDraggableElement<IOgElement> window = m_DraggableBuilder.Build("MainWindow", new OgScriptableBuilderProcess<OgDraggableBuildContext>(context =>

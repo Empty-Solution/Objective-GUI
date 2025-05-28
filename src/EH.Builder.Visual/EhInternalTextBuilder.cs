@@ -12,14 +12,14 @@ using UnityEngine;
 namespace EH.Builder.Visual;
 public class EhInternalTextBuilder
 {
-    private readonly IEhVisualProvider                 m_VisualProvider;
     private readonly OgTextBuilder                   m_OgTextBuilder;
     private readonly DkProcessor<OgTextBuildContext> m_Processor;
+    private readonly IEhVisualProvider               m_VisualProvider;
     public EhInternalTextBuilder(IEhVisualProvider visualProvider)
     {
-        m_Processor     = new();
-        m_OgTextBuilder = new(new OgTextFactory(), m_Processor);
-        m_VisualProvider       = visualProvider;
+        m_Processor      = new();
+        m_OgTextBuilder  = new(new OgTextFactory(), m_Processor);
+        m_VisualProvider = visualProvider;
     }
     public OgTextElement Build(string name, IDkGetProvider<Color> colorGetter, IOgEventHandlerProvider? provider, int fontSize, TextAnchor alignment,
         IDkGetProvider<string> textGetter, IDkProcess<OgTextBuildContext> process)

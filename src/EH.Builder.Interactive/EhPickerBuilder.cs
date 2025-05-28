@@ -55,8 +55,9 @@ public class EhPickerBuilder(EhConfigProvider provider, IEhVisualProvider visual
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight))
                        .SetOption(new OgMarginTransformerOption(pickerConfig.Width, pickerConfig.Height));
             }));
-        OgTextureElement modalBackground = m_BackgroundBuilder.Build($"{name}ModalBackground", pickerConfig.BackgroundColorProperty, pickerConfig.ModalWindowWidth,
-            pickerConfig.ModalWindowHeight, 0, 0, new(pickerConfig.ModalBorder, pickerConfig.ModalBorder, pickerConfig.ModalBorder, pickerConfig.ModalBorder));
+        OgTextureElement modalBackground = m_BackgroundBuilder.Build($"{name}ModalBackground", pickerConfig.BackgroundColorProperty,
+            pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight, 0, 0,
+            new(pickerConfig.ModalBorder, pickerConfig.ModalBorder, pickerConfig.ModalBorder, pickerConfig.ModalBorder));
         sourceContainer.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
             new DkReadOnlyGetter<Rect>(new(0, 0, pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight))));
         modalBackground.ZOrder = 9999;
@@ -69,57 +70,16 @@ public class EhPickerBuilder(EhConfigProvider provider, IEhVisualProvider visual
         float                       alphaPickerHeight = (pickerConfig.ModalWindowHeight * 0.8f) - pickerConfig.PickerOffset;
         float                       alphaPickerX      = pickerConfig.ModalWindowWidth - alphaPickerWidth - pickerConfig.PickerOffset;
         float                       alphaPickerY      = huePickerHeight + (pickerConfig.PickerOffset * 2);
-        DkScriptableObserver<float> alphaObserver     = new();
-        alphaObserver.OnUpdate += state =>
-        {
-            Color got = value.Get();
-            value.Set(new(got.r, got.g, got.b, state));
-        };
-        DkObservableProperty<float> alpha = new(new DkObservable<float>([]), hsvaColor.A);
-        alpha.AddObserver(alphaObserver);
-        IOgSlider<IOgVisualElement> alphaPicker = m_VerticalSliderBuilder.Build($"{name}AlphaPicker", alpha, 1, 0,
-            new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
-            {
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(alphaPickerWidth, alphaPickerHeight))
-                       .SetOption(new OgMarginTransformerOption(alphaPickerX, alphaPickerY));
-            }));
-        DkScriptableGetter<Color> topColor = new(() =>
-        {
-            HSVAColor hsvaColor = (HSVAColor)value.Get();
-            hsvaColor.A = 1;
-            return (Color)hsvaColor;
-        });
-        DkReadOnlyGetter<Color> nullColor = new(new(0, 0, 0, 0));
-        OgQuadElement alphaBackground = m_QuadBuilder.Build($"{name}AlphaBackground", topColor, topColor, nullColor, nullColor,
-            new(pickerConfig.AlphaPickerBorder, pickerConfig.AlphaPickerBorder, pickerConfig.AlphaPickerBorder, pickerConfig.AlphaPickerBorder),
-            new OgScriptableBuilderProcess<OgQuadBuildContext>(context =>
-            {
-                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(alphaPickerWidth, alphaPickerHeight));
-            }));
-        alphaBackground.ZOrder = 9999;
-        alphaPicker.Add(alphaBackground);
-        sourceContainer.Add(alphaPicker);
-        DkScriptableObserver<float> hueObserver = new();
-        hueObserver.OnUpdate += state =>
-        {
-            HSVAColor hsvaColor = (HSVAColor)value.Get();
-            hsvaColor.H = state;
-            value.Set((Color)hsvaColor);
-        };
-        hue.AddObserver(hueObserver);
-        IOgSlider<IOgVisualElement> huePicker = m_HorizontalSliderBuilder.Build($"{name}HuePicker", hue, 1, 0,
-            new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
-            {
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(huePickerWidth, huePickerHeight))
-                       .SetOption(new OgMarginTransformerOption(pickerConfig.PickerOffset, pickerConfig.PickerOffset));
-            }));
-        OgTextureElement hueBackground = m_BackgroundBuilder.Build($"{name}HueBackground", new DkReadOnlyGetter<Color>(Color.white), huePickerWidth,
-            huePickerHeight, 0, 0, new(pickerConfig.HuePickerBorder, pickerConfig.HuePickerBorder, pickerConfig.HuePickerBorder, pickerConfig.HuePickerBorder), null, null, new(),
-            GenerateHueTexture(huePickerWidth, huePickerHeight));
-        hueBackground.ZOrder = 9999;
-        huePicker.Value.Set(huePicker.Value.Get());
-        huePicker.Add(hueBackground);
-        sourceContainer.Add(huePicker);
+        sourceContainer.Add(BuildAlphaPicker($"{name}AlphaPicker", hsvaColor, value, alphaPickerWidth, alphaPickerHeight, alphaPickerX, alphaPickerY,
+            pickerConfig));
+        sourceContainer.Add(BuildHuePicker($"{name}HuePicker", hue, value, huePickerWidth, huePickerHeight, pickerConfig));
+        sourceContainer.Add(BuildSvPicker(name, hsvaColor, hue, value, alphaPickerWidth, alphaPickerHeight, alphaPickerY, pickerConfig));
+        button.Add(sourceContainer);
+        return container;
+    }
+    private IOgVectorValueElement<IOgVisualElement> BuildSvPicker(string name, HSVAColor hsvaColor, DkObservableProperty<float> hue,
+        IDkProperty<Color> value, float alphaWidth, float height, float y, EhPickerConfig pickerConfig)
+    {
         DkObservableProperty<Vector2> sV         = new(new DkObservable<Vector2>([]), new(hsvaColor.S, hsvaColor.V));
         DkScriptableObserver<Vector2> sVObserver = new();
         sVObserver.OnUpdate += state =>
@@ -127,15 +87,16 @@ public class EhPickerBuilder(EhConfigProvider provider, IEhVisualProvider visual
             HSVAColor hsvaColor = (HSVAColor)value.Get();
             hsvaColor.S = state.x;
             hsvaColor.V = state.y;
+            hsvaColor.H = hue.Get();
             value.Set((Color)hsvaColor);
         };
         sV.AddObserver(sVObserver);
-        float sVPickerWidth = pickerConfig.ModalWindowWidth - alphaPickerWidth - (pickerConfig.PickerOffset * 3);
+        float sVPickerWidth = pickerConfig.ModalWindowWidth - alphaWidth - (pickerConfig.PickerOffset * 3);
         IOgVectorValueElement<IOgVisualElement> sVPicker = m_VectorBuilder.Build($"{name}SVPicker", sV, new(0, 1), new(1, 0),
             new OgScriptableBuilderProcess<OgVectorBuildContext>(context =>
             {
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(sVPickerWidth, alphaPickerHeight))
-                       .SetOption(new OgMarginTransformerOption(pickerConfig.PickerOffset, alphaPickerY));
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(sVPickerWidth, height))
+                       .SetOption(new OgMarginTransformerOption(pickerConfig.PickerOffset, y));
             }));
         DkScriptableGetter<Color> topLeftColor = new(() =>
         {
@@ -157,18 +118,72 @@ public class EhPickerBuilder(EhConfigProvider provider, IEhVisualProvider visual
             HSVAColor hsvaColor = new(hue.Get(), 1, 0, 1);
             return (Color)hsvaColor;
         });
-
         OgQuadElement sVBackground = m_QuadBuilder.Build($"{name}SVBackground", topLeftColor, topRightColor, bottomLeftColor, bottomRightColor,
             new(pickerConfig.MainPickerBorder, pickerConfig.MainPickerBorder, pickerConfig.MainPickerBorder, pickerConfig.MainPickerBorder),
             new OgScriptableBuilderProcess<OgQuadBuildContext>(context =>
             {
-                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(sVPickerWidth, alphaPickerHeight));
+                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(sVPickerWidth, height));
             }));
         sVBackground.ZOrder = 9999;
         sVPicker.Add(sVBackground);
-        sourceContainer.Add(sVPicker);
-        button.Add(sourceContainer);
-        return container;
+        return sVPicker;
+    }
+    private IOgSlider<IOgVisualElement> BuildAlphaPicker(string name, HSVAColor hsvaColor, IDkProperty<Color> value, float width, float height, float x,
+        float y, EhPickerConfig pickerConfig)
+    {
+        DkScriptableObserver<float> alphaObserver = new();
+        alphaObserver.OnUpdate += state =>
+        {
+            Color got = value.Get();
+            value.Set(new(got.r, got.g, got.b, state));
+        };
+        DkObservableProperty<float> alpha = new(new DkObservable<float>([]), hsvaColor.A);
+        alpha.AddObserver(alphaObserver);
+        IOgSlider<IOgVisualElement> alphaPicker = m_VerticalSliderBuilder.Build($"{name}AlphaPicker", alpha, 1, 0,
+            new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height)).SetOption(new OgMarginTransformerOption(x, y));
+            }));
+        DkScriptableGetter<Color> topColor = new(() =>
+        {
+            HSVAColor hsvaColor = (HSVAColor)value.Get();
+            hsvaColor.A = 1;
+            return (Color)hsvaColor;
+        });
+        DkReadOnlyGetter<Color> nullColor = new(new(0, 0, 0, 0));
+        OgQuadElement alphaBackground = m_QuadBuilder.Build($"{name}AlphaBackground", topColor, topColor, nullColor, nullColor,
+            new(pickerConfig.AlphaPickerBorder, pickerConfig.AlphaPickerBorder, pickerConfig.AlphaPickerBorder, pickerConfig.AlphaPickerBorder),
+            new OgScriptableBuilderProcess<OgQuadBuildContext>(context =>
+            {
+                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgSizeTransformerOption(width, height));
+            }));
+        alphaBackground.ZOrder = 9999;
+        alphaPicker.Add(alphaBackground);
+        return alphaPicker;
+    }
+    private IOgSlider<IOgVisualElement> BuildHuePicker(string name, DkObservableProperty<float> hue, IDkProperty<Color> value, float width, float height,
+        EhPickerConfig pickerConfig)
+    {
+        DkScriptableObserver<float> hueObserver = new();
+        hueObserver.OnUpdate += state =>
+        {
+            HSVAColor hsvaColor = (HSVAColor)value.Get();
+            hsvaColor.H = state;
+            value.Set((Color)hsvaColor);
+        };
+        hue.AddObserver(hueObserver);
+        IOgSlider<IOgVisualElement> huePicker = m_HorizontalSliderBuilder.Build($"{name}HuePicker", hue, 1, 0,
+            new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height))
+                       .SetOption(new OgMarginTransformerOption(pickerConfig.PickerOffset, pickerConfig.PickerOffset));
+            }));
+        OgTextureElement hueBackground = m_BackgroundBuilder.Build($"{name}HueBackground", new DkReadOnlyGetter<Color>(Color.white), width, height, 0, 0,
+            new(pickerConfig.HuePickerBorder, pickerConfig.HuePickerBorder, pickerConfig.HuePickerBorder, pickerConfig.HuePickerBorder), null, null, new(),
+            GenerateHueTexture(width, height));
+        hueBackground.ZOrder = 9999;
+        huePicker.Add(hueBackground);
+        return huePicker;
     }
     private Texture2D GenerateHueTexture(float width, float height) //thx ruler gui
     {

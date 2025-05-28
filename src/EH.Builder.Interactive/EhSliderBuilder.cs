@@ -67,7 +67,8 @@ public class EhSliderBuilder(EhConfigProvider provider, IEhVisualProvider visual
             return rect;
         });
         OgTextElement valueText = m_TextBuilder.BuildSliderValueText(name, sliderConfig.TextColor, textFormat, value, round, sliderConfig.ValueFontSize,
-            sliderConfig.ValueAlignment, sliderConfig.Width, sliderConfig.Height * 2, 0, -(provider.InteractableElementConfig.Height - sliderConfig.Height) / 2);
+            sliderConfig.ValueAlignment, sliderConfig.Width, sliderConfig.Height * 2, 0,
+            -(provider.InteractableElementConfig.Height - sliderConfig.Height) / 2);
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbOutlineHoverObserver = new((getter, value) =>
         {
             getter.SetTime();
@@ -76,8 +77,8 @@ public class EhSliderBuilder(EhConfigProvider provider, IEhVisualProvider visual
         OgEventHandlerProvider thumbOutlineEventHandler = new();
         OgAnimationColorGetter thumbOutlineGetter       = new(thumbOutlineEventHandler);
         OgTextureElement thumbOutline = m_ThumbBuilder.Build($"{name}ThumbOutline", thumbOutlineGetter, thumbOutlineObserver, thumbOutlineInteractObserver,
-            sliderConfig.ThumbOutlineSize, 0, ((sliderConfig.Height * 2) - sliderConfig.ThumbOutlineSize) / 2, sliderConfig.ThumbBorder, provider.AnimationSpeed,
-            thumbOutlineEventHandler, context =>
+            sliderConfig.ThumbOutlineSize, 0, ((sliderConfig.Height * 2) - sliderConfig.ThumbOutlineSize) / 2, sliderConfig.ThumbBorder,
+            provider.AnimationSpeed, thumbOutlineEventHandler, context =>
             {
                 thumbOutlineGetter.Speed          = provider.AnimationSpeed;
                 thumbOutlineGetter.RenderCallback = context.RectGetProvider;

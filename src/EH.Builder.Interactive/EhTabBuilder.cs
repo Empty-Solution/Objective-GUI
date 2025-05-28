@@ -23,9 +23,8 @@ public class EhTabBuilder(EhConfigProvider provider, IEhVisualProvider visualPro
         sourceTab.Add(BuildTabContainer(leftContainerName, out builtLeftContainer, tabConfig.TabContainerWidth, tabContainerHeight, 0,
             tabConfig.BackgroundBorder, tabConfig.BackgroundColor));
         sourceTab.Add(BuildTabContainer(rightContainerName, out builtRightContainer, tabConfig.TabContainerWidth, tabContainerHeight,
-            (tabConfig.TabContainerPadding) + tabConfig.TabContainerWidth, tabConfig.BackgroundBorder, tabConfig.BackgroundColor));
+            tabConfig.TabContainerPadding + tabConfig.TabContainerWidth, tabConfig.BackgroundBorder, tabConfig.BackgroundColor));
     }
-
     private IOgContainer<IOgElement> BuildTabContainer(string name, out IOgContainer<IOgElement> builtContainer, float width, float height, float x,
         float border, IDkGetProvider<Color> colorGetter)
     {

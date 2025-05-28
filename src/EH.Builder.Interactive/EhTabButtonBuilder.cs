@@ -41,14 +41,15 @@ public class EhTabButtonBuilder(EhConfigProvider provider)
         });
         OgEventHandlerProvider eventHandler = new();
         OgAnimationColorGetter getter       = new(eventHandler);
-        tabContainer = m_ContainerBuilder.Build($"{name}SourceGlobalTabContainer",
-            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-            {
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption((provider.TabConfig.TabContainerWidth * 2) + (provider.TabConfig.TabContainerPadding * 3),
+        tabContainer = m_ContainerBuilder.Build($"{name}SourceGlobalTabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        {
+            context.RectGetProvider.Options.SetOption(
+                new OgSizeTransformerOption((provider.TabConfig.TabContainerWidth * 2) + (provider.TabConfig.TabContainerPadding * 3),
                     tabContainerHeight));
-            }));
+        }));
         OgTextureElement image = m_BackgroundBuilder.Build($"{name}Background", getter, tabButtonConfig.TabButtonSize, tabButtonConfig.TabButtonSize, 0, 0,
-            new(tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder), context =>
+            new(tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder),
+            context =>
             {
                 context.RectGetProvider.Speed = provider.AnimationSpeed;
                 getter.Speed                  = provider.AnimationSpeed;
