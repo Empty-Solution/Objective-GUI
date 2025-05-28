@@ -21,17 +21,15 @@ using OG.Event.Extensions;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhToggleBuilder(IEhVisualOption context)
+public class EhToggleBuilder(EhOptionsProvider provider, IEhVisualOption context)
 {
     private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
     private readonly EhContainerBuilder      m_ContainerBuilder  = new();
     private readonly EhFillBuilder           m_FillBuilder       = new();
-    private readonly EhOptionsProvider       m_OptionsProvider   = new();
     private readonly EhTextBuilder           m_TextBuilder       = new(context);
     private readonly EhThumbBuilder          m_ThumbBuilder      = new();
     private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
-    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value) => Build(name, value, m_OptionsProvider);
-    private IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value, EhOptionsProvider provider)
+    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value)
     {
         EhToggleOption option = provider.ToggleOption;
         IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",

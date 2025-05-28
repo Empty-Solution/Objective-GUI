@@ -14,19 +14,13 @@ using OG.Event;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhWindowBuilder
+public class EhWindowBuilder(EhOptionsProvider provider)
 {
     private readonly EhBackgroundBuilder        m_BackgroundBuilder = new();
     private readonly EhContainerBuilder         m_ContainerBuilder  = new();
     private readonly EhInternalDraggableBuilder m_DraggableBuilder  = new();
-    private readonly EhOptionsProvider          m_OptionsProvider   = new();
     public IOgContainer<IOgElement> Build(out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
-        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter, float x = 0,
-        float y = 0) =>
-        Build(y, x, out tabButtonsContainer, out tabContainer, out toolbarContainer, out tabSeparatorSelectorGetter, m_OptionsProvider);
-    private IOgContainer<IOgElement> Build(float x, float y, out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
-        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter,
-        EhOptionsProvider provider)
+        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter, float x = 0, float y = 0)
     {
         EhWindowOption option = provider.WindowOption;
         IOgDraggableElement<IOgElement> window = m_DraggableBuilder.Build("MainWindow", new OgScriptableBuilderProcess<OgDraggableBuildContext>(context =>

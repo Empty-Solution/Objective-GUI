@@ -22,18 +22,16 @@ using OG.Event;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhPickerBuilder(IEhVisualOption visual)
+public class EhPickerBuilder(EhOptionsProvider provider, IEhVisualOption visual)
 {
     private readonly EhBackgroundBuilder                m_BackgroundBuilder        = new();
     private readonly EhContainerBuilder                 m_ContainerBuilder         = new();
     private readonly EhInternalHorizontalSliderBuilder  m_HorizontalSliderBuilder  = new();
     private readonly EhInternalModalInteractableBuilder m_ModalInteractableBuilder = new();
-    private readonly EhOptionsProvider                  m_OptionsProvider          = new();
     private readonly EhInternalQuadBuilder              m_QuadBuilder              = new(visual.Material);
     private readonly EhInternalVectorBuilder            m_VectorBuilder            = new();
     private readonly EhInternalVerticalSliderBuilder    m_VerticalSliderBuilder    = new();
-    public IOgContainer<IOgElement> Build(string name, IDkProperty<Color> value, float x, float y) => Build(name, value, x, y, m_OptionsProvider);
-    private IOgContainer<IOgElement> Build(string name, IDkProperty<Color> value, float x, float y, EhOptionsProvider provider)
+    public IOgContainer<IOgElement> Build(string name, IDkProperty<Color> value, float x, float y)
     {
         EhPickerOption option = provider.PickerOption;
         IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",
@@ -119,6 +117,7 @@ public class EhPickerBuilder(IEhVisualOption visual)
             huePickerHeight, 0, 0, new(option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder, option.HuePickerBorder), null, null, new(),
             GenerateHueTexture(huePickerWidth, huePickerHeight));
         hueBackground.ZOrder = 9999;
+        huePicker.Value.Set(huePicker.Value.Get());
         huePicker.Add(hueBackground);
         sourceContainer.Add(huePicker);
         DkObservableProperty<Vector2> sV         = new(new DkObservable<Vector2>([]), new(hsvaColor.S, hsvaColor.V));

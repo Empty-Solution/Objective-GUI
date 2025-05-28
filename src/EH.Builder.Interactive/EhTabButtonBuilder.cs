@@ -22,18 +22,14 @@ using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhTabButtonBuilder
+public class EhTabButtonBuilder(EhOptionsProvider provider)
 {
     private static readonly List<EhBaseTabObserver> observers           = [];
-    private readonly        EhOptionsProvider       m_OptionsProvider   = new();
     private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
     private readonly        EhContainerBuilder      m_ContainerBuilder  = new();
     private readonly        EhInternalToggleBuilder m_ToggleBuilder     = new();
-    public IOgContainer<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
-        IOgContainer<IOgElement> source, out IOgContainer<IOgElement> tabContainer) =>
-        Build(name, texture, separatorSelectorGetter, source, out tabContainer, m_OptionsProvider);
-    private IOgToggle<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
-        IOgContainer<IOgElement> source, out IOgContainer<IOgElement> tabContainer, EhOptionsProvider provider)
+    public IOgToggle<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
+        IOgContainer<IOgElement> source, out IOgContainer<IOgElement> tabContainer)
     {
         EhTabButtonOption buttonOption = provider.TabButtonOption;
         float tabContainerHeight = provider.WindowOption.Height - provider.WindowOption.ToolbarContainerHeight - (provider.SeparatorOffset * 2) -
