@@ -14,7 +14,7 @@ using OG.Event;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhWindowBuilder(EhOptionsProvider provider)
+public class EhWindowBuilder(EhConfigProvider provider)
 {
     private readonly EhBackgroundBuilder        m_BackgroundBuilder = new();
     private readonly EhContainerBuilder         m_ContainerBuilder  = new();
@@ -22,7 +22,7 @@ public class EhWindowBuilder(EhOptionsProvider provider)
     public IOgContainer<IOgElement> Build(out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
         out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter, float x = 0, float y = 0)
     {
-        EhWindowOption option = provider.WindowOption;
+        EhWindowConfig option = provider.WindowConfig;
         IOgDraggableElement<IOgElement> window = m_DraggableBuilder.Build("MainWindow", new OgScriptableBuilderProcess<OgDraggableBuildContext>(context =>
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height))
@@ -36,7 +36,7 @@ public class EhWindowBuilder(EhOptionsProvider provider)
         #region separators
         float tabButtonsContainerHeight =
             option.Height - option.ToolbarContainerHeight - (provider.SeparatorOffset * 2) - (option.ToolbarContainerOffset * 2);
-        float   tabContainerX   = provider.TabButtonOption.TabButtonSize + (provider.SeparatorOffset * 2) + (option.TabButtonsContainerOffset * 2);
+        float   tabContainerX   = provider.TabButtonConfig.TabButtonSize + (provider.SeparatorOffset * 2) + (option.TabButtonsContainerOffset * 2);
         float   containerY      = option.ToolbarContainerHeight + option.ToolbarContainerOffset;
         float   xOffset         = tabContainerX - option.TabButtonsContainerOffset;
         Vector4 separatorBorder = new(provider.SeparatorBorder, provider.SeparatorBorder, provider.SeparatorBorder, provider.SeparatorBorder);
@@ -71,13 +71,13 @@ public class EhWindowBuilder(EhOptionsProvider provider)
         }));
         tabButtonsContainer = m_ContainerBuilder.Build("MainWindowTabButtonsContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonOption.TabButtonSize, tabButtonsContainerHeight))
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonConfig.TabButtonSize, tabButtonsContainerHeight))
                    .SetOption(new OgMarginTransformerOption(option.TabButtonsContainerOffset, containerY + option.ToolbarContainerOffset));
         }));
         OgEventHandlerProvider  eventProvider = new();
         OgTransformerRectGetter getter        = new(eventProvider, new OgOptionsContainer());
         getter.Options
-              .SetOption(new OgSizeTransformerOption((provider.TabOption.TabContainerWidth * 2) + (provider.TabButtonOption.TabButtonOffset * 3),
+              .SetOption(new OgSizeTransformerOption((provider.TabConfig.TabContainerWidth * 2) + (provider.TabButtonConfig.TabButtonOffset * 3),
                   tabButtonsContainerHeight)).SetOption(new OgMarginTransformerOption(tabContainerX, containerY + option.ToolbarContainerOffset));
         tabContainer          = new OgInteractableElement<IOgElement>("MainWindowTabContainer", eventProvider, getter);
         getter.LayoutCallback = tabContainer;

@@ -1,10 +1,10 @@
 ﻿using DK.Property.Generic;
 using UnityEngine;
 namespace EH.Builder.Options;
-public class EhWindowOption
+public class EhWindowConfig
 {
     private readonly Color m_BackgroundColor = new Color32(20, 20, 20, 255);
-    public EhWindowOption() => BackgroundColorProperty = new(m_BackgroundColor);
+    public EhWindowConfig() => BackgroundColorProperty = new(m_BackgroundColor);
     public DkProperty<Color> BackgroundColorProperty   { get; }
     public float             Width                     { get; set; } = 680;
     public float             Height                    { get; set; } = 600;

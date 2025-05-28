@@ -1,9 +1,9 @@
 using DK.Property.Generic;
 using UnityEngine;
 namespace EH.Builder.Options;
-public class EhDropdownOption
+public class EhDropdownConfig
 {
-    public EhDropdownOption()
+    public EhDropdownConfig()
     {
         BackgroundColor          = new(new Color32(35, 35, 35, 255));
         TextColor                = new(new Color32(255, 255, 255, 255));

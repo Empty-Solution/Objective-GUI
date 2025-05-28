@@ -1,9 +1,9 @@
 ﻿using DK.Property.Generic;
 using UnityEngine;
 namespace EH.Builder.Options;
-public class EhToggleOption
+public class EhToggleConfig
 {
-    public EhToggleOption()
+    public EhToggleConfig()
     {
         BackgroundColor      = new(new Color32(10, 10, 10, 255));
         FillColor            = new(Color.white);

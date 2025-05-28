@@ -1,7 +1,7 @@
 ﻿using DK.Property.Generic;
 using UnityEngine;
 namespace EH.Builder.Options;
-public class EhTabButtonOption
+public class EhTabButtonConfig
 {
     public DkProperty<Color> ButtonColor     { get; }      = new(new Color32(150, 150, 150, 150));
     public DkProperty<Color> InteractColor   { get; }      = new(Color.white);

@@ -1,9 +1,9 @@
 ﻿using DK.Property.Generic;
 using UnityEngine;
 namespace EH.Builder.Options;
-public class EhSliderOption
+public class EhSliderConfig
 {
-    public EhSliderOption()
+    public EhSliderConfig()
     {
         BackgroundColor        = new(Color.black);
         FillColor              = new(Color.white);

@@ -26,7 +26,7 @@ using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualProvider visualProvider)
+public class EhDropdownBuilder(EhConfigProvider provider, IEhVisualProvider visualProvider)
 {
     protected readonly EhBackgroundBuilder                m_BackgroundBuilder        = new();
     protected readonly EhInternalButtonBuilder            m_ButtonBuilder            = new();
@@ -35,26 +35,26 @@ public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualProvider vis
     protected readonly EhTextBuilder                      m_TextBuilder              = new(visualProvider);
     public IOgContainer<IOgElement> Build(string name, IDkProperty<int> selected, string[] values)
     {
-        EhDropdownOption option = provider.DropdownOption;
+        EhDropdownConfig dropdownConfig = provider.DropdownConfig;
         IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options
-                       .SetOption(new OgSizeTransformerOption(provider.InteractableElementOption.Width, provider.InteractableElementOption.Height))
-                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementOption.VerticalPadding))
-                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementOption.HorizontalPadding));
+                       .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
+                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
+                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding));
             }));
-        container.Add(m_TextBuilder.BuildStaticText($"{name}NameText", option.TextColor, name, option.TextNameFontSize, option.TextNameAlignment,
-            provider.InteractableElementOption.Width - option.Width, provider.InteractableElementOption.Height));
+        container.Add(m_TextBuilder.BuildStaticText($"{name}NameText", dropdownConfig.TextColor, name, dropdownConfig.TextNameFontSize, dropdownConfig.TextNameAlignment,
+            provider.InteractableElementConfig.Width - dropdownConfig.Width, provider.InteractableElementConfig.Height));
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> backgroundObserver = new((getter, value) =>
         {
             getter.SetTime();
             Rect rect = getter.TargetModifier;
-            rect.height           = value ? ((option.ModalItemHeight + option.ModalItemPadding) * values.Length) + option.ModalItemPadding : 0;
+            rect.height           = value ? ((dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * values.Length) + dropdownConfig.ModalItemPadding : 0;
             getter.TargetModifier = rect;
         });
-        OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", option.BackgroundColor, option.Width, option.Height,
-            provider.InteractableElementOption.Width - option.Width, 0, new(option.Border, option.Border, option.Border, option.Border), context =>
+        OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", dropdownConfig.BackgroundColor, dropdownConfig.Width, dropdownConfig.Height,
+            provider.InteractableElementConfig.Width - dropdownConfig.Width, 0, new(dropdownConfig.Border, dropdownConfig.Border, dropdownConfig.Border, dropdownConfig.Border), context =>
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleLeft));
                 backgroundObserver.Getter     = context.RectGetProvider;
@@ -62,8 +62,8 @@ public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualProvider vis
             });
         container.Add(background);
         DkObservableProperty<string> property = new(new DkObservable<string>([]), values[selected.Get()]);
-        OgTextElement text = m_TextBuilder.BuildBindableText($"{name}Text", option.TextColor, property, option.TextFontSize, option.TextAlignment,
-            option.Width, option.Height, provider.InteractableElementOption.Width - option.Width, 0, context =>
+        OgTextElement text = m_TextBuilder.BuildBindableText($"{name}Text", dropdownConfig.TextColor, property, dropdownConfig.TextFontSize, dropdownConfig.TextAlignment,
+            dropdownConfig.Width, dropdownConfig.Height, provider.InteractableElementConfig.Width - dropdownConfig.Width, 0, context =>
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleLeft));
             });
@@ -77,9 +77,9 @@ public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualProvider vis
         IOgModalInteractable<IOgElement> button = m_ModalInteractableBuilder.Build($"{name}", false,
             new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>
             {
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height))
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(dropdownConfig.Width, dropdownConfig.Height))
                        .SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleLeft))
-                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementOption.Width - option.Width));
+                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.Width - dropdownConfig.Width));
                 context.Element.IsInteractingObserver?.AddObserver(backgroundObserver);
                 context.Element.IsInteractingObserver?.AddObserver(observer);
                 context.Element.IsInteractingObserver?.Notify(false);
@@ -88,11 +88,11 @@ public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualProvider vis
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options
-                       .SetOption(new OgSizeTransformerOption(option.Width, (option.ModalItemHeight + option.ModalItemPadding) * values.Length))
-                       .SetOption(new OgMarginTransformerOption(0, option.Height - option.ModalItemPadding));
+                       .SetOption(new OgSizeTransformerOption(dropdownConfig.Width, (dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * values.Length))
+                       .SetOption(new OgMarginTransformerOption(0, dropdownConfig.Height - dropdownConfig.ModalItemPadding));
             }));
         button.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
-            new DkReadOnlyGetter<Rect>(new(0, 0, option.Width, (option.ModalItemHeight + option.ModalItemPadding) * values.Length))));
+            new DkReadOnlyGetter<Rect>(new(0, 0, dropdownConfig.Width, (dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * values.Length))));
         List<EhDropdownTextObserver> observers = [];
         for(int i = 0; i < values.Length; i++) sourceContainer.Add(BuildDropdownItem(values[i], i, selected, property, observers, button, provider));
         observers[selected.Get()].Update(false);
@@ -102,9 +102,9 @@ public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualProvider vis
     }
     private IOgInteractableElement<IOgVisualElement> BuildDropdownItem(string name, int index, IDkProperty<int> selected,
         DkObservableProperty<string> property, List<EhDropdownTextObserver> observers, IOgModalInteractable<IOgElement> interactable,
-        EhOptionsProvider provider)
+        EhConfigProvider provider)
     {
-        EhDropdownOption           option   = provider.DropdownOption;
+        EhDropdownConfig dropdownConfig = provider.DropdownConfig;
         DkScriptableObserver<bool> observer = new();
         observer.OnUpdate += state =>
         {
@@ -113,19 +113,19 @@ public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualProvider vis
         DkBinding<string>      binding          = new(new DkReadOnlyGetter<string>(name), property);
         OgEventHandlerProvider textEventHandler = new();
         OgAnimationColorGetter textGetter       = new(textEventHandler);
-        EhDropdownTextObserver textObserver = new(observers, observers.Count, option.ItemTextColor, option.SelectedItemTextColor, textGetter, binding,
+        EhDropdownTextObserver textObserver = new(observers, observers.Count, dropdownConfig.ItemTextColor, dropdownConfig.SelectedItemTextColor, textGetter, binding,
             interactable);
         observers.Add(textObserver);
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
         {
             getter.SetTime();
-            getter.TargetModifier = value ? option.ItemBackgroundHoverColor.Get() : option.ItemBackgroundColor.Get();
+            getter.TargetModifier = value ? dropdownConfig.ItemBackgroundHoverColor.Get() : dropdownConfig.ItemBackgroundColor.Get();
         });
         OgEventHandlerProvider backgroundEventHandler = new();
         OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
         backgroundHoverObserver.Getter = backgroundGetter;
-        OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", backgroundGetter, (option.Width * 0.9f) - (option.Width * 0.05f),
-            option.ModalItemHeight, option.Width * 0.05f, 0, new(option.Border, option.Border, option.Border, option.Border), context =>
+        OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", backgroundGetter, (dropdownConfig.Width * 0.9f) - (dropdownConfig.Width * 0.05f),
+            dropdownConfig.ModalItemHeight, dropdownConfig.Width * 0.05f, 0, new(dropdownConfig.Border, dropdownConfig.Border, dropdownConfig.Border, dropdownConfig.Border), context =>
             {
                 backgroundGetter.Speed          = provider.AnimationSpeed;
                 backgroundHoverObserver.Getter  = backgroundGetter;
@@ -133,8 +133,8 @@ public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualProvider vis
                 backgroundEventHandler.Register(backgroundGetter);
             }, backgroundEventHandler);
         background.ZOrder = 9999;
-        OgTextElement text = m_TextBuilder.BuildStaticText($"{name}Text", textGetter, name, option.ItemTextFontSize, option.ItemTextAlignment,
-            (option.Width * 0.9f) - (option.Width * 0.05f), option.ModalItemHeight, option.Width * 0.05f, 0, context =>
+        OgTextElement text = m_TextBuilder.BuildStaticText($"{name}Text", textGetter, name, dropdownConfig.ItemTextFontSize, dropdownConfig.ItemTextAlignment,
+            (dropdownConfig.Width * 0.9f) - (dropdownConfig.Width * 0.05f), dropdownConfig.ModalItemHeight, dropdownConfig.Width * 0.05f, 0, context =>
             {
                 textGetter.Speed          = provider.AnimationSpeed;
                 textGetter.RenderCallback = context.RectGetProvider;
@@ -143,9 +143,9 @@ public class EhDropdownBuilder(EhOptionsProvider provider, IEhVisualProvider vis
         text.ZOrder = 9999;
         IOgInteractableElement<IOgVisualElement> button = m_ButtonBuilder.Build(name, new OgScriptableBuilderProcess<OgButtonBuildContext>(context =>
         {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption((option.Width * 0.9f) - (option.Width * 0.05f), option.ModalItemHeight))
-                   .SetOption(new OgMarginTransformerOption(option.Width * 0.05f))
-                   .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, option.ModalItemPadding));
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption((dropdownConfig.Width * 0.9f) - (dropdownConfig.Width * 0.05f), dropdownConfig.ModalItemHeight))
+                   .SetOption(new OgMarginTransformerOption(dropdownConfig.Width * 0.05f))
+                   .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, dropdownConfig.ModalItemPadding));
             context.Element.IsInteractingObserver?.AddObserver(textObserver);
             context.Element.IsInteractingObserver?.AddObserver(observer);
             context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);

@@ -1,5 +1,5 @@
 ﻿namespace EH.Builder.Options;
-public class EhInteractableElementOption
+public class EhInteractableElementConfig
 {
     public float Height            { get; set; } = 34;
     public float Width             { get; set; } = 250;

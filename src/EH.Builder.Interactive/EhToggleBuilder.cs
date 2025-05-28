@@ -21,7 +21,7 @@ using OG.Event.Extensions;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhToggleBuilder(EhOptionsProvider provider, IEhVisualProvider visualProvider)
+public class EhToggleBuilder(EhConfigProvider provider, IEhVisualProvider visualProvider)
 {
     private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
     private readonly EhContainerBuilder      m_ContainerBuilder  = new();
@@ -31,28 +31,28 @@ public class EhToggleBuilder(EhOptionsProvider provider, IEhVisualProvider visua
     private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
     public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value)
     {
-        EhToggleOption option = provider.ToggleOption;
+        EhToggleConfig toggleConfig = provider.ToggleConfig;
         IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options
-                       .SetOption(new OgSizeTransformerOption(provider.InteractableElementOption.Width, provider.InteractableElementOption.Height))
-                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementOption.VerticalPadding))
-                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementOption.HorizontalPadding));
+                       .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
+                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
+                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding));
             }));
-        OgTextElement text = m_TextBuilder.BuildStaticText(name, option.TextColor, name, option.FontSize, option.NameAlignment,
-            provider.InteractableElementOption.Width - option.Width, provider.InteractableElementOption.Height);
+        OgTextElement text = m_TextBuilder.BuildStaticText(name, toggleConfig.TextColor, name, toggleConfig.FontSize, toggleConfig.NameAlignment,
+            provider.InteractableElementConfig.Width - toggleConfig.Width, provider.InteractableElementConfig.Height);
         container.Add(text);
-        float offset = (option.Height - option.ThumbSize) / 2;
+        float offset = (toggleConfig.Height - toggleConfig.ThumbSize) / 2;
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbObserver = new((getter, value) =>
-            new(value ? option.Width - option.ThumbSize - offset : offset, 0, 0, 0));
+            new(value ? toggleConfig.Width - toggleConfig.ThumbSize - offset : offset, 0, 0, 0));
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver = new((getter, value) =>
         {
             getter.SetTime();
-            getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, option.ThumbSize / 6, option.ThumbSize / 6);
+            getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, toggleConfig.ThumbSize / 6, toggleConfig.ThumbSize / 6);
         });
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, bool> fillObserver = new((_, value) =>
-            new(0, 0, option.ThumbSize + offset + (value ? option.Width - option.ThumbSize - offset : offset), 0));
+            new(0, 0, toggleConfig.ThumbSize + offset + (value ? toggleConfig.Width - toggleConfig.ThumbSize - offset : offset), 0));
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> fillInteractObserver = new((getter, value) =>
         {
             getter.SetTime();
@@ -60,12 +60,12 @@ public class EhToggleBuilder(EhOptionsProvider provider, IEhVisualProvider visua
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbHoverObserver = new((getter, value) =>
         {
             getter.SetTime();
-            getter.TargetModifier = value ? option.ThumbHoverColor.Get() : option.ThumbColor.Get();
+            getter.TargetModifier = value ? toggleConfig.ThumbHoverColor.Get() : toggleConfig.ThumbColor.Get();
         });
         OgEventHandlerProvider thumbEventHandler = new();
         OgAnimationColorGetter thumbGetter       = new(thumbEventHandler);
-        OgTextureElement thumb = m_ThumbBuilder.Build($"{name}Thumb", thumbGetter, thumbObserver, thumbInteractObserver, option.ThumbSize, 0, offset,
-            option.ThumbBorder, provider.AnimationSpeed, thumbEventHandler, context =>
+        OgTextureElement thumb = m_ThumbBuilder.Build($"{name}Thumb", thumbGetter, thumbObserver, thumbInteractObserver, toggleConfig.ThumbSize, 0, offset,
+            toggleConfig.ThumbBorder, provider.AnimationSpeed, thumbEventHandler, context =>
             {
                 thumbGetter.Speed          = provider.AnimationSpeed;
                 thumbHoverObserver.Getter  = thumbGetter;
@@ -75,11 +75,11 @@ public class EhToggleBuilder(EhOptionsProvider provider, IEhVisualProvider visua
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> fillHoverObserver = new((getter, value) =>
         {
             getter.SetTime();
-            getter.TargetModifier = value ? option.FillHoverColor.Get() : option.FillColor.Get();
+            getter.TargetModifier = value ? toggleConfig.FillHoverColor.Get() : toggleConfig.FillColor.Get();
         });
         OgEventHandlerProvider fillEventHandler = new();
         OgAnimationColorGetter fillGetter       = new(thumbEventHandler);
-        OgTextureElement fill = m_FillBuilder.Build(name, fillGetter, 0, option.Height, 0, 0, option.BackgroundBorder, provider.AnimationSpeed, context =>
+        OgTextureElement fill = m_FillBuilder.Build(name, fillGetter, 0, toggleConfig.Height, 0, 0, toggleConfig.BackgroundBorder, provider.AnimationSpeed, context =>
         {
             fillObserver.Getter         = context.RectGetProvider;
             fillInteractObserver.Getter = context.RectGetProvider;
@@ -91,12 +91,12 @@ public class EhToggleBuilder(EhOptionsProvider provider, IEhVisualProvider visua
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
         {
             getter.SetTime();
-            getter.TargetModifier = value ? option.BackgroundHoverColor.Get() : option.BackgroundColor.Get();
+            getter.TargetModifier = value ? toggleConfig.BackgroundHoverColor.Get() : toggleConfig.BackgroundColor.Get();
         });
         OgEventHandlerProvider backgroundEventHandler = new();
         OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
-        OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, option.Width, option.Height, 0, 0,
-            new(option.BackgroundBorder, option.BackgroundBorder, option.BackgroundBorder, option.BackgroundBorder), context =>
+        OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, toggleConfig.Width, toggleConfig.Height, 0, 0,
+            new(toggleConfig.BackgroundBorder, toggleConfig.BackgroundBorder, toggleConfig.BackgroundBorder, toggleConfig.BackgroundBorder), context =>
             {
                 backgroundGetter.Speed          = provider.AnimationSpeed;
                 backgroundHoverObserver.Getter  = backgroundGetter;
@@ -107,7 +107,7 @@ public class EhToggleBuilder(EhOptionsProvider provider, IEhVisualProvider visua
         {
             context.ValueProvider.AddObserver(fillObserver);
             context.ValueProvider.AddObserver(thumbObserver);
-            context.RectGetProvider.Options.SetOption(new OgMinSizeTransformerOption(option.Width, option.Height))
+            context.RectGetProvider.Options.SetOption(new OgMinSizeTransformerOption(toggleConfig.Width, toggleConfig.Height))
                    .SetOption(new OgFlexiblePositionTransformerOption()).SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleLeft));
             context.Element.IsInteractingObserver?.AddObserver(fillInteractObserver);
             context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
