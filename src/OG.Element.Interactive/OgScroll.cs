@@ -25,4 +25,46 @@ public class OgScroll<TElement>(string name, IOgEventHandlerProvider provider, I
         return elementRectSetter.Set(rect) || base.Invoke(reason);
     }
     public IDkReadOnlyRange<Vector2>? Range { get; set; }
+    public override bool Invoke(IOgRenderEvent reason)
+    {
+        Rect rect = ElementRect.Get();
+        reason.Enter(rect);
+        reason.Global += rect.position + Value.Get();
+        ProcessElementsEventForwardWithDelta(reason);
+        reason.Exit();
+        reason.Global -= rect.position + Value.Get();
+        return false;
+    }
+    public override bool Invoke(IOgInputEvent reason)
+    {
+        Rect rect = ElementRect.Get();
+        reason.LocalMousePosition -= rect.position + Value.Get();
+        bool isUsed = ProcessElementsEventBackwardWithDelta(reason);
+        reason.LocalMousePosition += rect.position + Value.Get();
+        return isUsed;
+    }
+    protected bool ProcessElementsEventForwardWithDelta(IOgEvent reason)
+    {
+        Rect rect = ElementRect.Get();
+        rect.position += Value.Get();
+        for(int i = 0; i < m_Elements.Count; i++)
+            if(ProcessElement(reason, rect, m_Elements[i]))
+                return true;
+        return false;
+    }
+    private bool ProcessElementsEventBackwardWithDelta(IOgInputEvent reason)
+    {
+        Rect rect = ElementRect.Get();
+        rect.position += Value.Get();
+        for(int i = m_Elements.Count - 1; i >= 0; i--)
+            if(ProcessElement(reason, rect, m_Elements[i]))
+                return true;
+        return false;
+    }
+    private bool ProcessElement(IOgEvent reason, Rect rect, TElement element)
+    {
+        Rect elementRect = element.ElementRect.Get();
+        if(elementRect.yMax > rect.yMax || elementRect.xMax > rect.xMax) return false;
+        return element.ProcessEvent(reason);
+    }
 }

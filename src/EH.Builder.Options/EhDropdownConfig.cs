@@ -23,7 +23,7 @@ public class EhDropdownConfig
     public DkProperty<Color> NameTextColor            { get; }
     public DkProperty<Color> SelectedItemTextColor    { get; }
     public float             Width                    { get; set; } = 100;
-    public float             Height                   { get; set; } = 30;
+    public float             Height                   { get; set; } = 25;
     public float             ModalItemHeight          { get; set; } = 25;
     public float             ModalItemPadding         { get; set; } = 5;
     public float             ModalBorder              { get; set; } = 5;

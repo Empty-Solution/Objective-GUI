@@ -14,18 +14,16 @@ using OG.Event;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhWindowBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+public class EhMainWindowBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhInternalDraggableBuilder draggableBuilder)
 {
     public IOgContainer<IOgElement> Build(out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
-        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter, float x = 0,
-        float y = 0)
+        out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter)
     {
         EhWindowConfig option = provider.WindowConfig;
         IOgDraggableElement<IOgElement> window = draggableBuilder.Build("MainWindow", new OgScriptableBuilderProcess<OgDraggableBuildContext>(context =>
         {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height))
-                   .SetOption(new OgMarginTransformerOption(x, y));
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height));
         }));
         IOgContainer<IOgElement> sourceContainer = containerBuilder.Build("MainWindowTabButtonsContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
@@ -85,6 +83,7 @@ public class EhWindowBuilder(EhConfigProvider provider, EhBackgroundBuilder back
         window.Add(backgroundBuilder.Build("MainWindowBackground", option.BackgroundColorProperty, option.Width, option.Height, 0, 0,
             new(option.WindowBorderRadius, option.WindowBorderRadius, option.WindowBorderRadius, option.WindowBorderRadius)));
         window.Add(sourceContainer);
+        window.Add(toolbarContainer);
         return window;
     }
 }

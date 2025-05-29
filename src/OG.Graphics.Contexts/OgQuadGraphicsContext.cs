@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 namespace OG.Graphics.Contexts;
-public class OgQuadGraphicsContext : IOgQuadGraphicsContext
+public class OgQuadGraphicsContext : OgBaseGraphicsContext, IOgQuadGraphicsContext
 {
     private readonly List<int>      m_Indices = [];
     public           List<OgVertex> Vertices      { get; } = [];
@@ -13,8 +13,6 @@ public class OgQuadGraphicsContext : IOgQuadGraphicsContext
     public           Vector3        Scale         { get; set; } = Vector3.one;
     public           Rect           ViewPort      { get; set; } = new(0.0f, 0.0f, Screen.width, Screen.height);
     public           Material?      Material      { get; set; }
-    public           Rect           RenderRect    { get; set; }
-    public           int            ZOrder        { get; set; }
     public void CopyVertices(OgVertex[] array) => Vertices.CopyTo(array);
     public void CopyIndices(int[] array) => m_Indices.CopyTo(array);
     public void AddVertex(OgVertex vertex) => Vertices.Add(vertex);

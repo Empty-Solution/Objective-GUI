@@ -22,10 +22,10 @@ namespace EH.Builder.Interactive;
 public class EhToggleBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhFillBuilder fillBuilder, EhTextBuilder textBuilder, EhThumbBuilder thumbBuilder, EhInternalToggleBuilder toggleBuilder)
 {
-    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value)
+    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value, float y)
     {
         EhToggleConfig           toggleConfig = provider.ToggleConfig;
-        IOgContainer<IOgElement> container    = BuildContainer(name);
+        IOgContainer<IOgElement> container    = BuildContainer(name, y);
         OgTextElement            text         = BuildText(name, toggleConfig);
         container.Add(text);
         float offset = (toggleConfig.Height - toggleConfig.ThumbSize) / 2;
@@ -57,13 +57,12 @@ public class EhToggleBuilder(EhConfigProvider provider, EhBackgroundBuilder back
         container.Add(toggle);
         return container;
     }
-    private IOgContainer<IOgElement> BuildContainer(string name) =>
+    private IOgContainer<IOgElement> BuildContainer(string name, float y) =>
         containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
             context.RectGetProvider.Options
                    .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
-                   //.SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
-                   .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding));
+                   .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding, y));
         }));
     private OgTextElement BuildText(string name, EhToggleConfig toggleConfig) =>
         textBuilder.BuildStaticText(name, toggleConfig.TextColor, name, toggleConfig.FontSize, toggleConfig.NameAlignment,

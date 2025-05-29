@@ -22,17 +22,15 @@ namespace EH.Builder.Interactive;
 public class EhSliderBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhFillBuilder fillBuilder, EhTextBuilder textBuilder, EhThumbBuilder thumbBuilder, EhInternalHorizontalSliderBuilder sliderBuilder)
 {
-    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round)
+    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round, float y)
     {
         EhSliderConfig sliderConfig = provider.SliderConfig;
-        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container",
-            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-            {
-                context.RectGetProvider.Options
-                       .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
-                       //.SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
-                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding));
-            }));
+        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        {
+            context.RectGetProvider.Options
+                   .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
+                   .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding, y));
+        }));
         OgTextElement nameText = textBuilder.BuildStaticText(name, sliderConfig.TextColor, name, sliderConfig.NameFontSize, sliderConfig.NameAlignment,
             provider.InteractableElementConfig.Width - sliderConfig.Width, provider.InteractableElementConfig.Height);
         container.Add(nameText);
@@ -61,7 +59,7 @@ public class EhSliderBuilder(EhConfigProvider provider, EhBackgroundBuilder back
         });
         OgTextElement valueText = textBuilder.BuildSliderValueText(name, sliderConfig.TextColor, textFormat, value, round, sliderConfig.ValueFontSize,
             sliderConfig.ValueAlignment, sliderConfig.Width, sliderConfig.Height * 2, 0,
-            -(provider.InteractableElementConfig.Height - sliderConfig.Height) / 2);
+            (-(provider.InteractableElementConfig.Height - sliderConfig.Height) / 2) - (provider.InteractableElementConfig.VerticalPadding / 2));
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbOutlineHoverObserver = new((getter, value) =>
         {
             getter.SetTime();

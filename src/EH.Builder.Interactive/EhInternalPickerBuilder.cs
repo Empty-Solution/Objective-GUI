@@ -20,19 +20,18 @@ using OG.Event;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhPickerBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
-    EhInternalModalInteractableBuilder modalInteractableBuilder, EhInternalQuadBuilder quadBuilder, EhInternalVectorBuilder vectorBuilder,
+public class EhInternalPickerBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+    EhInternalModalInteractableBuilder modalInteractableBuilder, EhQuadBuilder quadBuilder, EhInternalVectorBuilder vectorBuilder,
     EhInternalHorizontalSliderBuilder horizontalSliderBuilder, EhInternalVerticalSliderBuilder verticalSliderBuilder)
 {
     public IOgContainer<IOgElement> Build(string name, IDkProperty<Color> value, float x, float y)
     {
         EhPickerConfig pickerConfig = provider.PickerConfig;
-        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container",
-            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-            {
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.Width, pickerConfig.Height))
-                       .SetOption(new OgMarginTransformerOption(x, y));
-            }));
+        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        {
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.Width, pickerConfig.Height))
+                   .SetOption(new OgMarginTransformerOption(x, y));
+        }));
         IOgModalInteractable<IOgElement> button = modalInteractableBuilder.Build($"{name}", false,
             new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>
             {
