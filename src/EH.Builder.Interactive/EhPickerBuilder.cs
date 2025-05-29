@@ -22,40 +22,34 @@ using OG.Event;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhPickerBuilder(EhConfigProvider provider, IEhVisualProvider visualProvider)
+public class EhPickerBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder, EhInternalModalInteractableBuilder modalInteractableBuilder,
+    EhInternalQuadBuilder quadBuilder, EhInternalVectorBuilder vectorBuilder, EhInternalHorizontalSliderBuilder horizontalSliderBuilder, EhInternalVerticalSliderBuilder verticalSliderBuilder)
 {
-    private readonly EhBackgroundBuilder                m_BackgroundBuilder        = new();
-    private readonly EhContainerBuilder                 m_ContainerBuilder         = new();
-    private readonly EhInternalHorizontalSliderBuilder  m_HorizontalSliderBuilder  = new();
-    private readonly EhInternalModalInteractableBuilder m_ModalInteractableBuilder = new();
-    private readonly EhInternalQuadBuilder              m_QuadBuilder              = new(visualProvider.Material);
-    private readonly EhInternalVectorBuilder            m_VectorBuilder            = new();
-    private readonly EhInternalVerticalSliderBuilder    m_VerticalSliderBuilder    = new();
     public IOgContainer<IOgElement> Build(string name, IDkProperty<Color> value, float x, float y)
     {
         EhPickerConfig pickerConfig = provider.PickerConfig;
-        IOgContainer<IOgElement> container = m_ContainerBuilder.Build($"{name}Container",
+        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.Width, pickerConfig.Height))
-                       .SetOption(new OgMarginTransformerOption(x, y)).SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL));
+                       .SetOption(new OgMarginTransformerOption(x, y));
             }));
-        IOgModalInteractable<IOgElement> button = m_ModalInteractableBuilder.Build($"{name}", false,
+        IOgModalInteractable<IOgElement> button = modalInteractableBuilder.Build($"{name}", false,
             new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.Width, pickerConfig.Height));
             }));
-        OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", value, pickerConfig.Width, pickerConfig.Height, 0, 0,
+        OgTextureElement background = backgroundBuilder.Build($"{name}Background", value, pickerConfig.Width, pickerConfig.Height, 0, 0,
             new(pickerConfig.Border, pickerConfig.Border, pickerConfig.Border, pickerConfig.Border));
         container.Add(background);
         container.Add(button);
-        IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}SourceContainer",
+        IOgContainer<IOgElement> sourceContainer = containerBuilder.Build($"{name}SourceContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight))
                        .SetOption(new OgMarginTransformerOption(pickerConfig.Width, pickerConfig.Height));
             }));
-        OgTextureElement modalBackground = m_BackgroundBuilder.Build($"{name}ModalBackground", pickerConfig.BackgroundColorProperty,
+        OgTextureElement modalBackground = backgroundBuilder.Build($"{name}ModalBackground", pickerConfig.BackgroundColorProperty,
             pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight, 0, 0,
             new(pickerConfig.ModalBorder, pickerConfig.ModalBorder, pickerConfig.ModalBorder, pickerConfig.ModalBorder));
         sourceContainer.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
@@ -92,7 +86,7 @@ public class EhPickerBuilder(EhConfigProvider provider, IEhVisualProvider visual
         };
         sV.AddObserver(sVObserver);
         float sVPickerWidth = pickerConfig.ModalWindowWidth - alphaWidth - (pickerConfig.PickerOffset * 3);
-        IOgVectorValueElement<IOgVisualElement> sVPicker = m_VectorBuilder.Build($"{name}SVPicker", sV, new(0, 1), new(1, 0),
+        IOgVectorValueElement<IOgVisualElement> sVPicker = vectorBuilder.Build($"{name}SVPicker", sV, new(0, 1), new(1, 0),
             new OgScriptableBuilderProcess<OgVectorBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(sVPickerWidth, height))
@@ -118,7 +112,7 @@ public class EhPickerBuilder(EhConfigProvider provider, IEhVisualProvider visual
             HSVAColor hsvaColor = new(hue.Get(), 1, 0, 1);
             return (Color)hsvaColor;
         });
-        OgQuadElement sVBackground = m_QuadBuilder.Build($"{name}SVBackground", topLeftColor, topRightColor, bottomLeftColor, bottomRightColor,
+        OgQuadElement sVBackground = quadBuilder.Build($"{name}SVBackground", topLeftColor, topRightColor, bottomLeftColor, bottomRightColor,
             new(pickerConfig.MainPickerBorder, pickerConfig.MainPickerBorder, pickerConfig.MainPickerBorder, pickerConfig.MainPickerBorder),
             new OgScriptableBuilderProcess<OgQuadBuildContext>(context =>
             {
@@ -139,7 +133,7 @@ public class EhPickerBuilder(EhConfigProvider provider, IEhVisualProvider visual
         };
         DkObservableProperty<float> alpha = new(new DkObservable<float>([]), hsvaColor.A);
         alpha.AddObserver(alphaObserver);
-        IOgSlider<IOgVisualElement> alphaPicker = m_VerticalSliderBuilder.Build($"{name}AlphaPicker", alpha, 1, 0,
+        IOgSlider<IOgVisualElement> alphaPicker = verticalSliderBuilder.Build($"{name}AlphaPicker", alpha, 1, 0,
             new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height)).SetOption(new OgMarginTransformerOption(x, y));
@@ -151,7 +145,7 @@ public class EhPickerBuilder(EhConfigProvider provider, IEhVisualProvider visual
             return (Color)hsvaColor;
         });
         DkReadOnlyGetter<Color> nullColor = new(new(0, 0, 0, 0));
-        OgQuadElement alphaBackground = m_QuadBuilder.Build($"{name}AlphaBackground", topColor, topColor, nullColor, nullColor,
+        OgQuadElement alphaBackground = quadBuilder.Build($"{name}AlphaBackground", topColor, topColor, nullColor, nullColor,
             new(pickerConfig.AlphaPickerBorder, pickerConfig.AlphaPickerBorder, pickerConfig.AlphaPickerBorder, pickerConfig.AlphaPickerBorder),
             new OgScriptableBuilderProcess<OgQuadBuildContext>(context =>
             {
@@ -172,13 +166,13 @@ public class EhPickerBuilder(EhConfigProvider provider, IEhVisualProvider visual
             value.Set((Color)hsvaColor);
         };
         hue.AddObserver(hueObserver);
-        IOgSlider<IOgVisualElement> huePicker = m_HorizontalSliderBuilder.Build($"{name}HuePicker", hue, 1, 0,
+        IOgSlider<IOgVisualElement> huePicker = horizontalSliderBuilder.Build($"{name}HuePicker", hue, 1, 0,
             new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height))
                        .SetOption(new OgMarginTransformerOption(pickerConfig.PickerOffset, pickerConfig.PickerOffset));
             }));
-        OgTextureElement hueBackground = m_BackgroundBuilder.Build($"{name}HueBackground", new DkReadOnlyGetter<Color>(Color.white), width, height, 0, 0,
+        OgTextureElement hueBackground = backgroundBuilder.Build($"{name}HueBackground", new DkReadOnlyGetter<Color>(Color.white), width, height, 0, 0,
             new(pickerConfig.HuePickerBorder, pickerConfig.HuePickerBorder, pickerConfig.HuePickerBorder, pickerConfig.HuePickerBorder), null, null, new(),
             GenerateHueTexture(width, height));
         hueBackground.ZOrder = 9999;

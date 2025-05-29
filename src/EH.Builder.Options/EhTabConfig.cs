@@ -7,4 +7,6 @@ public class EhTabConfig
     public float             BackgroundBorder    { get; set; } = 5;
     public float             TabContainerWidth   { get; set; } = 270;
     public float             TabContainerPadding { get; set; } = 25;
+    public int               TabTitleFontSize = 14;
+    public TextAnchor               TabTitleAlignment = TextAnchor.UpperLeft;
 }

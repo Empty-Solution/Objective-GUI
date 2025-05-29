@@ -22,12 +22,9 @@ using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhTabButtonBuilder(EhConfigProvider provider)
+public class EhTabButtonBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder, EhInternalToggleBuilder toggleBuilder)
 {
-    private static readonly List<EhBaseTabObserver> observers           = [];
-    private readonly        EhBackgroundBuilder     m_BackgroundBuilder = new();
-    private readonly        EhContainerBuilder      m_ContainerBuilder  = new();
-    private readonly        EhInternalToggleBuilder m_ToggleBuilder     = new();
+    private readonly List<EhBaseTabObserver> m_Observers           = [];
     public IOgToggle<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,
         IOgContainer<IOgElement> source, out IOgContainer<IOgElement> tabContainer)
     {
@@ -41,13 +38,13 @@ public class EhTabButtonBuilder(EhConfigProvider provider)
         });
         OgEventHandlerProvider eventHandler = new();
         OgAnimationColorGetter getter       = new(eventHandler);
-        tabContainer = m_ContainerBuilder.Build($"{name}SourceGlobalTabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        tabContainer = containerBuilder.Build($"{name}SourceGlobalTabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
             context.RectGetProvider.Options.SetOption(
                 new OgSizeTransformerOption((provider.TabConfig.TabContainerWidth * 2) + (provider.TabConfig.TabContainerPadding * 3),
                     tabContainerHeight));
         }));
-        OgTextureElement image = m_BackgroundBuilder.Build($"{name}Background", getter, tabButtonConfig.TabButtonSize, tabButtonConfig.TabButtonSize, 0, 0,
+        OgTextureElement image = backgroundBuilder.Build($"{name}Background", getter, tabButtonConfig.TabButtonSize, tabButtonConfig.TabButtonSize, 0, 0,
             new(tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder),
             context =>
             {
@@ -57,8 +54,8 @@ public class EhTabButtonBuilder(EhConfigProvider provider)
                 getter.RenderCallback         = context.RectGetProvider;
                 eventHandler.Register(getter);
             }, eventHandler, new(), texture);
-        EhTabObserver tabObserver = new(observers, source, tabContainer, tabButtonConfig.TabButtonSize, separatorSelectorGetter);
-        IOgToggle<IOgVisualElement> button = m_ToggleBuilder.Build($"{name}Button", new DkObservableProperty<bool>(new DkObservable<bool>([]), false),
+        EhTabObserver tabObserver = new(m_Observers, source, tabContainer, tabButtonConfig.TabButtonSize, separatorSelectorGetter);
+        IOgToggle<IOgVisualElement> button = toggleBuilder.Build($"{name}Button", new DkObservableProperty<bool>(new DkObservable<bool>([]), false),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
                 context.ValueProvider.AddObserver(backgroundObserver);

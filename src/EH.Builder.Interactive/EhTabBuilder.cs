@@ -9,11 +9,8 @@ using OG.Element.Container.Abstraction;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhTabBuilder(EhConfigProvider provider, IEhVisualProvider visualProvider)
+public class EhTabBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder, EhTextBuilder textBuilder)
 {
-    private readonly EhBackgroundBuilder m_BackgroundBuilder = new();
-    private readonly EhContainerBuilder  m_ContainerBuilder  = new();
-    private readonly EhTextBuilder       m_TextBuilder       = new(visualProvider);
     public void Build(string leftContainerName, string rightContainerName, IOgContainer<IOgElement> sourceTab,
         out IOgContainer<IOgElement> builtLeftContainer, out IOgContainer<IOgElement> builtRightContainer)
     {
@@ -21,23 +18,26 @@ public class EhTabBuilder(EhConfigProvider provider, IEhVisualProvider visualPro
         float tabContainerHeight = provider.WindowConfig.Height - provider.WindowConfig.ToolbarContainerHeight - (provider.SeparatorOffset * 2) -
                                    (provider.WindowConfig.ToolbarContainerOffset * 2);
         sourceTab.Add(BuildTabContainer(leftContainerName, out builtLeftContainer, tabConfig.TabContainerWidth, tabContainerHeight, 0,
-            tabConfig.BackgroundBorder, tabConfig.BackgroundColor));
+            tabConfig.BackgroundBorder, tabConfig.BackgroundColor, tabConfig));
         sourceTab.Add(BuildTabContainer(rightContainerName, out builtRightContainer, tabConfig.TabContainerWidth, tabContainerHeight,
-            tabConfig.TabContainerPadding + tabConfig.TabContainerWidth, tabConfig.BackgroundBorder, tabConfig.BackgroundColor));
+            tabConfig.TabContainerPadding + tabConfig.TabContainerWidth, tabConfig.BackgroundBorder, tabConfig.BackgroundColor, tabConfig));
     }
     private IOgContainer<IOgElement> BuildTabContainer(string name, out IOgContainer<IOgElement> builtContainer, float width, float height, float x,
-        float border, IDkGetProvider<Color> colorGetter)
+        float border, IDkGetProvider<Color> colorGetter, EhTabConfig tabConfig)
     {
-        IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}SourceTabContainer",
+        IOgContainer<IOgElement> sourceContainer = containerBuilder.Build($"{name}SourceTabContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height)).SetOption(new OgMarginTransformerOption(x));
             }));
-        builtContainer = m_ContainerBuilder.Build($"{name}TabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        sourceContainer.Add(textBuilder.BuildStaticText($"{name}TabContainerTitle", colorGetter, name, tabConfig.TabTitleFontSize,
+            tabConfig.TabTitleAlignment, width, height * 0.05f));
+        builtContainer = containerBuilder.Build($"{name}TabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height));
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height))
+                   .SetOption(new OgMarginTransformerOption(0, height * 0.05f));
         }));
-        sourceContainer.Add(m_BackgroundBuilder.Build($"{name}TabContainerBackground", colorGetter, width, height, 0, 0,
+        sourceContainer.Add(backgroundBuilder.Build($"{name}TabContainerBackground", colorGetter, width, height, 0, 0,
             new(border, border, border, border)));
         sourceContainer.Add(builtContainer);
         return sourceContainer;
