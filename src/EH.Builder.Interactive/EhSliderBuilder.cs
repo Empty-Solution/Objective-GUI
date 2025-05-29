@@ -24,14 +24,14 @@ public class EhSliderBuilder(EhConfigProvider provider, EhBackgroundBuilder back
 {
     public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round)
     {
-        EhSliderConfig sliderConfig = provider.SliderConfig;
-        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-        {
-            context.RectGetProvider.Options
-                   .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
-                   //.SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
-                   .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding));
-        }));
+        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options
+                       .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
+                       //.SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
+                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding));
+            }));
         OgTextElement nameText = textBuilder.BuildStaticText(name, sliderConfig.TextColor, name, sliderConfig.NameFontSize, sliderConfig.NameAlignment,
             provider.InteractableElementConfig.Width - sliderConfig.Width, provider.InteractableElementConfig.Height);
         container.Add(nameText);

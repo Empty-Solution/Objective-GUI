@@ -31,13 +31,14 @@ public class EhDropdownBuilder(EhConfigProvider provider, EhBackgroundBuilder ba
     public IOgContainer<IOgElement> Build(string name, IDkProperty<int> selected, string[] values)
     {
         EhDropdownConfig dropdownConfig = provider.DropdownConfig;
-        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-        {
-            context.RectGetProvider.Options
-                   .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
-                   .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
-                   .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding));
-        }));
+        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options
+                       .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
+                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
+                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding));
+            }));
         container.Add(textBuilder.BuildStaticText($"{name}NameText", dropdownConfig.TextColor, name, dropdownConfig.TextNameFontSize,
             dropdownConfig.TextNameAlignment, provider.InteractableElementConfig.Width - dropdownConfig.Width, provider.InteractableElementConfig.Height));
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> backgroundObserver = new((getter, value) =>

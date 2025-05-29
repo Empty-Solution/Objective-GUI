@@ -36,8 +36,8 @@ public class EhTabBuilder(EhConfigProvider provider, EhBackgroundBuilder backgro
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height))
                    .SetOption(new OgMarginTransformerOption(0, height * 0.05f));
         }));
-        sourceContainer.Add(
-            backgroundBuilder.Build($"{name}TabContainerBackground", colorGetter, width, height, 0, 0, new(border, border, border, border)));
+        sourceContainer.Add(backgroundBuilder.Build($"{name}TabContainerBackground", colorGetter, width, height, 0, 0,
+            new(border, border, border, border)));
         sourceContainer.Add(builtContainer);
         return sourceContainer;
     }
