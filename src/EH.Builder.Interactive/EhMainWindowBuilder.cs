@@ -1,4 +1,5 @@
-﻿using EH.Builder.Interactive.Base;
+﻿using DK.Getting.Generic;
+using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
@@ -17,7 +18,7 @@ namespace EH.Builder.Interactive;
 public class EhMainWindowBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhInternalDraggableBuilder draggableBuilder)
 {
-    public IOgContainer<IOgElement> Build(out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
+    public IOgContainer<IOgElement> Build(Texture2D texture, out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
         out IOgContainer<IOgElement> toolbarContainer, out OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter)
     {
         EhWindowConfig option = provider.WindowConfig;
@@ -37,19 +38,19 @@ public class EhMainWindowBuilder(EhConfigProvider provider, EhBackgroundBuilder 
         float   containerY      = option.ToolbarContainerHeight + option.ToolbarContainerOffset;
         float   xOffset         = tabContainerX - option.TabButtonsContainerOffset;
         Vector4 separatorBorder = new(provider.SeparatorBorder, provider.SeparatorBorder, provider.SeparatorBorder, provider.SeparatorBorder);
-        OgTextureElement tabSeparator = backgroundBuilder.Build("TabSeparator", provider.SeparatorColor, provider.SeparatorWidth,
+        OgTextureElement tabSeparator = backgroundBuilder.Build("TabSeparator", provider.SeparatorColor, provider.SeparatorSize,
             option.Height - containerY - (provider.SeparatorOffset * 2), xOffset, option.ToolbarContainerHeight + provider.SeparatorOffset,
             separatorBorder);
         OgTextureElement subTabSeparator = backgroundBuilder.Build("SubTabSeparator", provider.SeparatorColor,
-            option.Width - xOffset - (provider.SeparatorOffset * 2), provider.SeparatorWidth, xOffset + provider.SeparatorOffset,
+            option.Width - xOffset - (provider.SeparatorOffset * 2), provider.SeparatorSize, xOffset + provider.SeparatorOffset,
             option.ToolbarContainerHeight, separatorBorder);
         OgTextureElement logoBottomSeparator = backgroundBuilder.Build("LogoBottomSeparator", provider.SeparatorColor,
-            xOffset - (provider.SeparatorOffset * 2), provider.SeparatorWidth, provider.SeparatorOffset, option.ToolbarContainerHeight, separatorBorder);
-        OgTextureElement logoRightSeparator = backgroundBuilder.Build("LogoRightSeparator", provider.SeparatorColor, provider.SeparatorWidth,
+            xOffset - (provider.SeparatorOffset * 2), provider.SeparatorSize, provider.SeparatorOffset, option.ToolbarContainerHeight, separatorBorder);
+        OgTextureElement logoRightSeparator = backgroundBuilder.Build("LogoRightSeparator", provider.SeparatorColor, provider.SeparatorSize,
             option.ToolbarContainerHeight - (provider.SeparatorOffset * 2), xOffset, provider.SeparatorOffset, separatorBorder);
         OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorThumbGetter = null!;
-        OgTextureElement tabSeparatorThumb = backgroundBuilder.Build("LogoBottomSeparator", provider.SeparatorThumbColor, provider.SeparatorWidth * 3, 0,
-            xOffset - provider.SeparatorWidth, containerY + option.ToolbarContainerOffset, separatorBorder, context =>
+        OgTextureElement tabSeparatorThumb = backgroundBuilder.Build("LogoBottomSeparator", provider.SeparatorThumbColor, provider.SeparatorSize * 3, 0,
+            xOffset - provider.SeparatorSize, containerY + option.ToolbarContainerOffset, separatorBorder, context =>
             {
                 context.RectGetProvider.Speed = provider.AnimationSpeed;
                 tabSeparatorThumbGetter       = context.RectGetProvider;
@@ -82,6 +83,17 @@ public class EhMainWindowBuilder(EhConfigProvider provider, EhBackgroundBuilder 
         sourceContainer.Add(tabButtonsContainer);
         window.Add(backgroundBuilder.Build("MainWindowBackground", option.BackgroundColorProperty, option.Width, option.Height, 0, 0,
             new(option.WindowBorderRadius, option.WindowBorderRadius, option.WindowBorderRadius, option.WindowBorderRadius)));
+        IOgContainer<IOgElement> logoContainer = containerBuilder.Build("MainWindowLogoContainer",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(xOffset, option.ToolbarContainerHeight))
+                       .SetOption(new OgMarginTransformerOption(provider.SeparatorOffset / 2));
+            }));
+        logoContainer.Add(backgroundBuilder.Build("MainWindowLogo", option.LogoColor, option.LogoSize, option.LogoSize, 0, 0, new(), context =>
+        {
+            context.RectGetProvider.OriginalGetter.Options.SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleCenter));
+        }, null, new(), texture));
+        window.Add(logoContainer);
         window.Add(sourceContainer);
         window.Add(toolbarContainer);
         return window;

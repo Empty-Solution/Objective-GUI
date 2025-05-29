@@ -16,5 +16,5 @@ public class EhConfigProvider
     public DkProperty<Color>           SeparatorColor            { get; set; } = new(new Color32(100, 100, 100, 150));
     public DkProperty<Color>           SeparatorThumbColor       { get; set; } = new(new Color32(255, 255, 255, 255));
     public float                       SeparatorBorder           { get; set; } = 90;
-    public float                       SeparatorWidth            { get; set; } = 1;
+    public float                       SeparatorSize            { get; set; } = 1;
 }

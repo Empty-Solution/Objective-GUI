@@ -31,7 +31,7 @@ public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRend
             if(!m_Provider.TryGetMatcher(context, out IOgGraphics graphics)) continue;
             if(context.ClipRect != Rect.zero) GUI.BeginClip(context.ClipRect);
             graphics.ProcessContext(context);
-            GUI.EndClip();
+            if(context.ClipRect != Rect.zero) GUI.EndClip();
         }
         m_Contexts.Clear();
     }
