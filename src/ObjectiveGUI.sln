@@ -166,6 +166,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wrapping", "Wrapping", "{88
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Wrapping.DataTypes", "EH.Builder.Wrapping.DataTypes\EH.Builder.Wrapping.DataTypes.csproj", "{E8FBC211-DFA1-405E-AB02-C8FB2BE4DA95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OG.DataTypes.BindType", "OG.DataTypes.BindType\OG.DataTypes.BindType.csproj", "{7538AC40-EDA1-47E9-B98E-9CDF9133810A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -396,6 +398,10 @@ Global
 		{E8FBC211-DFA1-405E-AB02-C8FB2BE4DA95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8FBC211-DFA1-405E-AB02-C8FB2BE4DA95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8FBC211-DFA1-405E-AB02-C8FB2BE4DA95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7538AC40-EDA1-47E9-B98E-9CDF9133810A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7538AC40-EDA1-47E9-B98E-9CDF9133810A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7538AC40-EDA1-47E9-B98E-9CDF9133810A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7538AC40-EDA1-47E9-B98E-9CDF9133810A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -468,6 +474,7 @@ Global
 		{88A26C10-46BA-4872-A007-640D92AD5284} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
 		{ED452750-BC60-4948-86E9-8D51C71DA2BE} = {88A26C10-46BA-4872-A007-640D92AD5284}
 		{E8FBC211-DFA1-405E-AB02-C8FB2BE4DA95} = {88A26C10-46BA-4872-A007-640D92AD5284}
+		{7538AC40-EDA1-47E9-B98E-9CDF9133810A} = {55D9D0A5-1E4B-4978-B9BD-6481E5C4273E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8DE026B-F83F-49C3-AAF4-C3924C080D00}

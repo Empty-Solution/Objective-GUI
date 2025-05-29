@@ -9,6 +9,6 @@ public class OgElement(string name, IOgEventHandlerProvider provider, IDkGetProv
     public IDkGetProvider<Rect> ElementRect => rectGetter;
     public string               Name        => name;
     public bool                 IsActive    { get; set; } = true;
-    public bool ProcessEvent(IOgEvent reason) => IsActive && provider.Handle(reason);
+    public virtual bool ProcessEvent(IOgEvent reason) => IsActive && provider.Handle(reason);
     public virtual int CompareTo(IOgElement other) => 0;
 }

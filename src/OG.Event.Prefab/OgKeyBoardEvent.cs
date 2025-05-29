@@ -5,4 +5,5 @@ public abstract class OgKeyBoardEvent(UnityEngine.Event source) : OgInputEvent(s
 {
     public int            Key       => (int)Source.keyCode;
     public EventModifiers Modifiers => Source.modifiers;
+    public KeyCode        KeyCode   => Source.keyCode;
 }

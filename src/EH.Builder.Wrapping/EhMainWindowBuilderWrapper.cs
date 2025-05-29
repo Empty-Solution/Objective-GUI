@@ -9,11 +9,7 @@ using OG.Element.Container.Abstraction;
 namespace EH.Builder.Wrapping;
 public class EhMainWindowBuilderWrapper
 {
-    private readonly IOgContainer<IOgElement>                        m_Window;
-    public           IOgContainer<IOgElement>                        TabButtons   { get; }
-    public           IOgContainer<IOgElement>                        TabContainer { get; }
-    public           IOgContainer<IOgElement>                        ToolBar      { get; }
-    public           OgAnimationRectGetter<OgTransformerRectGetter>? TabSeparator { get; }
+    private readonly IOgContainer<IOgElement> m_Window;
     public EhMainWindowBuilderWrapper(EhConfigProvider configProvider, IEhVisualProvider visualProvider)
     {
         EhBackgroundBuilder        backgroundBuilder = new();
@@ -27,5 +23,9 @@ public class EhMainWindowBuilderWrapper
         TabContainer = tabContainer;
         TabSeparator = tabSeparator;
     }
+    public IOgContainer<IOgElement>                        TabButtons   { get; }
+    public IOgContainer<IOgElement>                        TabContainer { get; }
+    public IOgContainer<IOgElement>                        ToolBar      { get; }
+    public OgAnimationRectGetter<OgTransformerRectGetter>? TabSeparator { get; }
     public IOgContainer<IOgElement> GetMainWindow() => m_Window;
 }

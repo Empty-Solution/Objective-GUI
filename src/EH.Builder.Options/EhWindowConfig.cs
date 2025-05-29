@@ -11,5 +11,5 @@ public class EhWindowConfig
     public float             TabButtonsContainerOffset { get; set; } = 15;
     public float             ToolbarContainerHeight    { get; set; } = 75;
     public float             ToolbarContainerOffset    { get; set; } = 7;
-    public float             LogoSize    { get; set; } = 40;
+    public float             LogoSize                  { get; set; } = 40;
 }

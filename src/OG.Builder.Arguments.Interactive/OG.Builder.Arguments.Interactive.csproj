@@ -2,5 +2,9 @@
     <ItemGroup>
         <ProjectReference Include="..\OG.Builder.Abstraction\OG.Builder.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Builder.Arguments\OG.Builder.Arguments.csproj"/>
+        <ProjectReference Include="..\OG.DataTypes.BindType\OG.DataTypes.BindType.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="DK.Getting.Overriding.Abstraction.Generic" Version="1.3.7"/>
     </ItemGroup>
 </Project>

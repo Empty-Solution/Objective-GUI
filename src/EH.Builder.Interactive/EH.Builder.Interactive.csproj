@@ -13,4 +13,7 @@
         <ProjectReference Include="..\OG.DataKit.Processing\OG.DataKit.Processing.csproj"/>
         <ProjectReference Include="..\OG.Factory.Visual\OG.Factory.Visual.csproj"/>
     </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="DK.Property.Overriding.Abstraction.Generic" Version="1.3.6"/>
+    </ItemGroup>
 </Project>

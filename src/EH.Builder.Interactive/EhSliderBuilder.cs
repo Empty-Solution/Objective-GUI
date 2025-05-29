@@ -19,6 +19,20 @@ using OG.Event.Extensions;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
+public abstract class EhInternalBindableBuilder<TValue>(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder,
+    EhContainerBuilder containerBuilder, EhInternalModalInteractableBuilder interactableBuilder, EhInternalBindableBuilder<TValue> bindableBuilder)
+{
+    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<TValue> value, float y)
+    {
+        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        {
+            context.RectGetProvider.Options
+                   .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
+                   .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding, y));
+        }));
+        return container;
+    }
+}
 public class EhSliderBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhFillBuilder fillBuilder, EhTextBuilder textBuilder, EhThumbBuilder thumbBuilder, EhInternalHorizontalSliderBuilder sliderBuilder)
 {
