@@ -2,7 +2,6 @@
 using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
-using EH.Builder.Options.Abstraction;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Animation;
@@ -10,7 +9,6 @@ using OG.DataKit.Animation.Extensions;
 using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
 using OG.DataKit.Transformer;
-using OG.DataTypes.Orientation;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Element.Interactive.Abstraction;
@@ -21,14 +19,9 @@ using OG.Event.Extensions;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhToggleBuilder(EhConfigProvider provider, IEhVisualProvider visualProvider)
+public class EhToggleBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+    EhFillBuilder fillBuilder, EhTextBuilder textBuilder, EhThumbBuilder thumbBuilder, EhInternalToggleBuilder toggleBuilder)
 {
-    private readonly EhBackgroundBuilder     m_BackgroundBuilder = new();
-    private readonly EhContainerBuilder      m_ContainerBuilder  = new();
-    private readonly EhFillBuilder           m_FillBuilder       = new();
-    private readonly EhTextBuilder           m_TextBuilder       = new(visualProvider);
-    private readonly EhThumbBuilder          m_ThumbBuilder      = new();
-    private readonly EhInternalToggleBuilder m_ToggleBuilder     = new();
     public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value)
     {
         EhToggleConfig           toggleConfig = provider.ToggleConfig;
@@ -44,7 +37,7 @@ public class EhToggleBuilder(EhConfigProvider provider, IEhVisualProvider visual
          OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> fillHoverObserver) = BuildFill(name, toggleConfig, offset);
         (OgTextureElement background, OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver) =
             BuildBackground(name, toggleConfig);
-        IOgToggle<IOgVisualElement> toggle = m_ToggleBuilder.Build(name, value, new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
+        IOgToggle<IOgVisualElement> toggle = toggleBuilder.Build(name, value, new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
         {
             context.ValueProvider.AddObserver(fillObserver);
             context.ValueProvider.AddObserver(thumbObserver);
@@ -65,15 +58,15 @@ public class EhToggleBuilder(EhConfigProvider provider, IEhVisualProvider visual
         return container;
     }
     private IOgContainer<IOgElement> BuildContainer(string name) =>
-        m_ContainerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
             context.RectGetProvider.Options
                    .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
-                   .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
+                   //.SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
                    .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding));
         }));
     private OgTextElement BuildText(string name, EhToggleConfig toggleConfig) =>
-        m_TextBuilder.BuildStaticText(name, toggleConfig.TextColor, name, toggleConfig.FontSize, toggleConfig.NameAlignment,
+        textBuilder.BuildStaticText(name, toggleConfig.TextColor, name, toggleConfig.FontSize, toggleConfig.NameAlignment,
             provider.InteractableElementConfig.Width - toggleConfig.Width, provider.InteractableElementConfig.Height);
     private (OgTextureElement, OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, bool>,
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool>,
@@ -93,7 +86,7 @@ public class EhToggleBuilder(EhConfigProvider provider, IEhVisualProvider visual
         });
         OgEventHandlerProvider thumbEventHandler = new();
         OgAnimationColorGetter thumbGetter       = new(thumbEventHandler);
-        OgTextureElement thumb = m_ThumbBuilder.Build($"{name}Thumb", thumbGetter, thumbObserver, thumbInteractObserver, toggleConfig.ThumbSize, 0, offset,
+        OgTextureElement thumb = thumbBuilder.Build($"{name}Thumb", thumbGetter, thumbObserver, thumbInteractObserver, toggleConfig.ThumbSize, 0, offset,
             toggleConfig.ThumbBorder, provider.AnimationSpeed, thumbEventHandler, context =>
             {
                 thumbGetter.Speed          = provider.AnimationSpeed;
@@ -120,7 +113,7 @@ public class EhToggleBuilder(EhConfigProvider provider, IEhVisualProvider visual
         });
         OgEventHandlerProvider fillEventHandler = new();
         OgAnimationColorGetter fillGetter       = new(fillEventHandler);
-        OgTextureElement fill = m_FillBuilder.Build(name, fillGetter, 0, toggleConfig.Height, 0, 0, toggleConfig.BackgroundBorder, provider.AnimationSpeed,
+        OgTextureElement fill = fillBuilder.Build(name, fillGetter, 0, toggleConfig.Height, 0, 0, toggleConfig.BackgroundBorder, provider.AnimationSpeed,
             context =>
             {
                 fillObserver.Getter         = context.RectGetProvider;
@@ -142,7 +135,7 @@ public class EhToggleBuilder(EhConfigProvider provider, IEhVisualProvider visual
         });
         OgEventHandlerProvider backgroundEventHandler = new();
         OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
-        OgTextureElement background = m_BackgroundBuilder.Build(name, backgroundGetter, toggleConfig.Width, toggleConfig.Height, 0, 0,
+        OgTextureElement background = backgroundBuilder.Build(name, backgroundGetter, toggleConfig.Width, toggleConfig.Height, 0, 0,
             new(toggleConfig.BackgroundBorder, toggleConfig.BackgroundBorder, toggleConfig.BackgroundBorder, toggleConfig.BackgroundBorder), context =>
             {
                 backgroundGetter.Speed          = provider.AnimationSpeed;
