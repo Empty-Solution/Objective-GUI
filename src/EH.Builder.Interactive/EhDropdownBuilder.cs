@@ -36,7 +36,7 @@ public class EhDropdownBuilder(EhConfigProvider provider, EhBackgroundBuilder ba
             {
                 context.RectGetProvider.Options
                        .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
-                       .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
+                       //.SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, provider.InteractableElementConfig.VerticalPadding))
                        .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding));
             }));
         container.Add(textBuilder.BuildStaticText($"{name}NameText", dropdownConfig.TextColor, name, dropdownConfig.TextNameFontSize,

@@ -24,6 +24,7 @@ public class EhSliderBuilder(EhConfigProvider provider, EhBackgroundBuilder back
 {
     public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round)
     {
+        EhSliderConfig sliderConfig = provider.SliderConfig;
         IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
