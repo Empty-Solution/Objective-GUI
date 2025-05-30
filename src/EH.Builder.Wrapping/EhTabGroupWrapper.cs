@@ -33,7 +33,7 @@ public class EhTabGroupWrapper
         EhBaseModalInteractableBuilder    interactableBuilder     = new();
         EhBaseButtonBuilder               buttonBuilder           = new();
         EhBaseBindableBuilder<float>      sliderBindBuilder       = new();
-        EhInternalBindModalBuilder<float> bindModalBuilder        = new(configProvider, backgroundBuilder, containerBuilder, textBuilder, interactableBuilder, buttonBuilder/*, sliderBindBuilder*/);
+        EhInternalBindModalBuilder<float> bindModalBuilder        = new(configProvider, backgroundBuilder, containerBuilder, textBuilder, interactableBuilder, buttonBuilder, sliderBindBuilder);
         m_SliderBuilder = new(configProvider, containerBuilder, textBuilder, new(configProvider, backgroundBuilder, baseFillBuilder, textBuilder, thumbBuilder, horizontalSliderBuilder), bindModalBuilder);
         m_ToggleBuilder = new(configProvider, backgroundBuilder, containerBuilder, baseFillBuilder, textBuilder, thumbBuilder, toggleBuilder);
         m_InternalPickerBuilder = new(configProvider, backgroundBuilder, containerBuilder, interactableBuilder, quadBuilder, vectorBuilder,

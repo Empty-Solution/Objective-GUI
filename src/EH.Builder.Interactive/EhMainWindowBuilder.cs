@@ -25,7 +25,7 @@ public class EhMainWindowBuilder(EhConfigProvider provider, EhBaseBackgroundBuil
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height));
         }));
-        IOgContainer<IOgElement> sourceContainer = containerBuilder.Build("MainWindowTabButtonsContainer",
+        IOgContainer<IOgElement> sourceContainer = containerBuilder.Build("MainWindowSourceContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(option.Width, option.Height));
