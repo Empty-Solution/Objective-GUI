@@ -11,11 +11,13 @@ using OG.DataKit.Animation;
 using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
 using OG.DataKit.Transformer;
+using OG.DataTypes.Orientation;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Element.Interactive;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
+using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Extensions;
 using OG.Transformer.Options;
@@ -26,8 +28,7 @@ namespace EH.Builder.Interactive;
 public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder, 
     EhBaseTextBuilder textBuilder, EhBaseModalInteractableBuilder interactableBuilder, EhBaseButtonBuilder buttonBuilder/*, EhBaseBindableBuilder<TValue> bindableBuilder*/)
 {
-    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, 
-        Action<IDkProperty<TValue>, float> process)
+    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, Action<IDkProperty<TValue>, float> process)
     {
         EhInteractableElementConfig interactableConfig = provider.InteractableElementConfig;
         IOgModalInteractable<IOgElement> button = interactableBuilder.Build($"{name}Interactable", true,
@@ -37,12 +38,13 @@ public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBas
             }));
         OgEventHandlerProvider  eventProvider = new();
         OgTransformerRectGetter getter        = new(eventProvider, new OgOptionsContainer());
-        getter.Options.SetOption(new OgSizeTransformerOption(interactableConfig.ModalWidth)).SetOption(new OgMarginTransformerOption(width, height));
-        IOgContainer<IOgElement>  container    = new OgInteractableElement<IOgElement>($"{name}Container", eventProvider, getter);
-        DkScriptableGetter<float> heightGetter = new(() => interactableConfig.VerticalPadding + (container.Elements.Count() * (interactableConfig.ModalItemHeight + interactableConfig.VerticalPadding)));
+        getter.Options.SetOption(new OgSizeTransformerOption(interactableConfig.ModalWidth)).SetOption(new OgMarginTransformerOption(0, height));
+        IOgContainer<IOgElement> container = new OgInteractableElement<IOgElement>($"{name}Container", eventProvider, getter);
+        DkScriptableGetter<float> heightGetter = new(() =>
+            interactableConfig.VerticalPadding + (container.Elements.Count() * (interactableConfig.ModalItemHeight + interactableConfig.VerticalPadding)));
         getter.Options.SetOption(new OgGettableSizeTransformerOption(null, heightGetter));
-        button.Add(backgroundBuilder.Build($"{name}InteractableBackground", interactableConfig.ModalBackgroundColor, interactableConfig.ModalWidth, 0,
-            0, 0, new(), context =>
+        button.Add(backgroundBuilder.Build($"{name}InteractableBackground", interactableConfig.ModalBackgroundColor, interactableConfig.ModalWidth, 0, 0,
+            height, new(), context =>
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgGettableSizeTransformerOption(null, heightGetter));
                 context.Element.ZOrder = 2;
@@ -50,17 +52,42 @@ public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBas
         DkScriptableObserver<bool> addButtonObserver = new();
         addButtonObserver.OnUpdate += state =>
         {
+            Debug.Log("hello");
             if(!state) return;
             container.Add(BuildBind($"{name}Bind", container.Elements.Count(), interactableConfig, process));
         };
-        container.Add(buttonBuilder.Build($"{name}InteractableAddButton", new OgScriptableBuilderProcess<OgButtonBuildContext>(context =>
+        IOgInteractableElement<IOgVisualElement> addButton = buttonBuilder.Build($"{name}InteractableAddButton",
+            new OgScriptableBuilderProcess<OgButtonBuildContext>(context =>
+            {
+                context.RectGetProvider.Options
+                       .SetOption(new OgSizeTransformerOption(interactableConfig.ModalWidth * 0.9f, interactableConfig.ModalItemHeight))
+                       .SetOption(new OgMarginTransformerOption(interactableConfig.ModalWidth * 0.05f));
+                context.Element.IsInteractingObserver?.AddObserver(addButtonObserver);
+                context.Element.SortOrder = 1;
+            }));
+        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
         {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(interactableConfig.ModalWidth * 0.9f, interactableConfig.ModalItemHeight))
-                   .SetOption(new OgMarginTransformerOption(interactableConfig.ModalWidth * 0.05f));
-            context.Element.IsInteractingObserver?.AddObserver(addButtonObserver);
-            context.Element.IsInteractingObserver?.Notify(false);
-            context.Element.SortOrder = 2;
-        })));
+            getter.SetTime();
+            getter.TargetModifier = value ? interactableConfig.ModalButtonBackgroundHoverColor.Get() : interactableConfig.ModalButtonBackgroundColor.Get();
+        });
+        OgEventHandlerProvider backgroundEventHandler = new();
+        OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
+        addButton.Add(backgroundBuilder.Build($"{name}InteractableAddButtonBackground", backgroundGetter, interactableConfig.ModalWidth * 0.9f,
+            interactableConfig.ModalItemHeight, 0, 0, new(), context =>
+            {
+                backgroundGetter.Speed          = provider.AnimationSpeed;
+                backgroundHoverObserver.Getter  = backgroundGetter;
+                backgroundGetter.RenderCallback = context.RectGetProvider;
+                backgroundEventHandler.Register(backgroundGetter);
+                context.Element.ZOrder = 3;
+            }, backgroundEventHandler));
+        addButton.Add(textBuilder.BuildStaticText($"{name}InteractableAddButtonText", interactableConfig.ModalButtonTextColor, "Add",
+            interactableConfig.ModalButtonTextFontSize, interactableConfig.ModalButtonTextAlignment, interactableConfig.ModalWidth * 0.9f,
+            interactableConfig.ModalItemHeight, 0, 0, context =>
+            {
+                context.Element.ZOrder = 3;
+            }));
+        container.Add(addButton);
         button.Add(container);
         return button;
     }
@@ -132,7 +159,7 @@ public class EhSliderBuilder(EhConfigProvider provider,
         container.Add(sliderBuilder.Build(name, value, min, max, textFormat, round));
         container.Add(bindModalBuilder.Build(name, provider.InteractableElementConfig.Width - sliderConfig.Width, 
             (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2, provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height,
-            (property, itemY) =>
+            (property, itemIndex) =>
             {
                 
             }));

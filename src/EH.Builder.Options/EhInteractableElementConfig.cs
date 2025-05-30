@@ -14,7 +14,7 @@ public class EhInteractableElementConfig
     public int               ModalButtonTextFontSize         { get; set; } = 14;
     public TextAnchor        ModalButtonTextAlignment        { get; set; } = TextAnchor.MiddleLeft;
     public DkProperty<Color> ModalBackgroundColor            { get; }      = new(new Color32(20, 20, 20, 255));
-    public DkProperty<Color> ModalButtonBackgroundColor      { get; }      = new(new Color32(20, 20, 20, 255));
+    public DkProperty<Color> ModalButtonBackgroundColor      { get; }      = new(new Color32(27, 27, 27, 255));
     public DkProperty<Color> ModalButtonBackgroundHoverColor { get; }      = new(new Color32(40, 40, 40, 255));
     public DkProperty<Color> ModalButtonTextColor            { get; }      = new(new Color32(20, 20, 20, 255));
     public DkProperty<Color> ModalBindBackgroundColor        { get; }      = new(new Color32(20, 20, 20, 255));
