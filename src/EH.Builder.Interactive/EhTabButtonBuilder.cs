@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhTabButtonBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
-    EhInternalToggleBuilder toggleBuilder)
+    EhBaseToggleBuilder toggleBuilder)
 {
     private readonly List<EhBaseTabObserver> m_Observers = [];
     public IOgToggle<IOgVisualElement> Build(string name, Texture2D texture, OgAnimationRectGetter<OgTransformerRectGetter> separatorSelectorGetter,

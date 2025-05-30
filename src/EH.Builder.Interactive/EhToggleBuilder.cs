@@ -20,7 +20,7 @@ using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhToggleBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
-    EhFillBuilder fillBuilder, EhTextBuilder textBuilder, EhThumbBuilder thumbBuilder, EhInternalToggleBuilder toggleBuilder)
+    EhBaseFillBuilder baseFillBuilder, EhBaseTextBuilder textBuilder, EhBaseThumbBuilder thumbBuilder, EhBaseToggleBuilder toggleBuilder)
 {
     public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value, float y)
     {
@@ -112,8 +112,8 @@ public class EhToggleBuilder(EhConfigProvider provider, EhBackgroundBuilder back
         });
         OgEventHandlerProvider fillEventHandler = new();
         OgAnimationColorGetter fillGetter       = new(fillEventHandler);
-        OgTextureElement fill = fillBuilder.Build(name, fillGetter, 0, toggleConfig.Height, 0, 0, toggleConfig.BackgroundBorder, provider.AnimationSpeed,
-            context =>
+        OgTextureElement fill = baseFillBuilder.Build(name, fillGetter, 0, toggleConfig.Height, 0, 0, toggleConfig.BackgroundBorder,
+            provider.AnimationSpeed, context =>
             {
                 fillObserver.Getter         = context.RectGetProvider;
                 fillInteractObserver.Getter = context.RectGetProvider;

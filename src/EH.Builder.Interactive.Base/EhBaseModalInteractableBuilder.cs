@@ -6,11 +6,11 @@ using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Factory.Interactive;
 namespace EH.Builder.Interactive.Base;
-public class EhInternalModalInteractableBuilder
+public class EhBaseModalInteractableBuilder
 {
     private readonly OgModalButtonBuilder                   m_ModalButtonBuilder;
     private readonly DkProcessor<OgModalButtonBuildContext> m_Processor;
-    public EhInternalModalInteractableBuilder()
+    public EhBaseModalInteractableBuilder()
     {
         m_Processor          = new();
         m_ModalButtonBuilder = new(new OgModalButtonFactory(), m_Processor);

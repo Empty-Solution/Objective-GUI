@@ -10,7 +10,7 @@ using OG.Transformer.Options;
 using System;
 using UnityEngine;
 namespace EH.Builder.Interactive.Base;
-public class EhThumbBuilder
+public class EhBaseThumbBuilder
 {
     private readonly EhInternalTextureBuilder m_TextureBuilder = new();
     public OgTextureElement Build<TValue>(string name, IDkGetProvider<Color> colorProperty,

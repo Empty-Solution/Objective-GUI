@@ -20,9 +20,9 @@ using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public abstract class EhInternalBindableBuilder<TValue>(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder,
-    EhContainerBuilder containerBuilder, EhInternalModalInteractableBuilder interactableBuilder, EhInternalBindableBuilder<TValue> bindableBuilder)
+    EhContainerBuilder containerBuilder, EhBaseModalInteractableBuilder interactableBuilder, EhBaseBindableBuilder<TValue> bindableBuilder)
 {
-    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<TValue> value, float y)
+    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<TValue> value, float x, float y, float width, float height)
     {
         IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
@@ -34,7 +34,7 @@ public abstract class EhInternalBindableBuilder<TValue>(EhConfigProvider provide
     }
 }
 public class EhSliderBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
-    EhFillBuilder fillBuilder, EhTextBuilder textBuilder, EhThumbBuilder thumbBuilder, EhInternalHorizontalSliderBuilder sliderBuilder)
+    EhBaseFillBuilder baseFillBuilder, EhBaseTextBuilder textBuilder, EhBaseThumbBuilder thumbBuilder, EhBaseHorizontalSliderBuilder sliderBuilder)
 {
     public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round, float y)
     {
@@ -112,7 +112,7 @@ public class EhSliderBuilder(EhConfigProvider provider, EhBackgroundBuilder back
         });
         OgEventHandlerProvider fillEventHandler = new();
         OgAnimationColorGetter fillGetter       = new(fillEventHandler);
-        OgTextureElement fill = fillBuilder.Build(name, fillGetter, 0, sliderConfig.Height, 0, ((sliderConfig.Height * 2) - sliderConfig.Height) / 2,
+        OgTextureElement fill = baseFillBuilder.Build(name, fillGetter, 0, sliderConfig.Height, 0, ((sliderConfig.Height * 2) - sliderConfig.Height) / 2,
             sliderConfig.BackgroundBorder, provider.AnimationSpeed, context =>
             {
                 context.RectGetProvider.OriginalGetter.Options.SetOption(new OgScriptableTransformerOption((rect, _, _, _) =>

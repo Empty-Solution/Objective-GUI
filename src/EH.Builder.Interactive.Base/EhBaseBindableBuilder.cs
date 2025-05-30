@@ -13,28 +13,11 @@ using OG.Factory.Interactive;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive.Base;
-public class EhInternalToggleBuilder
-{
-    private readonly OgToggleBuilder                   m_OgToggleBuilder;
-    private readonly DkProcessor<OgToggleBuildContext> m_Processor;
-    public EhInternalToggleBuilder()
-    {
-        m_Processor       = new();
-        m_OgToggleBuilder = new(new OgToggleFactory(), m_Processor);
-    }
-    public IOgToggle<IOgVisualElement> Build(string name, IDkObservableProperty<bool> value, IDkProcess<OgToggleBuildContext> process)
-    {
-        m_Processor.AddProcess(process);
-        IOgToggle<IOgVisualElement> element = m_OgToggleBuilder.Build(new(name, value));
-        m_Processor.RemoveProcess(process);
-        return element;
-    }
-}
-public class EhInternalBindableBuilder<TValue>
+public class EhBaseBindableBuilder<TValue>
 {
     private readonly OgBindableBuilder<TValue>                   m_OgToggleBuilder;
     private readonly DkProcessor<OgBindableBuildContext<TValue>> m_Processor;
-    public EhInternalBindableBuilder()
+    public EhBaseBindableBuilder()
     {
         m_Processor       = new();
         m_OgToggleBuilder = new(new OgBindableFactory<TValue>(), m_Processor);

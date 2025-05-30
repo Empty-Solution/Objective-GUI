@@ -21,8 +21,8 @@ using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhInternalPickerBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
-    EhInternalModalInteractableBuilder modalInteractableBuilder, EhQuadBuilder quadBuilder, EhInternalVectorBuilder vectorBuilder,
-    EhInternalHorizontalSliderBuilder horizontalSliderBuilder, EhInternalVerticalSliderBuilder verticalSliderBuilder)
+    EhBaseModalInteractableBuilder modalInteractableBuilder, EhQuadBuilder quadBuilder, EhBaseVectorBuilder vectorBuilder,
+    EhBaseHorizontalSliderBuilder horizontalSliderBuilder, EhBaseVerticalSliderBuilder verticalSliderBuilder)
 {
     public IOgContainer<IOgElement> Build(string name, IDkProperty<Color> value, float x, float y)
     {

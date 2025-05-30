@@ -6,11 +6,11 @@ using OG.Element.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Factory.Interactive;
 namespace EH.Builder.Interactive.Base;
-public class EhInternalDraggableBuilder
+public class EhBaseDraggableBuilder
 {
     private readonly OgDraggableBuilder                   m_OgDraggableBuilder;
     private readonly DkProcessor<OgDraggableBuildContext> m_Processor;
-    public EhInternalDraggableBuilder()
+    public EhBaseDraggableBuilder()
     {
         m_Processor          = new();
         m_OgDraggableBuilder = new(new OgDraggableFactory(), m_Processor);

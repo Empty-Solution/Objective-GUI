@@ -1,4 +1,4 @@
-using DK.Processing.Abstraction.Generic;
+﻿using DK.Processing.Abstraction.Generic;
 using DK.Processing.Generic;
 using DK.Property.Observing.Abstraction.Generic;
 using OG.Builder.Contexts.Interactive;
@@ -6,11 +6,11 @@ using OG.Builder.Interactive;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual.Abstraction;
 namespace EH.Builder.Interactive.Base;
-public class EhInternalVerticalSliderBuilder
+public class EhBaseHorizontalSliderBuilder
 {
-    private readonly OgVerticalSliderBuilder           m_OgSliderBuilder;
+    private readonly OgHorizontalSliderBuilder         m_OgSliderBuilder;
     private readonly DkProcessor<OgSliderBuildContext> m_Processor;
-    public EhInternalVerticalSliderBuilder()
+    public EhBaseHorizontalSliderBuilder()
     {
         m_Processor       = new();
         m_OgSliderBuilder = new(new(), m_Processor);

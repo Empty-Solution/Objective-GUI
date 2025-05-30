@@ -9,11 +9,11 @@ using OG.Element.Visual.Abstraction;
 using OG.Factory.Interactive;
 using UnityEngine;
 namespace EH.Builder.Interactive.Base;
-public class EhInternalVectorBuilder
+public class EhBaseVectorBuilder
 {
     private readonly OgVectorBuilder                   m_OgVectorBuilder;
     private readonly DkProcessor<OgVectorBuildContext> m_Processor;
-    public EhInternalVectorBuilder()
+    public EhBaseVectorBuilder()
     {
         m_Processor       = new();
         m_OgVectorBuilder = new(new OgVectorFactory(), m_Processor);
