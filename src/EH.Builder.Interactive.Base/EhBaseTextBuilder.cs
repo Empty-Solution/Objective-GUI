@@ -1,4 +1,5 @@
 ﻿using DK.Getting.Abstraction.Generic;
+using DK.Property.Abstraction.Generic;
 using DK.Property.Generic;
 using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Options.Abstraction;
@@ -38,7 +39,7 @@ public class EhBaseTextBuilder(IEhVisualProvider visualProvider)
             }));
         return textElement;
     }
-    public OgTextElement BuildBindableText(string name, IDkGetProvider<Color> colorGetter, IDkObservableProperty<string> value, int fontSize,
+    public OgTextElement BuildBindableText(string name, IDkGetProvider<Color> colorGetter, IDkGetProvider<string> value, int fontSize,
         TextAnchor alignment, float width, float height, float x = 0, float y = 0, Action<OgTextBuildContext>? action = null,
         IOgEventHandlerProvider? provider = null)
     {

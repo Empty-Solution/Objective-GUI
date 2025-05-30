@@ -1,4 +1,5 @@
 ﻿using DK.Property.Observing.Abstraction.Generic;
+using EH.Builder.DataTypes;
 using EH.Builder.Interactive;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
@@ -42,29 +43,29 @@ public class EhTabGroupWrapper
         m_Tab             = tab;
         m_ConfigProvider  = configProvider;
     }
-    public void BuildToggle(string name, IDkObservableProperty<bool> property, ushort group)
+    public void BuildToggle(string name, IEhProperty<bool> property, ushort group)
     {
         IOgContainer<IOgElement> container = GetGroup(group);
         IOgContainer<IOgElement> slider    = BuildToggle(name, property, GetVerticalPadding(container));
         container.Add(slider);
     }
-    public void BuildSlider(string name, IDkObservableProperty<float> property, float min, float max, string textFormat, int round, ushort group)
+    public void BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round, ushort group)
     {
         IOgContainer<IOgElement> container = GetGroup(group);
         IOgContainer<IOgElement> slider    = BuildSlider(name, property, min, max, textFormat, round, GetVerticalPadding(container));
         container.Add(slider);
     }
-    public void BuildDropdown(string name, IDkObservableProperty<int> property, string[] values, ushort group)
+    public void BuildDropdown(string name, IEhProperty<int> property, string[] values, ushort group)
     {
         IOgContainer<IOgElement> container = GetGroup(group);
         IOgContainer<IOgElement> slider    = BuildDropdown(name, property, values, GetVerticalPadding(container));
         container.Add(slider);
     }
-    private IOgContainer<IOgElement> BuildSlider(string name, IDkObservableProperty<float> property, float min, float max, string textFormat, int round,
+    private IOgContainer<IOgElement> BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round,
         float y) =>
         m_SliderBuilder.Build(name, property, min, max, textFormat, round, y);
-    private IOgContainer<IOgElement> BuildToggle(string name, IDkObservableProperty<bool> property, float y) => m_ToggleBuilder.Build(name, property, y);
-    private IOgContainer<IOgElement> BuildDropdown(string name, IDkObservableProperty<int> property, string[] values, float y) =>
+    private IOgContainer<IOgElement> BuildToggle(string name, IEhProperty<bool> property, float y) => m_ToggleBuilder.Build(name, property, y);
+    private IOgContainer<IOgElement> BuildDropdown(string name, IEhProperty<int> property, string[] values, float y) =>
         m_DropdownBuilder.Build(name, property, values, y);
     private IOgContainer<IOgElement> GetGroup(ushort group)
     {

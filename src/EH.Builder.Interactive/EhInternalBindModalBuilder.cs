@@ -1,7 +1,9 @@
-﻿using DK.Getting.Generic;
+﻿using DK.Getting.Abstraction.Generic;
+using DK.Getting.Generic;
 using DK.Getting.Overriding.Abstraction.Generic;
 using DK.Observing.Generic;
 using DK.Property.Abstraction.Generic;
+using DK.Property.Generic;
 using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
@@ -22,13 +24,15 @@ using OG.Event;
 using OG.Event.Extensions;
 using OG.Transformer.Options;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder, 
     EhBaseTextBuilder textBuilder, EhBaseModalInteractableBuilder interactableBuilder, EhBaseButtonBuilder buttonBuilder, EhBaseBindableBuilder<TValue> bindableBuilder)
 {
-    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, IDkValueOverride<TValue> valueOverride, IDkObservableProperty<TValue> overrideValue, Func<IOgContainer<IOgVisualElement>> process)
+    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, IDkValueOverride<TValue> valueOverride, 
+        IDkObservableProperty<TValue> overrideValue, Func<IOgContainer<IOgVisualElement>> process)
     {
         EhInteractableElementConfig interactableConfig = provider.InteractableElementConfig;
         IOgModalInteractable<IOgElement> button = interactableBuilder.Build($"{name}Interactable", true,
@@ -138,28 +142,89 @@ public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBas
                 context.Element.ZOrder = 3;
             }));
         float modalHeight = (interactableConfig.VerticalPadding * 2) + ((interactableConfig.BindModalItemHeight + interactableConfig.VerticalPadding) * 2);
-        button.Add(backgroundBuilder.Build($"{name}{bindIndex}Interactable", interactableConfig.ModalBackgroundColor, interactableConfig.BindModalWidth, 
-            modalHeight,
+        button.Add(backgroundBuilder.Build($"{name}{bindIndex}Interactable", interactableConfig.ModalBackgroundColor, interactableConfig.BindModalWidth, modalHeight,
             interactableConfig.ModalWidth, 0, new(interactableConfig.ModalBackgroundBorder, interactableConfig.ModalBackgroundBorder, interactableConfig.ModalBackgroundBorder, interactableConfig.ModalBackgroundBorder), context =>
             {
                 context.Element.ZOrder = 3;
             }));
         OgEventHandlerProvider  eventProvider = new();
         OgTransformerRectGetter getter        = new(eventProvider, new OgOptionsContainer());
-        getter.Options.SetOption(new OgSizeTransformerOption(interactableConfig.BindModalWidth, modalHeight));
+        getter.Options.SetOption(new OgSizeTransformerOption(interactableConfig.BindModalWidth, modalHeight))
+              .SetOption(new OgMarginTransformerOption(interactableConfig.ModalWidth));
         IOgContainer<IOgElement> interactable = new OgInteractableElement<IOgElement>($"{name}{bindIndex}Interactable", eventProvider, getter);
         getter.LayoutCallback = interactable;
         button.Add(interactable);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+        IOgContainer<IOgElement> bindContainer = containerBuilder.Build($"{name}BindContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        {
+            context.RectGetProvider.Options.SetOption(
+                new OgSizeTransformerOption(interactableConfig.BindModalWidth - (interactableConfig.HorizontalPadding * 2), interactableConfig.BindModalItemHeight))
+                   .SetOption(new OgMarginTransformerOption(interactableConfig.HorizontalPadding, interactableConfig.VerticalPadding));
+        }));
+        OgTextElement bindNameText = textBuilder.BuildStaticText($"{name}{bindIndex}BindText", interactableConfig.BindModalTextColor, "Key",
+            interactableConfig.BindModalTextFontSize, interactableConfig.BindModalTextAlignment, interactableConfig.BindModalWidth - interactableConfig.BindWidth,
+            interactableConfig.BindModalItemHeight, 0, 0, context =>
+            {
+                context.Element.ZOrder = 4;
+            });
+        bindContainer.Add(bindNameText);
+        DkProperty<KeyCode?>       keycode           = new(KeyCode.F1);
+        DkScriptableGetter<string> bindNameGetter = new(() => keycode.Get() is null ? "No bind" : keycode.Get().ToString());
+        IOgInteractableValueElement<IOgVisualElement, TValue> bind = bindableBuilder.Build($"{name}{bindIndex}Bind", overrideValue, valueOverride, keycode,
+            new OgScriptableBuilderProcess<OgBindableBuildContext<TValue>>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(interactableConfig.BindWidth, interactableConfig.BindHeight))
+                       .SetOption(new OgMarginTransformerOption(interactableConfig.BindModalWidth - interactableConfig.BindWidth,
+                           (interactableConfig.Height - interactableConfig.BindHeight) / 2));
+            }));
+
+        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> bindHoverObserver = new((getter, value) =>
+        {
+            getter.SetTime();
+            getter.TargetModifier = value ? interactableConfig.BindBackgroundHoverColor.Get() : interactableConfig.BindBackgroundColor.Get();
+        });
+        OgEventHandlerProvider bindEventHandler = new();
+        OgAnimationColorGetter bindBackgroundGetter = new(bindEventHandler);
+        OgTextureElement bindBackground = backgroundBuilder.Build($"{name}{bindIndex}BindBackground", bindBackgroundGetter, interactableConfig.BindWidth,
+            interactableConfig.BindHeight, 0, 0, 
+            new(interactableConfig.BindBorder, interactableConfig.BindBorder, interactableConfig.BindBorder, interactableConfig.BindBorder), 
+            context =>
+            {
+                bindBackgroundGetter.Speed = provider.AnimationSpeed;
+                bindHoverObserver.Getter = bindBackgroundGetter;
+                bindBackgroundGetter.RenderCallback = context.RectGetProvider;
+                bindEventHandler.Register(bindBackgroundGetter);
+                context.Element.ZOrder = 5;
+            }, bindEventHandler);
+        OgTextElement bindText = textBuilder.BuildBindableText($"{name}{bindIndex}BindText", interactableConfig.BindTextColor, bindNameGetter,
+            interactableConfig.BindTextFontSize, interactableConfig.BindTextAlignment, interactableConfig.BindWidth,
+            interactableConfig.BindHeight, 0, 0, context =>
+            {
+                context.Element.ZOrder = 5;
+            });
+
+        bind.Add(bindBackground);
+        bind.Add(bindText);
+
+        IOgContainer<IOgElement> elementContainer = containerBuilder.Build($"{name}ElementContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        {
+            context.RectGetProvider.Options.SetOption(
+                       new OgSizeTransformerOption(interactableConfig.BindModalWidth - (interactableConfig.HorizontalPadding * 2), interactableConfig.BindModalItemHeight))
+                   .SetOption(new OgMarginTransformerOption(interactableConfig.HorizontalPadding, interactableConfig.Height + interactableConfig.VerticalPadding));
+        }));
+        OgTextElement elementLabel = textBuilder.BuildStaticText($"{name}{bindIndex}ElementLabel", interactableConfig.ModalButtonTextColor, "Value",
+            interactableConfig.BindModalTextFontSize, interactableConfig.BindModalTextAlignment, interactableConfig.Width - 100,
+            interactableConfig.BindModalItemHeight, 0, 0, context =>
+            {
+                context.Element.ZOrder = 4;
+            });
+        elementContainer.Add(elementLabel);
+        IOgContainer<IOgVisualElement>? processedElement = process();
+        foreach(IOgVisualElement element in processedElement.Elements)
+                element.ZOrder = 4;
+        elementContainer.Add(processedElement);
+        interactable.Add(bindContainer);
+        interactable.Add(elementContainer);
         container.Add(button);
         return container;
     }
