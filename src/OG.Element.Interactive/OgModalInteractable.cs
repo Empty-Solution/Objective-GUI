@@ -48,7 +48,7 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
     public override int CompareTo(IOgElement other) => 1 + SortOrder;
     public IDkObservable<bool>? IsInteractingObserver      { get; set; }
     public IDkObservable<bool>? IsRightInteractingObserver { get; set; }
-    public int                  SortOrder              { get; set; }
+    public int                  SortOrder                  { get; set; }
     protected override bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
         if(!ShouldProcess) return base.HandleMouseMove(reason);

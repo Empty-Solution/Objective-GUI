@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
         <ProjectReference Include="..\EH.Builder.Abstraction\EH.Builder.Abstraction.csproj"/>
-        <ProjectReference Include="..\EH.Builder.DataTypes\EH.Builder.DataTypes.csproj" />
+        <ProjectReference Include="..\EH.Builder.DataTypes\EH.Builder.DataTypes.csproj"/>
         <ProjectReference Include="..\EH.Builder.Interactive.Base\EH.Builder.Interactive.Base.csproj"/>
         <ProjectReference Include="..\EH.Builder.Option.Abstraction\EH.Builder.Option.Abstraction.csproj"/>
         <ProjectReference Include="..\EH.Builder.Options\EH.Builder.Options.csproj"/>
@@ -15,7 +15,7 @@
         <ProjectReference Include="..\OG.Factory.Visual\OG.Factory.Visual.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="DK.Getting.Overriding.Generic" Version="1.3.7" />
+        <PackageReference Include="DK.Getting.Overriding.Generic" Version="1.3.7"/>
         <PackageReference Include="DK.Property.Overriding.Abstraction.Generic" Version="1.3.7"/>
     </ItemGroup>
 </Project>

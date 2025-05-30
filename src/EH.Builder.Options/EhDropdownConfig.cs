@@ -26,11 +26,9 @@ public class EhDropdownConfig
     public float             Height                   { get; set; } = 25;
     public float             ModalItemHeight          { get; set; } = 25;
     public float             ModalItemPadding         { get; set; } = 5;
-    public float             ModalBorder              { get; set; } = 5;
-    public float             BorderWidth              { get; set; } = 1;
     public float             Border                   { get; set; } = 4;
-    public int               TextNameFontSize         { get; set; } = 14;
-    public TextAnchor        TextNameAlignment        { get; set; } = TextAnchor.MiddleLeft;
+    public int               NameTextFontSize         { get; set; } = 14;
+    public TextAnchor        NameTextAlignment        { get; set; } = TextAnchor.MiddleLeft;
     public int               TextFontSize             { get; set; } = 14;
     public TextAnchor        TextAlignment            { get; set; } = TextAnchor.MiddleCenter;
     public int               ItemTextFontSize         { get; set; } = 14;

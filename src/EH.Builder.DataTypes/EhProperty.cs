@@ -8,15 +8,15 @@ using System.Collections.Generic;
 namespace EH.Builder.DataTypes;
 public class EhProperty<TValue> : IEhProperty<TValue>
 {
-    private          TValue                m_Value;
     private readonly IDkObservable<TValue> m_Observable;
+    private          TValue                m_Value;
     public EhProperty(IDkObservable<TValue> observable, TValue initial)
     {
         m_Observable  = observable;
         m_Value       = initial;
         ValueOverride = new EhValueOverride<TValue>(new Dictionary<object?, IDkGetProvider<TValue>>(), this);
     }
-    public           IEhValueOverride<TValue> ValueOverride { get; }
+    public IEhValueOverride<TValue> ValueOverride { get; }
     public TValue Get() => IsOverriden ? ValueOverride.Get() : m_Value;
     object IDkGetProvider.Get() => Get()!;
     public bool Set(TValue value)

@@ -1,6 +1,5 @@
 ﻿using DK.Getting.Abstraction.Generic;
-using DK.Property.Abstraction.Generic;
-using DK.Property.Generic;
+using DK.Getting.Generic;
 using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Options.Abstraction;
 using EH.Builder.Visual;
@@ -18,7 +17,7 @@ public class EhBaseTextBuilder(IEhVisualProvider visualProvider)
     public OgTextElement BuildSliderValueText(string name, IDkGetProvider<Color> colorGetter, string textFormat, IDkObservableProperty<float> value,
         int round, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0, IOgEventHandlerProvider? provider = null)
     {
-        DkScriptableProperty<string> textProperty = new(() => string.Format(textFormat, value.Get()), s => value.Set(s));
+        DkScriptableGetter<string> textProperty = new(() => string.Format(textFormat, value.Get()));
         OgTextElement text = m_TextBuilder.Build($"{name}TextValue", colorGetter, provider, fontSize, alignment, textProperty,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
             {

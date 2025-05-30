@@ -1,16 +1,13 @@
-﻿using DK.Getting.Abstraction.Generic;
-using DK.Getting.Overriding.Abstraction.Generic;
+﻿using DK.Getting.Overriding.Abstraction.Generic;
 using DK.Processing.Abstraction.Generic;
 using DK.Processing.Generic;
 using DK.Property.Abstraction.Generic;
 using DK.Property.Observing.Abstraction.Generic;
 using OG.Builder.Contexts.Interactive;
 using OG.Builder.Interactive;
-using OG.DataTypes.BindType;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual.Abstraction;
 using OG.Factory.Interactive;
-using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive.Base;
 public class EhBaseBindableBuilder<TValue>
@@ -26,8 +23,7 @@ public class EhBaseBindableBuilder<TValue>
         IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode?> bind, IDkProcess<OgBindableBuildContext<TValue>> process)
     {
         m_Processor.AddProcess(process);
-        IOgInteractableValueElement<IOgVisualElement, TValue>
-            element = m_OgToggleBuilder.Build(new(name, value, valueOverride, bind));
+        IOgInteractableValueElement<IOgVisualElement, TValue> element = m_OgToggleBuilder.Build(new(name, value, valueOverride, bind));
         m_Processor.RemoveProcess(process);
         return element;
     }

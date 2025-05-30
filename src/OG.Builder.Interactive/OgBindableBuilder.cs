@@ -10,12 +10,11 @@ using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Interactive;
-public class OgBindableBuilder<TValue>(
-    IOgElementFactory<IOgBindableElement<IOgVisualElement, TValue>, OgBindableFactoryArguments<TValue>> factory,
+public class OgBindableBuilder<TValue>(IOgElementFactory<IOgBindableElement<IOgVisualElement, TValue>, OgBindableFactoryArguments<TValue>> factory,
     IDkProcessor<OgBindableBuildContext<TValue>>? processor)
     : OgInteractableBuilder<IOgElementFactory<IOgBindableElement<IOgVisualElement, TValue>, OgBindableFactoryArguments<TValue>>,
-        IOgBindableElement<IOgVisualElement, TValue>, OgBindableFactoryArguments<TValue>, OgBindableBuildArguments<TValue>,
-        OgBindableBuildContext<TValue>, OgTransformerRectGetter, IOgVisualElement>(factory, processor)
+        IOgBindableElement<IOgVisualElement, TValue>, OgBindableFactoryArguments<TValue>, OgBindableBuildArguments<TValue>, OgBindableBuildContext<TValue>,
+        OgTransformerRectGetter, IOgVisualElement>(factory, processor)
 {
     protected override OgTransformerRectGetter BuildGetter(OgBindableBuildArguments<TValue> args, IOgEventHandlerProvider provider,
         IOgOptionsContainer container) =>

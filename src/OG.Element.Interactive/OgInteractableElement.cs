@@ -20,7 +20,7 @@ public class OgInteractableElement<TElement> : OgHoverableElement<TElement>, IOg
     public bool Invoke(IOgMouseKeyUpEvent reason) => base.Invoke(reason) || PreEndControl(reason);
     public IDkObservable<bool>? IsInteractingObserver      { get; set; }
     public IDkObservable<bool>? IsRightInteractingObserver { get; set; }
-    public int                  SortOrder              { get; set; }
+    public int                  SortOrder                  { get; set; }
     public override int CompareTo(IOgElement other) => SortOrder;
     protected virtual bool PreBeginControl(IOgMouseKeyDownEvent reason) => !IsInteracting && BeginControl(reason);
     protected virtual bool PreEndControl(IOgMouseKeyUpEvent reason) => IsInteracting && EndControl(reason);

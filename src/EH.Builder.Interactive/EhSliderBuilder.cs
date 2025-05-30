@@ -1,11 +1,4 @@
-﻿using DK.Getting.Abstraction.Generic;
-using DK.Getting.Overriding.Generic;
-using DK.Observing.Generic;
-using DK.Processing.Abstraction.Generic;
-using DK.Property.Abstraction.Generic;
-using DK.Property.Observing.Abstraction.Generic;
-using DK.Property.Observing.Generic;
-using EH.Builder.DataTypes;
+﻿using EH.Builder.DataTypes;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
 using OG.Builder.Contexts;
@@ -14,10 +7,9 @@ using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Element.Visual;
 using OG.Transformer.Options;
-using System.Collections.Generic;
 namespace EH.Builder.Interactive;
-public class EhSliderBuilder(EhConfigProvider provider,
-    EhContainerBuilder containerBuilder, EhBaseTextBuilder textBuilder, EhInternalSliderBuilder sliderBuilder, EhInternalBindModalBuilder<float> bindModalBuilder)
+public class EhSliderBuilder(EhConfigProvider provider, EhContainerBuilder containerBuilder, EhBaseTextBuilder textBuilder,
+    EhInternalSliderBuilder sliderBuilder, EhInternalBindModalBuilder<float> bindModalBuilder)
 {
     public IOgContainer<IOgElement> Build(string name, IEhProperty<float> value, float min, float max, string textFormat, int round, float y)
     {
@@ -28,16 +20,16 @@ public class EhSliderBuilder(EhConfigProvider provider,
                    .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
                    .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding, y));
         }));
-        OgTextElement nameText = textBuilder.BuildStaticText(name, sliderConfig.TextColor, name, sliderConfig.NameFontSize, sliderConfig.NameAlignment,
+        OgTextElement nameText = textBuilder.BuildStaticText(name, sliderConfig.TextColor, name, sliderConfig.NameTextFontSize, sliderConfig.NameAlignment,
             provider.InteractableElementConfig.Width - sliderConfig.Width, provider.InteractableElementConfig.Height);
         container.Add(nameText);
-        container.Add(sliderBuilder.Build(name, value, min, max, textFormat, round));
-        DkObservableProperty<float> overrideValue = new(new DkObservable<float>([]), 0f);
-        container.Add(bindModalBuilder.Build(name, provider.InteractableElementConfig.Width - sliderConfig.Width, 
+        container.Add(sliderBuilder.Build(name, value, min, max, textFormat, round, provider.InteractableElementConfig.Width - sliderConfig.Width));
+        container.Add(bindModalBuilder.Build(name, provider.InteractableElementConfig.Width - sliderConfig.Width,
             (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2, provider.InteractableElementConfig.Width,
-            provider.InteractableElementConfig.Height, value.ValueOverride, overrideValue, () =>
+            provider.InteractableElementConfig.Height, value.ValueOverride, property =>
             {
-                return sliderBuilder.Build(name, overrideValue, min, max, textFormat, round);
+                return sliderBuilder.Build(name, property, min, max, textFormat, round,
+                    provider.InteractableElementConfig.BindModalWidth - sliderConfig.Width - (provider.InteractableElementConfig.HorizontalPadding * 2));
             }));
         return container;
     }

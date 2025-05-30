@@ -1,5 +1,4 @@
-﻿using DK.Property.Observing.Abstraction.Generic;
-using EH.Builder.DataTypes;
+﻿using EH.Builder.DataTypes;
 using EH.Builder.Interactive;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
@@ -21,22 +20,28 @@ public class EhTabGroupWrapper
     private readonly EhToggleBuilder         m_ToggleBuilder;
     public EhTabGroupWrapper(EhConfigProvider configProvider, IEhVisualProvider visualProvider, EhTab tab)
     {
-        EhQuadBuilder                     quadBuilder             = new(visualProvider);
-        EhBaseTextBuilder                 textBuilder             = new(visualProvider);
-        EhBaseBackgroundBuilder           backgroundBuilder       = new();
-        EhContainerBuilder                containerBuilder        = new();
-        EhBaseFillBuilder                 baseFillBuilder         = new();
-        EhBaseThumbBuilder                thumbBuilder            = new();
-        EhBaseHorizontalSliderBuilder     horizontalSliderBuilder = new();
-        EhBaseVerticalSliderBuilder       verticalSliderBuilder   = new();
-        EhBaseVectorBuilder               vectorBuilder           = new();
-        EhBaseToggleBuilder               toggleBuilder           = new();
-        EhBaseModalInteractableBuilder    interactableBuilder     = new();
-        EhBaseButtonBuilder               buttonBuilder           = new();
-        EhBaseBindableBuilder<float>      sliderBindBuilder       = new();
-        EhInternalBindModalBuilder<float> bindModalBuilder        = new(configProvider, backgroundBuilder, containerBuilder, textBuilder, interactableBuilder, buttonBuilder, sliderBindBuilder);
-        m_SliderBuilder = new(configProvider, containerBuilder, textBuilder, new(configProvider, backgroundBuilder, baseFillBuilder, textBuilder, thumbBuilder, horizontalSliderBuilder), bindModalBuilder);
-        m_ToggleBuilder = new(configProvider, backgroundBuilder, containerBuilder, baseFillBuilder, textBuilder, thumbBuilder, toggleBuilder);
+        EhQuadBuilder                  quadBuilder             = new(visualProvider);
+        EhBaseTextBuilder              textBuilder             = new(visualProvider);
+        EhBaseBackgroundBuilder        backgroundBuilder       = new();
+        EhContainerBuilder             containerBuilder        = new();
+        EhBaseFillBuilder              baseFillBuilder         = new();
+        EhBaseThumbBuilder             thumbBuilder            = new();
+        EhBaseHorizontalSliderBuilder  horizontalSliderBuilder = new();
+        EhBaseVerticalSliderBuilder    verticalSliderBuilder   = new();
+        EhBaseVectorBuilder            vectorBuilder           = new();
+        EhBaseToggleBuilder            toggleBuilder           = new();
+        EhBaseModalInteractableBuilder interactableBuilder     = new();
+        EhBaseButtonBuilder            buttonBuilder           = new();
+        EhBaseBindableBuilder<float>   sliderBindBuilder       = new();
+        EhBaseBindableBuilder<bool>    toggleBindBuilder       = new();
+        EhInternalBindModalBuilder<float> sliderBindModalBuilder = new(configProvider, backgroundBuilder, containerBuilder, textBuilder,
+            interactableBuilder, buttonBuilder, sliderBindBuilder);
+        EhInternalBindModalBuilder<bool> toggleBindModalBuilder = new(configProvider, backgroundBuilder, containerBuilder, textBuilder,
+            interactableBuilder, buttonBuilder, toggleBindBuilder);
+        m_SliderBuilder = new(configProvider, containerBuilder, textBuilder,
+            new(configProvider, backgroundBuilder, baseFillBuilder, textBuilder, thumbBuilder, horizontalSliderBuilder), sliderBindModalBuilder);
+        m_ToggleBuilder = new(configProvider, containerBuilder, textBuilder,
+            new(configProvider, backgroundBuilder, baseFillBuilder, thumbBuilder, toggleBuilder), toggleBindModalBuilder);
         m_InternalPickerBuilder = new(configProvider, backgroundBuilder, containerBuilder, interactableBuilder, quadBuilder, vectorBuilder,
             horizontalSliderBuilder, verticalSliderBuilder);
         m_DropdownBuilder = new(configProvider, backgroundBuilder, containerBuilder, buttonBuilder, interactableBuilder, textBuilder);
@@ -61,8 +66,7 @@ public class EhTabGroupWrapper
         IOgContainer<IOgElement> slider    = BuildDropdown(name, property, values, GetVerticalPadding(container));
         container.Add(slider);
     }
-    private IOgContainer<IOgElement> BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round,
-        float y) =>
+    private IOgContainer<IOgElement> BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round, float y) =>
         m_SliderBuilder.Build(name, property, min, max, textFormat, round, y);
     private IOgContainer<IOgElement> BuildToggle(string name, IEhProperty<bool> property, float y) => m_ToggleBuilder.Build(name, property, y);
     private IOgContainer<IOgElement> BuildDropdown(string name, IEhProperty<int> property, string[] values, float y) =>

@@ -2,15 +2,12 @@
 using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
-using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Animation;
 using OG.DataKit.Animation.Extensions;
 using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
 using OG.DataKit.Transformer;
-using OG.Element.Abstraction;
-using OG.Element.Container.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
@@ -19,13 +16,13 @@ using OG.Event.Extensions;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhInternalSliderBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder,
-    EhBaseFillBuilder baseFillBuilder, EhBaseTextBuilder textBuilder, EhBaseThumbBuilder thumbBuilder, EhBaseHorizontalSliderBuilder sliderBuilder)
+public class EhInternalSliderBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhBaseFillBuilder baseFillBuilder,
+    EhBaseTextBuilder textBuilder, EhBaseThumbBuilder thumbBuilder, EhBaseHorizontalSliderBuilder sliderBuilder)
 {
-    public IOgSlider<IOgVisualElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round)
+    public IOgSlider<IOgVisualElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round, float x)
     {
         EhSliderConfig sliderConfig = provider.SliderConfig;
-        float elementY = (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2;
+        float          elementY     = (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2;
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver = new((getter, value) =>
         {
             float offset = sliderConfig.ThumbSize / 6;
@@ -124,7 +121,7 @@ public class EhInternalSliderBuilder(EhConfigProvider provider, EhBaseBackground
             context.ValueProvider.AddObserver(thumbObserver);
             context.ValueProvider.AddObserver(thumbOutlineObserver);
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(sliderConfig.Width, sliderConfig.Height * 2))
-                   .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.Width - sliderConfig.Width, elementY));
+                   .SetOption(new OgMarginTransformerOption(x, elementY));
             context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
             context.Element.IsInteractingObserver?.AddObserver(thumbOutlineInteractObserver);
             context.Element.IsHoveringObserver?.AddObserver(thumbHoverObserver);

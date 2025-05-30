@@ -13,7 +13,7 @@ public class EhToggleConfig
         ThumbHoverColor      = new(new(0.2f, 0.2f, 0.2f, 1f));
         BackgroundHoverColor = new(new Color32(20, 20, 20, 255));
     }
-    public int               FontSize             { get; set; } = 14;
+    public int               NameFontSize         { get; set; } = 14;
     public float             Height               { get; set; } = 22;
     public float             Width                { get; set; } = 44;
     public float             ThumbSize            { get; set; } = 16;
