@@ -8,7 +8,7 @@ using OG.Event.Prefab.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
 public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEventCallback<IOgMouseKeyDownEvent>, IOgEventCallback<IOgMouseKeyUpEvent>,
-                                             IOgEventCallback<IOgPreRenderEvent>, IOgModalInteractable<TElement> where TElement : IOgElement
+                                             IOgModalInteractable<TElement> where TElement : IOgElement
 {
     private readonly bool m_RightClickOnly;
     public OgModalInteractable(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, bool rightClickOnly) : base(name, provider,
@@ -20,6 +20,7 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
     }
     public bool Invoke(IOgMouseKeyDownEvent reason)
     {
+        if(!ShouldProcess && m_RightClickOnly && (!IsHovering || reason.Key != 1)) return false;
         if(!ShouldProcess && !IsHovering) return false;
         base.Invoke(reason);
         return true;
@@ -27,13 +28,12 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
     public bool Invoke(IOgMouseKeyUpEvent reason)
     {
         if(ShouldProcess && base.Invoke(reason)) return true;
-        if(m_RightClickOnly && !IsHovering && reason.Key != 1) return false;
+        if(!ShouldProcess && m_RightClickOnly && (!IsHovering || reason.Key != 1)) return false;
         bool oldShouldProcess = ShouldProcess;
         ShouldProcess = IsHovering && !oldShouldProcess;
         if(ShouldProcess) base.Invoke(reason);
         return oldShouldProcess || IsHovering;
     }
-    public bool Invoke(IOgPreRenderEvent reason) => ProcessEvent(reason);
     public bool ShouldProcess
     {
         get;
@@ -45,9 +45,10 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
         }
     }
     public override bool Invoke(IOgRenderEvent reason) => ShouldProcess && base.Invoke(reason);
-    public override int CompareTo(IOgElement other) => 1;
+    public override int CompareTo(IOgElement other) => 1 + SortOrder;
     public IDkObservable<bool>? IsInteractingObserver      { get; set; }
     public IDkObservable<bool>? IsRightInteractingObserver { get; set; }
+    public int                  SortOrder              { get; set; }
     protected override bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
         if(!ShouldProcess) return base.HandleMouseMove(reason);

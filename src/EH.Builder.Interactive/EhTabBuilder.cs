@@ -6,7 +6,7 @@ using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Transformer.Options;
 namespace EH.Builder.Interactive;
-public class EhTabBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+public class EhTabBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhBaseTextBuilder textBuilder)
 {
     public void Build(string leftContainerName, string rightContainerName, IOgContainer<IOgElement> sourceTab, out IOgContainer<IOgElement> builtLeftGroup,

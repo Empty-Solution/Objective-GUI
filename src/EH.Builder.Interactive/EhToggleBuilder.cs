@@ -19,7 +19,7 @@ using OG.Event.Extensions;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhToggleBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+public class EhToggleBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhBaseFillBuilder baseFillBuilder, EhBaseTextBuilder textBuilder, EhBaseThumbBuilder thumbBuilder, EhBaseToggleBuilder toggleBuilder)
 {
     public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<bool> value, float y)

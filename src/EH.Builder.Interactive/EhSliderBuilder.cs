@@ -1,40 +1,121 @@
 ﻿using DK.Getting.Generic;
+using DK.Observing.Generic;
+using DK.Processing.Abstraction.Generic;
+using DK.Property.Abstraction.Generic;
 using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Animation;
-using OG.DataKit.Animation.Extensions;
 using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
 using OG.DataKit.Transformer;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
+using OG.Element.Interactive;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
-using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Extensions;
 using OG.Transformer.Options;
+using System;
+using System.Linq;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public abstract class EhInternalBindableBuilder<TValue>(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder,
-    EhContainerBuilder containerBuilder, EhBaseModalInteractableBuilder interactableBuilder, EhBaseBindableBuilder<TValue> bindableBuilder)
+public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder, 
+    EhBaseTextBuilder textBuilder, EhBaseModalInteractableBuilder interactableBuilder, EhBaseButtonBuilder buttonBuilder/*, EhBaseBindableBuilder<TValue> bindableBuilder*/)
 {
-    public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<TValue> value, float x, float y, float width, float height)
+    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, 
+        Action<IDkProperty<TValue>, float> process)
     {
-        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        EhInteractableElementConfig interactableConfig = provider.InteractableElementConfig;
+        IOgModalInteractable<IOgElement> button = interactableBuilder.Build($"{name}Interactable", true,
+            new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height)).SetOption(new OgMarginTransformerOption(x, y));
+            }));
+        OgEventHandlerProvider  eventProvider = new();
+        OgTransformerRectGetter getter        = new(eventProvider, new OgOptionsContainer());
+        getter.Options.SetOption(new OgSizeTransformerOption(interactableConfig.ModalWidth)).SetOption(new OgMarginTransformerOption(width, height));
+        IOgContainer<IOgElement>  container    = new OgInteractableElement<IOgElement>($"{name}Container", eventProvider, getter);
+        DkScriptableGetter<float> heightGetter = new(() => interactableConfig.VerticalPadding + (container.Elements.Count() * (interactableConfig.ModalItemHeight + interactableConfig.VerticalPadding)));
+        getter.Options.SetOption(new OgGettableSizeTransformerOption(null, heightGetter));
+        button.Add(backgroundBuilder.Build($"{name}InteractableBackground", interactableConfig.ModalBackgroundColor, interactableConfig.ModalWidth, 0,
+            0, 0, new(), context =>
+            {
+                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgGettableSizeTransformerOption(null, heightGetter));
+                context.Element.ZOrder = 2;
+            }));
+        DkScriptableObserver<bool> addButtonObserver = new();
+        addButtonObserver.OnUpdate += state =>
         {
-            context.RectGetProvider.Options
-                   .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
-                   .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding, y));
-        }));
+            if(!state) return;
+            container.Add(BuildBind($"{name}Bind", container.Elements.Count(), interactableConfig, process));
+        };
+        container.Add(buttonBuilder.Build($"{name}InteractableAddButton", new OgScriptableBuilderProcess<OgButtonBuildContext>(context =>
+        {
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(interactableConfig.ModalWidth * 0.9f, interactableConfig.ModalItemHeight))
+                   .SetOption(new OgMarginTransformerOption(interactableConfig.ModalWidth * 0.05f));
+            context.Element.IsInteractingObserver?.AddObserver(addButtonObserver);
+            context.Element.IsInteractingObserver?.Notify(false);
+            context.Element.SortOrder = 2;
+        })));
+        button.Add(container);
+        return button;
+    }
+    private IOgContainer<IOgElement> BuildBind(string name, float bindIndex, EhInteractableElementConfig interactableConfig, 
+        Action<IDkProperty<TValue>, float> process)
+    {
+        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}{bindIndex}Container",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(interactableConfig.ModalWidth * 0.9f, interactableConfig.ModalItemHeight))
+                       .SetOption(new OgMarginTransformerOption(interactableConfig.ModalWidth * 0.05f, 
+                           interactableConfig.VerticalPadding + (bindIndex * (interactableConfig.ModalItemHeight + interactableConfig.VerticalPadding))));
+            }));
+        IOgModalInteractable<IOgElement> button = interactableBuilder.Build($"{name}{bindIndex}Interactable", false,
+            new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(interactableConfig.ModalWidth * 0.9f,
+                    interactableConfig.ModalItemHeight));
+            }));
+        
+        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
+        {
+            getter.SetTime();
+            getter.TargetModifier = value ? interactableConfig.ModalButtonBackgroundHoverColor.Get() : interactableConfig.ModalButtonBackgroundColor.Get();
+        });
+        OgEventHandlerProvider backgroundEventHandler = new();
+        OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
+        container.Add(backgroundBuilder.Build($"{name}{bindIndex}InteractableBackground", backgroundGetter, interactableConfig.ModalWidth * 0.9f,
+            interactableConfig.ModalItemHeight, 0, 0, new(), context =>
+            {
+                backgroundGetter.Speed          = provider.AnimationSpeed;
+                backgroundHoverObserver.Getter  = backgroundGetter;
+                backgroundGetter.RenderCallback = context.RectGetProvider;
+                backgroundEventHandler.Register(backgroundGetter);
+                context.Element.ZOrder = 3;
+            }, backgroundEventHandler));
+        container.Add(textBuilder.BuildStaticText($"{name}{bindIndex}InteractableText", interactableConfig.ModalButtonTextColor, $"Bind {bindIndex}",
+            interactableConfig.ModalButtonTextFontSize, interactableConfig.ModalButtonTextAlignment, interactableConfig.ModalWidth * 0.9f,
+            interactableConfig.ModalItemHeight, 0, 0, context =>
+            {
+                context.Element.ZOrder = 3;
+            }));
+        button.Add(backgroundBuilder.Build($"{name}{bindIndex}InteractableBackground", interactableConfig.ModalBindBackgroundColor, interactableConfig.BindModalWidth, 
+            (interactableConfig.VerticalPadding * 2) + ((interactableConfig.BindModalItemHeight + interactableConfig.VerticalPadding) * 3),
+            interactableConfig.ModalWidth, 0, new(), context =>
+            {
+                context.Element.ZOrder = 4;
+            }));
+
+        container.Add(button);
         return container;
     }
 }
-public class EhSliderBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
-    EhBaseFillBuilder baseFillBuilder, EhBaseTextBuilder textBuilder, EhBaseThumbBuilder thumbBuilder, EhBaseHorizontalSliderBuilder sliderBuilder)
+public class EhSliderBuilder(EhConfigProvider provider,
+    EhContainerBuilder containerBuilder, EhBaseTextBuilder textBuilder, EhInternalSliderBuilder sliderBuilder, EhInternalBindModalBuilder<float> bindModalBuilder)
 {
     public IOgContainer<IOgElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round, float y)
     {
@@ -48,121 +129,13 @@ public class EhSliderBuilder(EhConfigProvider provider, EhBackgroundBuilder back
         OgTextElement nameText = textBuilder.BuildStaticText(name, sliderConfig.TextColor, name, sliderConfig.NameFontSize, sliderConfig.NameAlignment,
             provider.InteractableElementConfig.Width - sliderConfig.Width, provider.InteractableElementConfig.Height);
         container.Add(nameText);
-        float elementY = (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2;
-        OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver = new((getter, value) =>
-        {
-            float offset = sliderConfig.ThumbSize / 6;
-            getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, offset, offset);
-        });
-        OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbOutlineInteractObserver = new((getter, value) =>
-        {
-            float offset = sliderConfig.ThumbOutlineSize / 8;
-            getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, offset, offset);
-        });
-        OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, float> thumbObserver = new((getter, value) =>
-        {
-            Rect rect = getter.TargetModifier;
-            rect.x = (value / max * sliderConfig.Width) - (sliderConfig.ThumbSize / 2);
-            return rect;
-        });
-        OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, float> thumbOutlineObserver = new((getter, value) =>
-        {
-            Rect rect = getter.TargetModifier;
-            rect.x = (value / max * sliderConfig.Width) - (sliderConfig.ThumbOutlineSize / 2);
-            return rect;
-        });
-        OgTextElement valueText = textBuilder.BuildSliderValueText(name, sliderConfig.TextColor, textFormat, value, round, sliderConfig.ValueFontSize,
-            sliderConfig.ValueAlignment, sliderConfig.Width, sliderConfig.Height * 2, 0,
-            (-(provider.InteractableElementConfig.Height - sliderConfig.Height) / 2) - (provider.InteractableElementConfig.VerticalPadding / 2));
-        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbOutlineHoverObserver = new((getter, value) =>
-        {
-            getter.SetTime();
-            getter.TargetModifier = value ? sliderConfig.ThumbOutlineHoverColor.Get() : sliderConfig.ThumbOutlineColor.Get();
-        });
-        OgEventHandlerProvider thumbOutlineEventHandler = new();
-        OgAnimationColorGetter thumbOutlineGetter       = new(thumbOutlineEventHandler);
-        OgTextureElement thumbOutline = thumbBuilder.Build($"{name}ThumbOutline", thumbOutlineGetter, thumbOutlineObserver, thumbOutlineInteractObserver,
-            sliderConfig.ThumbOutlineSize, 0, ((sliderConfig.Height * 2) - sliderConfig.ThumbOutlineSize) / 2, sliderConfig.ThumbBorder,
-            provider.AnimationSpeed, thumbOutlineEventHandler, context =>
+        container.Add(sliderBuilder.Build(name, value, min, max, textFormat, round));
+        container.Add(bindModalBuilder.Build(name, provider.InteractableElementConfig.Width - sliderConfig.Width, 
+            (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2, provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height,
+            (property, itemY) =>
             {
-                thumbOutlineGetter.Speed          = provider.AnimationSpeed;
-                thumbOutlineGetter.RenderCallback = context.RectGetProvider;
-                thumbOutlineHoverObserver.Getter  = thumbOutlineGetter;
-                thumbOutlineEventHandler.Register(thumbOutlineGetter);
-            });
-        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbHoverObserver = new((getter, value) =>
-        {
-            getter.SetTime();
-            getter.TargetModifier = value ? sliderConfig.ThumbHoverColor.Get() : sliderConfig.ThumbColor.Get();
-        });
-        OgEventHandlerProvider thumbEventHandler = new();
-        OgAnimationColorGetter thumbGetter       = new(thumbEventHandler);
-        OgTextureElement thumb = thumbBuilder.Build($"{name}Thumb", thumbGetter, thumbObserver, thumbInteractObserver, sliderConfig.ThumbSize, 0,
-            ((sliderConfig.Height * 2) - sliderConfig.ThumbSize) / 2, sliderConfig.ThumbBorder, provider.AnimationSpeed, thumbEventHandler, context =>
-            {
-                thumbGetter.Speed          = provider.AnimationSpeed;
-                thumbGetter.RenderCallback = context.RectGetProvider;
-                thumbHoverObserver.Getter  = thumbGetter;
-                thumbEventHandler.Register(thumbGetter);
-            });
-        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> fillHoverObserver = new((getter, value) =>
-        {
-            getter.SetTime();
-            getter.TargetModifier = value ? sliderConfig.FillHoverColor.Get() : sliderConfig.FillColor.Get();
-        });
-        OgEventHandlerProvider fillEventHandler = new();
-        OgAnimationColorGetter fillGetter       = new(fillEventHandler);
-        OgTextureElement fill = baseFillBuilder.Build(name, fillGetter, 0, sliderConfig.Height, 0, ((sliderConfig.Height * 2) - sliderConfig.Height) / 2,
-            sliderConfig.BackgroundBorder, provider.AnimationSpeed, context =>
-            {
-                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgScriptableTransformerOption((rect, _, _, _) =>
-                {
-                    Rect thumbRect = thumb.ElementRect.Get();
-                    rect.width = thumbRect.x + thumbRect.width;
-                    return rect;
-                }));
-                fillGetter.Speed          = provider.AnimationSpeed;
-                fillGetter.RenderCallback = context.RectGetProvider;
-                fillHoverObserver.Getter  = fillGetter;
-                fillEventHandler.Register(fillGetter);
-            }, fillEventHandler);
-        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
-        {
-            getter.SetTime();
-            getter.TargetModifier = value ? sliderConfig.BackgroundHoverColor.Get() : sliderConfig.BackgroundColor.Get();
-        });
-        OgEventHandlerProvider backgroundEventHandler = new();
-        OgAnimationColorGetter backgroundGetter       = new(backgroundEventHandler);
-        OgTextureElement background = backgroundBuilder.Build(name, backgroundGetter, sliderConfig.Width, sliderConfig.Height, 0,
-            ((sliderConfig.Height * 2) - sliderConfig.Height) / 2,
-            new(sliderConfig.BackgroundBorder, sliderConfig.BackgroundBorder, sliderConfig.BackgroundBorder, sliderConfig.BackgroundBorder), context =>
-            {
-                backgroundGetter.Speed          = provider.AnimationSpeed;
-                backgroundHoverObserver.Getter  = backgroundGetter;
-                backgroundGetter.RenderCallback = context.RectGetProvider;
-                backgroundEventHandler.Register(backgroundGetter);
-            }, backgroundEventHandler);
-        IOgSlider<IOgVisualElement> slider = sliderBuilder.Build(name, value, min, max, new OgScriptableBuilderProcess<OgSliderBuildContext>(context =>
-        {
-            context.ValueProvider.AddObserver(thumbObserver);
-            context.ValueProvider.AddObserver(thumbOutlineObserver);
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(sliderConfig.Width, sliderConfig.Height * 2))
-                   .SetOption(new OgFlexiblePositionTransformerOption()).SetOption(new OgMarginTransformerOption(0, elementY));
-            context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
-            context.Element.IsInteractingObserver?.AddObserver(thumbOutlineInteractObserver);
-            context.Element.IsHoveringObserver?.AddObserver(thumbHoverObserver);
-            context.Element.IsHoveringObserver?.AddObserver(thumbOutlineHoverObserver);
-            context.Element.IsHoveringObserver?.AddObserver(fillHoverObserver);
-            context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
-            context.ValueProvider.Set(context.ValueProvider.Get());
-            context.Element.IsHoveringObserver?.Notify(false);
-        }));
-        slider.Add(background);
-        slider.Add(fill);
-        slider.Add(thumbOutline);
-        slider.Add(thumb);
-        slider.Add(valueText);
-        container.Add(slider);
+                
+            }));
         return container;
     }
 }

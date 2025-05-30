@@ -1,8 +1,10 @@
 ﻿using DK.Getting.Abstraction.Generic;
 using DK.Getting.Overriding.Abstraction.Generic;
+using DK.Observing.Abstraction.Generic;
 using DK.Property.Abstraction.Generic;
 using OG.DataTypes.BindType;
 using OG.Element.Abstraction;
+using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
@@ -11,15 +13,15 @@ using System.Linq;
 using UnityEngine;
 // ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 namespace OG.Element.Interactive;
-public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, TValue>, IOgEventCallback<IOgKeyBoardKeyDownEvent>,
+public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, TValue>, IOgBindableElement<TElement, TValue>, IOgEventCallback<IOgKeyBoardKeyDownEvent>,
                                                    IOgEventCallback<IOgKeyBoardKeyUpEvent> where TElement : IOgElement
 {
-    private readonly IDkProperty<SortedSet<KeyCode>> m_Bind;
+    private readonly IDkProperty<KeyCode?> m_Bind;
     private readonly IDkGetProvider<EOgBindType>     m_BindTypeGetProvider;
     private readonly IDkValueOverride<TValue>        m_Override;
     private readonly List<KeyCode>                   m_PressedKeys = [];
     public OgBindableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<TValue> value,
-        IDkValueOverride<TValue> valueOverride, IDkProperty<SortedSet<KeyCode>> bind, IDkGetProvider<EOgBindType> bindTypeGetProvider) : base(name,
+        IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode?> bind, IDkGetProvider<EOgBindType> bindTypeGetProvider) : base(name,
         provider, rectGetter, value)
     {
         m_Bind                = bind;
@@ -43,7 +45,7 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     }
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
-        m_Bind.Get().Clear();
+        m_Bind.Set(null);
         return true;
     }
     protected override bool OnLostFocus(IOgMouseKeyUpEvent reason) => true;
@@ -51,22 +53,26 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     {
         if(reason.KeyCode == KeyCode.Escape)
         {
-            m_Bind.Get().Clear();
+            m_Bind.Set(null);
             return true;
         }
-        m_Bind.Get().Add(reason.KeyCode);
+        m_Bind.Set(reason.KeyCode);
+        IsFocusing = false;
         return true;
     }
     private bool Override()
     {
-        SortedSet<KeyCode> bindKeys = m_Bind.Get();
-        int                matches  = m_PressedKeys.Count(key => bindKeys.Contains(key));
-        if(matches != bindKeys.Count - 1) return false;
-        if(m_BindTypeGetProvider.Get() == EOgBindType.TOGGLE && m_Override.IsOverriden)
-            m_Override.Revert(Name);
-        else
-            m_Override.Override(Name, Value);
+        KeyCode? keyCode = m_Bind.Get();
+        if(keyCode == null) return false;
+        foreach(KeyCode key in m_PressedKeys)
+            if(key == keyCode)
+            {
+                if(m_BindTypeGetProvider.Get() == EOgBindType.TOGGLE && m_Override.IsOverriden)
+                    m_Override.Revert(Name);
+                else
+                    m_Override.Override(Name, Value);
+            }
         return true;
     }
-    public override bool ProcessEvent(IOgEvent reason) => (IsActive || reason is IOgKeyBoardKeyDownEvent) && base.ProcessEvent(reason);
+    public IDkObservable<TValue>? BindObservable { get; set; }
 }

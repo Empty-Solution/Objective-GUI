@@ -25,7 +25,7 @@ using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhDropdownBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+public class EhDropdownBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhBaseButtonBuilder buttonBuilder, EhBaseModalInteractableBuilder modalInteractableBuilder, EhBaseTextBuilder textBuilder)
 {
     public IOgContainer<IOgElement> Build(string name, IDkProperty<int> selected, string[] values, float y)

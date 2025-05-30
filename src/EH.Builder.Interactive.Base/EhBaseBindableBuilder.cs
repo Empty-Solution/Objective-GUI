@@ -23,7 +23,7 @@ public class EhBaseBindableBuilder<TValue>
         m_OgToggleBuilder = new(new OgBindableFactory<TValue>(), m_Processor);
     }
     public IOgInteractableValueElement<IOgVisualElement, TValue> Build(string name, IDkObservableProperty<TValue> value,
-        IDkValueOverride<TValue> valueOverride, IDkProperty<SortedSet<KeyCode>> bind, IDkGetProvider<EOgBindType> bindTypeGetProvider,
+        IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode?> bind, IDkGetProvider<EOgBindType> bindTypeGetProvider,
         IDkProcess<OgBindableBuildContext<TValue>> process)
     {
         m_Processor.AddProcess(process);

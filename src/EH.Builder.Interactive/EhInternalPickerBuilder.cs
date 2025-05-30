@@ -20,7 +20,7 @@ using OG.Event;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhInternalPickerBuilder(EhConfigProvider provider, EhBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+public class EhInternalPickerBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhBaseModalInteractableBuilder modalInteractableBuilder, EhQuadBuilder quadBuilder, EhBaseVectorBuilder vectorBuilder,
     EhBaseHorizontalSliderBuilder horizontalSliderBuilder, EhBaseVerticalSliderBuilder verticalSliderBuilder)
 {

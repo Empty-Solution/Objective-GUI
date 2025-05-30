@@ -8,7 +8,7 @@ using OG.Transformer.Options;
 using System;
 using UnityEngine;
 namespace EH.Builder.Interactive.Base;
-public class EhBackgroundBuilder
+public class EhBaseBackgroundBuilder
 {
     private readonly EhInternalTextureBuilder m_TextureBuilder = new();
     public OgTextureElement Build(string name, IDkGetProvider<Color> colorGetter, float width, float height, float x = 0, float y = 0,

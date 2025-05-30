@@ -14,7 +14,7 @@ public class EhTabBuilderWrapper
     private readonly EhTabButtonBuilder         m_TabButtonBuilder;
     public EhTabBuilderWrapper(EhConfigProvider configProvider, IEhVisualProvider visualProvider, EhMainWindowBuilderWrapper mainWindowBuilder)
     {
-        EhBackgroundBuilder backgroundBuilder = new();
+        EhBaseBackgroundBuilder backgroundBuilder = new();
         EhContainerBuilder  containerBuilder  = new();
         EhBaseTextBuilder   textBuilder       = new(visualProvider);
         EhBaseToggleBuilder toggleBuilder     = new();

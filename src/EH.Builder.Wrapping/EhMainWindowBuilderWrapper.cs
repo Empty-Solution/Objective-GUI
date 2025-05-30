@@ -12,7 +12,7 @@ public class EhMainWindowBuilderWrapper
     private readonly IOgContainer<IOgElement> m_Window;
     public EhMainWindowBuilderWrapper(EhConfigProvider configProvider, IEhVisualProvider visualProvider)
     {
-        EhBackgroundBuilder    backgroundBuilder = new();
+        EhBaseBackgroundBuilder    backgroundBuilder = new();
         EhContainerBuilder     containerBuilder  = new();
         EhBaseDraggableBuilder draggableBuilder  = new();
         EhMainWindowBuilder    mainWindowBuilder = new(configProvider, backgroundBuilder, containerBuilder, draggableBuilder);
