@@ -7,9 +7,8 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace OG.Builder.Arguments.Interactive;
 public class OgBindableBuildArguments<TValue>(string name, IDkObservableProperty<TValue> value, IDkValueOverride<TValue> valueOverride,
-    IDkProperty<KeyCode?> bind, IDkGetProvider<EOgBindType> bindTypeGetProvider) : OgValueElementBuildArguments<TValue>(name, value)
+    IDkProperty<KeyCode?> bind) : OgValueElementBuildArguments<TValue>(name, value)
 {
     public IDkValueOverride<TValue>        ValueOverride       { get; } = valueOverride;
     public IDkProperty<KeyCode?> Bind                { get; } = bind;
-    public IDkGetProvider<EOgBindType>     BindTypeGetProvider { get; } = bindTypeGetProvider;
 }

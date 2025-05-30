@@ -22,7 +22,7 @@ public class OgBindableBuilder<TValue>(
         new(provider, container);
     protected override OgBindableFactoryArguments<TValue> BuildFactoryArguments(OgBindableBuildContext<TValue> context,
         OgBindableBuildArguments<TValue> args, IOgEventHandlerProvider provider) =>
-        new(args.Name, context.RectGetProvider, provider, context.ValueProvider, args.ValueOverride, args.Bind, args.BindTypeGetProvider);
+        new(args.Name, context.RectGetProvider, provider, context.ValueProvider, args.ValueOverride, args.Bind);
     protected override OgBindableBuildContext<TValue> BuildContext(OgBindableBuildArguments<TValue> args, IOgEventHandlerProvider provider,
         OgTransformerRectGetter getter) =>
         new(null!, getter, args.Value);

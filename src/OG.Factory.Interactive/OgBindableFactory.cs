@@ -9,5 +9,5 @@ public class OgBindableFactory<TValue> : IOgElementFactory<IOgBindableElement<IO
 {
     public IOgBindableElement<IOgVisualElement, TValue> Create(OgBindableFactoryArguments<TValue> arguments) =>
         new OgBindableElement<IOgVisualElement, TValue>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
-            arguments.Value, arguments.ValueOverride, arguments.Bind, arguments.BindTypeGetProvider);
+            arguments.Value, arguments.ValueOverride, arguments.Bind);
 }

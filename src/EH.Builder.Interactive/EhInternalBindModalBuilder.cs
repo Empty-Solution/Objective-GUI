@@ -1,6 +1,8 @@
 ﻿using DK.Getting.Generic;
 using DK.Getting.Overriding.Abstraction.Generic;
 using DK.Observing.Generic;
+using DK.Property.Abstraction.Generic;
+using DK.Property.Observing.Abstraction.Generic;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
 using OG.Builder.Contexts;
@@ -26,7 +28,7 @@ namespace EH.Builder.Interactive;
 public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder, 
     EhBaseTextBuilder textBuilder, EhBaseModalInteractableBuilder interactableBuilder, EhBaseButtonBuilder buttonBuilder, EhBaseBindableBuilder<TValue> bindableBuilder)
 {
-    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, IDkValueOverride<TValue> valueOverride, Func<IOgContainer<IOgVisualElement>> process)
+    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, IDkValueOverride<TValue> valueOverride, IDkObservableProperty<TValue> overrideValue, Func<IOgContainer<IOgVisualElement>> process)
     {
         EhInteractableElementConfig interactableConfig = provider.InteractableElementConfig;
         IOgModalInteractable<IOgElement> button = interactableBuilder.Build($"{name}Interactable", true,
@@ -52,7 +54,7 @@ public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBas
         addButtonObserver.OnUpdate += state =>
         {
             if(!state) return;
-            container.Add(BuildBind($"{name}Bind", container.Elements.Count(), interactableConfig, valueOverride, process));
+            container.Add(BuildBind($"{name}Bind", container.Elements.Count(), interactableConfig, valueOverride, overrideValue, process));
         };
         
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
@@ -94,7 +96,7 @@ public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBas
         container.Add(addButton);
         return button;
     }
-    private IOgContainer<IOgElement> BuildBind(string name, float bindIndex, EhInteractableElementConfig interactableConfig, IDkValueOverride<TValue> valueOverride, 
+    private IOgContainer<IOgElement> BuildBind(string name, float bindIndex, EhInteractableElementConfig interactableConfig, IDkValueOverride<TValue> valueOverride, IDkObservableProperty<TValue> overrideValue, 
         Func<IOgContainer<IOgVisualElement>> process)
     {
         IOgContainer<IOgElement> container = containerBuilder.Build($"{name}{bindIndex}Container",
@@ -135,16 +137,16 @@ public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBas
             {
                 context.Element.ZOrder = 3;
             }));
+        float modalHeight = (interactableConfig.VerticalPadding * 2) + ((interactableConfig.BindModalItemHeight + interactableConfig.VerticalPadding) * 2);
         button.Add(backgroundBuilder.Build($"{name}{bindIndex}Interactable", interactableConfig.ModalBackgroundColor, interactableConfig.BindModalWidth, 
-            (interactableConfig.VerticalPadding * 2) + ((interactableConfig.BindModalItemHeight + interactableConfig.VerticalPadding) * 3),
+            modalHeight,
             interactableConfig.ModalWidth, 0, new(interactableConfig.ModalBackgroundBorder, interactableConfig.ModalBackgroundBorder, interactableConfig.ModalBackgroundBorder, interactableConfig.ModalBackgroundBorder), context =>
             {
                 context.Element.ZOrder = 3;
             }));
         OgEventHandlerProvider  eventProvider = new();
         OgTransformerRectGetter getter        = new(eventProvider, new OgOptionsContainer());
-        getter.Options.SetOption(new OgSizeTransformerOption(interactableConfig.BindModalWidth, 
-            (interactableConfig.VerticalPadding * 2) + ((interactableConfig.BindModalItemHeight + interactableConfig.VerticalPadding) * 3)));
+        getter.Options.SetOption(new OgSizeTransformerOption(interactableConfig.BindModalWidth, modalHeight));
         IOgContainer<IOgElement> interactable = new OgInteractableElement<IOgElement>($"{name}{bindIndex}Interactable", eventProvider, getter);
         getter.LayoutCallback = interactable;
         button.Add(interactable);

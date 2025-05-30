@@ -1,7 +1,9 @@
 ﻿using DK.Getting.Overriding.Generic;
+using DK.Observing.Generic;
 using DK.Processing.Abstraction.Generic;
 using DK.Property.Abstraction.Generic;
 using DK.Property.Observing.Abstraction.Generic;
+using DK.Property.Observing.Generic;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
 using OG.Builder.Contexts;
@@ -27,10 +29,11 @@ public class EhSliderBuilder(EhConfigProvider provider,
             provider.InteractableElementConfig.Width - sliderConfig.Width, provider.InteractableElementConfig.Height);
         container.Add(nameText);
         container.Add(sliderBuilder.Build(name, value, min, max, textFormat, round));
-        DkValueOverride<float> valueOverride = new([]);
+        DkValueOverride<float>      valueOverride = new([]);
+        DkObservableProperty<float> overrideValue = new(new DkObservable<float>([]), 0f);
         container.Add(bindModalBuilder.Build(name, provider.InteractableElementConfig.Width - sliderConfig.Width, 
-            (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2, provider.InteractableElementConfig.Width, 
-            provider.InteractableElementConfig.Height, valueOverride, () =>
+            (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2, provider.InteractableElementConfig.Width,
+            provider.InteractableElementConfig.Height, valueOverride, overrideValue, () =>
             {
                 return sliderBuilder.Build(name, value, min, max, textFormat, round);
             }));

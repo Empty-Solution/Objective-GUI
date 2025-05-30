@@ -17,22 +17,19 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
                                                    IOgEventCallback<IOgKeyBoardKeyUpEvent> where TElement : IOgElement
 {
     private readonly IDkProperty<KeyCode?> m_Bind;
-    private readonly IDkGetProvider<EOgBindType>     m_BindTypeGetProvider;
     private readonly IDkValueOverride<TValue>        m_Override;
     private readonly List<KeyCode>                   m_PressedKeys = [];
     public OgBindableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<TValue> value,
-        IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode?> bind, IDkGetProvider<EOgBindType> bindTypeGetProvider) : base(name,
+        IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode?> bind) : base(name,
         provider, rectGetter, value)
     {
         m_Bind                = bind;
-        m_BindTypeGetProvider = bindTypeGetProvider;
         m_Override            = valueOverride;
         provider.Register<IOgKeyBoardKeyDownEvent>(this);
         provider.Register<IOgKeyBoardKeyUpEvent>(this);
     }
     public bool Invoke(IOgKeyBoardKeyDownEvent reason)
     {
-        if(m_BindTypeGetProvider.Get() == EOgBindType.HOVER) m_Override.Revert(Name);
         if(IsFocusing) return Bind(reason);
         m_PressedKeys.Add(reason.KeyCode);
         return Override();
@@ -67,7 +64,7 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
         foreach(KeyCode key in m_PressedKeys)
             if(key == keyCode)
             {
-                if(m_BindTypeGetProvider.Get() == EOgBindType.TOGGLE && m_Override.IsOverriden)
+                if(m_Override.IsOverriden)
                     m_Override.Revert(Name);
                 else
                     m_Override.Override(Name, Value);
