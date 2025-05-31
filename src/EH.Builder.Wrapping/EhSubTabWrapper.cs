@@ -37,7 +37,7 @@ public class EhSubTabWrapper
         // ReSharper disable once LoopCanBeConvertedToQuery
         foreach(string name in names) valueGetters.Add(new DkReadOnlyGetter<string>(name));
         DkObservableProperty<int> property = new(new DkObservable<int>([]), initial);
-        m_DropdownBuilder.Build("SubTabSelector", property, valueGetters, 0, 0, out IOgOptionsContainer options);
+        IOgContainer<IOgElement>  dropdown = m_DropdownBuilder.Build("SubTabSelector", property, valueGetters, 0, 0, out IOgOptionsContainer options);
         options.SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleRight));
         float tabContainerHeight = m_ConfigProvider.MainWindowConfig.Height - m_ConfigProvider.MainWindowConfig.ToolbarContainerHeight -
                                    (m_ConfigProvider.SeparatorOffset * 2) - (m_ConfigProvider.MainWindowConfig.ToolbarContainerOffset * 2);
@@ -51,5 +51,6 @@ public class EhSubTabWrapper
             sourceTab.AddSubTab(new(container));
         }
         property.AddObserver(new EhSubTabObserver(sourceTab));
+        sourceTab.Toolbar.Add(dropdown);
     }
 }
