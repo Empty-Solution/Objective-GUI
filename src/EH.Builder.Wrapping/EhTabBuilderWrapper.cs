@@ -35,13 +35,19 @@ public class EhTabBuilderWrapper
         m_Tabs.Add(name, builtTab);
         return builtTab;
     }
-    public EhSourceTab BuildTab(string name, Texture2D texture, string leftContainerName, string rightContainerName)
+    public EhSubTab BuildSubTab(string leftContainerName, string rightContainerName, EhSourceTab sourceTab)
     {
-        EhSourceTab tab = BuildTab(name, texture);
-        m_TabBuilder.Build(new DkReadOnlyGetter<string>(leftContainerName), new DkReadOnlyGetter<string>(rightContainerName), tab.SourceContainer,
+        EhSubTab subTab = new(sourceTab.SourceContainer);
+        BuildTabGroups(leftContainerName, rightContainerName, subTab);
+        sourceTab.AddSubTab(subTab);
+        return subTab;
+    }
+    public void BuildTabGroups(string leftContainerName, string rightContainerName, EhSubTab subTab)
+    {
+        m_TabBuilder.Build(new DkReadOnlyGetter<string>(leftContainerName), new DkReadOnlyGetter<string>(rightContainerName), subTab.SourceContainer,
             out IOgContainer<IOgElement> leftContainer, out IOgContainer<IOgElement> rightContainer);
-        tab.AddTab(new([leftContainer, rightContainer], tab.SourceContainer));
-        return tab;
+        subTab.AddGroup(leftContainer);
+        subTab.AddGroup(rightContainer);
     }
     public EhSourceTab? GetTab(string name) => m_Tabs.TryGetValue(name, out EhSourceTab tab) ? tab : null;
     public void RemoveTab(string name)

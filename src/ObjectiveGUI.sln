@@ -182,6 +182,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Config.Abstracti
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Abstraction", "Abstraction", "{F6A0E7A4-1241-49BD-B8AE-EFE770962954}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EH.Builder.Wrapping.Observing", "EH.Builder.Wrapping.Observing\EH.Builder.Wrapping.Observing.csproj", "{759A8904-BEFA-4DD0-AEF8-B677F1D54F1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -436,6 +438,10 @@ Global
 		{6760EEC6-4990-4EA1-92D8-69D0F8357745}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6760EEC6-4990-4EA1-92D8-69D0F8357745}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6760EEC6-4990-4EA1-92D8-69D0F8357745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{759A8904-BEFA-4DD0-AEF8-B677F1D54F1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{759A8904-BEFA-4DD0-AEF8-B677F1D54F1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{759A8904-BEFA-4DD0-AEF8-B677F1D54F1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{759A8904-BEFA-4DD0-AEF8-B677F1D54F1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -516,6 +522,7 @@ Global
 		{F6A0E7A4-1241-49BD-B8AE-EFE770962954} = {1C4966F9-A7CF-43D1-8F0C-4AE5CD070E72}
 		{6760EEC6-4990-4EA1-92D8-69D0F8357745} = {F6A0E7A4-1241-49BD-B8AE-EFE770962954}
 		{E44BB54B-5102-44DA-A9C1-E0DD24CE4264} = {F6A0E7A4-1241-49BD-B8AE-EFE770962954}
+		{759A8904-BEFA-4DD0-AEF8-B677F1D54F1B} = {88A26C10-46BA-4872-A007-640D92AD5284}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8DE026B-F83F-49C3-AAF4-C3924C080D00}

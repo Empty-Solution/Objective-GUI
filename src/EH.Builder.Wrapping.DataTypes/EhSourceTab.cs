@@ -4,14 +4,13 @@ using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual.Abstraction;
 using System.Collections.Generic;
 namespace EH.Builder.Wrapping.DataTypes;
-public class EhSourceTab(IOgContainer<IOgElement> sourceContainer, IOgContainer<IOgElement> toolbar,
-    IOgToggle<IOgVisualElement> button)
+public class EhSourceTab(IOgContainer<IOgElement> sourceContainer, IOgContainer<IOgElement> toolbar, IOgToggle<IOgVisualElement> button)
 {
-    private readonly List<EhTab>                 m_Tabs = [];
-    public           IEnumerable<EhTab>          Tabs            => m_Tabs;
+    private readonly List<EhSubTab>              m_SubTabs = [];
+    public           IEnumerable<EhSubTab>       SubTabs         => m_SubTabs;
     public           IOgContainer<IOgElement>    Toolbar         { get; } = toolbar;
     public           IOgContainer<IOgElement>    SourceContainer { get; } = sourceContainer;
     public           IOgToggle<IOgVisualElement> Button          { get; } = button;
-    public void AddTab(EhTab tab) => m_Tabs.Add(tab);
-    public void RemoveTab(EhTab tab) => m_Tabs.Add(tab);
+    public void AddSubTab(EhSubTab subTab) => m_SubTabs.Add(subTab);
+    public void RemoveSubTab(EhSubTab subTab) => m_SubTabs.Add(subTab);
 }

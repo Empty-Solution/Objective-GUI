@@ -2,6 +2,7 @@
     <ItemGroup>
         <ProjectReference Include="..\EH.Builder.DataTypes\EH.Builder.DataTypes.csproj"/>
         <ProjectReference Include="..\EH.Builder.Interactive.Base\EH.Builder.Interactive.Base.csproj"/>
+        <ProjectReference Include="..\EH.Builder.Observing\EH.Builder.Observing.csproj"/>
         <ProjectReference Include="..\EH.Builder.Providing.Abstraction\EH.Builder.Providing.Abstraction.csproj"/>
         <ProjectReference Include="..\EH.Builder\EH.Builder.csproj"/>
         <ProjectReference Include="..\OG.DataKit.Animation.Extensions\OG.DataKit.Animation.Extensions.csproj"/>
