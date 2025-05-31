@@ -14,7 +14,7 @@ public class EhTabGroupWrapper
 {
     private readonly EhConfigProvider        m_ConfigProvider;
     private readonly EhDropdownBuilder       m_DropdownBuilder;
-    private readonly EhInternalPickerBuilder m_InternalPickerBuilder;
+    private readonly EhInternalColorPickerBuilder m_InternalPickerBuilder;
     private readonly EhSliderBuilder         m_SliderBuilder;
     private readonly EhTab                   m_Tab;
     private readonly EhToggleBuilder         m_ToggleBuilder;
