@@ -15,8 +15,8 @@ public class EhTabObserver(List<EhTabObserver> observers, IOgContainer<IOgElemen
     public IOgToggle<IOgVisualElement>? LinkedInteractable { get; set; }
     public OgTransformerRectGetter?     RectGetter         { get; set; }
     public IOgContainer<IOgElement>?    TargetTabContainer { get; }      = targetTabContainer;
-    public bool                         ShouldProcess      { get; set; } = true; // сладенький костыль ибо я не хотел делать int currentTABBBBB
-    public void Update(bool state)
+    public bool                         ShouldProcess      { get; set; } = true;
+    public void Update(bool state) 
     {
         if(!ShouldProcess)
         {
@@ -56,7 +56,7 @@ public class EhTabObserver(List<EhTabObserver> observers, IOgContainer<IOgElemen
         separatorSelectorGetter!.SetTime();
         separatorSelectorGetter.TargetModifier = GetRect(separatorSelectorGetter.TargetModifier, state, thumbSize);
     }
-    protected Rect GetRect(Rect rect, bool state, float size)
+    private Rect GetRect(Rect rect, bool state, float size)
     {
         rect.y      = RectGetter!.Get().y;
         rect.height = state ? size : 0;
