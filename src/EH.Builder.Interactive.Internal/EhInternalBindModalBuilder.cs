@@ -3,9 +3,10 @@ using DK.Observing.Generic;
 using DK.Property.Generic;
 using DK.Property.Observing.Abstraction.Generic;
 using DK.Property.Observing.Generic;
+using EH.Builder.Config;
 using EH.Builder.DataTypes;
 using EH.Builder.Interactive.Base;
-using EH.Builder.Options;
+using EH.Builder.Providing.Abstraction;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Animation;
@@ -25,8 +26,8 @@ using OG.Transformer.Options;
 using System;
 using System.Linq;
 using UnityEngine;
-namespace EH.Builder.Interactive;
-public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+namespace EH.Builder.Interactive.Internal;
+public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhBaseTextBuilder textBuilder, EhBaseModalInteractableBuilder interactableBuilder, EhBaseButtonBuilder buttonBuilder,
     EhBaseBindableBuilder<TValue> bindableBuilder)
 {

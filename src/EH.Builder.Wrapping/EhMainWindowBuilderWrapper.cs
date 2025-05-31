@@ -1,7 +1,6 @@
 ﻿using EH.Builder.Interactive;
 using EH.Builder.Interactive.Base;
-using EH.Builder.Options;
-using EH.Builder.Options.Abstraction;
+using EH.Builder.Providing.Abstraction;
 using OG.DataKit.Animation;
 using OG.DataKit.Transformer;
 using OG.Element.Abstraction;
@@ -10,7 +9,7 @@ namespace EH.Builder.Wrapping;
 public class EhMainWindowBuilderWrapper
 {
     private readonly IOgContainer<IOgElement> m_Window;
-    public EhMainWindowBuilderWrapper(EhConfigProvider configProvider, IEhVisualProvider visualProvider)
+    public EhMainWindowBuilderWrapper(IEhConfigProvider configProvider, IEhVisualProvider visualProvider)
     {
         EhBaseBackgroundBuilder backgroundBuilder = new();
         EhContainerBuilder      containerBuilder  = new();

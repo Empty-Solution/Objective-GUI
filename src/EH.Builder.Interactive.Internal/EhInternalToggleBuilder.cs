@@ -1,7 +1,8 @@
 ﻿using DK.Getting.Generic;
 using DK.Property.Observing.Abstraction.Generic;
+using EH.Builder.Config;
 using EH.Builder.Interactive.Base;
-using EH.Builder.Options;
+using EH.Builder.Providing.Abstraction;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Animation;
 using OG.DataKit.Animation.Extensions;
@@ -16,8 +17,8 @@ using OG.Event;
 using OG.Event.Extensions;
 using OG.Transformer.Options;
 using UnityEngine;
-namespace EH.Builder.Interactive;
-public class EhInternalToggleBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhBaseFillBuilder baseFillBuilder,
+namespace EH.Builder.Interactive.Internal;
+public class EhInternalToggleBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhBaseFillBuilder baseFillBuilder,
     EhBaseThumbBuilder thumbBuilder, EhBaseToggleBuilder toggleBuilder)
 {
     public IOgContainer<IOgVisualElement> Build(string name, IDkObservableProperty<bool> value, float x)

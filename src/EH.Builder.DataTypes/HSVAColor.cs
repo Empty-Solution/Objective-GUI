@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace EH.Builder.Abstraction;
+namespace EH.Builder.DataTypes;
 // ReSharper disable once InconsistentNaming
 public struct HSVAColor(float h, float s, float v, float a)
 {

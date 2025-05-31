@@ -1,7 +1,6 @@
 ﻿using EH.Builder.Interactive;
 using EH.Builder.Interactive.Base;
-using EH.Builder.Options;
-using EH.Builder.Options.Abstraction;
+using EH.Builder.Providing.Abstraction;
 using EH.Builder.Wrapping.DataTypes;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
@@ -16,7 +15,7 @@ public class EhTabBuilderWrapper
     private readonly EhTabBuilder                    m_TabBuilder;
     private readonly EhTabButtonBuilder              m_TabButtonBuilder;
     private readonly Dictionary<string, EhSourceTab> m_Tabs = [];
-    public EhTabBuilderWrapper(EhConfigProvider configProvider, IEhVisualProvider visualProvider, EhMainWindowBuilderWrapper mainWindowBuilder)
+    public EhTabBuilderWrapper(IEhConfigProvider configProvider, IEhVisualProvider visualProvider, EhMainWindowBuilderWrapper mainWindowBuilder)
     {
         EhBaseBackgroundBuilder backgroundBuilder = new();
         EhContainerBuilder      containerBuilder  = new();

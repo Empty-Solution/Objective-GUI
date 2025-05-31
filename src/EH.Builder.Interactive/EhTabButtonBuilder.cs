@@ -1,9 +1,10 @@
 ﻿using DK.Getting.Generic;
 using DK.Observing.Generic;
 using DK.Property.Observing.Generic;
+using EH.Builder.Config;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Observing;
-using EH.Builder.Options;
+using EH.Builder.Providing.Abstraction;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Animation;
@@ -22,7 +23,7 @@ using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhTabButtonBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+public class EhTabButtonBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhBaseToggleBuilder toggleBuilder)
 {
     private readonly List<EhTabObserver> m_Observers = [];
@@ -49,8 +50,7 @@ public class EhTabButtonBuilder(EhConfigProvider provider, EhBaseBackgroundBuild
         builtTabContainer = containerBuilder.Build($"{name}SourceTabContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
             context.RectGetProvider.Options.SetOption(
-                new OgSizeTransformerOption((provider.TabConfig.TabContainerWidth * 2) + (provider.TabConfig.TabContainerPadding * 3),
-                    tabContainerHeight));
+                new OgSizeTransformerOption((provider.TabConfig.Width * 2) + (provider.TabConfig.TabContainerPadding * 3), tabContainerHeight));
         }));
         OgEventHandlerProvider eventHandler = new();
         OgAnimationColorGetter getter       = new(eventHandler);

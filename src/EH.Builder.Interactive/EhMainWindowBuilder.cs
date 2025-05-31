@@ -1,5 +1,6 @@
-﻿using EH.Builder.Interactive.Base;
-using EH.Builder.Options;
+﻿using EH.Builder.Config;
+using EH.Builder.Interactive.Base;
+using EH.Builder.Providing.Abstraction;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Animation;
@@ -14,7 +15,7 @@ using OG.Event;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive;
-public class EhMainWindowBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+public class EhMainWindowBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhBaseDraggableBuilder draggableBuilder)
 {
     public IOgContainer<IOgElement> Build(Texture2D texture, out IOgContainer<IOgElement> tabButtonsContainer, out IOgContainer<IOgElement> tabContainer,
@@ -77,13 +78,13 @@ public class EhMainWindowBuilder(EhConfigProvider provider, EhBaseBackgroundBuil
         OgEventHandlerProvider  eventProvider = new();
         OgTransformerRectGetter getter        = new(eventProvider, new OgOptionsContainer());
         getter.Options
-              .SetOption(new OgSizeTransformerOption((provider.TabConfig.TabContainerWidth * 2) + (provider.TabButtonConfig.TabButtonOffset * 3),
+              .SetOption(new OgSizeTransformerOption((provider.TabConfig.Width * 2) + (provider.TabButtonConfig.TabButtonOffset * 3),
                   tabButtonsContainerHeight)).SetOption(new OgMarginTransformerOption(tabContainerX, containerY + windowConfig.ToolbarContainerOffset));
         tabContainer          = new OgInteractableElement<IOgElement>("MainWindowTabContainer", eventProvider, getter);
         getter.LayoutCallback = tabContainer;
         sourceContainer.Add(tabContainer);
         sourceContainer.Add(tabButtonsContainer);
-        window.Add(backgroundBuilder.Build("MainWindowBackground", windowConfig.BackgroundColorProperty, windowConfig.Width, windowConfig.Height, 0, 0,
+        window.Add(backgroundBuilder.Build("MainWindowBackground", windowConfig.BackgroundColor, windowConfig.Width, windowConfig.Height, 0, 0,
             new(windowConfig.WindowBorderRadius, windowConfig.WindowBorderRadius, windowConfig.WindowBorderRadius, windowConfig.WindowBorderRadius)));
         IOgContainer<IOgElement> logoContainer = containerBuilder.Build("MainWindowLogoContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>

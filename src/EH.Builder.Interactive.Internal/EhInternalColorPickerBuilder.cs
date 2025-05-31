@@ -2,9 +2,10 @@
 using DK.Observing.Generic;
 using DK.Property.Abstraction.Generic;
 using DK.Property.Observing.Generic;
-using EH.Builder.Abstraction;
+using EH.Builder.Config;
+using EH.Builder.DataTypes;
 using EH.Builder.Interactive.Base;
-using EH.Builder.Options;
+using EH.Builder.Providing.Abstraction;
 using EH.Builder.Visual;
 using OG.Builder.Contexts;
 using OG.Builder.Contexts.Interactive;
@@ -19,8 +20,8 @@ using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Transformer.Options;
 using UnityEngine;
-namespace EH.Builder.Interactive;
-public class EhInternalColorPickerBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+namespace EH.Builder.Interactive.Internal;
+public class EhInternalColorPickerBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhBaseModalInteractableBuilder modalInteractableBuilder, EhQuadBuilder quadBuilder, EhBaseVectorBuilder vectorBuilder,
     EhBaseHorizontalSliderBuilder horizontalSliderBuilder, EhBaseVerticalSliderBuilder verticalSliderBuilder)
 {
@@ -47,9 +48,9 @@ public class EhInternalColorPickerBuilder(EhConfigProvider provider, EhBaseBackg
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight))
                        .SetOption(new OgMarginTransformerOption(pickerConfig.Width, pickerConfig.Height));
             }));
-        OgTextureElement modalBackground = backgroundBuilder.Build($"{name}ModalBackground", pickerConfig.BackgroundColorProperty,
-            pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight, 0, 0,
-            new(pickerConfig.ModalBorder, pickerConfig.ModalBorder, pickerConfig.ModalBorder, pickerConfig.ModalBorder));
+        OgTextureElement modalBackground = backgroundBuilder.Build($"{name}ModalBackground", pickerConfig.BackgroundColor, pickerConfig.ModalWindowWidth,
+            pickerConfig.ModalWindowHeight, 0, 0,
+            new(pickerConfig.ModalWindowBorder, pickerConfig.ModalWindowBorder, pickerConfig.ModalWindowBorder, pickerConfig.ModalWindowBorder));
         sourceContainer.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
             new DkReadOnlyGetter<Rect>(new(0, 0, pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight))));
         modalBackground.ZOrder = 9999;

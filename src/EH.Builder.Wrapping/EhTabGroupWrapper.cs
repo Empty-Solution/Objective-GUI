@@ -1,8 +1,8 @@
 ﻿using EH.Builder.DataTypes;
 using EH.Builder.Interactive;
 using EH.Builder.Interactive.Base;
-using EH.Builder.Options;
-using EH.Builder.Options.Abstraction;
+using EH.Builder.Interactive.Internal;
+using EH.Builder.Providing.Abstraction;
 using EH.Builder.Visual;
 using EH.Builder.Wrapping.DataTypes;
 using OG.Builder.Contexts;
@@ -16,14 +16,14 @@ using UnityEngine;
 namespace EH.Builder.Wrapping;
 public class EhTabGroupWrapper
 {
-    private readonly EhConfigProvider             m_ConfigProvider;
+    private readonly IEhConfigProvider            m_ConfigProvider;
     private readonly EhContainerBuilder           m_ContainerBuilder;
     private readonly EhDropdownBuilder            m_DropdownBuilder;
     private readonly EhInternalColorPickerBuilder m_InternalPickerBuilder;
     private readonly EhSliderBuilder              m_SliderBuilder;
     private readonly EhTab                        m_Tab;
     private readonly EhToggleBuilder              m_ToggleBuilder;
-    public EhTabGroupWrapper(EhConfigProvider configProvider, IEhVisualProvider visualProvider, EhTab tab)
+    public EhTabGroupWrapper(IEhConfigProvider configProvider, IEhVisualProvider visualProvider, EhTab tab)
     {
         EhQuadBuilder                  quadBuilder             = new(visualProvider);
         EhBaseTextBuilder              textBuilder             = new(visualProvider);

@@ -6,7 +6,7 @@
         <PackageReference Include="UnityEngine.CoreModule" Version="2020.3.1"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\EH.Builder.Option.Abstraction\EH.Builder.Option.Abstraction.csproj"/>
+        <ProjectReference Include="..\EH.Builder.Providing.Abstraction\EH.Builder.Providing.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Builder.Contexts.Visual\OG.Builder.Contexts.Visual.csproj"/>
         <ProjectReference Include="..\OG.Builder.Visual\OG.Builder.Visual.csproj"/>
         <ProjectReference Include="..\OG.Element.Visual\OG.Element.Visual.csproj"/>

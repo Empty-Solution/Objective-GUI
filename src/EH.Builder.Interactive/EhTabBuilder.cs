@@ -1,12 +1,13 @@
-﻿using EH.Builder.Interactive.Base;
-using EH.Builder.Options;
+﻿using EH.Builder.Config;
+using EH.Builder.Interactive.Base;
+using EH.Builder.Providing.Abstraction;
 using OG.Builder.Contexts;
 using OG.DataKit.Processing;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Transformer.Options;
 namespace EH.Builder.Interactive;
-public class EhTabBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
+public class EhTabBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
     EhBaseTextBuilder textBuilder)
 {
     public void Build(string leftContainerName, string rightContainerName, IOgContainer<IOgElement> sourceTab, out IOgContainer<IOgElement> builtLeftGroup,
@@ -15,9 +16,9 @@ public class EhTabBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder bac
         EhTabConfig tabConfig = provider.TabConfig;
         float tabContainerHeight = provider.MainWindowConfig.Height - provider.MainWindowConfig.ToolbarContainerHeight - (provider.SeparatorOffset * 2) -
                                    (provider.MainWindowConfig.ToolbarContainerOffset * 2);
-        sourceTab.Add(BuildTabContainer(leftContainerName, out builtLeftGroup, tabConfig.TabContainerWidth, tabContainerHeight, 0, 0, tabConfig));
-        sourceTab.Add(BuildTabContainer(rightContainerName, out builtRightGroup, tabConfig.TabContainerWidth, tabContainerHeight,
-            tabConfig.TabContainerPadding + tabConfig.TabContainerWidth, 0, tabConfig));
+        sourceTab.Add(BuildTabContainer(leftContainerName, out builtLeftGroup, tabConfig.Width, tabContainerHeight, 0, 0, tabConfig));
+        sourceTab.Add(BuildTabContainer(rightContainerName, out builtRightGroup, tabConfig.Width, tabContainerHeight,
+            tabConfig.TabContainerPadding + tabConfig.Width, 0, tabConfig));
     }
     private IOgContainer<IOgElement> BuildTabContainer(string name, out IOgContainer<IOgElement> builtContainer, float width, float height, float x,
         float y, EhTabConfig tabConfig)

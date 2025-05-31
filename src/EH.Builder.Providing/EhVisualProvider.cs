@@ -1,6 +1,6 @@
-﻿using EH.Builder.Options.Abstraction;
+﻿using EH.Builder.Providing.Abstraction;
 using UnityEngine;
-namespace EH.Builder.Options;
+namespace EH.Builder.Config;
 public class EhVisualProvider(Font font, Material material, Texture2D logoTexture) : IEhVisualProvider
 {
     public Font      Font        { get; set; } = font;

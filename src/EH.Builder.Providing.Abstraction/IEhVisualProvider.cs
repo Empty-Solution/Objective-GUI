@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace EH.Builder.Options.Abstraction;
+namespace EH.Builder.Providing.Abstraction;
 public interface IEhVisualProvider
 {
     Font      Font        { get; }

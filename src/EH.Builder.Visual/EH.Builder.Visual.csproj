@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <ProjectReference Include="..\EH.Builder.Option.Abstraction\EH.Builder.Option.Abstraction.csproj"/>
+        <ProjectReference Include="..\EH.Builder.Providing.Abstraction\EH.Builder.Providing.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Builder.Interactive\OG.Builder.Interactive.csproj"/>
         <ProjectReference Include="..\OG.Builder.Visual\OG.Builder.Visual.csproj"/>
         <ProjectReference Include="..\OG.DataKit.Animation.Observer\OG.DataKit.Animation.Observer.csproj"/>

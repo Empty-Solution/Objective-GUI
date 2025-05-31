@@ -1,7 +1,8 @@
 ﻿using DK.Getting.Generic;
 using DK.Property.Observing.Abstraction.Generic;
+using EH.Builder.Config;
 using EH.Builder.Interactive.Base;
-using EH.Builder.Options;
+using EH.Builder.Providing.Abstraction;
 using OG.Builder.Contexts.Interactive;
 using OG.DataKit.Animation;
 using OG.DataKit.Animation.Extensions;
@@ -15,8 +16,8 @@ using OG.Event;
 using OG.Event.Extensions;
 using OG.Transformer.Options;
 using UnityEngine;
-namespace EH.Builder.Interactive;
-public class EhInternalSliderBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhBaseFillBuilder baseFillBuilder,
+namespace EH.Builder.Interactive.Internal;
+public class EhInternalSliderBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhBaseFillBuilder baseFillBuilder,
     EhBaseTextBuilder textBuilder, EhBaseThumbBuilder thumbBuilder, EhBaseHorizontalSliderBuilder sliderBuilder)
 {
     public IOgSlider<IOgVisualElement> Build(string name, IDkObservableProperty<float> value, float min, float max, string textFormat, int round, float x)
@@ -45,8 +46,8 @@ public class EhInternalSliderBuilder(EhConfigProvider provider, EhBaseBackground
             rect.x = (value.Get() / max * sliderConfig.Width) - (sliderConfig.ThumbOutlineSize / 2);
             return rect;
         });
-        OgTextElement valueText = textBuilder.BuildSliderValueText(name, sliderConfig.TextColor, textFormat, value, round, sliderConfig.ValueFontSize,
-            sliderConfig.ValueAlignment, sliderConfig.Width, sliderConfig.Height * 2, 0,
+        OgTextElement valueText = textBuilder.BuildSliderValueText(name, sliderConfig.TextColor, textFormat, value, round, sliderConfig.ValueTextFontSize,
+            sliderConfig.ValueTextAlignment, sliderConfig.Width, sliderConfig.Height * 2, 0,
             (-(provider.InteractableElementConfig.Height - sliderConfig.Height) / 2) - (provider.InteractableElementConfig.VerticalPadding / 2));
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbOutlineHoverObserver = new((getter, value) =>
         {
