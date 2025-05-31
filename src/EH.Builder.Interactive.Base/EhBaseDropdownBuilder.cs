@@ -1,4 +1,5 @@
-﻿using DK.Getting.Generic;
+﻿using DK.Getting.Abstraction.Generic;
+using DK.Getting.Generic;
 using DK.Observing.Abstraction.Generic;
 using DK.Observing.Generic;
 using DK.Property.Abstraction.Generic;
@@ -19,7 +20,7 @@ using UnityEngine;
 namespace EH.Builder.Interactive.Base;
 public abstract class EhBaseDropdownBuilder(EhBaseBackgroundBuilder backgroundBuilder, EhBaseButtonBuilder buttonBuilder, EhBaseTextBuilder textBuilder)
 {
-    protected IOgInteractableElement<IOgVisualElement> BuildDropdownItem(string name, int index, IDkProperty<int> selected,
+    protected IOgInteractableElement<IOgVisualElement> BuildDropdownItem(IDkGetProvider<string> name, int index, IDkProperty<int> selected,
         OgAnimationColorGetter textGetter, OgEventHandlerProvider textEventHandler, IDkObserver<bool> textObserver, IEhConfigProvider provider)
     {
         EhDropdownConfig           dropdownConfig = provider.DropdownConfig;
@@ -46,15 +47,15 @@ public abstract class EhBaseDropdownBuilder(EhBaseBackgroundBuilder backgroundBu
                 backgroundEventHandler.Register(backgroundGetter);
             }, backgroundEventHandler);
         background.ZOrder = 2;
-        OgTextElement text = textBuilder.BuildStaticText($"{name}Text", textGetter, name, dropdownConfig.ItemTextFontSize,
-            dropdownConfig.ItemTextAlignment, dropdownConfig.Width * 0.9f, dropdownConfig.ModalItemHeight, 0, 0, context =>
+        OgTextElement text = textBuilder.Build($"{name}Text", textGetter, name, dropdownConfig.ItemTextFontSize, dropdownConfig.ItemTextAlignment,
+            dropdownConfig.Width * 0.9f, dropdownConfig.ModalItemHeight, 0, 0, context =>
             {
                 textGetter.Speed          = provider.AnimationSpeed;
                 textGetter.RenderCallback = context.RectGetProvider;
                 textEventHandler.Register(textGetter);
             }, textEventHandler);
         text.ZOrder = 2;
-        IOgInteractableElement<IOgVisualElement> button = buttonBuilder.Build(name, new OgScriptableBuilderProcess<OgButtonBuildContext>(context =>
+        IOgInteractableElement<IOgVisualElement> button = buttonBuilder.Build(name.Get(), new OgScriptableBuilderProcess<OgButtonBuildContext>(context =>
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(dropdownConfig.Width * 0.9f, dropdownConfig.ModalItemHeight))
                    .SetOption(new OgMarginTransformerOption(dropdownConfig.Width * 0.05f))

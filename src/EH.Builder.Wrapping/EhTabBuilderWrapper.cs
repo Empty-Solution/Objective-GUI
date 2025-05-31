@@ -1,4 +1,5 @@
-﻿using EH.Builder.Interactive;
+﻿using DK.Getting.Generic;
+using EH.Builder.Interactive;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Providing.Abstraction;
 using EH.Builder.Wrapping.DataTypes;
@@ -30,8 +31,8 @@ public class EhTabBuilderWrapper
         IOgToggle<IOgVisualElement> button = m_TabButtonBuilder.Build(name, texture, m_MainWindowBuilder.TabSeparator!, m_MainWindowBuilder.TabContainer,
             m_MainWindowBuilder.ToolBar, out IOgContainer<IOgElement> container, out IOgContainer<IOgElement> toolbarContainer);
         m_MainWindowBuilder.TabButtons.Add(button);
-        m_TabBuilder.Build(leftContainerName, rightContainerName, container, out IOgContainer<IOgElement> leftContainer,
-            out IOgContainer<IOgElement> rightContainer);
+        m_TabBuilder.Build(new DkReadOnlyGetter<string>(leftContainerName), new DkReadOnlyGetter<string>(rightContainerName), container,
+            out IOgContainer<IOgElement> leftContainer, out IOgContainer<IOgElement> rightContainer);
         EhSourceTab builtTab = new([new([leftContainer, rightContainer])], container, toolbarContainer, button);
         m_Tabs.Add(name, builtTab);
         return builtTab;

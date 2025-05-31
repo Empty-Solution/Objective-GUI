@@ -1,4 +1,5 @@
-﻿using EH.Builder.Config;
+﻿using DK.Getting.Abstraction.Generic;
+using EH.Builder.Config;
 using EH.Builder.DataTypes;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Interactive.Internal;
@@ -13,23 +14,25 @@ namespace EH.Builder.Interactive;
 public class EhSliderBuilder(IEhConfigProvider provider, EhContainerBuilder containerBuilder, EhBaseTextBuilder textBuilder,
     EhInternalSliderBuilder sliderBuilder, EhInternalBindModalBuilder<float> bindModalBuilder)
 {
-    public IOgContainer<IOgElement> Build(string name, IEhProperty<float> value, float min, float max, string textFormat, int round, float y)
+    public IOgContainer<IOgElement> Build(IDkGetProvider<string> name, IEhProperty<float> value, float min, float max, string textFormat, int round,
+        float y)
     {
         EhSliderConfig sliderConfig = provider.SliderConfig;
-        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-        {
-            context.RectGetProvider.Options
-                   .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
-                   .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding, y));
-        }));
-        OgTextElement nameText = textBuilder.BuildStaticText(name, sliderConfig.TextColor, name, sliderConfig.NameTextFontSize,
-            sliderConfig.NameTextAlignment, provider.InteractableElementConfig.Width - sliderConfig.Width, provider.InteractableElementConfig.Height);
+        IOgContainer<IOgElement> container = containerBuilder.Build($"{name.Get()}Container",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options
+                       .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
+                       .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding, y));
+            }));
+        OgTextElement nameText = textBuilder.Build(name.Get(), sliderConfig.TextColor, name, sliderConfig.NameTextFontSize, sliderConfig.NameTextAlignment,
+            provider.InteractableElementConfig.Width - sliderConfig.Width, provider.InteractableElementConfig.Height);
         container.Add(nameText);
-        container.Add(sliderBuilder.Build(name, value, min, max, textFormat, round, provider.InteractableElementConfig.Width - sliderConfig.Width));
-        container.Add(bindModalBuilder.Build(name, provider.InteractableElementConfig.Width - sliderConfig.Width,
+        container.Add(sliderBuilder.Build(name.Get(), value, min, max, textFormat, round, provider.InteractableElementConfig.Width - sliderConfig.Width));
+        container.Add(bindModalBuilder.Build(name.Get(), provider.InteractableElementConfig.Width - sliderConfig.Width,
             (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2, sliderConfig.Width, sliderConfig.Height * 2, value, property =>
             {
-                return sliderBuilder.Build(name, property, min, max, textFormat, round,
+                return sliderBuilder.Build(name.Get(), property, min, max, textFormat, round,
                     provider.InteractableElementConfig.BindModalWidth - sliderConfig.Width - (provider.InteractableElementConfig.HorizontalPadding * 2));
             }));
         return container;

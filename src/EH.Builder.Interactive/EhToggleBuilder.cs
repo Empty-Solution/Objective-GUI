@@ -1,4 +1,5 @@
-﻿using EH.Builder.Config;
+﻿using DK.Getting.Abstraction.Generic;
+using EH.Builder.Config;
 using EH.Builder.DataTypes;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Interactive.Internal;
@@ -13,7 +14,7 @@ namespace EH.Builder.Interactive;
 public class EhToggleBuilder(IEhConfigProvider provider, EhContainerBuilder containerBuilder, EhBaseTextBuilder textBuilder,
     EhInternalToggleBuilder toggleBuilder, EhInternalBindModalBuilder<bool> bindModalBuilder)
 {
-    public IOgContainer<IOgElement> Build(string name, IEhProperty<bool> value, float y)
+    public IOgContainer<IOgElement> Build(IDkGetProvider<string> name, IEhProperty<bool> value, float y)
     {
         EhToggleConfig toggleConfig = provider.ToggleConfig;
         IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
@@ -22,14 +23,14 @@ public class EhToggleBuilder(IEhConfigProvider provider, EhContainerBuilder cont
                    .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
                    .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding, y));
         }));
-        OgTextElement nameText = textBuilder.BuildStaticText(name, toggleConfig.TextColor, name, toggleConfig.NameTextFontSize,
-            toggleConfig.NameTextAlignment, provider.InteractableElementConfig.Width - toggleConfig.Width, provider.InteractableElementConfig.Height);
+        OgTextElement nameText = textBuilder.Build(name.Get(), toggleConfig.TextColor, name, toggleConfig.NameTextFontSize, toggleConfig.NameTextAlignment,
+            provider.InteractableElementConfig.Width - toggleConfig.Width, provider.InteractableElementConfig.Height);
         container.Add(nameText);
-        container.Add(toggleBuilder.Build(name, value, provider.InteractableElementConfig.Width - toggleConfig.Width));
-        container.Add(bindModalBuilder.Build(name, provider.InteractableElementConfig.Width - toggleConfig.Width,
+        container.Add(toggleBuilder.Build(name.Get(), value, provider.InteractableElementConfig.Width - toggleConfig.Width));
+        container.Add(bindModalBuilder.Build(name.Get(), provider.InteractableElementConfig.Width - toggleConfig.Width,
             (provider.InteractableElementConfig.Height - toggleConfig.Height) / 2, toggleConfig.Width, toggleConfig.Height, value, property =>
             {
-                return toggleBuilder.Build(name, property,
+                return toggleBuilder.Build(name.Get(), property,
                     provider.InteractableElementConfig.BindModalWidth - toggleConfig.Width - (provider.InteractableElementConfig.HorizontalPadding * 2));
             }));
         return container;

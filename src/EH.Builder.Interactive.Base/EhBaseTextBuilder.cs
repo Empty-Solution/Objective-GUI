@@ -26,21 +26,8 @@ public class EhBaseTextBuilder(IEhVisualProvider visualProvider)
             }));
         return text;
     }
-    public OgTextElement BuildStaticText(string name, IDkGetProvider<Color> colorGetter, string text, int fontSize, TextAnchor alignment, float width,
-        float height, float x = 0, float y = 0, Action<OgTextBuildContext>? action = null, IOgEventHandlerProvider? provider = null)
-    {
-        OgTextElement textElement = m_TextBuilder.BuildStatic($"{name}Text", colorGetter, provider, fontSize, alignment, text,
-            new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
-            {
-                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgMinSizeTransformerOption(width, height))
-                       .SetOption(new OgMarginTransformerOption(x, y));
-                action?.Invoke(context);
-            }));
-        return textElement;
-    }
-    public OgTextElement BuildBindableText(string name, IDkGetProvider<Color> colorGetter, IDkGetProvider<string> value, int fontSize,
-        TextAnchor alignment, float width, float height, float x = 0, float y = 0, Action<OgTextBuildContext>? action = null,
-        IOgEventHandlerProvider? provider = null)
+    public OgTextElement Build(string name, IDkGetProvider<Color> colorGetter, IDkGetProvider<string> value, int fontSize, TextAnchor alignment,
+        float width, float height, float x = 0, float y = 0, Action<OgTextBuildContext>? action = null, IOgEventHandlerProvider? provider = null)
     {
         OgTextElement text = m_TextBuilder.Build($"{name}TextValue", colorGetter, provider, fontSize, alignment, value,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>

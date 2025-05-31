@@ -1,4 +1,6 @@
-﻿using EH.Builder.DataTypes;
+﻿using DK.Getting.Abstraction.Generic;
+using DK.Getting.Generic;
+using EH.Builder.DataTypes;
 using EH.Builder.Interactive;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Interactive.Internal;
@@ -90,10 +92,15 @@ public class EhTabGroupWrapper
         container.Add(slider);
     }
     private IOgContainer<IOgElement> BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round, float y) =>
-        m_SliderBuilder.Build(name, property, min, max, textFormat, round, y);
-    private IOgContainer<IOgElement> BuildToggle(string name, IEhProperty<bool> property, float y) => m_ToggleBuilder.Build(name, property, y);
-    private IOgContainer<IOgElement> BuildDropdown(string name, IEhProperty<int> property, string[] values, float y) =>
-        m_DropdownBuilder.Build(name, property, values, y);
+        m_SliderBuilder.Build(new DkReadOnlyGetter<string>(name), property, min, max, textFormat, round, y);
+    private IOgContainer<IOgElement> BuildToggle(string name, IEhProperty<bool> property, float y) =>
+        m_ToggleBuilder.Build(new DkReadOnlyGetter<string>(name), property, y);
+    private IOgContainer<IOgElement> BuildDropdown(string name, IEhProperty<int> property, string[] values, float y)
+    {
+        IDkGetProvider<string>[] valueGetters                  = new IDkGetProvider<string>[values.Length];
+        for(int i = 0; i < values.Length; i++) valueGetters[i] = new DkReadOnlyGetter<string>(values[i]);
+        return m_DropdownBuilder.Build(new DkReadOnlyGetter<string>(name), property, valueGetters, y);
+    }
     private IOgContainer<IOgElement> GetGroup(ushort group)
     {
         if(m_Tab.Groups.Count() <= group) throw new InvalidOperationException("Group doesn't exist");

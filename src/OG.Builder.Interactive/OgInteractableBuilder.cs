@@ -20,8 +20,8 @@ public abstract class
 {
     protected override void InternalProcessContext(TContext context)
     {
-        context.RectGetProvider.LayoutCallback     = context.Element;
-        context.Element.IsHoveringObserver         = new DkObservable<bool>([]);
-        context.Element.IsInteractingObserver      = new DkObservable<bool>([]);
+        context.RectGetProvider.LayoutCallback = context.Element;
+        context.Element.IsHoveringObserver     = new DkObservable<bool>([]);
+        context.Element.IsInteractingObserver  = new DkObservable<bool>([]);
     }
 }

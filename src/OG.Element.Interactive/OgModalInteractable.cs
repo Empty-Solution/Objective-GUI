@@ -47,7 +47,7 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
     }
     public override bool Invoke(IOgRenderEvent reason) => ShouldProcess && base.Invoke(reason);
     public override int CompareTo(IOgElement other) => other.Order.CompareTo(Order + (ShouldProcess ? 2 : 1));
-    public IDkObservable<bool>? IsInteractingObserver      { get; set; }
+    public IDkObservable<bool>? IsInteractingObserver { get; set; }
     protected override bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
         if(!ShouldProcess) return base.HandleMouseMove(reason);

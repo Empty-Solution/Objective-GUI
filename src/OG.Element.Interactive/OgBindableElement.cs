@@ -56,7 +56,7 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
         if(reason.KeyCode == KeyCode.Escape)
         {
             m_Bind.Set(KeyCode.None);
-            IsFocusing    = false;
+            IsFocusing = false;
             return true;
         }
         m_Bind.Set(reason.KeyCode);

@@ -1,5 +1,4 @@
 ﻿using DK.Getting.Abstraction.Generic;
-using DK.Getting.Generic;
 using DK.Processing.Abstraction.Generic;
 using DK.Processing.Generic;
 using EH.Builder.Providing.Abstraction;
@@ -27,15 +26,6 @@ public class EhInternalTextBuilder
         m_Processor.AddProcess(process);
         OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter, provider, m_VisualProvider.Font, fontSize, alignment, FontStyle.Normal,
             TextClipping.Clip, false, textGetter));
-        m_Processor.RemoveProcess(process);
-        return element;
-    }
-    public OgTextElement BuildStatic(string name, IDkGetProvider<Color> colorGetter, IOgEventHandlerProvider? provider, int fontSize, TextAnchor alignment,
-        string text, IDkProcess<OgTextBuildContext> process)
-    {
-        m_Processor.AddProcess(process);
-        OgTextElement element = m_OgTextBuilder.Build(new(name, colorGetter, provider, m_VisualProvider.Font, fontSize, alignment, FontStyle.Normal,
-            TextClipping.Clip, false, new DkReadOnlyGetter<string>(text)));
         m_Processor.RemoveProcess(process);
         return element;
     }

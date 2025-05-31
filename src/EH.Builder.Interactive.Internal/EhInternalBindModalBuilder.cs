@@ -81,9 +81,9 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
                 backgroundEventHandler.Register(backgroundGetter);
                 context.Element.ZOrder = 3;
             }, backgroundEventHandler);
-        OgTextElement addButtonText = textBuilder.BuildStaticText($"{name}InteractableAddButtonText", interactableConfig.ModalButtonTextColor, "Add",
-            interactableConfig.ModalButtonTextFontSize, interactableConfig.ModalButtonTextAlignment, interactableConfig.ModalWidth * 0.9f,
-            interactableConfig.ModalItemHeight, 0, 0, context =>
+        OgTextElement addButtonText = textBuilder.Build($"{name}InteractableAddButtonText", interactableConfig.ModalButtonTextColor,
+            new DkReadOnlyGetter<string>("Add"), interactableConfig.ModalButtonTextFontSize, interactableConfig.ModalButtonTextAlignment,
+            interactableConfig.ModalWidth * 0.9f, interactableConfig.ModalItemHeight, 0, 0, context =>
             {
                 context.Element.ZOrder = 3;
             });
@@ -146,9 +146,9 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
                 context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
                 context.Element.IsHoveringObserver?.Notify(false);
             }));
-        container.Add(textBuilder.BuildStaticText($"{name}{bindIndex}InteractableText", interactableConfig.ModalButtonTextColor, $"Bind {bindIndex}",
-            interactableConfig.ModalButtonTextFontSize, interactableConfig.ModalButtonTextAlignment, interactableConfig.ModalWidth * 0.9f,
-            interactableConfig.ModalItemHeight, 0, 0, context =>
+        container.Add(textBuilder.Build($"{name}{bindIndex}InteractableText", interactableConfig.ModalButtonTextColor,
+            new DkReadOnlyGetter<string>($"Bind {bindIndex}"), interactableConfig.ModalButtonTextFontSize, interactableConfig.ModalButtonTextAlignment,
+            interactableConfig.ModalWidth * 0.9f, interactableConfig.ModalItemHeight, 0, 0, context =>
             {
                 context.Element.ZOrder = 3 + bindIndex;
             }));
@@ -174,8 +174,8 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
                            interactableConfig.Height))
                        .SetOption(new OgMarginTransformerOption(interactableConfig.HorizontalPadding, interactableConfig.VerticalPadding));
             }));
-        OgTextElement bindNameText = textBuilder.BuildStaticText($"{name}{bindIndex}BindText", interactableConfig.BindModalTextColor, "Key",
-            interactableConfig.BindModalTextFontSize, interactableConfig.BindModalTextAlignment,
+        OgTextElement bindNameText = textBuilder.Build($"{name}{bindIndex}BindText", interactableConfig.BindModalTextColor,
+            new DkReadOnlyGetter<string>("Key"), interactableConfig.BindModalTextFontSize, interactableConfig.BindModalTextAlignment,
             interactableConfig.BindModalWidth - interactableConfig.BindWidth - (interactableConfig.HorizontalPadding * 2), interactableConfig.Height, 0, 0,
             context =>
             {
@@ -200,7 +200,7 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
                 bindEventHandler.Register(bindBackgroundGetter);
                 context.Element.ZOrder = 4 + bindIndex;
             }, bindEventHandler);
-        OgTextElement bindText = textBuilder.BuildBindableText($"{name}{bindIndex}BindText", interactableConfig.BindTextColor, bindNameGetter,
+        OgTextElement bindText = textBuilder.Build($"{name}{bindIndex}BindText", interactableConfig.BindTextColor, bindNameGetter,
             interactableConfig.BindTextFontSize, interactableConfig.BindTextAlignment, interactableConfig.BindWidth, interactableConfig.BindHeight, 0, 0,
             context =>
             {
@@ -235,8 +235,8 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
         OgSizeTransformerOption? option =
             (OgSizeTransformerOption?)((OgTransformerRectGetter)processedElement.ElementRect).Options.Options.FirstOrDefault(o =>
                 o is OgSizeTransformerOption);
-        OgTextElement elementLabel = textBuilder.BuildStaticText($"{name}{bindIndex}ElementLabel", interactableConfig.ModalButtonTextColor, "Value",
-            interactableConfig.BindModalTextFontSize, interactableConfig.BindModalTextAlignment,
+        OgTextElement elementLabel = textBuilder.Build($"{name}{bindIndex}ElementLabel", interactableConfig.ModalButtonTextColor,
+            new DkReadOnlyGetter<string>("Value"), interactableConfig.BindModalTextFontSize, interactableConfig.BindModalTextAlignment,
             interactableConfig.Width - option?.Width ?? 100 - (interactableConfig.HorizontalPadding * 2), interactableConfig.Height, 0, 0, context =>
             {
                 context.Element.ZOrder = 4 + bindIndex;
@@ -265,8 +265,8 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
                 removeBackgroundEventHandler.Register(removeBackgroundGetter);
                 context.Element.ZOrder = 4 + bindIndex;
             }, removeBackgroundEventHandler);
-        OgTextElement removeButtonText = textBuilder.BuildStaticText($"{name}{bindIndex}InteractableRemoveButtonText",
-            interactableConfig.ModalButtonTextColor, "Delete", interactableConfig.ModalButtonTextFontSize, interactableConfig.ModalButtonTextAlignment,
+        OgTextElement removeButtonText = textBuilder.Build($"{name}{bindIndex}InteractableRemoveButtonText", interactableConfig.ModalButtonTextColor,
+            new DkReadOnlyGetter<string>("Delete"), interactableConfig.ModalButtonTextFontSize, interactableConfig.ModalButtonTextAlignment,
             interactableConfig.BindModalWidth * 0.9f, interactableConfig.Height, 0, 0, context =>
             {
                 context.Element.ZOrder = 4 + bindIndex;
