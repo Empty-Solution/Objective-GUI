@@ -32,15 +32,14 @@ public class EhInternalDropdownBuilder(IEhConfigProvider provider, EhBaseBackgro
 {
     private readonly EhBaseBackgroundBuilder m_BackgroundBuilder = backgroundBuilder;
     private readonly EhBaseTextBuilder       m_TextBuilder       = textBuilder;
-    public IOgContainer<IOgElement> Build(string name, IDkProperty<int> selected, IEnumerable<IDkGetProvider<string>> values, float x, float y,
-        out IOgOptionsContainer options)
+    public IOgContainer<IOgElement> Build(string name, IDkProperty<int> selected, IEnumerable<IDkGetProvider<string>> values, float width, float height,
+        float x, float y, out IOgOptionsContainer options)
     {
         EhDropdownConfig    dropdownConfig   = provider.DropdownConfig;
         IOgOptionsContainer optionsContainer = null!;
         IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
-            context.RectGetProvider.Options
-                   .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height))
                    .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding, y));
             optionsContainer = context.RectGetProvider.Options;
         }));
@@ -49,8 +48,8 @@ public class EhInternalDropdownBuilder(IEhConfigProvider provider, EhBaseBackgro
         {
             getter.SetTime();
             Rect rect = getter.TargetModifier;
-            rect.height = value ? ((dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * (values.Count() - 1)) +
-                                  dropdownConfig.ModalItemPadding : 0;
+            rect.height = value ? ((dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * values.Count()) + dropdownConfig.ModalItemPadding
+                              : 0;
             getter.TargetModifier = rect;
         });
         OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", dropdownConfig.BackgroundColor, dropdownConfig.Width,
@@ -88,14 +87,14 @@ public class EhInternalDropdownBuilder(IEhConfigProvider provider, EhBaseBackgro
             {
                 context.RectGetProvider.Options
                        .SetOption(new OgSizeTransformerOption(dropdownConfig.Width,
-                           (dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * (values.Count() - 1)))
+                           (dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * values.Count()))
                        .SetOption(new OgMarginTransformerOption(0, dropdownConfig.Height - dropdownConfig.ModalItemPadding));
             }));
         button.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
             new DkReadOnlyGetter<Rect>(new(0, dropdownConfig.Height, dropdownConfig.Width,
-                ((dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * (values.Count() - 1)) - dropdownConfig.Height))));
+                ((dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * values.Count()) - dropdownConfig.Height))));
         List<EhDropdownTextObserver> observers = [];
-        for(int i = 0; i < values.Count() - 1; i++)
+        for(int i = 0; i < values.Count(); i++)
         {
             IDkGetProvider<string> value            = values.ElementAt(i);
             OgEventHandlerProvider textEventHandler = new();
@@ -107,6 +106,7 @@ public class EhInternalDropdownBuilder(IEhConfigProvider provider, EhBaseBackgro
             sourceContainer.Add(BuildDropdownItem(value, i, selected, textGetter, textEventHandler, textObserver, provider));
         }
         observers[selected.Get()].Update(false);
+        backgroundObserver.Getter?.SetTime(1f);
         button.Add(sourceContainer);
         container.Add(button);
         return container;

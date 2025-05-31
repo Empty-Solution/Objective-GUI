@@ -66,9 +66,8 @@ public class EhMainWindowBuilder(IEhConfigProvider provider, EhBaseBackgroundBui
         toolbarContainer = containerBuilder.Build("MainWindowToolbarContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
             context.RectGetProvider.Options
-                   .SetOption(new OgSizeTransformerOption(windowConfig.Width - xOffset,
-                       windowConfig.ToolbarContainerHeight + windowConfig.ToolbarContainerOffset))
-                   .SetOption(new OgMarginTransformerOption(xOffset, windowConfig.ToolbarContainerOffset));
+                   .SetOption(new OgSizeTransformerOption(windowConfig.Width - (xOffset + windowConfig.ToolbarContainerOffset),
+                       windowConfig.ToolbarContainerHeight + windowConfig.ToolbarContainerOffset)).SetOption(new OgMarginTransformerOption(xOffset));
         }));
         tabButtonsContainer = containerBuilder.Build("MainWindowTabButtonsContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {

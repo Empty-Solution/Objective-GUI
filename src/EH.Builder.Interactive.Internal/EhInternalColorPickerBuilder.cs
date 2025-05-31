@@ -46,7 +46,7 @@ public class EhInternalColorPickerBuilder(IEhConfigProvider provider, EhBaseBack
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight))
-                       .SetOption(new OgMarginTransformerOption(-(pickerConfig.Width + pickerConfig.ModalWindowWidth), pickerConfig.Height));
+                       .SetOption(new OgMarginTransformerOption(-pickerConfig.ModalWindowWidth, pickerConfig.Height));
             }));
         OgTextureElement modalBackground = backgroundBuilder.Build($"{name}ModalBackground", pickerConfig.BackgroundColor, pickerConfig.ModalWindowWidth,
             pickerConfig.ModalWindowHeight, 0, 0,

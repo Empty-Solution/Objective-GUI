@@ -246,6 +246,7 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
         {
             if(state) return;
             sourceContainer.Remove(container);
+            valueOverride.Revert(bind.Name);
         };
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> removeBackgroundHoverObserver = new((getter, value) =>
         {

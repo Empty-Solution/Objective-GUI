@@ -13,8 +13,8 @@ public class EhDropdownBuilder(IEhConfigProvider provider, EhInternalDropdownBui
     public IOgContainer<IOgElement> Build(IDkGetProvider<string> name, IDkProperty<int> selected, IEnumerable<IDkGetProvider<string>> values, float y)
     {
         EhDropdownConfig dropdownConfig = provider.DropdownConfig;
-        IOgContainer<IOgElement> container =
-            dropdownBuilder.Build(name.Get(), selected, values, provider.InteractableElementConfig.Width - dropdownConfig.Width, y, out _);
+        IOgContainer<IOgElement> container = dropdownBuilder.Build(name.Get(), selected, values, provider.InteractableElementConfig.Width,
+            provider.InteractableElementConfig.Height, provider.InteractableElementConfig.Width - dropdownConfig.Width, y, out _);
         container.Add(textBuilder.Build($"{name}NameText", dropdownConfig.NameTextColor, name, dropdownConfig.NameTextFontSize,
             dropdownConfig.NameTextAlignment, provider.InteractableElementConfig.Width - dropdownConfig.Width, provider.InteractableElementConfig.Height));
         return container;
