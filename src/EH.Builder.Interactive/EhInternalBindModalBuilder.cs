@@ -1,9 +1,9 @@
 ﻿using DK.Getting.Generic;
-using DK.Getting.Overriding.Abstraction.Generic;
 using DK.Observing.Generic;
 using DK.Property.Generic;
 using DK.Property.Observing.Abstraction.Generic;
 using DK.Property.Observing.Generic;
+using EH.Builder.DataTypes;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Options;
 using OG.Builder.Contexts;
@@ -30,7 +30,7 @@ public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBas
     EhBaseTextBuilder textBuilder, EhBaseModalInteractableBuilder interactableBuilder, EhBaseButtonBuilder buttonBuilder,
     EhBaseBindableBuilder<TValue> bindableBuilder)
 {
-    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, IDkValueOverride<TValue> valueOverride,
+    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, IEhValueOverride<TValue> valueOverride,
         Func<IDkObservableProperty<TValue>, IOgContainer<IOgVisualElement>> process)
     {
         EhInteractableElementConfig interactableConfig = provider.InteractableElementConfig;
@@ -102,9 +102,8 @@ public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBas
         return button;
     }
     private IOgContainer<IOgElement> BuildBind(string name, float bindIndex, EhInteractableElementConfig interactableConfig,
-        IDkValueOverride<TValue> valueOverride, Func<IDkObservableProperty<TValue>, IOgContainer<IOgVisualElement>> process)
+        IEhValueOverride<TValue> valueOverride, Func<IDkObservableProperty<TValue>, IOgContainer<IOgVisualElement>> process)
     {
-        DkObservableProperty<TValue> overrideValue = new(new DkObservable<TValue>([]), default!);
         IOgContainer<IOgElement> container = containerBuilder.Build($"{name}{bindIndex}Container",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
@@ -201,6 +200,12 @@ public class EhInternalBindModalBuilder<TValue>(EhConfigProvider provider, EhBas
             {
                 context.Element.ZOrder = 4;
             });
+        DkScriptableObserver<TValue> observer = new();
+        observer.OnUpdate += value =>
+        {
+            valueOverride.Notify(value);
+        };
+        DkObservableProperty<TValue> overrideValue = new(new DkObservable<TValue>([observer]), default!);
         IOgInteractableValueElement<IOgVisualElement, TValue> bind = bindableBuilder.Build($"{name}{bindIndex}Bind", overrideValue, valueOverride, keycode,
             new OgScriptableBuilderProcess<OgBindableBuildContext<TValue>>(context =>
             {

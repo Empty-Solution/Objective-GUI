@@ -55,5 +55,5 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
         base.HandleMouseMove(reason);
         return true;
     }
-    public override bool Invoke(IOgInputEvent reason) => ShouldProcess && base.Invoke(reason);
+    public override bool Invoke(IOgInputEvent reason) => (ShouldProcess || reason is IOgKeyBoardEvent) && base.Invoke(reason);
 }

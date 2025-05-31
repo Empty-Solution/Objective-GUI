@@ -18,6 +18,7 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     private readonly IDkProperty<KeyCode?>    m_Bind;
     private readonly IDkValueOverride<TValue> m_Override;
     private readonly List<KeyCode>            m_PressedKeys = [];
+    private          bool                     m_IsCapturing;
     public OgBindableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<TValue> value,
         IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode?> bind) : base(name, provider, rectGetter, value)
     {
@@ -29,22 +30,27 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     public IDkObservable<TValue>? BindObservable { get; set; }
     public bool Invoke(IOgKeyBoardKeyDownEvent reason)
     {
-        if(IsFocusing) return Bind(reason);
+        if(m_IsCapturing) return Bind(reason);
         m_PressedKeys.Add(reason.KeyCode);
         return Override();
     }
     public bool Invoke(IOgKeyBoardKeyUpEvent reason)
     {
-        if(IsFocusing) return false;
+        if(m_IsCapturing) return false;
         m_PressedKeys.Remove(reason.KeyCode);
         return true;
     }
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
         m_Bind.Set(null);
+        m_IsCapturing = true;
         return true;
     }
-    protected override bool OnLostFocus(IOgMouseKeyUpEvent reason) => true;
+    protected override bool OnLostFocus(IOgMouseKeyUpEvent reason)
+    {
+        m_IsCapturing = false;
+        return true;
+    }
     private bool Bind(IOgKeyBoardKeyDownEvent reason)
     {
         if(reason.KeyCode == KeyCode.Escape)
@@ -53,7 +59,8 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
             return true;
         }
         m_Bind.Set(reason.KeyCode);
-        IsFocusing = false;
+        IsFocusing    = false;
+        m_IsCapturing = false;
         return true;
     }
     private bool Override()
@@ -67,7 +74,8 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
                     m_Override.Revert(Name);
                 else
                     m_Override.Override(Name, Value);
+                return true;
             }
-        return true;
+        return false;
     }
 }

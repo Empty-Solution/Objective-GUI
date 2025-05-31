@@ -26,10 +26,10 @@ public class EhInternalToggleBuilder(EhConfigProvider provider, EhBaseBackground
         float          offset       = (toggleConfig.Height - toggleConfig.ThumbSize) / 2;
         (OgTextureElement thumb, OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbObserver,
          OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver,
-         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbHoverObserver) = BuildThumb(name, toggleConfig, offset);
+         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbHoverObserver) = BuildThumb(name, toggleConfig, value, offset);
         (OgTextureElement fill, OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, bool> fillObserver,
          OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> fillInteractObserver,
-         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> fillHoverObserver) = BuildFill(name, toggleConfig, offset);
+         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> fillHoverObserver) = BuildFill(name, toggleConfig, value, offset);
         (OgTextureElement background, OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver) =
             BuildBackground(name, toggleConfig);
         IOgToggle<IOgVisualElement> toggle = toggleBuilder.Build(name, value, new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
@@ -53,10 +53,11 @@ public class EhInternalToggleBuilder(EhConfigProvider provider, EhBaseBackground
     }
     private (OgTextureElement, OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, bool>,
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool>,
-        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool>) BuildThumb(string name, EhToggleConfig toggleConfig, float offset)
+        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool>) BuildThumb(string name, EhToggleConfig toggleConfig,
+            IDkObservableProperty<bool> property, float offset)
     {
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbObserver = new((getter, value) =>
-            new(value ? toggleConfig.Width - toggleConfig.ThumbSize - offset : offset, 0, 0, 0));
+            new(property.Get() ? toggleConfig.Width - toggleConfig.ThumbSize - offset : offset, 0, 0, 0));
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver = new((getter, value) =>
         {
             getter.SetTime();
@@ -81,10 +82,11 @@ public class EhInternalToggleBuilder(EhConfigProvider provider, EhBaseBackground
     }
     private (OgTextureElement, OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, bool>,
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool>,
-        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool>) BuildFill(string name, EhToggleConfig toggleConfig, float offset)
+        OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool>) BuildFill(string name, EhToggleConfig toggleConfig,
+            IDkObservableProperty<bool> property, float offset)
     {
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, bool> fillObserver = new((_, value) =>
-            new(0, 0, toggleConfig.ThumbSize + offset + (value ? toggleConfig.Width - toggleConfig.ThumbSize - offset : offset), 0));
+            new(0, 0, toggleConfig.ThumbSize + offset + (property.Get() ? toggleConfig.Width - toggleConfig.ThumbSize - offset : offset), 0));
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> fillInteractObserver = new((getter, value) =>
         {
             getter.SetTime();

@@ -17,9 +17,9 @@ public abstract class OgFocusableElement<TElement, TValue>(string name, IOgEvent
     {
         base.PreEndControl(reason);
         bool hovering = IsHovering;
-        if(!IsInteracting || IsFocusing == hovering) return false;
+        if(IsFocusing == hovering) return false;
         IsFocusing = hovering;
-        IsFocusingObserver!.Notify(hovering);
+        IsFocusingObserver?.Notify(hovering);
         return hovering ? OnFocus(reason) : OnLostFocus(reason);
     }
     protected abstract bool OnFocus(IOgMouseKeyUpEvent reason);

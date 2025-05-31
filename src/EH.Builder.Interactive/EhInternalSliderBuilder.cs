@@ -28,21 +28,21 @@ public class EhInternalSliderBuilder(EhConfigProvider provider, EhBaseBackground
             float offset = sliderConfig.ThumbSize / 6;
             getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, offset, offset);
         });
-        OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbOutlineInteractObserver = new((getter, value) =>
+        OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbOutlineInteractObserver = new((getter, newValue) =>
         {
             float offset = sliderConfig.ThumbOutlineSize / 8;
-            getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, offset, offset);
+            getter.TargetModifier = getter.AdjustRect(newValue, getter.TargetModifier, offset, offset);
         });
-        OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, float> thumbObserver = new((getter, value) =>
+        OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, float> thumbObserver = new((getter, newValue) =>
         {
             Rect rect = getter.TargetModifier;
-            rect.x = (value / max * sliderConfig.Width) - (sliderConfig.ThumbSize / 2);
+            rect.x = (value.Get() / max * sliderConfig.Width) - (sliderConfig.ThumbSize / 2);
             return rect;
         });
-        OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, float> thumbOutlineObserver = new((getter, value) =>
+        OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, float> thumbOutlineObserver = new((getter, newValue) =>
         {
             Rect rect = getter.TargetModifier;
-            rect.x = (value / max * sliderConfig.Width) - (sliderConfig.ThumbOutlineSize / 2);
+            rect.x = (value.Get() / max * sliderConfig.Width) - (sliderConfig.ThumbOutlineSize / 2);
             return rect;
         });
         OgTextElement valueText = textBuilder.BuildSliderValueText(name, sliderConfig.TextColor, textFormat, value, round, sliderConfig.ValueFontSize,

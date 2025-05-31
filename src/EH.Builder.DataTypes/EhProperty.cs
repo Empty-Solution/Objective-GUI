@@ -21,8 +21,9 @@ public class EhProperty<TValue> : IEhProperty<TValue>
     object IDkGetProvider.Get() => Get()!;
     public bool Set(TValue value)
     {
+        if(IsOverriden) return true;
         m_Value = value;
-        m_Observable.Notify(value);
+        Notify(value);
         return true;
     }
     public bool Set(object value)
@@ -35,7 +36,7 @@ public class EhProperty<TValue> : IEhProperty<TValue>
     public Type OutType           => typeof(TValue);
     public bool HasInternalSetter => false;
     public bool HasInternalGetter => false;
-    public bool IsReadOnly        => false;
+    public bool IsReadOnly        => IsOverriden;
     public bool IsWriteOnly       => false;
     public TValue GetOriginal() => m_Value;
     object IDkOriginalProvider.GetOriginal() => GetOriginal()!;

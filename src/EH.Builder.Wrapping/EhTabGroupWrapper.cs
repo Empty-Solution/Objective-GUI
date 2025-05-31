@@ -12,12 +12,12 @@ using System.Linq;
 namespace EH.Builder.Wrapping;
 public class EhTabGroupWrapper
 {
-    private readonly EhConfigProvider        m_ConfigProvider;
-    private readonly EhDropdownBuilder       m_DropdownBuilder;
+    private readonly EhConfigProvider             m_ConfigProvider;
+    private readonly EhDropdownBuilder            m_DropdownBuilder;
     private readonly EhInternalColorPickerBuilder m_InternalPickerBuilder;
-    private readonly EhSliderBuilder         m_SliderBuilder;
-    private readonly EhTab                   m_Tab;
-    private readonly EhToggleBuilder         m_ToggleBuilder;
+    private readonly EhSliderBuilder              m_SliderBuilder;
+    private readonly EhTab                        m_Tab;
+    private readonly EhToggleBuilder              m_ToggleBuilder;
     public EhTabGroupWrapper(EhConfigProvider configProvider, IEhVisualProvider visualProvider, EhTab tab)
     {
         EhQuadBuilder                  quadBuilder             = new(visualProvider);

@@ -15,7 +15,7 @@ public class EhSliderConfig
         FillHoverColor         = new(new(0.8f, 0.8f, 0.8f, 1f));
         BackgroundHoverColor   = new(Color.black);
     }
-    public int               NameTextFontSize           { get; set; } = 14;
+    public int               NameTextFontSize       { get; set; } = 14;
     public int               ValueFontSize          { get; set; } = 10;
     public float             Height                 { get; set; } = 5;
     public float             ThumbOutlineSize       { get; set; } = 16;
