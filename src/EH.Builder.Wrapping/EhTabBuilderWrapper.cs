@@ -46,12 +46,5 @@ public class EhTabBuilderWrapper
         m_MainWindowBuilder.TabButtons.Remove(tab.Button);
         m_MainWindowBuilder.TabContainer.Remove(tab.SourceContainer);
         m_MainWindowBuilder.ToolBar.Remove(tab.Toolbar);
-        foreach(IOgContainer<IOgElement> container in tab.Tabs)
-        {
-            m_MainWindowBuilder.TabContainer.Remove(container);
-        }
-        foreach(IOgContainer<IOgElement> container in tab.Tabs)
-        {
-        }
     }
 }

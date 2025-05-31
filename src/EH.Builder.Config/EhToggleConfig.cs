@@ -1,10 +1,9 @@
 ﻿using DK.Property.Generic;
+using EH.Builder.Config.Abstraction;
 using UnityEngine;
 namespace EH.Builder.Config;
-public class EhToggleConfig
+public class EhToggleConfig : IEhElementConfig
 {
-    public float             Height               { get; set; } = 22;
-    public float             Width                { get; set; } = 44;
     public float             ThumbSize            { get; set; } = 16;
     public float             ThumbBorder          { get; set; } = 90f;
     public float             BackgroundBorder     { get; set; } = 90f;
@@ -17,4 +16,6 @@ public class EhToggleConfig
     public DkProperty<Color> TextColor            { get; }      = new(Color.white);
     public DkProperty<Color> ThumbColor           { get; }      = new(Color.black);
     public DkProperty<Color> ThumbHoverColor      { get; }      = new(new(0.2f, 0.2f, 0.2f, 1f));
+    public float             Height               { get; set; } = 22;
+    public float             Width                { get; set; } = 44;
 }

@@ -39,9 +39,8 @@ public class EhTabButtonBuilder(IEhConfigProvider provider, EhBaseBackgroundBuil
             getter.SetTime();
             getter.TargetModifier = state ? tabButtonConfig.InteractColor.Get() : tabButtonConfig.ButtonColor.Get();
         });
-        float tabContainerX = provider.TabButtonConfig.TabButtonSize + (provider.SeparatorOffset * 2) +
-                              (provider.MainWindowConfig.TabButtonsContainerOffset * 2);
-        float xOffset = tabContainerX - provider.MainWindowConfig.TabButtonsContainerOffset;
+        float tabContainerX = provider.TabButtonConfig.Width + (provider.SeparatorOffset * 2) + (provider.MainWindowConfig.TabButtonsContainerOffset * 2);
+        float xOffset       = tabContainerX - provider.MainWindowConfig.TabButtonsContainerOffset;
         builtToolbarContainer = containerBuilder.Build($"{name}SourceToolbarContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.MainWindowConfig.Width - xOffset,
@@ -54,7 +53,7 @@ public class EhTabButtonBuilder(IEhConfigProvider provider, EhBaseBackgroundBuil
         }));
         OgEventHandlerProvider eventHandler = new();
         OgAnimationColorGetter getter       = new(eventHandler);
-        OgTextureElement image = backgroundBuilder.Build($"{name}Background", getter, tabButtonConfig.TabButtonSize, tabButtonConfig.TabButtonSize, 0, 0,
+        OgTextureElement image = backgroundBuilder.Build($"{name}Background", getter, tabButtonConfig.Width, tabButtonConfig.Height, 0, 0,
             new(tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder),
             context =>
             {
@@ -65,13 +64,13 @@ public class EhTabButtonBuilder(IEhConfigProvider provider, EhBaseBackgroundBuil
                 eventHandler.Register(getter);
             }, eventHandler, new(), texture);
         EhTabObserver tabObserver = new(m_Observers, sourceTabContainer, builtTabContainer, sourceToolbarContainer, builtToolbarContainer,
-            tabButtonConfig.TabButtonSize, separatorSelectorGetter);
+            tabButtonConfig.Height, separatorSelectorGetter);
         m_Observers.Add(tabObserver);
         IOgToggle<IOgVisualElement> button = toggleBuilder.Build($"{name}Button", new DkObservableProperty<bool>(new DkObservable<bool>([]), false),
             new OgScriptableBuilderProcess<OgToggleBuildContext>(context =>
             {
                 context.ValueProvider.AddObserver(backgroundObserver);
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(tabButtonConfig.TabButtonSize, tabButtonConfig.TabButtonSize))
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(tabButtonConfig.Width, tabButtonConfig.Height))
                        .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, tabButtonConfig.TabButtonOffset));
                 tabObserver.RectGetter         = context.RectGetProvider;
                 tabObserver.LinkedInteractable = context.Element;

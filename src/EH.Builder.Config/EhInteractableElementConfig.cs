@@ -1,10 +1,9 @@
 ﻿using DK.Property.Generic;
+using EH.Builder.Config.Abstraction;
 using UnityEngine;
 namespace EH.Builder.Config;
-public class EhInteractableElementConfig
+public class EhInteractableElementConfig : IEhElementConfig
 {
-    public float             Height                          { get; set; } = 28;
-    public float             Width                           { get; set; } = 250;
     public float             HorizontalPadding               { get; set; } = 10;
     public float             VerticalPadding                 { get; set; } = 10;
     public float             ModalItemHeight                 { get; set; } = 22;
@@ -29,4 +28,6 @@ public class EhInteractableElementConfig
     public DkProperty<Color> BindTextColor                   { get; }      = new(new Color32(255, 255, 255, 255));
     public DkProperty<Color> BindBackgroundColor             { get; }      = new(new Color32(25, 25, 25, 255));
     public DkProperty<Color> BindBackgroundHoverColor        { get; }      = new(new Color32(40, 40, 40, 255));
+    public float             Height                          { get; set; } = 28;
+    public float             Width                           { get; set; } = 250;
 }

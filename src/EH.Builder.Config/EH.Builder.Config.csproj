@@ -5,4 +5,7 @@
         <PackageReference Include="UnityEngine.CoreModule" Version="2020.3.1"/>
         <PackageReference Include="UnityEngine.TextRenderingModule" Version="2020.3.1"/>
     </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\EH.Builder.Config.Abstraction\EH.Builder.Config.Abstraction.csproj"/>
+    </ItemGroup>
 </Project>

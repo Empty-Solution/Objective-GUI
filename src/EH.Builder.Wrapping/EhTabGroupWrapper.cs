@@ -1,5 +1,6 @@
 ﻿using DK.Getting.Abstraction.Generic;
 using DK.Getting.Generic;
+using EH.Builder.Config.Abstraction;
 using EH.Builder.DataTypes;
 using EH.Builder.Interactive;
 using EH.Builder.Interactive.Base;
@@ -58,20 +59,25 @@ public class EhTabGroupWrapper
     }
     public void BuildToggleWithPicker(string name, IEhProperty<bool> property, IEhProperty<Color> color, ushort group)
     {
-        IOgContainer<IOgElement> container       = GetGroup(group);
-        float                    verticalPadding = GetVerticalPadding(container);
-        IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}Container",
-            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-            {
-                context.RectGetProvider.Options
-                       .SetOption(new OgSizeTransformerOption(m_ConfigProvider.InteractableElementConfig.Width,
-                           m_ConfigProvider.InteractableElementConfig.Height)).SetOption(new OgMarginTransformerOption(0, verticalPadding));
-            }));
+        IOgContainer<IOgElement> sourceContainer = BuildContainer(name, group, out IOgContainer<IOgElement> tabContainer);
         sourceContainer.Add(BuildToggle(name, property, 0f));
-        sourceContainer.Add(m_InternalPickerBuilder.Build(name, color,
-            m_ConfigProvider.InteractableElementConfig.Width - m_ConfigProvider.ToggleConfig.Width - m_ConfigProvider.PickerConfig.Width,
-            (m_ConfigProvider.InteractableElementConfig.Height - m_ConfigProvider.PickerConfig.Height) / 2));
-        container.Add(sourceContainer);
+        sourceContainer.Add(BuildPicker(name, color, m_ConfigProvider.ToggleConfig));
+        tabContainer.Add(sourceContainer);
+    }
+    public void BuildSliderWithPicker(string name, IEhProperty<float> property, float min, float max, string textFormat, int round,
+        IEhProperty<Color> color, ushort group)
+    {
+        IOgContainer<IOgElement> sourceContainer = BuildContainer(name, group, out IOgContainer<IOgElement> tabContainer);
+        sourceContainer.Add(BuildSlider(name, property, min, max, textFormat, round, 0f));
+        sourceContainer.Add(BuildPicker(name, color, m_ConfigProvider.ToggleConfig));
+        tabContainer.Add(sourceContainer);
+    }
+    public void BuildDropdownWithPicker(string name, IEhProperty<int> property, string[] values, IEhProperty<Color> color, ushort group)
+    {
+        IOgContainer<IOgElement> sourceContainer = BuildContainer(name, group, out IOgContainer<IOgElement> tabContainer);
+        sourceContainer.Add(BuildDropdown(name, property, values, 0f));
+        sourceContainer.Add(BuildPicker(name, color, m_ConfigProvider.ToggleConfig));
+        tabContainer.Add(sourceContainer);
     }
     public void BuildToggle(string name, IEhProperty<bool> property, ushort group)
     {
@@ -90,6 +96,22 @@ public class EhTabGroupWrapper
         IOgContainer<IOgElement> container = GetGroup(group);
         IOgContainer<IOgElement> slider    = BuildDropdown(name, property, values, GetVerticalPadding(container));
         container.Add(slider);
+    }
+    private IOgContainer<IOgElement> BuildPicker(string name, IEhProperty<Color> color, IEhElementConfig config) =>
+        m_InternalPickerBuilder.Build(name, color, m_ConfigProvider.InteractableElementConfig.Width - config.Width - m_ConfigProvider.PickerConfig.Width,
+            (m_ConfigProvider.InteractableElementConfig.Height - m_ConfigProvider.PickerConfig.Height) / 2);
+    private IOgContainer<IOgElement> BuildContainer(string name, ushort group, out IOgContainer<IOgElement> tabContainer)
+    {
+        tabContainer = GetGroup(group);
+        float verticalPadding = GetVerticalPadding(tabContainer);
+        IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}Container",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options
+                       .SetOption(new OgSizeTransformerOption(m_ConfigProvider.InteractableElementConfig.Width,
+                           m_ConfigProvider.InteractableElementConfig.Height)).SetOption(new OgMarginTransformerOption(0, verticalPadding));
+            }));
+        return sourceContainer;
     }
     private IOgContainer<IOgElement> BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round, float y) =>
         m_SliderBuilder.Build(new DkReadOnlyGetter<string>(name), property, min, max, textFormat, round, y);

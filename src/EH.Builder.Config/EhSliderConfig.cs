@@ -1,10 +1,9 @@
 ﻿using DK.Property.Generic;
+using EH.Builder.Config.Abstraction;
 using UnityEngine;
 namespace EH.Builder.Config;
-public class EhSliderConfig
+public class EhSliderConfig : IEhElementConfig
 {
-    public float             Height                 { get; set; } = 5;
-    public float             Width                  { get; set; } = 100;
     public float             ThumbOutlineSize       { get; set; } = 16;
     public float             ThumbSize              { get; set; } = 12;
     public float             ThumbBorder            { get; set; } = 90f;
@@ -22,4 +21,6 @@ public class EhSliderConfig
     public DkProperty<Color> ThumbHoverColor        { get; }      = new(new(0.2f, 0.2f, 0.2f, 1f));
     public DkProperty<Color> ThumbOutlineColor      { get; }      = new(Color.white);
     public DkProperty<Color> ThumbOutlineHoverColor { get; }      = new(new(0.8f, 0.8f, 0.8f, 1f));
+    public float             Height                 { get; set; } = 5;
+    public float             Width                  { get; set; } = 100;
 }

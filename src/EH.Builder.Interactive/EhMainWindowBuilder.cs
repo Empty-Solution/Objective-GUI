@@ -34,7 +34,7 @@ public class EhMainWindowBuilder(IEhConfigProvider provider, EhBaseBackgroundBui
         #region separators
         float tabButtonsContainerHeight = windowConfig.Height - windowConfig.ToolbarContainerHeight - (provider.SeparatorOffset * 2) -
                                           (windowConfig.ToolbarContainerOffset * 2);
-        float   tabContainerX   = provider.TabButtonConfig.TabButtonSize + (provider.SeparatorOffset * 2) + (windowConfig.TabButtonsContainerOffset * 2);
+        float   tabContainerX   = provider.TabButtonConfig.Width + (provider.SeparatorOffset * 2) + (windowConfig.TabButtonsContainerOffset * 2);
         float   containerY      = windowConfig.ToolbarContainerHeight + windowConfig.ToolbarContainerOffset;
         float   xOffset         = tabContainerX - windowConfig.TabButtonsContainerOffset;
         Vector4 separatorBorder = new(provider.SeparatorBorder, provider.SeparatorBorder, provider.SeparatorBorder, provider.SeparatorBorder);
@@ -72,7 +72,7 @@ public class EhMainWindowBuilder(IEhConfigProvider provider, EhBaseBackgroundBui
         }));
         tabButtonsContainer = containerBuilder.Build("MainWindowTabButtonsContainer", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonConfig.TabButtonSize, tabButtonsContainerHeight))
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.TabButtonConfig.Width, tabButtonsContainerHeight))
                    .SetOption(new OgMarginTransformerOption(windowConfig.TabButtonsContainerOffset, containerY + windowConfig.ToolbarContainerOffset));
         }));
         OgEventHandlerProvider  eventProvider = new();
