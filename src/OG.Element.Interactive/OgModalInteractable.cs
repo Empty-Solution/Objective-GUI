@@ -42,10 +42,12 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
             field = value;
             IsInteractingObserver?.Notify(value);
             if(m_RightClickOnly) IsRightInteractingObserver?.Notify(value);
+            Resort();
+            Parent?.Resort();
         }
     }
     public override bool Invoke(IOgRenderEvent reason) => ShouldProcess && base.Invoke(reason);
-    public override int CompareTo(IOgElement other) => other.Order.CompareTo(Order + 1);
+    public override int CompareTo(IOgElement other) => other.Order.CompareTo(Order + /*(ShouldProcess ? */1 /* : 0)*/);
     public IDkObservable<bool>? IsInteractingObserver      { get; set; }
     public IDkObservable<bool>? IsRightInteractingObserver { get; set; }
     protected override bool HandleMouseMove(IOgMouseMoveEvent reason)

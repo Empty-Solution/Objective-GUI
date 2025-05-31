@@ -5,14 +5,19 @@ using EH.Builder.Options;
 using EH.Builder.Options.Abstraction;
 using EH.Builder.Visual;
 using EH.Builder.Wrapping.DataTypes;
+using OG.Builder.Contexts;
+using OG.DataKit.Processing;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
+using OG.Transformer.Options;
 using System;
 using System.Linq;
+using UnityEngine;
 namespace EH.Builder.Wrapping;
 public class EhTabGroupWrapper
 {
     private readonly EhConfigProvider             m_ConfigProvider;
+    private readonly EhContainerBuilder           m_ContainerBuilder;
     private readonly EhDropdownBuilder            m_DropdownBuilder;
     private readonly EhInternalColorPickerBuilder m_InternalPickerBuilder;
     private readonly EhSliderBuilder              m_SliderBuilder;
@@ -44,9 +49,27 @@ public class EhTabGroupWrapper
             new(configProvider, backgroundBuilder, baseFillBuilder, thumbBuilder, toggleBuilder), toggleBindModalBuilder);
         m_InternalPickerBuilder = new(configProvider, backgroundBuilder, containerBuilder, interactableBuilder, quadBuilder, vectorBuilder,
             horizontalSliderBuilder, verticalSliderBuilder);
-        m_DropdownBuilder = new(configProvider, backgroundBuilder, containerBuilder, buttonBuilder, interactableBuilder, textBuilder);
-        m_Tab             = tab;
-        m_ConfigProvider  = configProvider;
+        m_DropdownBuilder  = new(configProvider, backgroundBuilder, containerBuilder, buttonBuilder, interactableBuilder, textBuilder);
+        m_Tab              = tab;
+        m_ConfigProvider   = configProvider;
+        m_ContainerBuilder = containerBuilder;
+    }
+    public void BuildToggleWithPicker(string name, IEhProperty<bool> property, IEhProperty<Color> color, ushort group)
+    {
+        IOgContainer<IOgElement> container       = GetGroup(group);
+        float                    verticalPadding = GetVerticalPadding(container);
+        IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}Container",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options
+                       .SetOption(new OgSizeTransformerOption(m_ConfigProvider.InteractableElementConfig.Width,
+                           m_ConfigProvider.InteractableElementConfig.Height)).SetOption(new OgMarginTransformerOption(0, verticalPadding));
+            }));
+        sourceContainer.Add(BuildToggle(name, property, 0f));
+        sourceContainer.Add(m_InternalPickerBuilder.Build(name, color,
+            m_ConfigProvider.InteractableElementConfig.Width - m_ConfigProvider.ToggleConfig.Width - m_ConfigProvider.PickerConfig.Width,
+            (m_ConfigProvider.InteractableElementConfig.Height - m_ConfigProvider.PickerConfig.Height) / 2));
+        container.Add(sourceContainer);
     }
     public void BuildToggle(string name, IEhProperty<bool> property, ushort group)
     {

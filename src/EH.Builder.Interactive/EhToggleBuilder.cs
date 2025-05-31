@@ -25,8 +25,8 @@ public class EhToggleBuilder(EhConfigProvider provider, EhContainerBuilder conta
         container.Add(nameText);
         container.Add(toggleBuilder.Build(name, value, provider.InteractableElementConfig.Width - toggleConfig.Width));
         container.Add(bindModalBuilder.Build(name, provider.InteractableElementConfig.Width - toggleConfig.Width,
-            (provider.InteractableElementConfig.Height - (toggleConfig.Height * 2)) / 2, provider.InteractableElementConfig.Width,
-            provider.InteractableElementConfig.Height, value.ValueOverride, property =>
+            (provider.InteractableElementConfig.Height - toggleConfig.Height) / 2, toggleConfig.Width, toggleConfig.Height, value.ValueOverride,
+            property =>
             {
                 return toggleBuilder.Build(name, property,
                     provider.InteractableElementConfig.BindModalWidth - toggleConfig.Width - (provider.InteractableElementConfig.HorizontalPadding * 2));

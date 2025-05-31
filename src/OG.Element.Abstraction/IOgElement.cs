@@ -5,9 +5,11 @@ using UnityEngine;
 namespace OG.Element.Abstraction;
 public interface IOgElement : IComparable<IOgElement>
 {
+    IOgElement?          Parent      { get; set; }
     IDkGetProvider<Rect> ElementRect { get; }
     string               Name        { get; }
     bool                 IsActive    { get; set; }
-    long                  Order       { get; set; }
+    long                 Order       { get; set; }
     bool ProcessEvent(IOgEvent reason);
+    void Resort();
 }

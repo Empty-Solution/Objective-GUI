@@ -25,8 +25,8 @@ public class EhSliderBuilder(EhConfigProvider provider, EhContainerBuilder conta
         container.Add(nameText);
         container.Add(sliderBuilder.Build(name, value, min, max, textFormat, round, provider.InteractableElementConfig.Width - sliderConfig.Width));
         container.Add(bindModalBuilder.Build(name, provider.InteractableElementConfig.Width - sliderConfig.Width,
-            (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2, provider.InteractableElementConfig.Width,
-            provider.InteractableElementConfig.Height, value.ValueOverride, property =>
+            (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2, sliderConfig.Width, sliderConfig.Height * 2, value.ValueOverride,
+            property =>
             {
                 return sliderBuilder.Build(name, property, min, max, textFormat, round,
                     provider.InteractableElementConfig.BindModalWidth - sliderConfig.Width - (provider.InteractableElementConfig.HorizontalPadding * 2));
