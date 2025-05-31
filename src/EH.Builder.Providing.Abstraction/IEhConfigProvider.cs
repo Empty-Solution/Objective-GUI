@@ -10,6 +10,7 @@ public interface IEhConfigProvider
     EhMainWindowConfig          MainWindowConfig          { get; set; }
     EhInteractableElementConfig InteractableElementConfig { get; set; }
     EhTabButtonConfig           TabButtonConfig           { get; set; }
+    EhButtonConfig              ButtonConfig              { get; set; }
     EhTabConfig                 TabConfig                 { get; set; }
     EhDropdownConfig            DropdownConfig            { get; set; }
     EhPickerConfig              PickerConfig              { get; set; }

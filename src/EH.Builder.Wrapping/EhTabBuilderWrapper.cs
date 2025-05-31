@@ -26,16 +26,22 @@ public class EhTabBuilderWrapper
         m_TabButtonBuilder  = new(configProvider, backgroundBuilder, containerBuilder, toggleBuilder);
         m_MainWindowBuilder = mainWindowBuilder;
     }
-    public EhSourceTab BuildTab(string name, Texture2D texture, string leftContainerName, string rightContainerName)
+    public EhSourceTab BuildTab(string name, Texture2D texture)
     {
         IOgToggle<IOgVisualElement> button = m_TabButtonBuilder.Build(name, texture, m_MainWindowBuilder.TabSeparator!, m_MainWindowBuilder.TabContainer,
             m_MainWindowBuilder.ToolBar, out IOgContainer<IOgElement> container, out IOgContainer<IOgElement> toolbarContainer);
         m_MainWindowBuilder.TabButtons.Add(button);
-        m_TabBuilder.Build(new DkReadOnlyGetter<string>(leftContainerName), new DkReadOnlyGetter<string>(rightContainerName), container,
-            out IOgContainer<IOgElement> leftContainer, out IOgContainer<IOgElement> rightContainer);
-        EhSourceTab builtTab = new([new([leftContainer, rightContainer])], container, toolbarContainer, button);
+        EhSourceTab builtTab = new(container, toolbarContainer, button);
         m_Tabs.Add(name, builtTab);
         return builtTab;
+    }
+    public EhSourceTab BuildTab(string name, Texture2D texture, string leftContainerName, string rightContainerName)
+    {
+        EhSourceTab tab = BuildTab(name, texture);
+        m_TabBuilder.Build(new DkReadOnlyGetter<string>(leftContainerName), new DkReadOnlyGetter<string>(rightContainerName), tab.SourceContainer,
+            out IOgContainer<IOgElement> leftContainer, out IOgContainer<IOgElement> rightContainer);
+        tab.AddTab(new([leftContainer, rightContainer], tab.SourceContainer));
+        return tab;
     }
     public EhSourceTab? GetTab(string name) => m_Tabs.TryGetValue(name, out EhSourceTab tab) ? tab : null;
     public void RemoveTab(string name)

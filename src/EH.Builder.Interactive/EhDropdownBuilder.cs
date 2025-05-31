@@ -22,6 +22,7 @@ using OG.Element.Visual;
 using OG.Event;
 using OG.Transformer.Options;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhDropdownBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
@@ -30,7 +31,7 @@ public class EhDropdownBuilder(IEhConfigProvider provider, EhBaseBackgroundBuild
 {
     private readonly EhBaseBackgroundBuilder m_BackgroundBuilder = backgroundBuilder;
     private readonly EhBaseTextBuilder       m_TextBuilder       = textBuilder;
-    public IOgContainer<IOgElement> Build(IDkGetProvider<string> name, IDkProperty<int> selected, IDkGetProvider<string>[] values, float y)
+    public IOgContainer<IOgElement> Build(IDkGetProvider<string> name, IDkProperty<int> selected, IEnumerable<IDkGetProvider<string>> values, float y)
     {
         EhDropdownConfig dropdownConfig = provider.DropdownConfig;
         IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
@@ -45,8 +46,8 @@ public class EhDropdownBuilder(IEhConfigProvider provider, EhBaseBackgroundBuild
         {
             getter.SetTime();
             Rect rect = getter.TargetModifier;
-            rect.height = value ? ((dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * values.Length) + dropdownConfig.ModalItemPadding
-                              : 0;
+            rect.height = value ? ((dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * (values.Count() - 1)) +
+                                  dropdownConfig.ModalItemPadding : 0;
             getter.TargetModifier = rect;
         });
         OgTextureElement background = m_BackgroundBuilder.Build($"{name}Background", dropdownConfig.BackgroundColor, dropdownConfig.Width,
@@ -58,7 +59,7 @@ public class EhDropdownBuilder(IEhConfigProvider provider, EhBaseBackgroundBuild
                 context.RectGetProvider.Speed = provider.AnimationSpeed;
             });
         container.Add(background);
-        DkObservableProperty<string> property = new(new DkObservable<string>([]), values[selected.Get()].Get());
+        DkObservableProperty<string> property = new(new DkObservable<string>([]), values.ElementAt(selected.Get()).Get());
         OgTextElement text = m_TextBuilder.Build($"{name}Text", dropdownConfig.TextColor, property, dropdownConfig.TextFontSize,
             dropdownConfig.TextAlignment, dropdownConfig.Width, dropdownConfig.Height, provider.InteractableElementConfig.Width - dropdownConfig.Width, 0,
             context =>
@@ -87,22 +88,23 @@ public class EhDropdownBuilder(IEhConfigProvider provider, EhBaseBackgroundBuild
             {
                 context.RectGetProvider.Options
                        .SetOption(new OgSizeTransformerOption(dropdownConfig.Width,
-                           (dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * values.Length))
+                           (dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * (values.Count() - 1)))
                        .SetOption(new OgMarginTransformerOption(0, dropdownConfig.Height - dropdownConfig.ModalItemPadding));
             }));
         button.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
             new DkReadOnlyGetter<Rect>(new(0, dropdownConfig.Height, dropdownConfig.Width,
-                ((dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * values.Length) - dropdownConfig.Height))));
+                ((dropdownConfig.ModalItemHeight + dropdownConfig.ModalItemPadding) * (values.Count() - 1)) - dropdownConfig.Height))));
         List<EhDropdownTextObserver> observers = [];
-        for(int i = 0; i < values.Length; i++)
+        for(int i = 0; i < values.Count() - 1; i++)
         {
+            IDkGetProvider<string> value            = values.ElementAt(i);
             OgEventHandlerProvider textEventHandler = new();
             OgAnimationColorGetter textGetter       = new(textEventHandler);
-            DkBinding<string>      binding          = new(new DkReadOnlyGetter<string>(values[i].Get()), property);
+            DkBinding<string>      binding          = new(new DkReadOnlyGetter<string>(value.Get()), property);
             EhDropdownTextObserver textObserver = new(observers, observers.Count, dropdownConfig.ItemTextColor, dropdownConfig.SelectedItemTextColor,
                 textGetter, binding, button);
             observers.Add(textObserver);
-            sourceContainer.Add(BuildDropdownItem(values[i], i, selected, textGetter, textEventHandler, textObserver, provider));
+            sourceContainer.Add(BuildDropdownItem(value, i, selected, textGetter, textEventHandler, textObserver, provider));
         }
         observers[selected.Get()].Update(false);
         button.Add(sourceContainer);
