@@ -56,6 +56,7 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
         if(reason.KeyCode == KeyCode.Escape)
         {
             m_Bind.Set(KeyCode.None);
+            IsFocusing    = false;
             return true;
         }
         m_Bind.Set(reason.KeyCode);
@@ -66,7 +67,7 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     private bool Override()
     {
         KeyCode? keyCode = m_Bind.Get();
-        if(keyCode == null) return false;
+        if(keyCode == KeyCode.None) return false;
         foreach(KeyCode key in m_PressedKeys)
             if(key == keyCode)
             {

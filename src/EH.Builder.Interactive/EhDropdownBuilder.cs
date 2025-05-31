@@ -68,8 +68,8 @@ public class EhDropdownBuilder(IEhConfigProvider provider, EhBaseBackgroundBuild
         DkScriptableObserver<bool> observer = new();
         observer.OnUpdate += state =>
         {
-            background.ZOrder = !state ? 2 : 0;
-            text.ZOrder       = !state ? 2 : 0;
+            background.ZOrder = state ? 2 : 0;
+            text.ZOrder       = state ? 2 : 0;
         };
         IOgModalInteractable<IOgElement> button = modalInteractableBuilder.Build($"{name}", false,
             new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>

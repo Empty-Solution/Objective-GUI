@@ -23,6 +23,5 @@ public abstract class
         context.RectGetProvider.LayoutCallback     = context.Element;
         context.Element.IsHoveringObserver         = new DkObservable<bool>([]);
         context.Element.IsInteractingObserver      = new DkObservable<bool>([]);
-        context.Element.IsRightInteractingObserver = new DkObservable<bool>([]);
     }
 }
