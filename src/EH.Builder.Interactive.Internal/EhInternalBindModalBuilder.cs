@@ -1,6 +1,6 @@
 ﻿using DK.Getting.Generic;
 using DK.Observing.Generic;
-using DK.Property.Generic;
+using DK.Property.Abstraction.Generic;
 using DK.Property.Observing.Abstraction.Generic;
 using DK.Property.Observing.Generic;
 using EH.Builder.Config;
@@ -31,7 +31,7 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
     EhBaseTextBuilder textBuilder, EhBaseModalInteractableBuilder interactableBuilder, EhBaseButtonBuilder buttonBuilder,
     EhBaseBindableBuilder<TValue> bindableBuilder)
 {
-    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, IEhValueOverride<TValue> valueOverride,
+    public IOgModalInteractable<IOgElement> Build(string name, float x, float y, float width, float height, IEhProperty<TValue> value,
         Func<IDkObservableProperty<TValue>, IOgContainer<IOgVisualElement>> process)
     {
         EhInteractableElementConfig interactableConfig = provider.InteractableElementConfig;
@@ -59,7 +59,9 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
         addButtonObserver.OnUpdate += state =>
         {
             if(state) return;
-            container.Add(BuildBind($"{name}Bind", container.Elements.Count(), interactableConfig, container, valueOverride, process));
+            if(container.Elements.Count() > 10) return;
+            container.Add(BuildBind($"{name}Bind", container.Elements.Count(), interactableConfig, container, value.ValueOverride,
+                value.CreateKeybind(KeyCode.None), process));
         };
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
         {
@@ -95,26 +97,27 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
                 context.Element.IsInteractingObserver?.AddObserver(addButtonObserver);
                 context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
                 context.Element.IsHoveringObserver?.Notify(false);
-                context.Element.Order = -1;
+                context.Element.Order = int.MinValue;
+                context.Element.Sort  = false;
             }));
         addButton.Add(addButtonBackground);
         addButton.Add(addButtonText);
         button.Add(container);
+        foreach(IDkProperty<KeyCode> keybind in value.Keybinds)
+            container.Add(BuildBind($"{name}Bind", container.Elements.Count(), interactableConfig, container, value.ValueOverride, keybind, process));
         container.Add(addButton);
         return button;
     }
     private IOgContainer<IOgElement> BuildBind(string name, int bindIndex, EhInteractableElementConfig interactableConfig,
-        IOgContainer<IOgElement> sourceContainer, IEhValueOverride<TValue> valueOverride,
+        IOgContainer<IOgElement> sourceContainer, IEhValueOverride<TValue> valueOverride, IDkProperty<KeyCode> keybind,
         Func<IDkObservableProperty<TValue>, IOgContainer<IOgVisualElement>> process)
     {
         IOgContainer<IOgElement> container = containerBuilder.Build($"{name}{bindIndex}Container",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options
-                       .SetOption(new OgSizeTransformerOption(interactableConfig.ModalWidth * 0.9f, interactableConfig.ModalItemHeight)).SetOption(
-                           new OgMarginTransformerOption(interactableConfig.ModalWidth * 0.05f /*,
-                               interactableConfig.VerticalPadding +
-                               (bindIndex * (interactableConfig.ModalItemHeight + interactableConfig.VerticalPadding))*/))
+                       .SetOption(new OgSizeTransformerOption(interactableConfig.ModalWidth * 0.9f, interactableConfig.ModalItemHeight))
+                       .SetOption(new OgMarginTransformerOption(interactableConfig.ModalWidth * 0.05f))
                        .SetOption(new OgFlexiblePositionTransformerOption(EOgOrientation.VERTICAL, interactableConfig.VerticalPadding));
             }));
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
@@ -133,7 +136,7 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
                 backgroundHoverObserver.Getter  = backgroundGetter;
                 backgroundGetter.RenderCallback = context.RectGetProvider;
                 backgroundEventHandler.Register(backgroundGetter);
-                context.Element.ZOrder = 3;
+                context.Element.ZOrder = 3 + bindIndex;
             }, backgroundEventHandler));
         IOgModalInteractable<IOgElement> button = interactableBuilder.Build($"{name}{bindIndex}Interactable", false,
             new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>
@@ -147,7 +150,7 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
             interactableConfig.ModalButtonTextFontSize, interactableConfig.ModalButtonTextAlignment, interactableConfig.ModalWidth * 0.9f,
             interactableConfig.ModalItemHeight, 0, 0, context =>
             {
-                context.Element.ZOrder = 3;
+                context.Element.ZOrder = 3 + bindIndex;
             }));
         float modalHeight = interactableConfig.VerticalPadding + ((interactableConfig.Height + interactableConfig.VerticalPadding) * 3);
         button.Add(backgroundBuilder.Build($"{name}{bindIndex}Interactable", interactableConfig.ModalBackgroundColor, interactableConfig.BindModalWidth,
@@ -155,7 +158,7 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
             new(interactableConfig.ModalBackgroundBorder, interactableConfig.ModalBackgroundBorder, interactableConfig.ModalBackgroundBorder,
                 interactableConfig.ModalBackgroundBorder), context =>
             {
-                context.Element.ZOrder = 3;
+                context.Element.ZOrder = 3 + bindIndex;
             }));
         OgEventHandlerProvider  eventProvider = new();
         OgTransformerRectGetter getter        = new(eventProvider, new OgOptionsContainer());
@@ -179,8 +182,7 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
                 context.Element.ZOrder = 4 + bindIndex;
             });
         bindContainer.Add(bindNameText);
-        DkProperty<KeyCode?>       keycode        = new(null);
-        DkScriptableGetter<string> bindNameGetter = new(() => keycode.Get() is null ? "No key" : keycode.Get().ToString());
+        DkScriptableGetter<string> bindNameGetter = new(() => keybind.Get().ToString());
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> bindHoverObserver = new((getter, value) =>
         {
             getter.SetTime();
@@ -207,7 +209,7 @@ public class EhInternalBindModalBuilder<TValue>(IEhConfigProvider provider, EhBa
         DkScriptableObserver<TValue> observer = new();
         observer.OnUpdate += valueOverride.Notify;
         DkObservableProperty<TValue> overrideValue = new(new DkObservable<TValue>([observer]), default!);
-        IOgInteractableValueElement<IOgVisualElement, TValue> bind = bindableBuilder.Build($"{name}{bindIndex}Bind", overrideValue, valueOverride, keycode,
+        IOgInteractableValueElement<IOgVisualElement, TValue> bind = bindableBuilder.Build($"{name}{bindIndex}Bind", overrideValue, valueOverride, keybind,
             new OgScriptableBuilderProcess<OgBindableBuildContext<TValue>>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(interactableConfig.BindWidth, interactableConfig.BindHeight))

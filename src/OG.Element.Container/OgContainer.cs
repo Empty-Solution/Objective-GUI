@@ -20,19 +20,21 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         provider.RegisterToEnd<IOgEvent>(this);
     }
     public IEnumerable<TElement> Elements => m_Elements;
+    public bool                  Sort     { get; set; }
     public override void Resort()
     {
+        if(!Sort) return;
         m_Elements.Sort((e1, e2) => e1.CompareTo(e2));
         Parent?.Resort();
     }
     public void Clear() => m_Elements.Clear();
-    public bool Contains(TElement element) => m_Elements.Contains(element);
-    public override int CompareTo(IOgElement other) => other.Order.CompareTo(-m_Elements.Sum(element => element.CompareTo(other)));
+    public override int CompareTo(IOgElement other) => other.Order.CompareTo(Order + m_Elements.Sum(element => element.CompareTo(other)));
     public bool Add(TElement element)
     {
         if(m_Elements.IndexOf(element) != -1) return false;
         m_Elements.Add(element);
         element.Parent = this;
+        if(!Sort) return true;
         m_Elements.Sort((e1, e2) => e1.CompareTo(e2));
         return true;
     }
@@ -43,6 +45,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         m_Elements.RemoveAt(index);
         return true;
     }
+    public int IndexOf(TElement element) => m_Elements.IndexOf(element);
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
         reason.Layout.ParentRect     = ElementRect.Get();
@@ -74,6 +77,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         reason.LocalMousePosition += rect.position;
         return isUsed;
     }
+    public bool Contains(TElement element) => m_Elements.Contains(element);
     protected bool ProcessElementsEventForward(IOgEvent reason)
     {
         for(int i = 0; i < m_Elements.Count; i++)

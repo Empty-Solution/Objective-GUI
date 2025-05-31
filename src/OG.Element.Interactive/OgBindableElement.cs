@@ -15,12 +15,12 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
                                                    IOgEventCallback<IOgKeyBoardKeyDownEvent>,
                                                    IOgEventCallback<IOgKeyBoardKeyUpEvent> where TElement : IOgElement
 {
-    private readonly IDkProperty<KeyCode?>    m_Bind;
+    private readonly IDkProperty<KeyCode>     m_Bind;
     private readonly IDkValueOverride<TValue> m_Override;
     private readonly List<KeyCode>            m_PressedKeys = [];
     private          bool                     m_IsCapturing;
     public OgBindableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<TValue> value,
-        IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode?> bind) : base(name, provider, rectGetter, value)
+        IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode> bind) : base(name, provider, rectGetter, value)
     {
         m_Bind     = bind;
         m_Override = valueOverride;
@@ -42,7 +42,7 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     }
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
-        m_Bind.Set(null);
+        m_Bind.Set(KeyCode.None);
         m_IsCapturing = true;
         return true;
     }
@@ -55,7 +55,7 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     {
         if(reason.KeyCode == KeyCode.Escape)
         {
-            m_Bind.Set(null);
+            m_Bind.Set(KeyCode.None);
             return true;
         }
         m_Bind.Set(reason.KeyCode);
