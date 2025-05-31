@@ -16,7 +16,7 @@ public class EhTabObserver(List<EhTabObserver> observers, IOgContainer<IOgElemen
     public OgTransformerRectGetter?     RectGetter         { get; set; }
     public IOgContainer<IOgElement>?    TargetTabContainer { get; }      = targetTabContainer;
     public bool                         ShouldProcess      { get; set; } = true;
-    public void Update(bool state) 
+    public void Update(bool state)
     {
         if(!ShouldProcess)
         {

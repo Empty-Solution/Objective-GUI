@@ -67,8 +67,8 @@ public class EhDropdownBuilder(EhConfigProvider provider, EhBaseBackgroundBuilde
         DkScriptableObserver<bool> observer = new();
         observer.OnUpdate += state =>
         {
-            background.ZOrder = state ? 5 : 0;
-            text.ZOrder       = state ? 5 : 0;
+            background.ZOrder = !state ? 1 : 0;
+            text.ZOrder       = !state ? 1 : 0;
         };
         IOgModalInteractable<IOgElement> button = modalInteractableBuilder.Build($"{name}", false,
             new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>
@@ -131,7 +131,7 @@ public class EhDropdownBuilder(EhConfigProvider provider, EhBaseBackgroundBuilde
                 backgroundGetter.RenderCallback = context.RectGetProvider;
                 backgroundEventHandler.Register(backgroundGetter);
             }, backgroundEventHandler);
-        background.ZOrder = 5;
+        background.ZOrder = 1;
         OgTextElement text = textBuilder.BuildStaticText($"{name}Text", textGetter, name, dropdownConfig.ItemTextFontSize,
             dropdownConfig.ItemTextAlignment, dropdownConfig.Width * 0.9f, dropdownConfig.ModalItemHeight, 0, 0, context =>
             {
@@ -139,7 +139,7 @@ public class EhDropdownBuilder(EhConfigProvider provider, EhBaseBackgroundBuilde
                 textGetter.RenderCallback = context.RectGetProvider;
                 textEventHandler.Register(textGetter);
             }, textEventHandler);
-        text.ZOrder = 5;
+        text.ZOrder = 1;
         IOgInteractableElement<IOgVisualElement> button = buttonBuilder.Build(name, new OgScriptableBuilderProcess<OgButtonBuildContext>(context =>
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(dropdownConfig.Width * 0.9f, dropdownConfig.ModalItemHeight))

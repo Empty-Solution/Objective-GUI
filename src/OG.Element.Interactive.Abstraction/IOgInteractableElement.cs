@@ -5,5 +5,4 @@ public interface IOgInteractableElement<TElement> : IOgHoverableElement<TElement
 {
     IDkObservable<bool>? IsInteractingObserver      { get; set; }
     IDkObservable<bool>? IsRightInteractingObserver { get; set; }
-    int                  SortOrder                  { get; set; }
 }

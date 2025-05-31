@@ -8,5 +8,6 @@ public interface IOgElement : IComparable<IOgElement>
     IDkGetProvider<Rect> ElementRect { get; }
     string               Name        { get; }
     bool                 IsActive    { get; set; }
+    long                  Order       { get; set; }
     bool ProcessEvent(IOgEvent reason);
 }
