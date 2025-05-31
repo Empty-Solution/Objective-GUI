@@ -6,7 +6,7 @@ public class EhConfigProvider
     public DkProperty<float>           AnimationSpeed            { get; set; } = new(0.7f);
     public EhSliderConfig              SliderConfig              { get; set; } = new();
     public EhToggleConfig              ToggleConfig              { get; set; } = new();
-    public EhWindowConfig              WindowConfig              { get; set; } = new();
+    public EhMainWindowConfig          MainWindowConfig          { get; set; } = new();
     public EhInteractableElementConfig InteractableElementConfig { get; set; } = new();
     public EhTabButtonConfig           TabButtonConfig           { get; set; } = new();
     public EhTabConfig                 TabConfig                 { get; set; } = new();

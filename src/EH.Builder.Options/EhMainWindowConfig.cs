@@ -1,7 +1,7 @@
 ﻿using DK.Property.Generic;
 using UnityEngine;
 namespace EH.Builder.Options;
-public class EhWindowConfig
+public class EhMainWindowConfig
 {
     public DkProperty<Color> BackgroundColorProperty   { get; }      = new(new Color32(20, 20, 20, 255));
     public DkProperty<Color> LogoColor                 { get; }      = new(Color.white);

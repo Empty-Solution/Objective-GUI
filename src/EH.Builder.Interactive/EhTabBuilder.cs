@@ -13,8 +13,8 @@ public class EhTabBuilder(EhConfigProvider provider, EhBaseBackgroundBuilder bac
         out IOgContainer<IOgElement> builtRightGroup)
     {
         EhTabConfig tabConfig = provider.TabConfig;
-        float tabContainerHeight = provider.WindowConfig.Height - provider.WindowConfig.ToolbarContainerHeight - (provider.SeparatorOffset * 2) -
-                                   (provider.WindowConfig.ToolbarContainerOffset * 2);
+        float tabContainerHeight = provider.MainWindowConfig.Height - provider.MainWindowConfig.ToolbarContainerHeight - (provider.SeparatorOffset * 2) -
+                                   (provider.MainWindowConfig.ToolbarContainerOffset * 2);
         sourceTab.Add(BuildTabContainer(leftContainerName, out builtLeftGroup, tabConfig.TabContainerWidth, tabContainerHeight, 0, 0, tabConfig));
         sourceTab.Add(BuildTabContainer(rightContainerName, out builtRightGroup, tabConfig.TabContainerWidth, tabContainerHeight,
             tabConfig.TabContainerPadding + tabConfig.TabContainerWidth, 0, tabConfig));
