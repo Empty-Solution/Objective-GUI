@@ -9,7 +9,6 @@ using OG.DataKit.Animation.Extensions;
 using OG.DataKit.Animation.Observer;
 using OG.DataKit.Processing;
 using OG.DataKit.Transformer;
-using OG.Element.Container.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
@@ -21,7 +20,7 @@ namespace EH.Builder.Interactive.Internal;
 public class EhInternalToggleBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhBaseFillBuilder baseFillBuilder,
     EhBaseThumbBuilder thumbBuilder, EhBaseToggleBuilder toggleBuilder)
 {
-    public IOgContainer<IOgVisualElement> Build(string name, IDkObservableProperty<bool> value, float x)
+    public IOgToggle<IOgVisualElement> Build(string name, IDkObservableProperty<bool> value, float x)
     {
         EhToggleConfig toggleConfig = provider.ToggleConfig;
         float          offset       = (toggleConfig.Height - toggleConfig.ThumbSize) / 2;

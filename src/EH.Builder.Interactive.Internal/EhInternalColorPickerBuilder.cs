@@ -25,36 +25,36 @@ public class EhInternalColorPickerBuilder(IEhConfigProvider provider, EhBaseBack
     EhBaseModalInteractableBuilder modalInteractableBuilder, EhQuadBuilder quadBuilder, EhBaseVectorBuilder vectorBuilder,
     EhBaseHorizontalSliderBuilder horizontalSliderBuilder, EhBaseVerticalSliderBuilder verticalSliderBuilder)
 {
-    public IOgContainer<IOgElement> Build(string name, IDkProperty<Color> value, float x, float y)
+    public IEhColorPicker Build(string name, IDkProperty<Color> value, float x, float y)
     {
         EhPickerConfig pickerConfig = provider.PickerConfig;
-        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-        {
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.Width, pickerConfig.Height))
-                   .SetOption(new OgMarginTransformerOption(x, y));
-        }));
-        IOgModalInteractable<IOgElement> button = modalInteractableBuilder.Build($"{name}", false,
+        IOgContainer<IOgElement> sourceContainer = containerBuilder.Build($"{name}SourceContainer",
+            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+            {
+                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.Width, pickerConfig.Height))
+                       .SetOption(new OgMarginTransformerOption(x, y));
+            }));
+        IOgModalInteractable<IOgElement> modalInteractable = modalInteractableBuilder.Build($"{name}", false,
             new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.Width, pickerConfig.Height));
             }));
         OgTextureElement background = backgroundBuilder.Build($"{name}Background", value, pickerConfig.Width, pickerConfig.Height, 0, 0,
             new(pickerConfig.Border, pickerConfig.Border, pickerConfig.Border, pickerConfig.Border));
-        container.Add(background);
-        container.Add(button);
-        IOgContainer<IOgElement> sourceContainer = containerBuilder.Build($"{name}SourceContainer",
-            new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
-            {
-                context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight))
-                       .SetOption(new OgMarginTransformerOption(-pickerConfig.ModalWindowWidth, pickerConfig.Height));
-            }));
+        sourceContainer.Add(background);
+        sourceContainer.Add(modalInteractable);
+        IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
+        {
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight))
+                   .SetOption(new OgMarginTransformerOption(-pickerConfig.ModalWindowWidth, pickerConfig.Height));
+        }));
         OgTextureElement modalBackground = backgroundBuilder.Build($"{name}ModalBackground", pickerConfig.BackgroundColor, pickerConfig.ModalWindowWidth,
             pickerConfig.ModalWindowHeight, 0, 0,
             new(pickerConfig.ModalWindowBorder, pickerConfig.ModalWindowBorder, pickerConfig.ModalWindowBorder, pickerConfig.ModalWindowBorder));
-        sourceContainer.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
+        container.Add(new OgInteractableElement<IOgElement>($"{name}ModalInteractable", new OgEventHandlerProvider(),
             new DkReadOnlyGetter<Rect>(new(0, 0, pickerConfig.ModalWindowWidth, pickerConfig.ModalWindowHeight))));
         modalBackground.ZOrder = 9999;
-        sourceContainer.Add(modalBackground);
+        container.Add(modalBackground);
         HSVAColor                   hsvaColor         = (HSVAColor)value.Get();
         DkObservableProperty<float> hue               = new(new DkObservable<float>([]), hsvaColor.H);
         float                       huePickerWidth    = pickerConfig.ModalWindowWidth - (pickerConfig.PickerOffset * 2);
@@ -63,12 +63,16 @@ public class EhInternalColorPickerBuilder(IEhConfigProvider provider, EhBaseBack
         float                       alphaPickerHeight = (pickerConfig.ModalWindowHeight * 0.8f) - pickerConfig.PickerOffset;
         float                       alphaPickerX      = pickerConfig.ModalWindowWidth - alphaPickerWidth - pickerConfig.PickerOffset;
         float                       alphaPickerY      = huePickerHeight + (pickerConfig.PickerOffset * 2);
-        sourceContainer.Add(BuildAlphaPicker($"{name}AlphaPicker", hsvaColor, value, alphaPickerWidth, alphaPickerHeight, alphaPickerX, alphaPickerY,
-            pickerConfig));
-        sourceContainer.Add(BuildHuePicker($"{name}HuePicker", hue, value, huePickerWidth, huePickerHeight, pickerConfig));
-        sourceContainer.Add(BuildSvPicker(name, hsvaColor, hue, value, alphaPickerWidth, alphaPickerHeight, alphaPickerY, pickerConfig));
-        button.Add(sourceContainer);
-        return container;
+        IOgSlider<IOgVisualElement> alphaPicker = BuildAlphaPicker($"{name}AlphaPicker", hsvaColor, value, alphaPickerWidth, alphaPickerHeight,
+            alphaPickerX, alphaPickerY, pickerConfig);
+        container.Add(alphaPicker);
+        IOgSlider<IOgVisualElement> huePicker = BuildHuePicker($"{name}HuePicker", hue, value, huePickerWidth, huePickerHeight, pickerConfig);
+        container.Add(huePicker);
+        IOgVectorValueElement<IOgVisualElement> mainPicker =
+            BuildSvPicker(name, hsvaColor, hue, value, alphaPickerWidth, alphaPickerHeight, alphaPickerY, pickerConfig);
+        container.Add(mainPicker);
+        modalInteractable.Add(container);
+        return new EhColorPicker(sourceContainer);
     }
     private IOgVectorValueElement<IOgVisualElement> BuildSvPicker(string name, HSVAColor hsvaColor, DkObservableProperty<float> hue,
         IDkProperty<Color> value, float alphaWidth, float height, float y, EhPickerConfig pickerConfig)

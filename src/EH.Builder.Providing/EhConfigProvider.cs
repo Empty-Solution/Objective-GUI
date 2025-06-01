@@ -11,7 +11,7 @@ public class EhConfigProvider : IEhConfigProvider
     public EhInteractableElementConfig InteractableElementConfig { get; set; } = new();
     public EhTabButtonConfig           TabButtonConfig           { get; set; } = new();
     public EhButtonConfig              ButtonConfig              { get; set; } = new();
-    public EhTabConfig                 TabConfig                 { get; set; } = new();
+    public EhTabGroupConfig            TabGroupConfig            { get; set; } = new();
     public EhDropdownConfig            DropdownConfig            { get; set; } = new();
     public EhPickerConfig              PickerConfig              { get; set; } = new();
     public float                       SeparatorOffset           { get; set; } = 8;

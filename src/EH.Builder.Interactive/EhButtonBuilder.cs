@@ -2,6 +2,7 @@
 using DK.Getting.Generic;
 using DK.Observing.Generic;
 using EH.Builder.Config;
+using EH.Builder.DataTypes;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Providing.Abstraction;
 using OG.Builder.Contexts.Interactive;
@@ -20,7 +21,7 @@ namespace EH.Builder.Interactive;
 public class EhButtonBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhBaseTextBuilder textBuilder,
     EhBaseButtonBuilder buttonBuilder)
 {
-    public IOgInteractableElement<IOgVisualElement> Build(IDkGetProvider<string> name, Action action, float x, float y)
+    public IEhButton Build(IDkGetProvider<string> name, Action action, float x, float y)
     {
         EhButtonConfig             buttonConfig   = provider.ButtonConfig;
         DkScriptableObserver<bool> actionObserver = new();
@@ -66,6 +67,6 @@ public class EhButtonBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder
             buttonConfig.Width, buttonConfig.Height);
         button.Add(background);
         button.Add(buttonText);
-        return button;
+        return new EhButton(button);
     }
 }

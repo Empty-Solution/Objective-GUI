@@ -1,7 +1,7 @@
 ﻿using DK.Property.Generic;
 using UnityEngine;
 namespace EH.Builder.Config;
-public class EhTabConfig
+public class EhTabGroupConfig
 {
     public float             Width               { get; set; } = 270;
     public float             BackgroundBorder    { get; set; } = 5;

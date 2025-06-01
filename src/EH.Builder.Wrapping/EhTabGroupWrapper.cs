@@ -7,12 +7,10 @@ using EH.Builder.Interactive.Base;
 using EH.Builder.Interactive.Internal;
 using EH.Builder.Providing.Abstraction;
 using EH.Builder.Visual;
-using EH.Builder.Wrapping.DataTypes;
 using OG.Builder.Contexts;
 using OG.DataKit.Processing;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
-using OG.Element.Visual.Abstraction;
 using OG.Transformer.Options;
 using System;
 using System.Linq;
@@ -59,55 +57,57 @@ public class EhTabGroupWrapper
         m_ConfigProvider   = configProvider;
         m_ContainerBuilder = containerBuilder;
     }
-    public void BuildToggleWithPicker(string name, IEhProperty<bool> property, IEhProperty<Color> color, EhSubTab subTab, ushort group)
+    public void BuildToggleWithPicker(string name, IEhProperty<bool> property, IEhProperty<Color> color, IEhSubTab subTab, ushort groupIndex)
     {
-        IOgContainer<IOgElement> sourceContainer = BuildContainer(name, subTab, group, out IOgContainer<IOgElement> tabContainer);
-        sourceContainer.Add(BuildToggle(name, property, 0f));
-        sourceContainer.Add(BuildPicker(name, color, m_ConfigProvider.ToggleConfig));
-        tabContainer.Add(sourceContainer);
+        IOgContainer<IOgElement> sourceContainer = BuildContainer(name, subTab, groupIndex, out IEhTabGroup group);
+        BuildToggle(name, property, 0f, sourceContainer);
+        BuildPicker(name, color, m_ConfigProvider.ToggleConfig).LinkSelf(sourceContainer);
+        group.LinkChild(sourceContainer);
     }
     public void BuildSliderWithPicker(string name, IEhProperty<float> property, float min, float max, string textFormat, int round,
-        IEhProperty<Color> color, EhSubTab subTab, ushort group)
+        IEhProperty<Color> color, IEhSubTab subTab, ushort groupIndex)
     {
-        IOgContainer<IOgElement> sourceContainer = BuildContainer(name, subTab, group, out IOgContainer<IOgElement> tabContainer);
-        sourceContainer.Add(BuildSlider(name, property, min, max, textFormat, round, 0f));
-        sourceContainer.Add(BuildPicker(name, color, m_ConfigProvider.ToggleConfig));
-        tabContainer.Add(sourceContainer);
+        IOgContainer<IOgElement> sourceContainer = BuildContainer(name, subTab, groupIndex, out IEhTabGroup group);
+        BuildSlider(name, property, min, max, textFormat, round, 0f, sourceContainer);
+        BuildPicker(name, color, m_ConfigProvider.SliderConfig).LinkSelf(sourceContainer);
+        group.LinkChild(sourceContainer);
     }
-    public void BuildDropdownWithPicker(string name, IEhProperty<int> property, string[] values, IEhProperty<Color> color, EhSubTab subTab, ushort group)
+    public void BuildDropdownWithPicker(string name, IEhProperty<int> property, string[] values, IEhProperty<Color> color, IEhSubTab subTab,
+        ushort groupIndex)
     {
-        IOgContainer<IOgElement> sourceContainer = BuildContainer(name, subTab, group, out IOgContainer<IOgElement> tabContainer);
-        sourceContainer.Add(BuildDropdown(name, property, values, 0f));
-        sourceContainer.Add(BuildPicker(name, color, m_ConfigProvider.ToggleConfig));
-        tabContainer.Add(sourceContainer);
+        IOgContainer<IOgElement> sourceContainer = BuildContainer(name, subTab, groupIndex, out IEhTabGroup group);
+        BuildDropdown(name, property, values, 0f, sourceContainer);
+        BuildPicker(name, color, m_ConfigProvider.DropdownConfig).LinkSelf(sourceContainer);
+        group.LinkChild(sourceContainer);
     }
-    public void BuildButton(string name, Action action, float x, EhSubTab subTab, ushort group)
+    public void BuildButton(string name, Action action, float x, IEhSubTab subTab, ushort groupIndex)
     {
-        IOgContainer<IOgElement> container = GetGroup(subTab, group);
-        container.Add(BuildButton(name, action, x, GetVerticalPadding(container)));
+        IEhTabGroup group = GetGroup(subTab, groupIndex);
+        BuildButton(name, action, x, GetVerticalPadding(group), group.GroupContainer);
     }
-    public void BuildToggle(string name, IEhProperty<bool> property, EhSubTab subTab, ushort group)
+    public void BuildToggle(string name, IEhProperty<bool> property, IEhSubTab subTab, ushort groupIndex)
     {
-        IOgContainer<IOgElement> container = GetGroup(subTab, group);
-        container.Add(BuildToggle(name, property, GetVerticalPadding(container)));
+        IEhTabGroup group = GetGroup(subTab, groupIndex);
+        BuildToggle(name, property, GetVerticalPadding(group), group.GroupContainer);
     }
-    public void BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round, EhSubTab subTab, ushort group)
+    public void BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round, IEhSubTab subTab,
+        ushort groupIndex)
     {
-        IOgContainer<IOgElement> container = GetGroup(subTab, group);
-        container.Add(BuildSlider(name, property, min, max, textFormat, round, GetVerticalPadding(container)));
+        IEhTabGroup group = GetGroup(subTab, groupIndex);
+        BuildSlider(name, property, min, max, textFormat, round, GetVerticalPadding(group), group.GroupContainer);
     }
-    public void BuildDropdown(string name, IEhProperty<int> property, string[] values, EhSubTab subTab, ushort group)
+    public void BuildDropdown(string name, IEhProperty<int> property, string[] values, IEhSubTab subTab, ushort groupIndex)
     {
-        IOgContainer<IOgElement> container = GetGroup(subTab, group);
-        container.Add(BuildDropdown(name, property, values, GetVerticalPadding(container)));
+        IEhTabGroup group = GetGroup(subTab, groupIndex);
+        BuildDropdown(name, property, values, GetVerticalPadding(group), group.GroupContainer);
     }
-    private IOgContainer<IOgElement> BuildPicker(string name, IEhProperty<Color> color, IEhElementConfig config) =>
+    private IEhColorPicker BuildPicker(string name, IEhProperty<Color> color, IEhElementConfig config) =>
         m_InternalPickerBuilder.Build(name, color, m_ConfigProvider.InteractableElementConfig.Width - config.Width - m_ConfigProvider.PickerConfig.Width,
             (m_ConfigProvider.InteractableElementConfig.Height - m_ConfigProvider.PickerConfig.Height) / 2);
-    private IOgContainer<IOgElement> BuildContainer(string name, EhSubTab subTab, ushort group, out IOgContainer<IOgElement> tabContainer)
+    private IOgContainer<IOgElement> BuildContainer(string name, IEhSubTab subTab, ushort groupIndex, out IEhTabGroup group)
     {
-        tabContainer = GetGroup(subTab, group);
-        float verticalPadding = GetVerticalPadding(tabContainer);
+        group = GetGroup(subTab, groupIndex);
+        float verticalPadding = GetVerticalPadding(group);
         IOgContainer<IOgElement> sourceContainer = m_ContainerBuilder.Build($"{name}Container",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
@@ -117,25 +117,26 @@ public class EhTabGroupWrapper
             }));
         return sourceContainer;
     }
-    private IOgContainer<IOgVisualElement> BuildButton(string name, Action action, float x, float y) =>
-        m_ButtonBuilder.Build(new DkReadOnlyGetter<string>(name), action, x, y);
-    private IOgContainer<IOgElement> BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round, float y) =>
-        m_SliderBuilder.Build(new DkReadOnlyGetter<string>(name), property, min, max, textFormat, round, y);
-    private IOgContainer<IOgElement> BuildToggle(string name, IEhProperty<bool> property, float y) =>
-        m_ToggleBuilder.Build(new DkReadOnlyGetter<string>(name), property, y);
-    private IOgContainer<IOgElement> BuildDropdown(string name, IEhProperty<int> property, string[] values, float y)
+    private void BuildButton(string name, Action action, float x, float y, IOgContainer<IOgElement> container) =>
+        m_ButtonBuilder.Build(new DkReadOnlyGetter<string>(name), action, x, y).LinkSelf(container);
+    private void BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round, float y,
+        IOgContainer<IOgElement> container) =>
+        m_SliderBuilder.Build(new DkReadOnlyGetter<string>(name), property, min, max, textFormat, round, y).LinkSelf(container);
+    private void BuildToggle(string name, IEhProperty<bool> property, float y, IOgContainer<IOgElement> container) =>
+        m_ToggleBuilder.Build(new DkReadOnlyGetter<string>(name), property, y).LinkSelf(container);
+    private void BuildDropdown(string name, IEhProperty<int> property, string[] values, float y, IOgContainer<IOgElement> container)
     {
         IDkGetProvider<string>[] valueGetters                  = new IDkGetProvider<string>[values.Length];
         for(int i = 0; i < values.Length; i++) valueGetters[i] = new DkReadOnlyGetter<string>(values[i]);
-        return m_DropdownBuilder.Build(new DkReadOnlyGetter<string>(name), property, valueGetters, y);
+        m_DropdownBuilder.Build(new DkReadOnlyGetter<string>(name), property, valueGetters, y).LinkSelf(container);
     }
-    private IOgContainer<IOgElement> GetGroup(EhSubTab subTab, ushort group)
+    private IEhTabGroup GetGroup(IEhSubTab subTab, ushort group)
     {
         if(subTab.Groups.Count() <= group) throw new InvalidOperationException("Group doesn't exist");
         return subTab.Groups.ElementAt(group);
     }
-    private float GetVerticalPadding(IOgContainer<IOgElement> container) =>
-        m_ConfigProvider.InteractableElementConfig.VerticalPadding + (container.Elements.Count() *
+    private float GetVerticalPadding(IEhTabGroup group) =>
+        m_ConfigProvider.InteractableElementConfig.VerticalPadding + (group.GroupContainer.Elements.Count() *
                                                                       (m_ConfigProvider.InteractableElementConfig.Height +
                                                                        m_ConfigProvider.InteractableElementConfig.VerticalPadding));
 }
