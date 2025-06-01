@@ -50,7 +50,7 @@ public abstract class EhBaseDropdownBuilder(EhBaseBackgroundBuilder backgroundBu
                 backgroundGetter.RenderCallback = context.RectGetProvider;
                 backgroundEventHandler.Register(backgroundGetter);
             }, backgroundEventHandler);
-        background.ZOrder = 2;
+        background.ZOrder = 3;
         OgTextElement text = textBuilder.Build($"{name}Text", textGetter, name, dropdownConfig.ItemTextFontSize, dropdownConfig.ItemTextAlignment,
             dropdownConfig.Width * 0.9f, dropdownConfig.ModalItemHeight, 0, 0, context =>
             {
@@ -58,7 +58,7 @@ public abstract class EhBaseDropdownBuilder(EhBaseBackgroundBuilder backgroundBu
                 textGetter.RenderCallback = context.RectGetProvider;
                 textEventHandler.Register(textGetter);
             }, textEventHandler);
-        text.ZOrder = 2;
+        text.ZOrder = 3;
         IOgInteractableElement<IOgVisualElement> button = buttonBuilder.Build(name.Get(), new OgScriptableBuilderProcess<OgButtonBuildContext>(context =>
         {
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(dropdownConfig.Width * 0.9f, dropdownConfig.ModalItemHeight))

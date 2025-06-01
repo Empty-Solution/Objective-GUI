@@ -37,7 +37,7 @@ public class EhInternalToggleBuilder(IEhConfigProvider provider, EhBaseBackgroun
             context.ValueProvider.AddObserver(fillObserver);
             context.ValueProvider.AddObserver(thumbObserver);
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(toggleConfig.Width, toggleConfig.Height))
-                   .SetOption(new OgMarginTransformerOption(x)).SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleLeft));
+                   .SetOption(new OgMarginTransformerOption(x)).SetOption(new OgMarginTransformerOption(0, (provider.InteractableElementConfig.Height - toggleConfig.Height) / 2));
             context.Element.IsInteractingObserver?.AddObserver(fillInteractObserver);
             context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
             context.Element.IsHoveringObserver?.AddObserver(fillHoverObserver);

@@ -28,6 +28,6 @@ public class EhInteractableElementConfig : IEhElementConfig
     public DkProperty<Color> BindTextColor                   { get; }      = new(new Color32(255, 255, 255, 255));
     public DkProperty<Color> BindBackgroundColor             { get; }      = new(new Color32(25, 25, 25, 255));
     public DkProperty<Color> BindBackgroundHoverColor        { get; }      = new(new Color32(40, 40, 40, 255));
-    public float             Height                          { get; set; } = 28;
+    public float             Height                          { get; set; } = 26;
     public float             Width                           { get; set; } = 250;
 }

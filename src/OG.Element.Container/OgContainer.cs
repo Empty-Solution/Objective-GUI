@@ -20,7 +20,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         provider.RegisterToEnd<IOgEvent>(this);
     }
     public IEnumerable<TElement> Elements => m_Elements;
-    public bool                  Sort     { get; set; }
+    public bool                  Sort     { get; set; } = true;
     public override void Resort()
     {
         if(!Sort) return;
@@ -28,7 +28,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         Parent?.Resort();
     }
     public void Clear() => m_Elements.Clear();
-    public override int CompareTo(IOgElement other) => other.Order.CompareTo(Order + m_Elements.Sum(element => element.CompareTo(other)));
+    public override long Order { get => m_Elements.Sum(e => e.Order); set => base.Order = value; }
     public bool Add(TElement element)
     {
         if(m_Elements.IndexOf(element) != -1) return false;

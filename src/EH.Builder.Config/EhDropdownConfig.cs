@@ -16,10 +16,10 @@ public class EhDropdownConfig : IEhElementConfig
     public float             Border                   { get; set; } = 4;
     public int               NameTextFontSize         { get; set; } = 13;
     public TextAnchor        NameTextAlignment        { get; set; } = TextAnchor.MiddleLeft;
-    public int               TextFontSize             { get; set; } = 14;
+    public int               TextFontSize             { get; set; } = 13;
     public TextAnchor        TextAlignment            { get; set; } = TextAnchor.MiddleCenter;
-    public int               ItemTextFontSize         { get; set; } = 14;
+    public int               ItemTextFontSize         { get; set; } = 13;
     public TextAnchor        ItemTextAlignment        { get; set; } = TextAnchor.MiddleCenter;
     public float             Width                    { get; set; } = 100;
-    public float             Height                   { get; set; } = 25;
+    public float             Height                   { get; set; } = 24;
 }

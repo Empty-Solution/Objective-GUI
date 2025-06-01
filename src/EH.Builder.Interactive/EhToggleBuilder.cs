@@ -39,6 +39,7 @@ public class EhToggleBuilder(IEhConfigProvider provider, EhContainerBuilder cont
                 return toggleBuilder.Build(name.Get(), property,
                     provider.InteractableElementConfig.BindModalWidth - toggleConfig.Width - (provider.InteractableElementConfig.HorizontalPadding * 2));
             }));
+        container.Sort = false;
         return new EhToggle(container, optionsContainer);
     }
 }
