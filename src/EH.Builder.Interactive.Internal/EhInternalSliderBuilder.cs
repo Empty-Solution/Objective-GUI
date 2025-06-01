@@ -26,12 +26,12 @@ public class EhInternalSliderBuilder(IEhConfigProvider provider, EhBaseBackgroun
         float          elementY     = (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2;
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbInteractObserver = new((getter, value) =>
         {
-            float offset = sliderConfig.ThumbSize / 6;
+            float offset = sliderConfig.ThumbSize / (sliderConfig.ThumbSize / 2);
             getter.TargetModifier = getter.AdjustRect(value, getter.TargetModifier, offset, offset);
         });
         OgAnimationArbitraryScriptableObserver<OgTransformerRectGetter, Rect, bool> thumbOutlineInteractObserver = new((getter, newValue) =>
         {
-            float offset = sliderConfig.ThumbOutlineSize / 8;
+            float offset = sliderConfig.ThumbOutlineSize / (sliderConfig.ThumbOutlineSize / 2);
             getter.TargetModifier = getter.AdjustRect(newValue, getter.TargetModifier, offset, offset);
         });
         OgAnimationScriptableObserver<OgTransformerRectGetter, Rect, float> thumbObserver = new((getter, newValue) =>
@@ -47,7 +47,7 @@ public class EhInternalSliderBuilder(IEhConfigProvider provider, EhBaseBackgroun
             return rect;
         });
         OgTextElement valueText = textBuilder.BuildSliderValueText(name, sliderConfig.TextColor, textFormat, value, round, sliderConfig.ValueTextFontSize,
-            sliderConfig.ValueTextAlignment, sliderConfig.Width, sliderConfig.Height * 2, 0,
+            sliderConfig.ValueTextAlignment, sliderConfig.Width, provider.InteractableElementConfig.Height, 0,
             (-(provider.InteractableElementConfig.Height - sliderConfig.Height) / 2) - (provider.InteractableElementConfig.VerticalPadding / 2));
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> thumbOutlineHoverObserver = new((getter, value) =>
         {
@@ -121,7 +121,7 @@ public class EhInternalSliderBuilder(IEhConfigProvider provider, EhBaseBackgroun
         {
             context.ValueProvider.AddObserver(thumbObserver);
             context.ValueProvider.AddObserver(thumbOutlineObserver);
-            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(sliderConfig.Width, sliderConfig.Height * 2))
+            context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(sliderConfig.Width, Mathf.Min(sliderConfig.Height * 2, 10)))
                    .SetOption(new OgMarginTransformerOption(x, elementY));
             context.Element.IsInteractingObserver?.AddObserver(thumbInteractObserver);
             context.Element.IsInteractingObserver?.AddObserver(thumbOutlineInteractObserver);

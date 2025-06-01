@@ -13,6 +13,7 @@ using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
 using OG.Transformer.Abstraction;
 using OG.Transformer.Options;
+using UnityEngine;
 namespace EH.Builder.Interactive;
 public class EhSliderBuilder(IEhConfigProvider provider, EhContainerBuilder containerBuilder, EhBaseTextBuilder textBuilder,
     EhInternalSliderBuilder sliderBuilder, EhInternalBindModalBuilder<float> bindModalBuilder)
@@ -36,7 +37,8 @@ public class EhSliderBuilder(IEhConfigProvider provider, EhContainerBuilder cont
             provider.InteractableElementConfig.Width - sliderConfig.Width);
         container.Add(slider);
         container.Add(bindModalBuilder.Build(name.Get(), provider.InteractableElementConfig.Width - sliderConfig.Width,
-            (provider.InteractableElementConfig.Height - (sliderConfig.Height * 2)) / 2, sliderConfig.Width, sliderConfig.Height * 2, value,
+            (provider.InteractableElementConfig.Height - Mathf.Min(sliderConfig.Height * 2, 10)) / 2, sliderConfig.Width,
+            Mathf.Min(sliderConfig.Height * 2, 10), value,
             property => sliderBuilder.Build(name.Get(), property, min, max, textFormat, round,
                 provider.InteractableElementConfig.BindModalWidth - sliderConfig.Width - (provider.InteractableElementConfig.HorizontalPadding * 2))));
         return new EhSlider(container, optionsContainer);

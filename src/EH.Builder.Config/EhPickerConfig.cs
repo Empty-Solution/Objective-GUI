@@ -13,6 +13,6 @@ public class EhPickerConfig : IEhElementConfig
     public float             AlphaPickerBorder { get; set; } = 0.05f;
     public float             MainPickerBorder  { get; set; } = 0.05f;
     public float             PickerOffset      { get; set; } = 10;
-    public float             Width             { get; set; } = 22;
-    public float             Height            { get; set; } = 22;
+    public float             Width             { get; set; } = 18;
+    public float             Height            { get; set; } = 18;
 }

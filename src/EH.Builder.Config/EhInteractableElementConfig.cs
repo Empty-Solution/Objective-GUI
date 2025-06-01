@@ -5,7 +5,7 @@ namespace EH.Builder.Config;
 public class EhInteractableElementConfig : IEhElementConfig
 {
     public float             HorizontalPadding               { get; set; } = 10;
-    public float             VerticalPadding                 { get; set; } = 10;
+    public float             VerticalPadding                 { get; set; } = 5;
     public float             ModalItemHeight                 { get; set; } = 22;
     public float             ModalWidth                      { get; set; } = 100;
     public float             ModalBackgroundBorder           { get; set; } = 5;

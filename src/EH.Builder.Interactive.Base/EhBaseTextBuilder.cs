@@ -17,7 +17,7 @@ public class EhBaseTextBuilder(IEhVisualProvider visualProvider)
     public OgTextElement BuildSliderValueText(string name, IDkGetProvider<Color> colorGetter, string textFormat, IDkObservableProperty<float> value,
         int round, int fontSize, TextAnchor alignment, float width, float height, float x = 0, float y = 0, IOgEventHandlerProvider? provider = null)
     {
-        DkScriptableGetter<string> textProperty = new(() => string.Format(textFormat, value.Get()));
+        DkScriptableGetter<string> textProperty = new(() => string.Format(textFormat, Math.Round(value.Get(), round)));
         OgTextElement text = m_TextBuilder.Build($"{name}TextValue", colorGetter, provider, fontSize, alignment, textProperty,
             new OgScriptableBuilderProcess<OgTextBuildContext>(context =>
             {

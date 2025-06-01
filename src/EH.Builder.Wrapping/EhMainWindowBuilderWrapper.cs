@@ -53,9 +53,9 @@ public class EhMainWindowBuilderWrapper
             valueGetters.Add(new DkReadOnlyGetter<string>(name));
             DkObservableProperty<int> property = new(new DkObservable<int>([]), 0);
             tab.Dropdown = m_DropdownBuilder.Build("SubTabSelector", property, valueGetters, m_ConfigProvider.DropdownConfig.Width,
-                m_ConfigProvider.DropdownConfig.Height, 0, 0);
-            tab.Dropdown.OptionsContainer.SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleRight))
-               .SetOption(new OgMarginTransformerOption(-m_ConfigProvider.InteractableElementConfig.HorizontalPadding));
+                m_ConfigProvider.DropdownConfig.Height * 1.4f, 0, 0);
+            tab.Dropdown.OptionsContainer.SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleLeft))
+               .SetOption(new OgMarginTransformerOption(-m_ConfigProvider.SeparatorOffset / 2));
             tab.AddSubTab(m_SubTabBuilder.Build(new DkReadOnlyGetter<string>(name)));
             DkScriptableObserver<int> subTabObserver = new();
             subTabObserver.OnUpdate += value =>

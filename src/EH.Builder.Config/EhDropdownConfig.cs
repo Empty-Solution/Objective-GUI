@@ -14,7 +14,7 @@ public class EhDropdownConfig : IEhElementConfig
     public float             ModalItemHeight          { get; set; } = 25;
     public float             ModalItemPadding         { get; set; } = 5;
     public float             Border                   { get; set; } = 4;
-    public int               NameTextFontSize         { get; set; } = 14;
+    public int               NameTextFontSize         { get; set; } = 13;
     public TextAnchor        NameTextAlignment        { get; set; } = TextAnchor.MiddleLeft;
     public int               TextFontSize             { get; set; } = 14;
     public TextAnchor        TextAlignment            { get; set; } = TextAnchor.MiddleCenter;

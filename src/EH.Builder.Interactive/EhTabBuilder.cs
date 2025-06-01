@@ -57,7 +57,7 @@ public class EhTabBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder ba
             }));
         OgEventHandlerProvider eventHandler = new();
         OgAnimationColorGetter getter       = new(eventHandler);
-        OgTextureElement image = backgroundBuilder.Build($"{name}Background", getter, tabButtonConfig.Width, tabButtonConfig.Height, 0, 0,
+        OgTextureElement image = backgroundBuilder.Build($"{name}Background", getter, tabButtonConfig.Width * 0.8f, tabButtonConfig.Height * 0.8f, 0, 0,
             new(tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder, tabButtonConfig.TabButtonBorder),
             context =>
             {
@@ -66,6 +66,7 @@ public class EhTabBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder ba
                 backgroundObserver.Getter     = getter;
                 getter.RenderCallback         = context.RectGetProvider;
                 eventHandler.Register(getter);
+                context.RectGetProvider.OriginalGetter.Options.SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleCenter));
             }, eventHandler, new(), texture);
         EhTabObserver tabObserver = new(m_Observers, window.TabContainer, builtTabContainer, window.ToolbarContainer, builtToolbarContainer,
             tabButtonConfig.Height, window.TabSeparatorSelectorGetter);
