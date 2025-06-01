@@ -13,6 +13,7 @@ using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
 using OG.Transformer.Options;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 namespace EH.Builder.Wrapping;
@@ -61,7 +62,7 @@ public class EhTabGroupWrapper
     {
         IOgContainer<IOgElement> sourceContainer = BuildContainer(name, subTab, groupIndex, out IEhTabGroup group);
         BuildToggle(name, property, 0f, sourceContainer);
-        BuildPicker(name, color, m_ConfigProvider.ToggleConfig).LinkSelf(sourceContainer);
+        BuildPicker(name, color, m_ConfigProvider.ToggleConfig, sourceContainer);
         group.LinkChild(sourceContainer);
     }
     public void BuildSliderWithPicker(string name, IEhProperty<float> property, float min, float max, string textFormat, int round,
@@ -69,7 +70,7 @@ public class EhTabGroupWrapper
     {
         IOgContainer<IOgElement> sourceContainer = BuildContainer(name, subTab, groupIndex, out IEhTabGroup group);
         BuildSlider(name, property, min, max, textFormat, round, 0f, sourceContainer);
-        BuildPicker(name, color, m_ConfigProvider.SliderConfig).LinkSelf(sourceContainer);
+        BuildPicker(name, color, m_ConfigProvider.SliderConfig, sourceContainer);
         group.LinkChild(sourceContainer);
     }
     public void BuildDropdownWithPicker(string name, IEhProperty<int> property, string[] values, IEhProperty<Color> color, IEhSubTab subTab,
@@ -77,7 +78,7 @@ public class EhTabGroupWrapper
     {
         IOgContainer<IOgElement> sourceContainer = BuildContainer(name, subTab, groupIndex, out IEhTabGroup group);
         BuildDropdown(name, property, values, 0f, sourceContainer);
-        BuildPicker(name, color, m_ConfigProvider.DropdownConfig).LinkSelf(sourceContainer);
+        BuildPicker(name, color, m_ConfigProvider.DropdownConfig, sourceContainer);
         group.LinkChild(sourceContainer);
     }
     public void BuildButton(string name, Action action, float x, IEhSubTab subTab, ushort groupIndex)
@@ -101,9 +102,6 @@ public class EhTabGroupWrapper
         IEhTabGroup group = GetGroup(subTab, groupIndex);
         BuildDropdown(name, property, values, GetVerticalPadding(group), group.GroupContainer);
     }
-    private IEhColorPicker BuildPicker(string name, IEhProperty<Color> color, IEhElementConfig config) =>
-        m_InternalPickerBuilder.Build(name, color, m_ConfigProvider.InteractableElementConfig.Width - config.Width - m_ConfigProvider.PickerConfig.Width,
-            (m_ConfigProvider.InteractableElementConfig.Height - m_ConfigProvider.PickerConfig.Height) / 2);
     private IOgContainer<IOgElement> BuildContainer(string name, IEhSubTab subTab, ushort groupIndex, out IEhTabGroup group)
     {
         group = GetGroup(subTab, groupIndex);
@@ -117,6 +115,9 @@ public class EhTabGroupWrapper
             }));
         return sourceContainer;
     }
+    private void BuildPicker(string name, IEhProperty<Color> color, IEhElementConfig config, IOgContainer<IOgElement> container) =>
+        m_InternalPickerBuilder.Build(name, color, m_ConfigProvider.InteractableElementConfig.Width - config.Width - m_ConfigProvider.PickerConfig.Width,
+            (m_ConfigProvider.InteractableElementConfig.Height - m_ConfigProvider.PickerConfig.Height) / 2).LinkSelf(container);
     private void BuildButton(string name, Action action, float x, float y, IOgContainer<IOgElement> container) =>
         m_ButtonBuilder.Build(new DkReadOnlyGetter<string>(name), action, x, y).LinkSelf(container);
     private void BuildSlider(string name, IEhProperty<float> property, float min, float max, string textFormat, int round, float y,
@@ -126,8 +127,8 @@ public class EhTabGroupWrapper
         m_ToggleBuilder.Build(new DkReadOnlyGetter<string>(name), property, y).LinkSelf(container);
     private void BuildDropdown(string name, IEhProperty<int> property, string[] values, float y, IOgContainer<IOgElement> container)
     {
-        IDkGetProvider<string>[] valueGetters                  = new IDkGetProvider<string>[values.Length];
-        for(int i = 0; i < values.Length; i++) valueGetters[i] = new DkReadOnlyGetter<string>(values[i]);
+        List<IDkGetProvider<string>> valueGetters = [];
+        foreach(string value in values) valueGetters.Add(new DkReadOnlyGetter<string>(value));
         m_DropdownBuilder.Build(new DkReadOnlyGetter<string>(name), property, valueGetters, y).LinkSelf(container);
     }
     private IEhTabGroup GetGroup(IEhSubTab subTab, ushort group)

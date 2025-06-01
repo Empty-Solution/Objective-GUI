@@ -4,10 +4,11 @@ using EH.Builder.DataTypes;
 using EH.Builder.Interactive.Base;
 using EH.Builder.Interactive.Internal;
 using EH.Builder.Providing.Abstraction;
+using System.Collections.Generic;
 namespace EH.Builder.Interactive;
 public class EhDropdownBuilder(IEhConfigProvider provider, EhInternalDropdownBuilder dropdownBuilder, EhBaseTextBuilder textBuilder)
 {
-    public IEhDropdown Build(IDkGetProvider<string> name, IEhProperty<int> selected, IDkGetProvider<string>[] values, float y)
+    public IEhDropdown Build(IDkGetProvider<string> name, IEhProperty<int> selected, IList<IDkGetProvider<string>> values, float y)
     {
         EhDropdownConfig dropdownConfig = provider.DropdownConfig;
         IEhDropdown dropdown = dropdownBuilder.Build(name.Get(), selected, values, provider.InteractableElementConfig.Width,

@@ -1,5 +1,4 @@
-﻿using DK.Binding.Abstraction;
-using DK.Getting.Abstraction.Generic;
+﻿using DK.Getting.Abstraction.Generic;
 using DK.Observing.Abstraction.Generic;
 using OG.DataKit.Animation;
 using OG.Element.Abstraction;
@@ -8,13 +7,16 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace EH.Builder.Observing;
 public class EhDropdownTextObserver(List<EhDropdownTextObserver> observers, int index, IDkGetProvider<Color> color, IDkGetProvider<Color> selectedColor,
-    OgAnimationColorGetter getter, IDkBinding binding, IOgModalInteractable<IOgElement> interactable) : IDkObserver<bool>
+    OgAnimationColorGetter getter, IOgModalInteractable<IOgElement> interactable) : IDkObserver<bool>
 {
     public void Update(bool state)
     {
-        if(state) return;
+        if(state)
+        {
+            SetModifier(!state);
+            return;
+        }
         for(int i = 0; i < observers.Count; i++) observers[i].SetModifier(i == index);
-        binding.Sync();
         interactable.ShouldProcess = false;
     }
     public void Update(object state)

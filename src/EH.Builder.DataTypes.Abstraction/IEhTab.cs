@@ -10,5 +10,6 @@ public interface IEhTab : IEhContainer
     IOgContainer<IOgElement>    TabContainer     { get; }
     IOgContainer<IOgElement>    ToolbarContainer { get; }
     IEnumerable<IEhSubTab>      SubTabs          { get; }
+    IEhDropdown?                Dropdown         { get; set; }
     void AddSubTab(IEhSubTab subtab);
 }

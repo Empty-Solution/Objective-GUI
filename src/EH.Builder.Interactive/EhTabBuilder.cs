@@ -19,6 +19,7 @@ using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Extensions;
+using OG.Transformer.Abstraction;
 using OG.Transformer.Options;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,12 +46,14 @@ public class EhTabBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder ba
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(provider.MainWindowConfig.Width - xOffset,
                     provider.MainWindowConfig.ToolbarContainerHeight + provider.MainWindowConfig.ToolbarContainerOffset));
             }));
+        IOgOptionsContainer optionsContainer = null!;
         IOgContainer<IOgElement> builtTabContainer = containerBuilder.Build($"{name}SourceTabContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(
                     new OgSizeTransformerOption((provider.TabGroupConfig.Width * 2) + (provider.TabGroupConfig.TabContainerPadding * 3),
                         tabContainerHeight));
+                optionsContainer = context.RectGetProvider.Options;
             }));
         OgEventHandlerProvider eventHandler = new();
         OgAnimationColorGetter getter       = new(eventHandler);
@@ -79,6 +82,6 @@ public class EhTabBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder ba
                 context.ValueProvider.Set(false);
             }));
         button.Add(image);
-        return new EhTab(button, builtTabContainer, builtToolbarContainer);
+        return new EhTab(button, builtTabContainer, builtToolbarContainer, optionsContainer);
     }
 }

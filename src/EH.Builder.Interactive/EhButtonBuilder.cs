@@ -14,6 +14,7 @@ using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
 using OG.Event;
 using OG.Event.Extensions;
+using OG.Transformer.Abstraction;
 using OG.Transformer.Options;
 using System;
 using UnityEngine;
@@ -23,8 +24,9 @@ public class EhButtonBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder
 {
     public IEhButton Build(IDkGetProvider<string> name, Action action, float x, float y)
     {
-        EhButtonConfig             buttonConfig   = provider.ButtonConfig;
-        DkScriptableObserver<bool> actionObserver = new();
+        EhButtonConfig             buttonConfig     = provider.ButtonConfig;
+        DkScriptableObserver<bool> actionObserver   = new();
+        IOgOptionsContainer        optionsContainer = null!;
         actionObserver.OnUpdate += state =>
         {
             if(state) return;
@@ -35,6 +37,7 @@ public class EhButtonBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder
             context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(buttonConfig.Width, buttonConfig.Height))
                    .SetOption(new OgMarginTransformerOption(x, y))
                    .SetOption(new OgMarginTransformerOption(0, (provider.InteractableElementConfig.Height - buttonConfig.Height) / 2));
+            optionsContainer = context.RectGetProvider.Options;
         }));
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
         {
@@ -67,6 +70,6 @@ public class EhButtonBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder
             buttonConfig.Width, buttonConfig.Height);
         button.Add(background);
         button.Add(buttonText);
-        return new EhButton(button);
+        return new EhButton(button, optionsContainer);
     }
 }

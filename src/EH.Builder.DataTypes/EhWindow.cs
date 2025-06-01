@@ -2,10 +2,11 @@
 using OG.DataKit.Transformer;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
+using OG.Transformer.Abstraction;
 namespace EH.Builder.DataTypes;
 public class EhWindow(IOgContainer<IOgElement> window, OgAnimationRectGetter<OgTransformerRectGetter> tabSeparatorSelectorGetter,
-    IOgContainer<IOgElement> toolbarContainer, IOgContainer<IOgElement> tabContainer, IOgContainer<IOgElement> tabButtonsContainer)
-    : EhContainer(window), IEhWindow
+    IOgContainer<IOgElement> toolbarContainer, IOgContainer<IOgElement> tabContainer, IOgContainer<IOgElement> tabButtonsContainer,
+    IOgOptionsContainer optionsContainer) : EhContainer(window, optionsContainer), IEhWindow
 {
     public OgAnimationRectGetter<OgTransformerRectGetter> TabSeparatorSelectorGetter => tabSeparatorSelectorGetter;
     public IOgContainer<IOgElement>                       TabContainer               => tabContainer;

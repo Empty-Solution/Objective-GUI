@@ -18,6 +18,7 @@ using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
 using OG.Event;
+using OG.Transformer.Abstraction;
 using OG.Transformer.Options;
 using UnityEngine;
 namespace EH.Builder.Interactive.Internal;
@@ -27,12 +28,14 @@ public class EhInternalColorPickerBuilder(IEhConfigProvider provider, EhBaseBack
 {
     public IEhColorPicker Build(string name, IDkProperty<Color> value, float x, float y)
     {
-        EhPickerConfig pickerConfig = provider.PickerConfig;
+        EhPickerConfig      pickerConfig     = provider.PickerConfig;
+        IOgOptionsContainer optionsContainer = null!;
         IOgContainer<IOgElement> sourceContainer = containerBuilder.Build($"{name}SourceContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(pickerConfig.Width, pickerConfig.Height))
                        .SetOption(new OgMarginTransformerOption(x, y));
+                optionsContainer = context.RectGetProvider.Options;
             }));
         IOgModalInteractable<IOgElement> modalInteractable = modalInteractableBuilder.Build($"{name}", false,
             new OgScriptableBuilderProcess<OgModalButtonBuildContext>(context =>
@@ -63,16 +66,12 @@ public class EhInternalColorPickerBuilder(IEhConfigProvider provider, EhBaseBack
         float                       alphaPickerHeight = (pickerConfig.ModalWindowHeight * 0.8f) - pickerConfig.PickerOffset;
         float                       alphaPickerX      = pickerConfig.ModalWindowWidth - alphaPickerWidth - pickerConfig.PickerOffset;
         float                       alphaPickerY      = huePickerHeight + (pickerConfig.PickerOffset * 2);
-        IOgSlider<IOgVisualElement> alphaPicker = BuildAlphaPicker($"{name}AlphaPicker", hsvaColor, value, alphaPickerWidth, alphaPickerHeight,
-            alphaPickerX, alphaPickerY, pickerConfig);
-        container.Add(alphaPicker);
-        IOgSlider<IOgVisualElement> huePicker = BuildHuePicker($"{name}HuePicker", hue, value, huePickerWidth, huePickerHeight, pickerConfig);
-        container.Add(huePicker);
-        IOgVectorValueElement<IOgVisualElement> mainPicker =
-            BuildSvPicker(name, hsvaColor, hue, value, alphaPickerWidth, alphaPickerHeight, alphaPickerY, pickerConfig);
-        container.Add(mainPicker);
+        container.Add(BuildAlphaPicker($"{name}AlphaPicker", hsvaColor, value, alphaPickerWidth, alphaPickerHeight, alphaPickerX, alphaPickerY,
+            pickerConfig));
+        container.Add(BuildHuePicker($"{name}HuePicker", hue, value, huePickerWidth, huePickerHeight, pickerConfig));
+        container.Add(BuildSvPicker(name, hsvaColor, hue, value, alphaPickerWidth, alphaPickerHeight, alphaPickerY, pickerConfig));
         modalInteractable.Add(container);
-        return new EhColorPicker(sourceContainer);
+        return new EhColorPicker(sourceContainer, optionsContainer);
     }
     private IOgVectorValueElement<IOgVisualElement> BuildSvPicker(string name, HSVAColor hsvaColor, DkObservableProperty<float> hue,
         IDkProperty<Color> value, float alphaWidth, float height, float y, EhPickerConfig pickerConfig)

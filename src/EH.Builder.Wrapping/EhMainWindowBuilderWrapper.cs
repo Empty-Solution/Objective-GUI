@@ -45,32 +45,42 @@ public class EhMainWindowBuilderWrapper
         m_Window.LinkTabButton(tab.Button);
         return tab;
     }
-    public void BuildMultiplySubTabs(IEnumerable<string> names, int initial, IEhTab sourceTab)
+    public void BuildMultiSubTab(string name, IEhTab tab)
     {
-        IDkGetProvider<string>[] valueGetters                  = new IDkGetProvider<string>[names.Count()];
-        for(int i = 0; i < names.Count(); i++) valueGetters[i] = new DkReadOnlyGetter<string>(names.ElementAt(i));
-        DkObservableProperty<int> property                     = new(new DkObservable<int>([]), 0);
-        IEhDropdown dropdown = m_DropdownBuilder.Build("SubTabSelector", property, valueGetters, m_ConfigProvider.DropdownConfig.Width,
-            m_ConfigProvider.DropdownConfig.Height, 0, 0);
-        dropdown.OptionsContainer.SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleRight))
-                .SetOption(new OgMarginTransformerOption(-m_ConfigProvider.InteractableElementConfig.HorizontalPadding));
-        foreach(IDkGetProvider<string> name in valueGetters) sourceTab.AddSubTab(m_SubTabBuilder.Build(name, dropdown));
-        DkScriptableObserver<int> subTabObserver = new();
-        subTabObserver.OnUpdate += value =>
+        if(tab.Dropdown is null)
         {
-            sourceTab.TabContainer.Clear();
-            sourceTab.SubTabs.ElementAt(value).LinkSelf(sourceTab.TabContainer);
-        };
-        property.AddObserver(subTabObserver);
-        property.Set(initial);
-        dropdown.LinkSelf(sourceTab.ToolbarContainer);
+            List<IDkGetProvider<string>> valueGetters = [];
+            valueGetters.Add(new DkReadOnlyGetter<string>(name));
+            DkObservableProperty<int> property = new(new DkObservable<int>([]), 0);
+            tab.Dropdown = m_DropdownBuilder.Build("SubTabSelector", property, valueGetters, m_ConfigProvider.DropdownConfig.Width,
+                m_ConfigProvider.DropdownConfig.Height, 0, 0);
+            tab.Dropdown.OptionsContainer.SetOption(new OgAlignmentTransformerOption(TextAnchor.MiddleRight))
+               .SetOption(new OgMarginTransformerOption(-m_ConfigProvider.InteractableElementConfig.HorizontalPadding));
+            tab.AddSubTab(m_SubTabBuilder.Build(new DkReadOnlyGetter<string>(name)));
+            DkScriptableObserver<int> subTabObserver = new();
+            subTabObserver.OnUpdate += value =>
+            {
+                tab.TabContainer.Clear();
+                tab.SubTabs.ElementAt(value).LinkSelf(tab.TabContainer);
+            };
+            property.AddObserver(subTabObserver);
+            property.Set(0);
+            tab.Dropdown.LinkSelf(tab.ToolbarContainer);
+        }
+        else
+        {
+            DkReadOnlyGetter<string> getter = new(name);
+            tab.AddSubTab(m_SubTabBuilder.Build(getter));
+            tab.Dropdown.AddItem(getter);
+        }
     }
-    public IEhSubTab BuildSingleSubTab(string leftContainerName, string rightContainerName, IEhTab sourceTab)
+    public IEhSubTab BuildSubTab(string leftContainerName, string rightContainerName, IEhTab tab)
     {
-        if(sourceTab.SubTabs.Any()) return sourceTab.SubTabs.ElementAt(0);
+        if(tab.SubTabs.Any()) return tab.SubTabs.ElementAt(0);
         IEhSubTab subTab = m_SubTabBuilder.Build(leftContainerName);
         BuildTabGroups(leftContainerName, rightContainerName, subTab);
-        subTab.LinkSelf(sourceTab.TabContainer);
+        tab.AddSubTab(subTab);
+        subTab.LinkSelf(tab.TabContainer);
         return subTab;
     }
     public void BuildTabGroups(string leftContainerName, string rightContainerName, IEhSubTab subTab)

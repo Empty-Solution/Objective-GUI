@@ -1,4 +1,5 @@
-﻿using DK.Getting.Abstraction.Generic;
+﻿using DK.Binding.Abstraction;
+using DK.Getting.Abstraction.Generic;
 using DK.Getting.Generic;
 using DK.Observing.Abstraction.Generic;
 using DK.Observing.Generic;
@@ -21,12 +22,15 @@ namespace EH.Builder.Interactive.Base;
 public abstract class EhBaseDropdownBuilder(EhBaseBackgroundBuilder backgroundBuilder, EhBaseButtonBuilder buttonBuilder, EhBaseTextBuilder textBuilder)
 {
     protected IOgInteractableElement<IOgVisualElement> BuildDropdownItem(IDkGetProvider<string> name, int index, IDkProperty<int> selected,
-        OgAnimationColorGetter textGetter, OgEventHandlerProvider textEventHandler, IDkObserver<bool> textObserver, IEhConfigProvider provider)
+        OgAnimationColorGetter textGetter, OgEventHandlerProvider textEventHandler, IDkObserver<bool> textObserver, IDkBinding binding,
+        IEhConfigProvider provider)
     {
         EhDropdownConfig           dropdownConfig = provider.DropdownConfig;
         DkScriptableObserver<bool> observer       = new();
         observer.OnUpdate += state =>
         {
+            if(state) return;
+            binding.Sync();
             selected.Set(index);
         };
         OgAnimationArbitraryScriptableObserver<DkReadOnlyGetter<Color>, Color, bool> backgroundHoverObserver = new((getter, value) =>
@@ -65,6 +69,7 @@ public abstract class EhBaseDropdownBuilder(EhBaseBackgroundBuilder backgroundBu
             context.Element.IsHoveringObserver?.AddObserver(backgroundHoverObserver);
             context.Element.IsHoveringObserver?.Notify(false);
         }));
+        textObserver.Update(selected.Get() != index);
         button.Add(background);
         button.Add(text);
         return button;

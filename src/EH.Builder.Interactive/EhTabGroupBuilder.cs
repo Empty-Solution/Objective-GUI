@@ -7,6 +7,7 @@ using OG.Builder.Contexts;
 using OG.DataKit.Processing;
 using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
+using OG.Transformer.Abstraction;
 using OG.Transformer.Options;
 namespace EH.Builder.Interactive;
 public class EhTabGroupBuilder(IEhConfigProvider provider, EhBaseBackgroundBuilder backgroundBuilder, EhContainerBuilder containerBuilder,
@@ -24,10 +25,12 @@ public class EhTabGroupBuilder(IEhConfigProvider provider, EhBaseBackgroundBuild
     }
     private IEhTabGroup BuildTabContainer(IDkGetProvider<string> name, float width, float height, float x, float y, EhTabGroupConfig tabGroupConfig)
     {
+        IOgOptionsContainer optionsContainer = null!;
         IOgContainer<IOgElement> sourceContainer = containerBuilder.Build($"{name}SourceTabGroupContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
             {
                 context.RectGetProvider.Options.SetOption(new OgSizeTransformerOption(width, height)).SetOption(new OgMarginTransformerOption(x, y));
+                optionsContainer = context.RectGetProvider.Options;
             }));
         IOgContainer<IOgElement> builtContainer = containerBuilder.Build($"{name}TabContainer",
             new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
@@ -41,6 +44,6 @@ public class EhTabGroupBuilder(IEhConfigProvider provider, EhBaseBackgroundBuild
         sourceContainer.Add(textBuilder.Build($"{name}TabContainerTitle", tabGroupConfig.GroupTitleColor, name, tabGroupConfig.GroupTitleFontSize,
             tabGroupConfig.GroupTitleAlignment, width, tabGroupConfig.GroupTitleHeight));
         sourceContainer.Add(builtContainer);
-        return new EhTabGroup(sourceContainer, builtContainer);
+        return new EhTabGroup(sourceContainer, builtContainer, optionsContainer);
     }
 }

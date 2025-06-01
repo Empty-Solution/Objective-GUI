@@ -1,8 +1,10 @@
 ﻿using OG.Element.Abstraction;
 using OG.Element.Container.Abstraction;
+using OG.Transformer.Abstraction;
 using System.Collections.Generic;
 namespace EH.Builder.DataTypes;
-public class EhSubTab(IOgContainer<IOgElement> sourceContainer) : EhElement(sourceContainer), IEhSubTab
+public class EhSubTab(IOgContainer<IOgElement> sourceContainer, IOgOptionsContainer optionsContainer)
+    : EhElement(sourceContainer, optionsContainer), IEhSubTab
 {
     private readonly List<IEhTabGroup>        m_Groups = [];
     public           IEnumerable<IEhTabGroup> Groups => m_Groups;

@@ -11,6 +11,7 @@ using OG.Element.Container.Abstraction;
 using OG.Element.Interactive.Abstraction;
 using OG.Element.Visual;
 using OG.Element.Visual.Abstraction;
+using OG.Transformer.Abstraction;
 using OG.Transformer.Options;
 namespace EH.Builder.Interactive;
 public class EhToggleBuilder(IEhConfigProvider provider, EhContainerBuilder containerBuilder, EhBaseTextBuilder textBuilder,
@@ -18,12 +19,14 @@ public class EhToggleBuilder(IEhConfigProvider provider, EhContainerBuilder cont
 {
     public IEhToggle Build(IDkGetProvider<string> name, IEhProperty<bool> value, float y)
     {
-        EhToggleConfig toggleConfig = provider.ToggleConfig;
+        EhToggleConfig      toggleConfig     = provider.ToggleConfig;
+        IOgOptionsContainer optionsContainer = null!;
         IOgContainer<IOgElement> container = containerBuilder.Build($"{name}Container", new OgScriptableBuilderProcess<OgContainerBuildContext>(context =>
         {
             context.RectGetProvider.Options
                    .SetOption(new OgSizeTransformerOption(provider.InteractableElementConfig.Width, provider.InteractableElementConfig.Height))
                    .SetOption(new OgMarginTransformerOption(provider.InteractableElementConfig.HorizontalPadding, y));
+            optionsContainer = context.RectGetProvider.Options;
         }));
         OgTextElement nameText = textBuilder.Build(name.Get(), toggleConfig.TextColor, name, toggleConfig.NameTextFontSize, toggleConfig.NameTextAlignment,
             provider.InteractableElementConfig.Width - toggleConfig.Width, provider.InteractableElementConfig.Height);
@@ -36,6 +39,6 @@ public class EhToggleBuilder(IEhConfigProvider provider, EhContainerBuilder cont
                 return toggleBuilder.Build(name.Get(), property,
                     provider.InteractableElementConfig.BindModalWidth - toggleConfig.Width - (provider.InteractableElementConfig.HorizontalPadding * 2));
             }));
-        return new EhToggle(container);
+        return new EhToggle(container, optionsContainer);
     }
 }
