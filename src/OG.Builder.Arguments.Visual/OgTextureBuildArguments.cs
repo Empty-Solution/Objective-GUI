@@ -10,4 +10,4 @@ public class OgTextureBuildArguments(string name, IDkGetProvider<Color> value, I
     public float                     ImageAspect    => imageAspect;
     public bool                      AlphaBlend     => alphaBlend;
     public IDkGetProvider<Texture2D> Texture        => texture;
-}
+} 
