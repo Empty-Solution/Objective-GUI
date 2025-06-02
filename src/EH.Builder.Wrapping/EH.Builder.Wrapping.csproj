@@ -1,9 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-    <ItemGroup>
-        <ProjectReference Include="..\EH.Builder.DataTypes.Abstraction\EH.Builder.DataTypes.Abstraction.csproj"/>
-        <ProjectReference Include="..\EH.Builder.Interactive\EH.Builder.Interactive.csproj"/>
-        <ProjectReference Include="..\EH.Builder.Providing.Abstraction\EH.Builder.Providing.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Element.Abstraction\OG.Element.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Element.Container.Abstraction\OG.Element.Container.Abstraction.csproj"/>
-    </ItemGroup>
-</Project>
