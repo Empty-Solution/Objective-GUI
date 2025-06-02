@@ -7,7 +7,7 @@ public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDk
     : OgVisualElement<OgTextureGraphicsContext>(name, provider, rectGetter)
 {
     public IDkGetProvider<Color>? ColorProvider  { get; set; }
-    public Texture2D?             Texture        { get; set; }
+    public IDkGetProvider<Texture2D>?      Texture        { get; set; }
     public Vector4                BorderWidths   { get; set; }
     public Vector4                BorderRadiuses { get; set; }
     public float                  ImageAspect    { get; set; }
@@ -16,7 +16,7 @@ public class OgTextureElement(string name, IOgEventHandlerProvider provider, IDk
     {
         m_RenderContext                ??= new();
         m_RenderContext.Color          =   ColorProvider!.Get();
-        m_RenderContext.Texture        =   Texture;
+        m_RenderContext.Texture        =   Texture?.Get();
         m_RenderContext.BorderRadiuses =   BorderRadiuses;
         m_RenderContext.BorderWidths   =   BorderWidths;
         m_RenderContext.ImageAspect    =   ImageAspect;
