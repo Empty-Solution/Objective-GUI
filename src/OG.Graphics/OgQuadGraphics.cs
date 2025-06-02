@@ -7,6 +7,7 @@ public class OgQuadGraphics : OgBaseGraphics<IOgQuadGraphicsContext>
     private OgVertex[] m_VertexBuffer  = new OgVertex[32];
     public override void ProcessContext(IOgQuadGraphicsContext ctx)
     {
+        if(ctx.Material is null) return;
         int verticesCount = ctx.VerticesCount;
         int indicesCount  = ctx.IndicesCount;
         if(verticesCount is 0) return;
