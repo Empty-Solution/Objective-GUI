@@ -11,6 +11,7 @@ public class OgQuadFactory : IOgElementFactory<OgQuadElement, OgQuadFactoryArgum
             TopLeftColor     = arguments.TopLeft,
             TopRightColor    = arguments.TopRight,
             BottomLeftColor  = arguments.BottomLeft,
-            BottomRightColor = arguments.BottomRight
+            BottomRightColor = arguments.BottomRight,
+            Material = arguments.Material
         };
 }

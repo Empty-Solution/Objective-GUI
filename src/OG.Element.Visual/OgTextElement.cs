@@ -10,7 +10,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
 {
     public IDkGetProvider<Color>?      ColorProvider { get; set; }
     public IDkGetProvider<TextAnchor>? Alignment     { get; set; }
-    public Font?                       Font          { get; set; }
+    public IDkGetProvider<Font?>?      Font          { get; set; }
     public FontStyle                   FontStyle     { get; set; }
     public IDkGetProvider<int>?        FontSize      { get; set; }
     public TextClipping                TextClipping  { get; set; }
@@ -19,12 +19,12 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
     public IOgTextGraphicsContext?     Context       { get; private set; }
     protected override void FillContext()
     {
-        if(Font is null) return;
+        if(Font?.Get() is null) return;
         if(m_RenderContext is null) Context = m_RenderContext = new(Text?.Get() ?? string.Empty);
         m_RenderContext.Color        = ColorProvider!.Get();
         m_RenderContext.Alignment    = Alignment?.Get() ?? TextAnchor.UpperLeft;
         m_RenderContext.TextClipping = TextClipping;
-        m_RenderContext.Font         = Font;
+        m_RenderContext.Font         = Font.Get();
         m_RenderContext.FontSize     = FontSize?.Get() ?? 12;
         m_RenderContext.FontStyle    = FontStyle;
         m_RenderContext.Text         = Text?.Get() ?? string.Empty;

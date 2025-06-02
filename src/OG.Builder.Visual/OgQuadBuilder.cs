@@ -18,7 +18,7 @@ public class OgQuadBuilder(IOgElementFactory<OgQuadElement, OgQuadFactoryArgumen
         new(new(provider, container), provider);
     protected override OgQuadFactoryArguments BuildFactoryArguments(OgQuadBuildContext context, OgQuadBuildArguments args,
         IOgEventHandlerProvider provider) =>
-        new(args.Name, context.RectGetProvider, provider, args.TopLeft, args.TopRight, args.BottomLeft, args.BottomRight);
+        new(args.Name, context.RectGetProvider, provider, args.TopLeft, args.TopRight, args.BottomLeft, args.BottomRight, args.Material);
     protected override OgQuadBuildContext BuildContext(OgQuadBuildArguments args, IOgEventHandlerProvider provider,
         OgAnimationRectGetter<OgTransformerRectGetter> getter) =>
         new(null!, getter);
