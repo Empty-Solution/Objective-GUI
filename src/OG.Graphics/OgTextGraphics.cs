@@ -3,10 +3,10 @@ using UnityEngine;
 namespace OG.Graphics;
 public class OgTextGraphics : OgBaseGraphics<IOgTextGraphicsContext>
 {
-    public /*private*/ static GUIStyle? tempStyle; /*= new()*/ // TODO: CHANGE TO PRIVATE + CCTOR (В Эдиторе нельзя создавать гуистайл вне онгуи)
-    //{
-    //    normal = new()
-    //};
+    private static GUIStyle? tempStyle = new()
+    {
+        normal = new()
+    };
     private static readonly GUIContent tempContent = new();
     public override void ProcessContext(IOgTextGraphicsContext ctx)
     {
