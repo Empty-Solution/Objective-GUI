@@ -10,7 +10,7 @@ public class OgElement(string name, IOgEventHandlerProvider provider, IDkGetProv
     public         IOgElement?          Parent      { get; set; }
     public         IDkGetProvider<Rect> ElementRect => rectGetter;
     public         string               Name        => name;
-    public         bool                 IsActive    { get; set; } = true;
+    public bool IsActive {get; set;} = true;
     public virtual long                 Order       { get; set; }
     public bool ProcessEvent(IOgEvent reason) => (IsActive || reason is IOgKeyBoardEvent) && provider.Handle(reason);
     public virtual void Resort()
