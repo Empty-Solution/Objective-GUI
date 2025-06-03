@@ -77,23 +77,18 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         reason.LocalMousePosition += rect.position;
         return isUsed;
     }
-    public bool Contains(TElement element) => m_Elements.Contains(element);
     protected bool ProcessElementsEventForward(IOgEvent reason)
     {
         for(int i = 0; i < m_Elements.Count; i++)
-        {
-            if(!m_Elements[i].ProcessEvent(reason)) continue;
-            return true;
-        }
+            if(m_Elements[i].ProcessEvent(reason)) return true;
+        
         return false;
     }
     protected bool ProcessElementsEventBackward(IOgInputEvent reason)
     {
         for(int i = m_Elements.Count - 1; i >= 0; i--)
-        {
-            if(!m_Elements[i].ProcessEvent(reason)) continue;
-            return true;
-        }
+            if(m_Elements[i].ProcessEvent(reason)) return true;
+        
         return false;
     }
 }
