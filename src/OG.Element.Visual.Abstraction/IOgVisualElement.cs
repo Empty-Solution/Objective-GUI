@@ -2,5 +2,5 @@
 namespace OG.Element.Visual.Abstraction;
 public interface IOgVisualElement : IOgElement
 {
-    public int ZOrder { get; set; }
+    public float ZOrder { get; set; }
 }

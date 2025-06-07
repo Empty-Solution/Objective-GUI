@@ -22,6 +22,6 @@ public abstract class OgVisualElement<TContext> : OgElement, IOgVisualElement, I
         reason.PushContext(m_RenderContext);
         return false;
     }
-    public int ZOrder { get; set; }
+    public float ZOrder { get; set; }
     protected abstract void FillContext();
 }
