@@ -45,7 +45,11 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
             Parent?.Resort();
         }
     }
-    public override long Order { get => ShouldProcess ? int.MinValue : base.Order; set => base.Order = value; }
+    public override long Order
+    {
+        get => ShouldProcess ? int.MinValue : base.Order;
+        set => base.Order = value;
+    }
     public override bool Invoke(IOgRenderEvent reason) => ShouldProcess && base.Invoke(reason);
     public IDkObservable<bool>? IsInteractingObserver { get; set; }
     protected override bool HandleMouseMove(IOgMouseMoveEvent reason)

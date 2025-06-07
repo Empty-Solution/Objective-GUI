@@ -28,7 +28,11 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         Parent?.Resort();
     }
     public void Clear() => m_Elements.Clear();
-    public override long Order { get => m_Elements.Sum(e => e.Order); set => base.Order = value; }
+    public override long Order
+    {
+        get => m_Elements.Sum(e => e.Order);
+        set => base.Order = value;
+    }
     public bool Add(TElement element)
     {
         if(m_Elements.IndexOf(element) != -1) return false;
@@ -80,15 +84,15 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     protected bool ProcessElementsEventForward(IOgEvent reason)
     {
         for(int i = 0; i < m_Elements.Count; i++)
-            if(m_Elements[i].ProcessEvent(reason)) return true;
-        
+            if(m_Elements[i].ProcessEvent(reason))
+                return true;
         return false;
     }
     protected bool ProcessElementsEventBackward(IOgInputEvent reason)
     {
         for(int i = m_Elements.Count - 1; i >= 0; i--)
-            if(m_Elements[i].ProcessEvent(reason)) return true;
-        
+            if(m_Elements[i].ProcessEvent(reason))
+                return true;
         return false;
     }
 }
