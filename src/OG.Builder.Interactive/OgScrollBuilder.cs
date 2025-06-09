@@ -9,10 +9,9 @@ using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
 using OG.Transformer.Abstraction;
 namespace OG.Builder.Interactive;
-public class OgScrollBuilder(IOgElementFactory<IOgVectorValueElement<IOgElement>, OgScrollFactoryArguments> factory,
-    IDkProcessor<OgScrollBuildContext>? processor)
-    : OgInteractableBuilder<IOgElementFactory<IOgVectorValueElement<IOgElement>, OgScrollFactoryArguments>, IOgVectorValueElement<IOgElement>,
-        OgScrollFactoryArguments, OgScrollBuildArguments, OgScrollBuildContext, OgTransformerRectField, IOgElement>(factory, processor)
+public class OgScrollBuilder(IOgElementFactory<IOgScroll<IOgElement>, OgScrollFactoryArguments> factory, IDkProcessor<OgScrollBuildContext>? processor)
+    : OgInteractableBuilder<IOgElementFactory<IOgScroll<IOgElement>, OgScrollFactoryArguments>, IOgScroll<IOgElement>, OgScrollFactoryArguments,
+        OgScrollBuildArguments, OgScrollBuildContext, OgTransformerRectField, IOgElement>(factory, processor)
 {
     protected override OgTransformerRectField BuildGetter(OgScrollBuildArguments args, IOgEventHandlerProvider provider, IOgOptionsContainer container) =>
         new(provider, container);

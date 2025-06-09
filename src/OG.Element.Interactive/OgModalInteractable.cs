@@ -27,12 +27,14 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
     }
     public bool Invoke(IOgMouseKeyUpEvent reason)
     {
-        if(ShouldProcess && base.Invoke(reason)) return true;
-        if(!ShouldProcess && m_RightClickOnly && (!IsHovering || reason.Key != 1)) return false;
-        bool oldShouldProcess = ShouldProcess;
-        ShouldProcess = IsHovering && !oldShouldProcess;
-        if(ShouldProcess) base.Invoke(reason);
-        return oldShouldProcess || IsHovering;
+        bool shouldProcess = ShouldProcess;
+        bool isHovering    = IsHovering;
+        if(shouldProcess && base.Invoke(reason)) return true;
+        if(m_RightClickOnly && !shouldProcess && (!isHovering || reason.Key != 1)) return false;
+        bool newShouldProcess = isHovering && !shouldProcess;
+        if(newShouldProcess) base.Invoke(reason);
+        ShouldProcess = newShouldProcess;
+        return shouldProcess || isHovering;
     }
     public bool ShouldProcess
     {

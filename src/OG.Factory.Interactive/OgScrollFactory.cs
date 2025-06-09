@@ -5,9 +5,9 @@ using OG.Event;
 using OG.Factory.Abstraction;
 using OG.Factory.Arguments;
 namespace OG.Factory.Interactive;
-public class OgScrollFactory : IOgElementFactory<IOgVectorValueElement<IOgElement>, OgScrollFactoryArguments>
+public class OgScrollFactory : IOgElementFactory<IOgScroll<IOgElement>, OgScrollFactoryArguments>
 {
-    public IOgVectorValueElement<IOgElement> Create(OgScrollFactoryArguments arguments) =>
+    public IOgScroll<IOgElement> Create(OgScrollFactoryArguments arguments) =>
         new OgScroll<IOgElement>(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider,
-            arguments.RectSetProvider, arguments.ValueProvider);
+            arguments.ValueProvider);
 }

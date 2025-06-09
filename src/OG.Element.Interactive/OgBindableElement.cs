@@ -7,7 +7,6 @@ using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
-using System.Collections.Generic;
 using UnityEngine;
 // ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 namespace OG.Element.Interactive;
@@ -17,7 +16,6 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
 {
     private readonly IDkProperty<KeyCode>     m_Bind;
     private readonly IDkValueOverride<TValue> m_Override;
-    private readonly List<KeyCode>            m_PressedKeys = [];
     private          bool                     m_IsCapturing;
     public OgBindableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<TValue> value,
         IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode> bind) : base(name, provider, rectGetter, value)
@@ -31,15 +29,9 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     public bool Invoke(IOgKeyBoardKeyDownEvent reason)
     {
         if(m_IsCapturing) return Bind(reason);
-        m_PressedKeys.Add(reason.KeyCode);
-        return Override();
+        return reason.KeyCode == m_Bind.Get() && Override();
     }
-    public bool Invoke(IOgKeyBoardKeyUpEvent reason)
-    {
-        if(m_IsCapturing) return false;
-        m_PressedKeys.Remove(reason.KeyCode);
-        return true;
-    }
+    public bool Invoke(IOgKeyBoardKeyUpEvent reason) => !m_IsCapturing;
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
         m_Bind.Set(KeyCode.None);
@@ -66,17 +58,10 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     }
     private bool Override()
     {
-        KeyCode? keyCode = m_Bind.Get();
-        if(keyCode == KeyCode.None) return false;
-        foreach(KeyCode key in m_PressedKeys)
-            if(key == keyCode)
-            {
-                if(m_Override.IsOverriden)
-                    m_Override.Revert(Name);
-                else
-                    m_Override.Override(Name, Value);
-                return true;
-            }
+        if(m_Override.IsOverriden)
+            m_Override.Revert(Name);
+        else
+            m_Override.Override(Name, Value);
         return false;
     }
 }

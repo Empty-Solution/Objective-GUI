@@ -8,4 +8,5 @@ public interface IOgTextureGraphicsContext : IOgGraphicsContext
     float      ImageAspect    { get; }
     bool       AlphaBlend     { get; }
     Color      Color          { get; }
+    ScaleMode  ScaleMode      { get; }
 }

@@ -26,7 +26,7 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
     public                  IOgTextGraphicsContext?     Context       { get; private set; }
     public Vector2 CalculateSize()
     {
-        if(Font is null) return Vector2.zero;
+        if(Font is null || string.IsNullOrEmpty(Text?.Get())) return Vector2.zero;
         tempContent.text    = Text?.Get() ?? string.Empty;
         tempStyle!.fontSize = FontSize?.Get() ?? 12;
         tempStyle.alignment = Alignment?.Get() ?? TextAnchor.UpperLeft;
