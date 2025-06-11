@@ -2,13 +2,12 @@
 using OG.Event.Prefab.Abstraction;
 using OG.Graphics.Abstraction;
 using OG.TextController.Abstraction;
-using System.IO;
 using UnityEngine;
 namespace OG.TextController;
 public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCursorPosition, IDkFieldProvider<Vector2>? localSelectionPosition)
     : IOgTextController
 {
-    private static GUIStyle tempStyle = new()
+    private static readonly GUIStyle tempStyle = new()
     {
         normal = new()
     };
@@ -64,7 +63,7 @@ public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCur
     {
         if(string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length || context.Font is null) return new();
         context.Font.RequestCharactersInTexture(text, context.FontSize, context.FontStyle);
-        float xOffset     = 0f;
+        float xOffset = 0f;
         for(int i = 0; i <= characterIndex; i++)
         {
             context.Font.GetCharacterInfo(text[i], out CharacterInfo info);
@@ -77,7 +76,7 @@ public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCur
         tempStyle.alignment = context.Alignment;
         tempStyle.fontStyle = context.FontStyle;
         tempStyle.fontSize  = context.FontSize;
-        tempContent.text = context.Text;
+        tempContent.text    = context.Text;
         return GetAlignmentOffset(context.Alignment, context.RenderRect, tempStyle.CalcSize(tempContent));
     }
     private static Vector2 GetAlignmentOffset(TextAnchor alignment, Rect parentRect, Vector2 elementSize)
@@ -89,7 +88,6 @@ public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCur
             TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight    => parentRect.xMax - elementSize.x,
             _                                                                           => 0f
         };
-
         float offsetY = alignment switch
         {
             TextAnchor.UpperLeft or TextAnchor.UpperCenter or TextAnchor.UpperRight    => parentRect.y,

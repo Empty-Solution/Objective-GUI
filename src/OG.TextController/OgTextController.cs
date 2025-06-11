@@ -1,7 +1,6 @@
 ﻿using DK.Property.Abstraction.Generic;
 using OG.Event.Prefab.Abstraction;
 using OG.Graphics.Abstraction;
-using System.IO;
 using UnityEngine;
 namespace OG.TextController;
 public class OgTextController(IDkFieldProvider<Vector2>? localCursorPosition, IDkFieldProvider<Vector2>? localSelectionPosition)
@@ -11,7 +10,7 @@ public class OgTextController(IDkFieldProvider<Vector2>? localCursorPosition, ID
     {
         m_Value = text;
         newText = m_Value;
-        bool    hasControl = reason.Modifiers.HasFlag(EventModifiers.Control);
+        bool hasControl = reason.Modifiers.HasFlag(EventModifiers.Control);
         switch(reason.KeyCode)
         {
             case KeyCode.Delete:

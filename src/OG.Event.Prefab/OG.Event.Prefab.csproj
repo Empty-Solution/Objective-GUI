@@ -2,7 +2,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\OG.Event.Prefab.Abstraction\OG.Event.Prefab.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Graphics.Contexts\OG.Graphics.Contexts.csproj" />
+        <ProjectReference Include="..\OG.Graphics.Contexts\OG.Graphics.Contexts.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

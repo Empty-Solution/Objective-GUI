@@ -6,7 +6,7 @@ using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
-using OG.Graphics.Abstraction;
+using System.IO;
 using UnityEngine;
 namespace OG.Element.Interactive;
 public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>, IOgScroll<TElement>, IOgEventCallback<IOgMouseWheelEvent>
@@ -26,7 +26,7 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     }
     public override bool Invoke(IOgRenderEvent reason)
     {
-        Rect    rect         = ElementRect.Get();
+        Rect rect = ElementRect.Get();
         reason.Enter(rect, Value.Get());
         ProcessElementsEventForwardWithDelta(reason);
         reason.Exit();
@@ -34,14 +34,21 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     }
     public IDkGetProvider<IDkReadOnlyRange<Vector2>>? Range            { get; set; }
     public float                                      ScrollMultiplier { get; set; } = 3f;
-    public override bool Invoke(IOgInputEvent reason)
+    protected override bool PreBeginControl(IOgMouseKeyDownEvent reason) =>
+        HandleInputWidthDelta(reason) || (IsHovering && !IsInteracting && BeginControl(reason));
+    protected override bool PreEndControl(IOgMouseKeyUpEvent reason) => HandleInputWidthDelta(reason) || (IsInteracting && EndControl(reason));
+    protected override bool HandleMouseMove(IOgMouseMoveEvent reason) => HandleInputWidthDelta(reason) || HandleHover(reason);
+    public override bool Invoke(IOgInputEvent reason) => HandleInputWidthDelta(reason);
+    private bool HandleInputWidthDelta(IOgInputEvent reason)
     {
         if(reason is IOgKeyBoardEvent) return base.Invoke(reason);
         if(!IsHovering) return false;
-        Rect rect = ElementRect.Get();
-        reason.LocalMousePosition -= rect.position + Value.Get();
+        Rect    rect  = ElementRect.Get();
+        Vector2 value = Value.Get();
+        reason.LocalMousePosition -= rect.position - value;
+        File.AppendAllText("EmptyHack\\EhLog.txt", $"{value}");
         bool isUsed = ProcessElementsEventBackwardWithDelta(reason);
-        reason.LocalMousePosition += rect.position + Value.Get();
+        reason.LocalMousePosition += rect.position - value;
         return isUsed;
     }
     protected bool ProcessElementsEventForwardWithDelta(IOgEvent reason)

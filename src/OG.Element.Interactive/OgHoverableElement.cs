@@ -13,10 +13,11 @@ public class OgHoverableElement<TElement> : OgContainer<TElement>, IOgHoverableE
 {
     public OgHoverableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : base(name, provider, rectGetter) =>
         provider.Register<IOgMouseMoveEvent>(this);
-    public bool Invoke(IOgMouseMoveEvent reason) => base.Invoke(reason) || HandleMouseMove(reason);
+    public bool Invoke(IOgMouseMoveEvent reason) => HandleMouseMove(reason);
     public bool                 IsHovering         { get; private set; }
     public IDkObservable<bool>? IsHoveringObserver { get; set; }
-    protected virtual bool HandleMouseMove(IOgMouseMoveEvent reason)
+    protected virtual bool HandleMouseMove(IOgMouseMoveEvent reason) => base.Invoke(reason) || HandleHover(reason);
+    protected bool HandleHover(IOgMouseMoveEvent reason)
     {
         bool containsMouse = ElementRect.Get().Contains(reason.LocalMousePosition);
         if(IsHovering == containsMouse) return false;

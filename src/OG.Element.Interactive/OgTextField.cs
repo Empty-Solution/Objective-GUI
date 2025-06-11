@@ -7,12 +7,11 @@ using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
 using OG.Graphics.Abstraction;
 using OG.TextController.Abstraction;
-using System;
 using System.Linq;
 using UnityEngine;
 namespace OG.Element.Interactive;
-public class OgTextField : OgFocusableElement<IOgTextElement, string>,
-                           IOgTextField<IOgTextElement>, IOgEventCallback<IOgKeyBoardCharacterKeyDownEvent>, IOgEventCallback<IOgKeyBoardKeyDownEvent>
+public class OgTextField : OgFocusableElement<IOgTextElement, string>, IOgTextField<IOgTextElement>, IOgEventCallback<IOgKeyBoardCharacterKeyDownEvent>,
+                           IOgEventCallback<IOgKeyBoardKeyDownEvent>
 {
     public OgTextField(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<string> value,
         IOgTextController textController) : base(name, provider, rectGetter, value)
@@ -21,8 +20,7 @@ public class OgTextField : OgFocusableElement<IOgTextElement, string>,
         provider.Register<IOgKeyBoardKeyDownEvent>(this);
         provider.Register<IOgKeyBoardCharacterKeyDownEvent>(this);
     }
-    public IOgTextGraphicsContext? Context        => Elements.FirstOrDefault()?.Context;
-    public IOgTextController       TextController { get; }
+    public IOgTextController TextController { get; }
     public virtual bool Invoke(IOgKeyBoardCharacterKeyDownEvent reason)
     {
         if(!IsFocusing) return false;
@@ -41,6 +39,7 @@ public class OgTextField : OgFocusableElement<IOgTextElement, string>,
         UpdateTextIfNeeded(text);
         return true;
     }
+    public IOgTextGraphicsContext? Context => Elements.FirstOrDefault()?.Context;
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
         IOgTextGraphicsContext? context = Context;

@@ -7,5 +7,5 @@ public struct OgClipContext(Rect clipRect, Vector2 global, Vector2 scrollOffset)
     public Vector2 Global           { get; set; } = global;
     public Vector2 ScrollOffset     => scrollOffset;
     public Rect GetRectToClip() => new(clipRect.position + Global, clipRect.size);
-    public List<IOgGraphicsContext> Contexts     { get; }      = [];
+    public List<IOgGraphicsContext> Contexts { get; } = [];
 }

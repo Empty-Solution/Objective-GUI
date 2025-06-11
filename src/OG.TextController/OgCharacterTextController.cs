@@ -2,8 +2,8 @@
 using OG.Graphics.Abstraction;
 using UnityEngine;
 namespace OG.TextController;
-public abstract class OgCharacterTextController(IDkFieldProvider<Vector2>? localCursorPosition,
-    IDkFieldProvider<Vector2>? localSelectionPosition) : OgTextCursorController(localCursorPosition, localSelectionPosition)
+public abstract class OgCharacterTextController(IDkFieldProvider<Vector2>? localCursorPosition, IDkFieldProvider<Vector2>? localSelectionPosition)
+    : OgTextCursorController(localCursorPosition, localSelectionPosition)
 {
     protected string m_Value = string.Empty;
     public override string HandleCharacter(string text, char character, IOgTextGraphicsContext context)
