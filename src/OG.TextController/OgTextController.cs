@@ -1,29 +1,30 @@
 ﻿using DK.Property.Abstraction.Generic;
 using OG.Event.Prefab.Abstraction;
 using OG.Graphics.Abstraction;
+using System.IO;
 using UnityEngine;
 namespace OG.TextController;
-public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCursorPosition, IDkFieldProvider<Vector2>? localSelectionPosition)
-    : OgCharacterTextController(multiLine, localCursorPosition, localSelectionPosition)
+public class OgTextController(IDkFieldProvider<Vector2>? localCursorPosition, IDkFieldProvider<Vector2>? localSelectionPosition)
+    : OgCharacterTextController(localCursorPosition, localSelectionPosition)
 {
-    public override string HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context)
+    public override bool HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context, out string newText)
     {
         m_Value = text;
-        KeyCode keyCode    = reason.KeyCode;
+        newText = m_Value;
         bool    hasControl = reason.Modifiers.HasFlag(EventModifiers.Control);
-        switch(keyCode)
+        switch(reason.KeyCode)
         {
             case KeyCode.Delete:
                 if(hasControl)
-                    DeleteWord(true, context);
+                    DeleteWord(context, true);
                 else
-                    DeleteChar(true, context);
+                    DeleteChar(context, true);
                 break;
             case KeyCode.Backspace:
                 if(hasControl)
-                    DeleteWord(false, context);
+                    DeleteWord(context);
                 else
-                    DeleteChar(false, context);
+                    DeleteChar(context);
                 break;
             case KeyCode.LeftArrow:
                 if(hasControl)
@@ -40,10 +41,6 @@ public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCu
             case KeyCode.Tab:
                 HandleTab(context);
                 break;
-            case KeyCode.Return:
-            case KeyCode.KeypadEnter:
-                HandleReturn(context);
-                break;
             case KeyCode.Home:
                 MoveCursorToStart(reason, context);
                 break;
@@ -57,21 +54,18 @@ public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCu
                 Cut(context);
                 break;
             case KeyCode.C when hasControl:
-                Copy(context);
+                Copy();
                 break;
             case KeyCode.V when hasControl:
                 Paste(context);
                 break;
+            default: return false;
         }
-        return m_Value;
+        newText = m_Value;
+        return true;
     }
     private void HandleTab(IOgTextGraphicsContext context) => m_Value = HandleCharacter(m_Value, '\t', context);
-    private void HandleReturn(IOgTextGraphicsContext context)
-    {
-        if(!Multiline) return;
-        m_Value = HandleCharacter(m_Value, '\n', context);
-    }
-    private void DeleteChar(bool forward, IOgTextGraphicsContext context)
+    private void DeleteChar(IOgTextGraphicsContext context, bool forward = false)
     {
         int cursorPosition = CursorPosition;
         if(cursorPosition != SelectionPosition)
@@ -82,7 +76,7 @@ public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCu
         int target = Mathf.Clamp(forward ? cursorPosition + 1 : cursorPosition - 1, 0, m_Value.Length);
         DeleteRangeAndChangeCursorSelectionPositions(target, cursorPosition, context);
     }
-    private void DeleteWord(bool forward, IOgTextGraphicsContext context)
+    private void DeleteWord(IOgTextGraphicsContext context, bool forward = false)
     {
         string value = m_Value;
         if(string.IsNullOrEmpty(value)) return;
@@ -124,7 +118,7 @@ public class OgTextController(bool multiLine, IDkFieldProvider<Vector2>? localCu
         GUIUtility.systemCopyBuffer = GetSelectedText();
         DeleteSelectionIfNeeded(context);
     }
-    private void Copy(IOgTextGraphicsContext context)
+    private void Copy()
     {
         if(CursorPosition == SelectionPosition) return;
         GUIUtility.systemCopyBuffer = GetSelectedText();

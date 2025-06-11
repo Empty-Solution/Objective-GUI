@@ -9,5 +9,5 @@ public class OgTextFieldFactory : IOgElementFactory<IOgTextField<IOgTextElement>
 {
     public IOgTextField<IOgTextElement> Create(OgTextFieldFactoryArguments arguments) =>
         new OgTextField(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider, arguments.ValueProvider,
-            arguments.TextController, arguments.Font);
+            arguments.TextController);
 }

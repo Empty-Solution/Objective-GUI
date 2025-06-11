@@ -38,16 +38,17 @@ public class OgTextElement(string name, IOgEventHandlerProvider provider, IDkGet
     }
     protected override void FillContext()
     {
-        if(m_RenderContext is null) Context = m_RenderContext = new(Text?.Get() ?? string.Empty);
-        m_RenderContext.Color        = ColorProvider?.Get() ?? Color.white;
-        m_RenderContext.Alignment    = Alignment?.Get() ?? TextAnchor.UpperLeft;
-        m_RenderContext.TextClipping = TextClipping;
-        m_RenderContext.Font         = Font?.Get();
-        m_RenderContext.FontSize     = FontSize?.Get() ?? 12;
-        m_RenderContext.FontStyle    = FontStyle;
-        m_RenderContext.Text         = Text?.Get() ?? string.Empty;
-        m_RenderContext.WordWrap     = WordWrap;
-        m_RenderContext.OutlineSize  = OutlineSize?.Get() ?? 0;
-        m_RenderContext.OutlineColor = OutlineColor?.Get() ?? Color.black;
+        m_RenderContext              ??= new(Text?.Get() ?? string.Empty);
+        m_RenderContext.Color        =   ColorProvider?.Get() ?? Color.white;
+        m_RenderContext.Alignment    =   Alignment?.Get() ?? TextAnchor.UpperLeft;
+        m_RenderContext.TextClipping =   TextClipping;
+        m_RenderContext.Font         =   Font?.Get();
+        m_RenderContext.FontSize     =   FontSize?.Get() ?? 12;
+        m_RenderContext.FontStyle    =   FontStyle;
+        m_RenderContext.Text         =   Text?.Get() ?? string.Empty;
+        m_RenderContext.WordWrap     =   WordWrap;
+        m_RenderContext.OutlineSize  =   OutlineSize?.Get() ?? 0;
+        m_RenderContext.OutlineColor =   OutlineColor?.Get() ?? Color.black;
+        Context                      =   m_RenderContext;
     }
 }

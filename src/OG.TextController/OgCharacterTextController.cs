@@ -2,14 +2,13 @@
 using OG.Graphics.Abstraction;
 using UnityEngine;
 namespace OG.TextController;
-public abstract class OgCharacterTextController(bool multiLine, IDkFieldProvider<Vector2>? localCursorPosition,
+public abstract class OgCharacterTextController(IDkFieldProvider<Vector2>? localCursorPosition,
     IDkFieldProvider<Vector2>? localSelectionPosition) : OgTextCursorController(localCursorPosition, localSelectionPosition)
 {
     protected string m_Value = string.Empty;
-    public    bool   Multiline { get; set; } = multiLine;
     public override string HandleCharacter(string text, char character, IOgTextGraphicsContext context)
     {
-        if(character == '\n' && !Multiline) return text;
+        if(character == '\n') return text;
         m_Value = text;
         ReplaceSelection(character.ToString(), context);
         return m_Value;

@@ -9,7 +9,7 @@ public interface IOgTextController
     IDkFieldProvider<Vector2>? LocalSelectionPosition { get; }
     int                        CursorPosition         { get; }
     int                        SelectionPosition      { get; }
-    string HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context);
+    bool HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context, out string newText);
     string HandleCharacter(string text, char character, IOgTextGraphicsContext context);
     void ChangeCursorPosition(string text, Vector2 position, IOgTextGraphicsContext context);
     void ChangeSelectionPosition(string text, Vector2 position, IOgTextGraphicsContext context);

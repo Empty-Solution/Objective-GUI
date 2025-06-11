@@ -26,9 +26,11 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     public override bool Invoke(IOgRenderEvent reason)
     {
         Rect rect = ElementRect.Get();
+        reason.Enter(rect);
         reason.Global += rect.position - Value.Get();
         ProcessElementsEventForwardWithDelta(reason);
         reason.Global -= rect.position - Value.Get();
+        reason.Exit();
         return false;
     }
     public IDkGetProvider<IDkReadOnlyRange<Vector2>>? Range            { get; set; }
@@ -38,9 +40,9 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
         if(reason is IOgKeyBoardEvent) return base.Invoke(reason);
         if(!IsHovering) return false;
         Rect rect = ElementRect.Get();
-        reason.LocalMousePosition -= rect.position - Value.Get();
+        reason.LocalMousePosition -= rect.position + Value.Get();
         bool isUsed = ProcessElementsEventBackwardWithDelta(reason);
-        reason.LocalMousePosition += rect.position - Value.Get();
+        reason.LocalMousePosition += rect.position + Value.Get();
         return isUsed;
     }
     protected bool ProcessElementsEventForwardWithDelta(IOgEvent reason)
@@ -64,7 +66,7 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     private bool ProcessElement(IOgEvent reason, Rect rect, TElement element)
     {
         Rect elementRect = element.ElementRect.Get();
-        if(elementRect.yMin + 10 < rect.yMin || elementRect.yMax - 10 > rect.yMax) return false;
+        if(elementRect.yMin + 40 < rect.yMin || elementRect.yMax - 40 > rect.yMax) return false;
         return element.ProcessEvent(reason);
     }
 }

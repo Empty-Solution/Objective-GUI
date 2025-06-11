@@ -2,16 +2,22 @@
 using OG.Event.Prefab.Abstraction;
 using OG.Graphics.Abstraction;
 using OG.TextController.Abstraction;
+using System.IO;
 using UnityEngine;
 namespace OG.TextController;
 public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCursorPosition, IDkFieldProvider<Vector2>? localSelectionPosition)
     : IOgTextController
 {
-    public IDkFieldProvider<Vector2>? LocalCursorPosition    { get; } = localCursorPosition;
-    public IDkFieldProvider<Vector2>? LocalSelectionPosition { get; } = localSelectionPosition;
-    public int                        CursorPosition         { get; protected set; }
-    public int                        SelectionPosition      { get; protected set; }
-    public abstract string HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context);
+    private static GUIStyle tempStyle = new()
+    {
+        normal = new()
+    };
+    private static readonly GUIContent                 tempContent = new();
+    public                  IDkFieldProvider<Vector2>? LocalCursorPosition    { get; } = localCursorPosition;
+    public                  IDkFieldProvider<Vector2>? LocalSelectionPosition { get; } = localSelectionPosition;
+    public                  int                        CursorPosition         { get; protected set; }
+    public                  int                        SelectionPosition      { get; protected set; }
+    public abstract bool HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context, out string newText);
     public abstract string HandleCharacter(string text, char character, IOgTextGraphicsContext context);
     public void ChangeCursorPosition(string text, Vector2 mousePosition, IOgTextGraphicsContext context) =>
         ChangeCursorPosition(text, GetCharacterIndex(text, mousePosition, context), context);
@@ -43,45 +49,54 @@ public abstract class OgTextCursorController(IDkFieldProvider<Vector2>? localCur
     {
         if(string.IsNullOrEmpty(text) || context.Font is null) return 0;
         context.Font.RequestCharactersInTexture(text, context.FontSize, context.FontStyle);
-        float    lineHeight = context.Font.lineHeight;
-        string[] lines      = text.Split('\n');
-        int      lineIndex  = (int)Mathf.Floor((context.RenderRect.y - position.y) / lineHeight);
-        if(lineIndex < 0 || lineIndex >= lines.Length) return 0;
-        string currentLineText = lines[lineIndex];
-        float  xOffset         = position.x - context.RenderRect.x;
-        float  currentWidth    = 0f;
-        for(int i = 0; i < currentLineText.Length; i++)
+        float xOffset      = position.x - context.RenderRect.x;
+        float currentWidth = 0f;
+        int   i            = 0;
+        for(; i < text.Length; i++)
         {
-            context.Font.GetCharacterInfo(text[i], out CharacterInfo info);
+            context.Font.GetCharacterInfo(text[i], out CharacterInfo info, context.FontSize, context.FontStyle);
             currentWidth += info.advance;
-            if(!(currentWidth >= xOffset)) continue;
-            int globalIndex                                = 0;
-            for(int j = 0; j < lineIndex; j++) globalIndex += lines[j].Length + 1;
-            return globalIndex + i;
+            if(currentWidth >= xOffset) return i;
         }
-        return text.Length;
+        return i;
     }
     private Vector2 GetCharPositionInString(string text, int characterIndex, IOgTextGraphicsContext context)
     {
         if(string.IsNullOrEmpty(text) || characterIndex < 0 || characterIndex >= text.Length || context.Font is null) return new();
         context.Font.RequestCharactersInTexture(text, context.FontSize, context.FontStyle);
         float xOffset     = 0f;
-        float yOffset     = 0f;
-        int   currentLine = 0;
-        float lineHeight  = context.Font.lineHeight;
         for(int i = 0; i <= characterIndex; i++)
         {
-            char currentChar = text[i];
-            if(currentChar == '\n')
-            {
-                currentLine++;
-                yOffset = -currentLine * lineHeight;
-                xOffset = 0f;
-                continue;
-            }
             context.Font.GetCharacterInfo(text[i], out CharacterInfo info);
             xOffset += info.advance;
         }
-        return new((int)xOffset + context.RenderRect.x, (int)yOffset + context.RenderRect.y);
+        return new Vector2(xOffset + context.RenderRect.x, 0 + context.RenderRect.y) + CalculateOffset(context);
+    }
+    private static Vector2 CalculateOffset(IOgTextGraphicsContext context)
+    {
+        tempStyle.alignment = context.Alignment;
+        tempStyle.fontStyle = context.FontStyle;
+        tempStyle.fontSize  = context.FontSize;
+        tempContent.text = context.Text;
+        return GetAlignmentOffset(context.Alignment, context.RenderRect, tempStyle.CalcSize(tempContent));
+    }
+    private static Vector2 GetAlignmentOffset(TextAnchor alignment, Rect parentRect, Vector2 elementSize)
+    {
+        float offsetX = alignment switch
+        {
+            TextAnchor.UpperLeft or TextAnchor.MiddleLeft or TextAnchor.LowerLeft       => parentRect.x,
+            TextAnchor.UpperCenter or TextAnchor.MiddleCenter or TextAnchor.LowerCenter => parentRect.x + ((parentRect.width - elementSize.x) * 0.5f),
+            TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight    => parentRect.xMax - elementSize.x,
+            _                                                                           => 0f
+        };
+
+        float offsetY = alignment switch
+        {
+            TextAnchor.UpperLeft or TextAnchor.UpperCenter or TextAnchor.UpperRight    => parentRect.y,
+            TextAnchor.MiddleLeft or TextAnchor.MiddleCenter or TextAnchor.MiddleRight => parentRect.y + ((parentRect.height - elementSize.y) * 0.5f),
+            TextAnchor.LowerLeft or TextAnchor.LowerCenter or TextAnchor.LowerRight    => parentRect.yMax - elementSize.y,
+            _                                                                          => 0f
+        };
+        return new(offsetX, offsetY);
     }
 }

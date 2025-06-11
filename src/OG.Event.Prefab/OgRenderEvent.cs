@@ -19,6 +19,7 @@ public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRend
             Rect clipRect = m_Clip.LastOrDefault();
             clipRect.position += Global;
             ctx.ClipRect      =  clipRect;
+            ctx.RenderRect    =  new(ctx.RenderRect.position - Global, ctx.RenderRect.size);
         }
         m_Contexts.Add(ctx);
     }
