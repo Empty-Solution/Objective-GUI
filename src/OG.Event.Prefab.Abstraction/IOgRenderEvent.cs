@@ -4,7 +4,7 @@ namespace OG.Event.Prefab.Abstraction;
 public interface IOgRenderEvent : IOgEvent
 {
     Vector2 Global { get; set; }
-    void Enter(Rect rect);
+    void Enter(Rect rect, Vector2 scrollOffset);
     void Exit();
     void PushContext(IOgGraphicsContext ctx);
     void ProcessContexts();

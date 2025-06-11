@@ -29,7 +29,7 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
     {
         bool shouldProcess = ShouldProcess;
         bool isHovering    = IsHovering;
-        if(isHovering && !shouldProcess) return false; // проверка говна, но на любом сете шуд процесс пересортирует все элементы, а в меню модалок может быть до 30 шт, из-за чего возникают просадки по фпс.
+        if(!isHovering && !shouldProcess) return false; // проверка говна, но на любом сете шуд процесс пересортирует все элементы, а в меню модалок может быть до 30 шт, из-за чего возникают просадки по фпс.
         if(shouldProcess && base.Invoke(reason)) return true;
         if(m_RightClickOnly && !shouldProcess && (!isHovering || reason.Key != 1)) return false;
         bool newShouldProcess = isHovering && !shouldProcess;

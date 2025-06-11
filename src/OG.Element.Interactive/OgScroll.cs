@@ -6,6 +6,7 @@ using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
+using OG.Graphics.Abstraction;
 using UnityEngine;
 namespace OG.Element.Interactive;
 public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>, IOgScroll<TElement>, IOgEventCallback<IOgMouseWheelEvent>
@@ -25,16 +26,14 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     }
     public override bool Invoke(IOgRenderEvent reason)
     {
-        Rect rect = ElementRect.Get();
-        reason.Enter(rect);
-        reason.Global += rect.position - Value.Get();
+        Rect    rect         = ElementRect.Get();
+        reason.Enter(rect, Value.Get());
         ProcessElementsEventForwardWithDelta(reason);
-        reason.Global -= rect.position - Value.Get();
         reason.Exit();
         return false;
     }
     public IDkGetProvider<IDkReadOnlyRange<Vector2>>? Range            { get; set; }
-    public float                                      ScrollMultiplier { get; set; } = 2.5f;
+    public float                                      ScrollMultiplier { get; set; } = 3f;
     public override bool Invoke(IOgInputEvent reason)
     {
         if(reason is IOgKeyBoardEvent) return base.Invoke(reason);
@@ -66,7 +65,7 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     private bool ProcessElement(IOgEvent reason, Rect rect, TElement element)
     {
         Rect elementRect = element.ElementRect.Get();
-        if(elementRect.yMin + 40 < rect.yMin || elementRect.yMax - 40 > rect.yMax) return false;
+        if(elementRect.yMin + (elementRect.height / 2) < rect.yMin || elementRect.yMax - (elementRect.height / 2) > rect.yMax) return false;
         return element.ProcessEvent(reason);
     }
 }
