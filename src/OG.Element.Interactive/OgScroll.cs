@@ -46,7 +46,6 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
         Rect    rect  = ElementRect.Get();
         Vector2 value = Value.Get();
         reason.LocalMousePosition -= rect.position - value;
-        File.AppendAllText("EmptyHack\\EhLog.txt", $"{value}");
         bool isUsed = ProcessElementsEventBackwardWithDelta(reason);
         reason.LocalMousePosition += rect.position - value;
         return isUsed;

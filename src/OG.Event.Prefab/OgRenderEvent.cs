@@ -9,7 +9,7 @@ using UnityEngine;
 namespace OG.Event.Prefab;
 public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRenderEvent
 {
-    private readonly List<IOgGraphicsContext>                                    m_Contexts         = [];
+    private readonly List<IOgGraphicsContext>                                    m_Contexts         = new(256);
     private readonly DkTypeCacheMatcherProvider<IOgGraphicsContext, IOgGraphics> m_Provider         = new(graphics);
     private          int                                                         m_ClipContextIndex = -1;
     private          OgClipContext?[]                                            m_ClipContexts     = [];
@@ -42,8 +42,7 @@ public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRend
     public void ProcessContexts()
     {
         if(m_Contexts.Count == 0) return;
-        m_Contexts.Sort((c, c2) => c.ZOrder.CompareTo(c2.ZOrder));
-        foreach(IOgGraphicsContext context in m_Contexts)
+        foreach(IOgGraphicsContext context in m_Contexts.OrderBy(c => c.ZOrder))
         {
             if(!m_Provider.TryGetMatcher(context, out IOgGraphics graphics)) continue;
             graphics.ProcessContext(context);
