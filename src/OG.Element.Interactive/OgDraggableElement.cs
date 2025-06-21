@@ -12,7 +12,7 @@ public class OgDraggableElement<TElement>(string name, IOgEventHandlerProvider p
 {
     protected override bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
-        base.HandleMouseMove(reason);
+        _ = base.HandleMouseMove(reason);
         return IsInteracting && elementRectSetter.Set(PerformDrag(reason.Delta, ElementRect.Get()));
     }
     protected virtual Rect PerformDrag(Vector2 delta, Rect elementRect)

@@ -22,20 +22,20 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
     {
         if(!ShouldProcess && m_RightClickOnly && (!IsHovering || reason.Key != 1)) return false;
         if(!ShouldProcess && !IsHovering) return false;
-        base.Invoke(reason);
+        _ = base.Invoke(reason);
         return true;
     }
     public bool Invoke(IOgMouseKeyUpEvent reason)
     {
         bool shouldProcess = ShouldProcess;
-        bool isHovering    = IsHovering;
+        bool isHovering = IsHovering;
         if(!isHovering && !shouldProcess)
             return
                 false; // проверка говна, но на любом сете шуд процесс пересортирует все элементы, а в меню модалок может быть до 30 шт, из-за чего возникают просадки по фпс.
         if(shouldProcess && base.Invoke(reason)) return true;
         if(m_RightClickOnly && !shouldProcess && (!isHovering || reason.Key != 1)) return false;
         bool newShouldProcess = isHovering && !shouldProcess;
-        if(newShouldProcess) base.Invoke(reason);
+        if(newShouldProcess) _ = base.Invoke(reason);
         ShouldProcess = newShouldProcess;
         return shouldProcess || isHovering;
     }
@@ -60,7 +60,7 @@ public class OgModalInteractable<TElement> : OgHoverableElement<TElement>, IOgEv
     protected override bool HandleMouseMove(IOgMouseMoveEvent reason)
     {
         if(!ShouldProcess) return base.HandleMouseMove(reason);
-        base.HandleMouseMove(reason);
+        _ = base.HandleMouseMove(reason);
         return true;
     }
     public override bool Invoke(IOgInputEvent reason) => (ShouldProcess || reason is IOgKeyBoardEvent) && base.Invoke(reason);

@@ -4,5 +4,5 @@ public class OgTabGroupTransformerOption(float xPadding, float yPadding, int row
 {
     public float XPadding => xPadding;
     public float YPadding => yPadding;
-    public int   RowSize  => rowSize;
+    public int RowSize => rowSize;
 }

@@ -7,5 +7,5 @@ public class OgBindableBuildArguments<TValue>(string name, IDkObservableProperty
     IDkProperty<KeyCode> bind) : OgValueElementBuildArguments<TValue>(name, value)
 {
     public IDkValueOverride<TValue> ValueOverride { get; } = valueOverride;
-    public IDkProperty<KeyCode>     Bind          { get; } = bind;
+    public IDkProperty<KeyCode> Bind { get; } = bind;
 }

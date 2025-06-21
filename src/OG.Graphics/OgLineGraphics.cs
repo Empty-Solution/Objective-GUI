@@ -21,12 +21,12 @@ public class OgLineGraphics : OgBaseGraphics<IOgLineGraphicsContext>
     }
     private static Matrix4x4 GetMatrix(Vector2 startPosition, Vector2 endPosition, float width = 1.0f)
     {
-        float     deltaX      = endPosition.x - startPosition.x;
-        float     deltaY      = endPosition.y - startPosition.y;
-        float     length      = Mathf.Sqrt((deltaX * deltaX) + (deltaY * deltaY));
-        float     widthDeltaX = width * deltaY / length;
-        float     widthDeltaY = width * deltaX / length;
-        Matrix4x4 matrix      = Matrix4x4.identity;
+        float deltaX = endPosition.x - startPosition.x;
+        float deltaY = endPosition.y - startPosition.y;
+        float length = Mathf.Sqrt((deltaX * deltaX) + (deltaY * deltaY));
+        float widthDeltaX = width * deltaY / length;
+        float widthDeltaY = width * deltaX / length;
+        var matrix = Matrix4x4.identity;
         matrix.m00 = deltaX;
         matrix.m01 = -widthDeltaX;
         matrix.m03 = startPosition.x + (0.5f * widthDeltaX);

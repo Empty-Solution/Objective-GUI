@@ -24,7 +24,7 @@ public class OgTextField : OgFocusableElement<IOgTextElement, string>, IOgTextFi
     public virtual bool Invoke(IOgKeyBoardCharacterKeyDownEvent reason)
     {
         if(!IsFocusing) return false;
-        IOgTextGraphicsContext? context = Context;
+        var context = Context;
         if(context is null) return false;
         char chr = reason.Character;
         return (context.Font?.HasCharacter(chr) ?? false) && UpdateTextIfNeeded(TextController.HandleCharacter(Value.Get(), chr, context));
@@ -32,41 +32,41 @@ public class OgTextField : OgFocusableElement<IOgTextElement, string>, IOgTextFi
     public bool Invoke(IOgKeyBoardKeyDownEvent reason)
     {
         if(!IsFocusing) return false;
-        IOgTextGraphicsContext? context = Context;
+        var context = Context;
         if(context is null) return false;
         string got = Value.Get();
         if(!TextController.HandleKeyEvent(got, reason, context, out string text)) return false;
-        UpdateTextIfNeeded(text);
+        _ = UpdateTextIfNeeded(text);
         return true;
     }
     public IOgTextGraphicsContext? Context => Elements.FirstOrDefault()?.Context;
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
-        IOgTextGraphicsContext? context = Context;
+        var context = Context;
         if(context is null) return false;
         TextController.ChangeCursorAndSelectionPositions(Value.Get(), reason.GlobalMousePosition, context);
         return true;
     }
     protected override bool OnLostFocus(IOgMouseKeyUpEvent reason)
     {
-        IOgTextGraphicsContext? context = Context;
+        var context = Context;
         if(context is null) return false;
         TextController.ChangeCursorAndSelectionPositions(Value.Get(), reason.GlobalMousePosition, context);
         return true;
     }
     protected override bool BeginControl(IOgMouseKeyDownEvent reason)
     {
-        IOgTextGraphicsContext? context = Context;
+        var context = Context;
         if(context is null) return IsFocusing || base.BeginControl(reason);
-        base.BeginControl(reason);
+        _ = base.BeginControl(reason);
         TextController.ChangeCursorPosition(Value.Get(), reason.GlobalMousePosition, context);
         return true;
     }
     protected override bool EndControl(IOgMouseKeyUpEvent reason)
     {
-        IOgTextGraphicsContext? context = Context;
+        var context = Context;
         if(context is null) return base.EndControl(reason);
-        base.EndControl(reason);
+        _ = base.EndControl(reason);
         TextController.ChangeSelectionPosition(Value.Get(), reason.GlobalMousePosition, context);
         return true;
     }

@@ -1,8 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	
     <ItemGroup>
         <PackageReference Include="DK.Factory.Abstraction" Version="1.4.0"/>
     </ItemGroup>
+	
     <ItemGroup>
         <ProjectReference Include="..\OG.Element.Interactive.Abstraction\OG.Element.Interactive.Abstraction.csproj"/>
     </ItemGroup>
+	
 </Project>

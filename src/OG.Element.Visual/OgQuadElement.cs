@@ -6,12 +6,12 @@ namespace OG.Element.Visual;
 public class OgQuadElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
     : OgVisualElement<OgQuadGraphicsContext>(name, provider, rectGetter)
 {
-    public IDkGetProvider<Material?>? Material         { get; set; }
-    public IDkGetProvider<Color>?     TopLeftColor     { get; set; }
-    public IDkGetProvider<Color>?     TopRightColor    { get; set; }
-    public IDkGetProvider<Color>?     BottomLeftColor  { get; set; }
-    public IDkGetProvider<Color>?     BottomRightColor { get; set; }
-    public Vector4                    Radius           { get; set; }
+    public IDkGetProvider<Material?>? Material { get; set; }
+    public IDkGetProvider<Color>? TopLeftColor { get; set; }
+    public IDkGetProvider<Color>? TopRightColor { get; set; }
+    public IDkGetProvider<Color>? BottomLeftColor { get; set; }
+    public IDkGetProvider<Color>? BottomRightColor { get; set; }
+    public Vector4 Radius { get; set; }
     protected override void FillContext()
     {
         m_RenderContext ??= new();
@@ -20,7 +20,7 @@ public class OgQuadElement(string name, IOgEventHandlerProvider provider, IDkGet
         int verticesCount = m_RenderContext!.VerticesCount;
         FillVertex();
         FillIndices(verticesCount);
-        Rect rect = ElementRect.Get();
+        var rect = ElementRect.Get();
         Material?.Get()?.SetVector("_Radius", Radius);
         Material?.Get()?.SetFloat("_AspectRatio", rect.width / rect.height);
         m_RenderContext.Material = Material?.Get();

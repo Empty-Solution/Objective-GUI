@@ -16,7 +16,7 @@ public abstract class OgVisualElement<TContext> : OgElement, IOgVisualElement, I
         FillContext();
         if(m_RenderContext == null) return false;
         m_RenderContext.RenderRect = ElementRect.Get();
-        m_RenderContext.ZOrder     = ZOrder;
+        m_RenderContext.ZOrder = ZOrder;
         reason.PushContext(m_RenderContext);
         return false;
     }

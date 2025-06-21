@@ -8,7 +8,7 @@ public class OgBindableFactoryArguments<TValue>(string name, IDkGetProvider<Rect
     IDkFieldProvider<TValue> value, IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode> bind)
     : OgElementFactoryArguments(name, rectGetProvider, eventProvider)
 {
-    public IDkFieldProvider<TValue> Value         { get; } = value;
+    public IDkFieldProvider<TValue> Value { get; } = value;
     public IDkValueOverride<TValue> ValueOverride { get; } = valueOverride;
-    public IDkProperty<KeyCode>     Bind          { get; } = bind;
+    public IDkProperty<KeyCode> Bind { get; } = bind;
 }

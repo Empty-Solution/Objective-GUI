@@ -9,10 +9,10 @@ using UnityEngine;
 namespace OG.Event.Prefab;
 public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRenderEvent
 {
-    private readonly List<IOgGraphicsContext>                                    m_Contexts         = new(256);
-    private readonly DkTypeCacheMatcherProvider<IOgGraphicsContext, IOgGraphics> m_Provider         = new(graphics);
-    private          int                                                         m_ClipContextIndex = -1;
-    private          OgClipContext?[]                                            m_ClipContexts     = [];
+    private readonly List<IOgGraphicsContext> m_Contexts = new(256);
+    private readonly DkTypeCacheMatcherProvider<IOgGraphicsContext, IOgGraphics> m_Provider = new(graphics);
+    private int m_ClipContextIndex = -1;
+    private OgClipContext?[] m_ClipContexts = [];
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Enter(Rect rect, Vector2 scrollOffset)
     {
@@ -27,8 +27,8 @@ public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRend
     {
         if(m_ClipContextIndex >= 0)
         {
-            OgClipContext? context = m_ClipContexts[m_ClipContextIndex];
-            Rect           rect    = ctx.RenderRect;
+            var context = m_ClipContexts[m_ClipContextIndex];
+            var rect = ctx.RenderRect;
             rect.position = ctx.RenderRect.position + (Global - context!.Value.Global) + context.Value.OriginalClipRect.position -
                             context.Value.ScrollOffset;
             ctx.RenderRect = rect;
@@ -42,20 +42,20 @@ public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRend
     public void ProcessContexts()
     {
         if(m_Contexts.Count == 0) return;
-        foreach(IOgGraphicsContext context in m_Contexts.OrderBy(c => c.ZOrder))
+        foreach(var context in m_Contexts.OrderBy(c => c.ZOrder))
         {
-            if(!m_Provider.TryGetMatcher(context, out IOgGraphics graphics)) continue;
+            if(!m_Provider.TryGetMatcher(context, out var graphics)) continue;
             graphics.ProcessContext(context);
         }
         m_Contexts.Clear();
         for(int i = 0; i < m_ClipContexts.Length; i++)
         {
-            OgClipContext? clip = m_ClipContexts[i];
+            var clip = m_ClipContexts[i];
             if(clip is null) continue;
             GUI.BeginClip(clip.Value.GetRectToClip());
-            foreach(IOgGraphicsContext context in clip.Value.Contexts.OrderBy(c => c.ZOrder))
+            foreach(var context in clip.Value.Contexts.OrderBy(c => c.ZOrder))
             {
-                if(!m_Provider.TryGetMatcher(context, out IOgGraphics graphics)) continue;
+                if(!m_Provider.TryGetMatcher(context, out var graphics)) continue;
                 graphics.ProcessContext(context);
             }
             GUI.EndClip();
@@ -65,9 +65,9 @@ public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRend
     }
     private struct OgClipContext(Rect clipRect, Vector2 global, Vector2 scrollOffset)
     {
-        public Rect    OriginalClipRect => clipRect;
-        public Vector2 Global           { get; set; } = global;
-        public Vector2 ScrollOffset     => scrollOffset;
+        public Rect OriginalClipRect => clipRect;
+        public Vector2 Global { get; set; } = global;
+        public Vector2 ScrollOffset => scrollOffset;
         public Rect GetRectToClip() => new(clipRect.position + Global, clipRect.size);
         public List<IOgGraphicsContext> Contexts { get; } = [];
     }

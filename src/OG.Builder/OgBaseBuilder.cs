@@ -19,10 +19,10 @@ public abstract class
 {
     public virtual TElement Build(TArguments args)
     {
-        OgOptionsContainer     options  = new();
+        OgOptionsContainer options = new();
         OgEventHandlerProvider provider = new();
-        TContext               context  = BuildContext(args, provider, BuildGetter(args, provider, options));
-        TElement               element  = factory.Create(BuildFactoryArguments(context, args, provider));
+        var context = BuildContext(args, provider, BuildGetter(args, provider, options));
+        var element = factory.Create(BuildFactoryArguments(context, args, provider));
         context.Element = element;
         InternalProcessContext(context);
         processor?.Process(context);

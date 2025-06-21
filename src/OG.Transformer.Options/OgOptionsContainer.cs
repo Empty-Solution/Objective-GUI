@@ -3,8 +3,8 @@ using System.Collections.Generic;
 namespace OG.Transformer.Options;
 public class OgOptionsContainer : IOgOptionsContainer
 {
-    private readonly List<IOgTransformerOption>        m_Options = [];
-    public           IEnumerable<IOgTransformerOption> Options => m_Options;
+    private readonly List<IOgTransformerOption> m_Options = [];
+    public IEnumerable<IOgTransformerOption> Options => m_Options;
     public IOgOptionsContainer SetOption(IOgTransformerOption option)
     {
         if(m_Options.IndexOf(option) == -1) m_Options.Add(option);
@@ -13,7 +13,7 @@ public class OgOptionsContainer : IOgOptionsContainer
     public IOgOptionsContainer RemoveOption(IOgTransformerOption option)
     {
         if(m_Options.IndexOf(option) == -1) return this;
-        m_Options.Remove(option);
+        _ = m_Options.Remove(option);
         return this;
     }
 }

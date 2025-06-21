@@ -14,27 +14,23 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
                                                    IOgEventCallback<IOgKeyBoardKeyDownEvent>,
                                                    IOgEventCallback<IOgKeyBoardKeyUpEvent> where TElement : IOgElement
 {
-    private readonly IDkProperty<KeyCode>     m_Bind;
+    private readonly IDkProperty<KeyCode> m_Bind;
     private readonly IDkValueOverride<TValue> m_Override;
-    private          bool                     m_IsCapturing;
+    private bool m_IsCapturing;
     public OgBindableElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<TValue> value,
         IDkValueOverride<TValue> valueOverride, IDkProperty<KeyCode> bind) : base(name, provider, rectGetter, value)
     {
-        m_Bind     = bind;
+        m_Bind = bind;
         m_Override = valueOverride;
         provider.Register<IOgKeyBoardKeyDownEvent>(this);
         provider.Register<IOgKeyBoardKeyUpEvent>(this);
     }
     public IDkObservable<TValue>? BindObservable { get; set; }
-    public bool Invoke(IOgKeyBoardKeyDownEvent reason)
-    {
-        if(m_IsCapturing) return Bind(reason);
-        return reason.KeyCode == m_Bind.Get() && Override();
-    }
+    public bool Invoke(IOgKeyBoardKeyDownEvent reason) => m_IsCapturing ? Bind(reason) : reason.KeyCode == m_Bind.Get() && Override();
     public bool Invoke(IOgKeyBoardKeyUpEvent reason) => !m_IsCapturing;
     protected override bool OnFocus(IOgMouseKeyUpEvent reason)
     {
-        m_Bind.Set(KeyCode.None);
+        _ = m_Bind.Set(KeyCode.None);
         m_IsCapturing = true;
         return true;
     }
@@ -47,12 +43,12 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     {
         if(reason.KeyCode == KeyCode.Escape)
         {
-            m_Bind.Set(KeyCode.None);
+            _ = m_Bind.Set(KeyCode.None);
             IsFocusing = false;
             return true;
         }
-        m_Bind.Set(reason.KeyCode);
-        IsFocusing    = false;
+        _ = m_Bind.Set(reason.KeyCode);
+        IsFocusing = false;
         m_IsCapturing = false;
         return true;
     }

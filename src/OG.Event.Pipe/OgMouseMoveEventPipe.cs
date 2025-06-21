@@ -8,8 +8,8 @@ public class OgMouseMoveEventPipe : OgMouseEventPipe<IOgMouseMoveEvent>
     public override bool CanHandle(UnityEngine.Event value) => value.type is EventType.Layout;
     protected override IOgMouseMoveEvent InternalGetEvent(UnityEngine.Event sourceEvent)
     {
-        Vector2          mousePosition  = sourceEvent.mousePosition;
-        Vector2          mouseDelta     = mousePosition - m_LastMousePosition;
+        var mousePosition = sourceEvent.mousePosition;
+        var mouseDelta = mousePosition - m_LastMousePosition;
         OgMouseMoveEvent mouseMoveEvent = new(sourceEvent, mouseDelta);
         m_LastMousePosition = mousePosition;
         return mouseMoveEvent;

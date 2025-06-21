@@ -3,8 +3,8 @@ using UnityEngine;
 namespace OG.Layout.Abstraction;
 public interface IOgLayout
 {
-    public Rect ParentRect           { get; set; }
-    public int  RemainingLayoutItems { get; set; }
-    public Rect LastLayoutRect       { get; set; }
+    Rect ParentRect { get; set; }
+    int RemainingLayoutItems { get; set; }
+    Rect LastLayoutRect { get; set; }
     Rect ProcessLayout(Rect rect, IOgOptionsContainer container);
 }

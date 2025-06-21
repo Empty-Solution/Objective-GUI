@@ -27,7 +27,7 @@ public class OgBindableBuilder<TValue>(IOgElementFactory<IOgBindableElement<IOgV
         new(null!, getter, args.Value);
     protected override void InternalProcessContext(OgBindableBuildContext<TValue> context)
     {
-        context.Element.BindObservable     = new DkObservable<TValue>([]);
+        context.Element.BindObservable = new DkObservable<TValue>([]);
         context.Element.IsFocusingObserver = new DkObservable<bool>([]);
         base.InternalProcessContext(context);
     }

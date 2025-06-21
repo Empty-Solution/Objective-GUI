@@ -1,17 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <ItemGroup>
-        <ProjectReference Include="..\OG.Builder.Abstraction\OG.Builder.Abstraction.csproj"/>
-        <ProjectReference Include="..\OG.Builder.Arguments\OG.Builder.Arguments.csproj"/>
-        <ProjectReference Include="..\OG.Builder.Contexts\OG.Builder.Contexts.csproj"/>
-        <ProjectReference Include="..\OG.DataKit.Animation\OG.DataKit.Animation.csproj"/>
-        <ProjectReference Include="..\OG.DataKit.Transformer\OG.DataKit.Transformer.csproj"/>
-        <ProjectReference Include="..\OG.Factory.Interactive\OG.Factory.Interactive.csproj"/>
-        <ProjectReference Include="..\OG.Factory\OG.Factory.csproj"/>
-        <ProjectReference Include="..\OG.Transformer\OG.Transformer.csproj"/>
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="DK.Observing.Generic" Version="1.4.0"/>
-        <PackageReference Include="DK.Processing.Abstraction.Generic" Version="1.4.0"/>
-        <PackageReference Include="DK.Property.Observing.Generic" Version="1.4.0"/>
-    </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\OG.Builder.Abstraction\OG.Builder.Abstraction.csproj"/>
+		<ProjectReference Include="..\OG.Builder.Arguments\OG.Builder.Arguments.csproj"/>
+		<ProjectReference Include="..\OG.Builder.Contexts\OG.Builder.Contexts.csproj"/>
+		<ProjectReference Include="..\OG.DataKit.Animation\OG.DataKit.Animation.csproj"/>
+		<ProjectReference Include="..\OG.DataKit.Transformer\OG.DataKit.Transformer.csproj"/>
+		<ProjectReference Include="..\OG.Factory.Interactive\OG.Factory.Interactive.csproj"/>
+		<ProjectReference Include="..\OG.Factory\OG.Factory.csproj"/>
+		<ProjectReference Include="..\OG.Transformer\OG.Transformer.csproj"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DK.Observing.Generic" Version="1.4.0"/>
+		<PackageReference Include="DK.Processing.Abstraction.Generic" Version="1.4.0"/>
+		<PackageReference Include="DK.Property.Observing.Generic" Version="1.4.0"/>
+	</ItemGroup>
+
 </Project>

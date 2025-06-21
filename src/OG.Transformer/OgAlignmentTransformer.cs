@@ -9,14 +9,14 @@ public class OgAlignmentTransformer : OgBaseTransformer<OgAlignmentTransformerOp
         float x = option.Alignment switch
         {
             TextAnchor.UpperCenter or TextAnchor.MiddleCenter or TextAnchor.LowerCenter => (parentRect.width - rect.width) / 2,
-            TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight    => parentRect.width - rect.width,
-            _                                                                           => rect.x
+            TextAnchor.UpperRight or TextAnchor.MiddleRight or TextAnchor.LowerRight => parentRect.width - rect.width,
+            _ => rect.x
         };
         float y = option.Alignment switch
         {
             TextAnchor.MiddleLeft or TextAnchor.MiddleCenter or TextAnchor.MiddleRight => (parentRect.height - rect.height) / 2,
-            TextAnchor.LowerLeft or TextAnchor.LowerCenter or TextAnchor.LowerRight    => parentRect.height - rect.height,
-            _                                                                          => rect.y
+            TextAnchor.LowerLeft or TextAnchor.LowerCenter or TextAnchor.LowerRight => parentRect.height - rect.height,
+            _ => rect.y
         };
         return new(x, y, rect.width, rect.height);
     }

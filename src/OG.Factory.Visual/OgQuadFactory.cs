@@ -8,10 +8,10 @@ public class OgQuadFactory : IOgElementFactory<OgQuadElement, OgQuadFactoryArgum
     public OgQuadElement Create(OgQuadFactoryArguments arguments) =>
         new(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider)
         {
-            TopLeftColor     = arguments.TopLeft,
-            TopRightColor    = arguments.TopRight,
-            BottomLeftColor  = arguments.BottomLeft,
+            TopLeftColor = arguments.TopLeft,
+            TopRightColor = arguments.TopRight,
+            BottomLeftColor = arguments.BottomLeft,
             BottomRightColor = arguments.BottomRight,
-            Material         = arguments.Material
+            Material = arguments.Material
         };
 }

@@ -6,7 +6,6 @@ using OG.Element.Interactive.Abstraction;
 using OG.Event.Abstraction;
 using OG.Event.Extensions;
 using OG.Event.Prefab.Abstraction;
-using System.IO;
 using UnityEngine;
 namespace OG.Element.Interactive;
 public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>, IOgScroll<TElement>, IOgEventCallback<IOgMouseWheelEvent>
@@ -18,22 +17,22 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     public bool Invoke(IOgMouseWheelEvent reason)
     {
         if(!IsHovering) return false;
-        Vector2 value    = Value.Get();
+        var value = Value.Get();
         Vector2 newValue = new(0, Mathf.Clamp(value.y + (reason.Delta.y * ScrollMultiplier), Range!.Get().Min.y, Range.Get().Max.y));
         if(Equals(value, newValue)) return false;
-        Value.Set(newValue);
+        _ = Value.Set(newValue);
         return base.Invoke(reason);
     }
     public override bool Invoke(IOgRenderEvent reason)
     {
-        Rect rect = ElementRect.Get();
+        var rect = ElementRect.Get();
         reason.Enter(rect, Value.Get());
-        ProcessElementsEventForwardWithDelta(reason);
+        _ = ProcessElementsEventForwardWithDelta(reason);
         reason.Exit();
         return false;
     }
-    public IDkGetProvider<IDkReadOnlyRange<Vector2>>? Range            { get; set; }
-    public float                                      ScrollMultiplier { get; set; } = 3f;
+    public IDkGetProvider<IDkReadOnlyRange<Vector2>>? Range { get; set; }
+    public float ScrollMultiplier { get; set; } = 3f;
     protected override bool PreBeginControl(IOgMouseKeyDownEvent reason) =>
         HandleInputWidthDelta(reason) || (IsHovering && !IsInteracting && BeginControl(reason));
     protected override bool PreEndControl(IOgMouseKeyUpEvent reason) => HandleInputWidthDelta(reason) || (IsInteracting && EndControl(reason));
@@ -43,8 +42,8 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     {
         if(reason is IOgKeyBoardEvent) return base.Invoke(reason);
         if(!IsHovering) return false;
-        Rect    rect  = ElementRect.Get();
-        Vector2 value = Value.Get();
+        var rect = ElementRect.Get();
+        var value = Value.Get();
         reason.LocalMousePosition -= rect.position - value;
         bool isUsed = ProcessElementsEventBackwardWithDelta(reason);
         reason.LocalMousePosition += rect.position - value;
@@ -52,7 +51,7 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     }
     protected bool ProcessElementsEventForwardWithDelta(IOgEvent reason)
     {
-        Rect rect = ElementRect.Get();
+        var rect = ElementRect.Get();
         rect.position += Value.Get();
         for(int i = 0; i < m_Elements.Count; i++)
             if(ProcessElement(reason, rect, m_Elements[i]))
@@ -61,7 +60,7 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     }
     private bool ProcessElementsEventBackwardWithDelta(IOgInputEvent reason)
     {
-        Rect rect = ElementRect.Get();
+        var rect = ElementRect.Get();
         rect.position += Value.Get();
         for(int i = m_Elements.Count - 1; i >= 0; i--)
             if(ProcessElement(reason, rect, m_Elements[i]))
@@ -70,8 +69,7 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     }
     private bool ProcessElement(IOgEvent reason, Rect rect, TElement element)
     {
-        Rect elementRect = element.ElementRect.Get();
-        if(elementRect.yMin + (elementRect.height / 2) < rect.yMin || elementRect.yMax - (elementRect.height / 2) > rect.yMax) return false;
-        return element.ProcessEvent(reason);
+        var elementRect = element.ElementRect.Get();
+        return elementRect.yMin + (elementRect.height / 2) >= rect.yMin && elementRect.yMax - (elementRect.height / 2) <= rect.yMax && element.ProcessEvent(reason);
     }
 }

@@ -14,14 +14,14 @@ public class OgTransformerRectGetter : IDkGetProvider<Rect>, IOgEventCallback<IO
         Options = options;
         provider.Register(this);
     }
-    public IOgOptionsContainer               Options        { get; }
+    public IOgOptionsContainer Options { get; }
     public IOgEventCallback<IOgLayoutEvent>? LayoutCallback { get; set; }
     public Rect Get() => m_Rect;
     object IDkGetProvider.Get() => Get();
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
         m_Rect = reason.Layout.ProcessLayout(Rect.zero, Options);
-        LayoutCallback?.Invoke(reason);
+        _ = (LayoutCallback?.Invoke(reason));
         return false;
     }
 }

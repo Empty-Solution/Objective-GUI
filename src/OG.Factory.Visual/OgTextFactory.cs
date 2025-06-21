@@ -8,13 +8,13 @@ public class OgTextFactory : IOgElementFactory<OgTextElement, OgTextFactoryArgum
     public OgTextElement Create(OgTextFactoryArguments arguments) =>
         new(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider)
         {
-            Font          = arguments.Font,
-            FontSize      = arguments.FontSize,
-            FontStyle     = arguments.FontStyle,
-            Alignment     = arguments.Alignment,
-            Text          = arguments.Text,
-            WordWrap      = arguments.WordWrap,
-            TextClipping  = arguments.TextClipping,
+            Font = arguments.Font,
+            FontSize = arguments.FontSize,
+            FontStyle = arguments.FontStyle,
+            Alignment = arguments.Alignment,
+            Text = arguments.Text,
+            WordWrap = arguments.WordWrap,
+            TextClipping = arguments.TextClipping,
             ColorProvider = arguments.ColorGetter
         };
 }

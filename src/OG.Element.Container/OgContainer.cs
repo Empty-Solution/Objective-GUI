@@ -20,7 +20,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
         provider.RegisterToEnd<IOgEvent>(this);
     }
     public IEnumerable<TElement> Elements => m_Elements;
-    public bool                  Sort     { get; set; } = true;
+    public bool Sort { get; set; } = true;
     public override void Resort()
     {
         if(!Sort) return;
@@ -52,30 +52,30 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
     public int IndexOf(TElement element) => m_Elements.IndexOf(element);
     public virtual bool Invoke(IOgLayoutEvent reason)
     {
-        reason.Layout.ParentRect     = ElementRect.Get();
+        reason.Layout.ParentRect = ElementRect.Get();
         reason.Layout.LastLayoutRect = Rect.zero;
         int count = m_Elements.Count;
         for(int i = 0; i < count; i++)
         {
-            TElement element = m_Elements[i];
+            var element = m_Elements[i];
             reason.Layout.RemainingLayoutItems = count - i - 1;
-            element.ProcessEvent(reason);
+            _ = element.ProcessEvent(reason);
             reason.Layout.LastLayoutRect = element.ElementRect.Get();
         }
         return false;
     }
     public virtual bool Invoke(IOgRenderEvent reason)
     {
-        Rect rect = ElementRect.Get();
+        var rect = ElementRect.Get();
         reason.Global += rect.position;
-        ProcessElementsEventForward(reason);
+        _ = ProcessElementsEventForward(reason);
         reason.Global -= rect.position;
         return false;
     }
     public bool Invoke(IOgEvent reason) => ProcessElementsEventForward(reason);
     public virtual bool Invoke(IOgInputEvent reason)
     {
-        Rect rect = ElementRect.Get();
+        var rect = ElementRect.Get();
         reason.LocalMousePosition -= rect.position;
         bool isUsed = ProcessElementsEventBackward(reason);
         reason.LocalMousePosition += rect.position;
