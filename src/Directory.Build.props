@@ -40,4 +40,9 @@
 		<DefineConstants>RELEASE</DefineConstants>
 	</PropertyGroup>
 	
+    <PropertyGroup>
+        <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+        <ProduceReferenceAssemblyInOutDir>true</ProduceReferenceAssemblyInOutDir>
+    </PropertyGroup>
+	
 </Project>
