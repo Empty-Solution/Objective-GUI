@@ -29,6 +29,7 @@ public class OgBindableElement<TElement, TValue> : OgFocusableElement<TElement, 
     public bool Invoke(IOgKeyBoardKeyDownEvent reason)
     {
         if(m_IsCapturing) return Bind(reason);
+        if(m_Bind.Get() == KeyCode.None) return false;
         return reason.KeyCode == m_Bind.Get() && Override();
     }
     public bool Invoke(IOgKeyBoardKeyUpEvent reason) => !m_IsCapturing;
