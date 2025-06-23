@@ -13,10 +13,10 @@ public class OgVector<TElement>(string name, IOgEventHandlerProvider provider, I
     public IDkReadOnlyRange<Vector2>? Range { get; set; }
     protected override Vector2 CalculateValue(IOgMouseEvent reason, Vector2 value)
     {
-        Vector2 mousePosition = reason.LocalMousePosition;
-        Vector2 min           = Range!.Min;
-        Vector2 max           = Range.Max;
-        Rect    rect          = ElementRect.Get();
+        var mousePosition = reason.LocalMousePosition;
+        var min = Range!.Min;
+        var max = Range.Max;
+        var rect = ElementRect.Get();
         return new(Mathf.Lerp(min.x, max.x, Mathf.InverseLerp(rect.x, rect.xMax, mousePosition.x)),
             Mathf.Lerp(min.y, max.y, Mathf.InverseLerp(rect.y, rect.yMax, mousePosition.y)));
     }

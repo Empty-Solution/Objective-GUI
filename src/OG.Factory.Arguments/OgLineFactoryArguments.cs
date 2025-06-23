@@ -7,6 +7,6 @@ public class OgLineFactoryArguments(string name, IDkGetProvider<Rect> rectGetPro
     : OgVisualFactoryArguments(name, rectGetProvider, eventProvider, colorGetter)
 {
     public IDkGetProvider<Vector2> StartPosition { get; } = startPosition;
-    public IDkGetProvider<Vector2> EndPosition   { get; } = endPosition;
-    public IDkGetProvider<float>   LineWidth     { get; } = lineWidth;
+    public IDkGetProvider<Vector2> EndPosition { get; } = endPosition;
+    public IDkGetProvider<float> LineWidth { get; } = lineWidth;
 }

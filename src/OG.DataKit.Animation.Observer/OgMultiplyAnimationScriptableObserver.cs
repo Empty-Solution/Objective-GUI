@@ -8,7 +8,7 @@ public class OgMultiplyAnimationScriptableObserver<TGetter, TValue, TObserverVal
     private readonly HashSet<OgAnimationGetter<TGetter, TValue>> m_Getters = [];
     protected override void InternalUpdate(TObserverValue state)
     {
-        foreach(OgAnimationGetter<TGetter, TValue> getter in m_Getters) getter.TargetModifier = func.Invoke(getter, state);
+        foreach(var getter in m_Getters) getter.TargetModifier = func.Invoke(getter, state);
     }
     public void AddGetter(OgAnimationGetter<TGetter, TValue> getter) => m_Getters.Add(getter);
     public void RemoveGetter(OgAnimationGetter<TGetter, TValue> getter) => m_Getters.Remove(getter);

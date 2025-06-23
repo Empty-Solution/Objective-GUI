@@ -9,5 +9,5 @@ public class OgTextFieldFactoryArguments(string name, IDkGetProvider<Rect> rectG
     : OgValueFactoryArguments<string>(name, rectGetProvider, eventProvider, valueProvider)
 {
     public IOgTextController TextController => textController;
-    public Font              Font           => font;
+    public Font Font => font;
 }

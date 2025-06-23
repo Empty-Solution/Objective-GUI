@@ -14,50 +14,50 @@ public class OgTextController(IDkFieldProvider<Vector2>? localCursorPosition, ID
         switch(reason.KeyCode)
         {
             case KeyCode.Delete:
-                if(hasControl)
-                    DeleteWord(context, true);
-                else
-                    DeleteChar(context, true);
-                break;
+            if(hasControl)
+                DeleteWord(context, true);
+            else
+                DeleteChar(context, true);
+            break;
             case KeyCode.Backspace:
-                if(hasControl)
-                    DeleteWord(context);
-                else
-                    DeleteChar(context);
-                break;
+            if(hasControl)
+                DeleteWord(context);
+            else
+                DeleteChar(context);
+            break;
             case KeyCode.LeftArrow:
-                if(hasControl)
-                    MoveCursorWord(reason, context);
-                else
-                    MoveCursorChar(reason, context);
-                break;
+            if(hasControl)
+                MoveCursorWord(reason, context);
+            else
+                MoveCursorChar(reason, context);
+            break;
             case KeyCode.RightArrow:
-                if(hasControl)
-                    MoveCursorWord(reason, context, true);
-                else
-                    MoveCursorChar(reason, context, true);
-                break;
+            if(hasControl)
+                MoveCursorWord(reason, context, true);
+            else
+                MoveCursorChar(reason, context, true);
+            break;
             case KeyCode.Tab:
-                HandleTab(context);
-                break;
+            HandleTab(context);
+            break;
             case KeyCode.Home:
-                MoveCursorToStart(reason, context);
-                break;
+            MoveCursorToStart(reason, context);
+            break;
             case KeyCode.End:
-                MoveCursorToEnd(reason, context);
-                break;
+            MoveCursorToEnd(reason, context);
+            break;
             case KeyCode.A when hasControl:
-                SelectAll(context);
-                break;
+            SelectAll(context);
+            break;
             case KeyCode.X when hasControl:
-                Cut(context);
-                break;
+            Cut(context);
+            break;
             case KeyCode.C when hasControl:
-                Copy();
-                break;
+            Copy();
+            break;
             case KeyCode.V when hasControl:
-                Paste(context);
-                break;
+            Paste(context);
+            break;
             default: return false;
         }
         newText = m_Value;
@@ -80,7 +80,7 @@ public class OgTextController(IDkFieldProvider<Vector2>? localCursorPosition, ID
         string value = m_Value;
         if(string.IsNullOrEmpty(value)) return;
         int cursorPosition = CursorPosition;
-        int wordBound      = forward ? value.IndexOf(' ', Mathf.Max(0, cursorPosition + 1)) : value.LastIndexOf(' ', Mathf.Max(0, cursorPosition - 1));
+        int wordBound = forward ? value.IndexOf(' ', Mathf.Max(0, cursorPosition + 1)) : value.LastIndexOf(' ', Mathf.Max(0, cursorPosition - 1));
         wordBound = Mathf.Clamp(wordBound, 0, value.Length);
         DeleteRangeAndChangeCursorSelectionPositions(wordBound, cursorPosition, context);
     }
@@ -125,11 +125,11 @@ public class OgTextController(IDkFieldProvider<Vector2>? localCursorPosition, ID
     private void Paste(IOgTextGraphicsContext context) => ReplaceSelection(GUIUtility.systemCopyBuffer, context);
     private string GetSelectedText()
     {
-        int cursorPosition    = CursorPosition;
+        int cursorPosition = CursorPosition;
         int selectionPosition = SelectionPosition;
         if(cursorPosition == selectionPosition) return string.Empty;
         int startIndex = Mathf.Min(cursorPosition, selectionPosition);
-        int length     = Mathf.Abs(cursorPosition - selectionPosition);
+        int length = Mathf.Abs(cursorPosition - selectionPosition);
         return m_Value.Substring(startIndex, length);
     }
     private void DeleteRangeAndChangeCursorSelectionPositions(int from, int to, IOgTextGraphicsContext context)

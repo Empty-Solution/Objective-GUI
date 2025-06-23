@@ -5,10 +5,10 @@ using UnityEngine;
 namespace OG.TextController.Abstraction;
 public interface IOgTextController
 {
-    IDkFieldProvider<Vector2>? LocalCursorPosition    { get; }
+    IDkFieldProvider<Vector2>? LocalCursorPosition { get; }
     IDkFieldProvider<Vector2>? LocalSelectionPosition { get; }
-    int                        CursorPosition         { get; }
-    int                        SelectionPosition      { get; }
+    int CursorPosition { get; }
+    int SelectionPosition { get; }
     bool HandleKeyEvent(string text, IOgKeyBoardKeyDownEvent reason, IOgTextGraphicsContext context, out string newText);
     string HandleCharacter(string text, char character, IOgTextGraphicsContext context);
     void ChangeCursorPosition(string text, Vector2 position, IOgTextGraphicsContext context);

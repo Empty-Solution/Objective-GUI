@@ -16,7 +16,7 @@ public abstract class OgCharacterTextController(IDkFieldProvider<Vector2>? local
     protected void DeleteSelectionIfNeeded(IOgTextGraphicsContext context)
     {
         int selectionPosition = SelectionPosition;
-        int cursorPosition    = CursorPosition;
+        int cursorPosition = CursorPosition;
         if(cursorPosition == selectionPosition) return;
         DeleteSelection(cursorPosition, selectionPosition, context);
     }

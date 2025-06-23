@@ -12,20 +12,16 @@ public class OgTransformerRectField(IOgEventHandlerProvider provider, IOgOptions
     {
         if(m_Rect.Equals(value)) return false;
         m_Modifier.position += m_Rect.position - value.position;
-        m_Modifier.size     += m_Rect.size - value.size;
+        m_Modifier.size += m_Rect.size - value.size;
         return true;
     }
-    public bool Set(object value)
-    {
-        if(value is Rect rect) return Set(rect);
-        return false;
-    }
+    public bool Set(object value) => value is Rect rect && Set(rect);
     public override bool Invoke(IOgLayoutEvent reason)
     {
-        base.Invoke(reason);
+        _ = base.Invoke(reason);
         if(m_Modifier == Rect.zero) return false;
         m_Rect.position += m_Modifier.position;
-        m_Rect.size     += m_Modifier.size;
+        m_Rect.size += m_Modifier.size;
         return false;
     }
 }

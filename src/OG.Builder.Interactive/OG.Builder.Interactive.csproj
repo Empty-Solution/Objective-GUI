@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	
     <ItemGroup>
         <ProjectReference Include="..\OG.Builder.Abstraction\OG.Builder.Abstraction.csproj"/>
         <ProjectReference Include="..\OG.Builder.Arguments.Interactive\OG.Builder.Arguments.Interactive.csproj"/>
@@ -6,7 +7,9 @@
         <ProjectReference Include="..\OG.Builder.Contexts.Interactive\OG.Builder.Contexts.Interactive.csproj"/>
         <ProjectReference Include="..\OG.Builder\OG.Builder.csproj"/>
     </ItemGroup>
+	
     <ItemGroup>
         <PackageReference Include="DK.DataTypes" Version="1.4.0"/>
     </ItemGroup>
+	
 </Project>

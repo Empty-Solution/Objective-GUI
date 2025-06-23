@@ -8,11 +8,11 @@ public class OgTextureFactory : IOgElementFactory<OgTextureElement, OgTextureFac
     public OgTextureElement Create(OgTextureFactoryArguments arguments) =>
         new(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider)
         {
-            Texture        = arguments.Texture,
-            BorderWidths   = arguments.BorderWidths,
+            Texture = arguments.Texture,
+            BorderWidths = arguments.BorderWidths,
             BorderRadiuses = arguments.BorderRadiuses,
-            AlphaBlend     = arguments.AlphaBlend,
-            ImageAspect    = arguments.ImageAspect,
-            ColorProvider  = arguments.ColorGetter
+            AlphaBlend = arguments.AlphaBlend,
+            ImageAspect = arguments.ImageAspect,
+            ColorProvider = arguments.ColorGetter
         };
 }

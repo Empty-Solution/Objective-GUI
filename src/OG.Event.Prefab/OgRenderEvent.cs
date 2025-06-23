@@ -45,9 +45,9 @@ public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRend
     public void ProcessContexts()
     {
         if(m_Contexts.Count == 0) return;
-        foreach(IOgGraphicsContext context in m_Contexts.OrderBy(c => c.ZOrder))
+        foreach(var context in m_Contexts.OrderBy(c => c.ZOrder))
         {
-            if(!m_Provider.TryGetMatcher(context, out IOgGraphics graphics)) continue;
+            if(!m_Provider.TryGetMatcher(context, out var graphics)) continue;
             graphics.ProcessContext(context);
         }
         m_Contexts.Clear();
@@ -55,11 +55,10 @@ public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRend
         {
             if(m_ClipContexts[i] is null) continue;
             OgClipContext clip = m_ClipContexts[i]!.Value;
-            File.AppendAllText("EmptyHack\\EhLog.txt", $"ClipRect: {clip.OriginalClipRect} GlobalClipRect: {clip.GetRectToClip()} index: {i}\n");
             GUI.BeginClip(clip.GetRectToClip());
             foreach(IOgGraphicsContext context in clip.Contexts.OrderBy(c => c.ZOrder))
             {
-                if(!m_Provider.TryGetMatcher(context, out IOgGraphics graphics)) continue;
+                if(!m_Provider.TryGetMatcher(context, out var graphics)) continue;
                 graphics.ProcessContext(context);
             }
             GUI.EndClip();
@@ -69,9 +68,9 @@ public class OgRenderEvent(IEnumerable<IOgGraphics> graphics) : OgEvent, IOgRend
     }
     private struct OgClipContext(Rect clipRect, Vector2 global, Vector2 scrollOffset)
     {
-        public Rect    OriginalClipRect => clipRect;
-        public Vector2 Global           { get; set; } = global;
-        public Vector2 ScrollOffset     => scrollOffset;
+        public Rect OriginalClipRect => clipRect;
+        public Vector2 Global { get; set; } = global;
+        public Vector2 ScrollOffset => scrollOffset;
         public Rect GetRectToClip() => new(clipRect.position + Global, clipRect.size);
         public List<IOgGraphicsContext> Contexts { get; } = [];
     }

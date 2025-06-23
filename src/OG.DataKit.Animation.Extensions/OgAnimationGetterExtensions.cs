@@ -9,12 +9,12 @@ public static class OgAnimationGetterExtensions
         if(value)
         {
             rect.position += new Vector2(xOffset, yOffset);
-            rect.size     -= new Vector2(xOffset * 2, yOffset * 2);
+            rect.size -= new Vector2(xOffset * 2, yOffset * 2);
         }
         else
         {
             rect.position -= new Vector2(xOffset, yOffset);
-            rect.size     += new Vector2(xOffset * 2, yOffset * 2);
+            rect.size += new Vector2(xOffset * 2, yOffset * 2);
         }
         return rect;
     }
