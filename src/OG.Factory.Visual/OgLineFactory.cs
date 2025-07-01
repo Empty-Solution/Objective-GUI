@@ -7,5 +7,5 @@ public class OgLineFactory : IOgElementFactory<OgLineElement, OgLineFactoryArgum
 {
     public OgLineElement Create(OgLineFactoryArguments arguments) =>
         new(arguments.Name, arguments.EventProvider ?? new OgEventHandlerProvider(), arguments.RectGetProvider, arguments.LineWidth,
-            arguments.StartPosition, arguments.EndPosition);
+            arguments.StartPosition, arguments.EndPosition, arguments.Color);
 }

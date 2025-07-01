@@ -11,6 +11,7 @@ public class OgTextGraphics : OgBaseGraphics<IOgTextGraphicsContext>
     public override void ProcessContext(IOgTextGraphicsContext ctx)
     {
         if(ctx.Font is null) return;
+        if(ctx.RenderRect.position.x < 0 || ctx.RenderRect.position.y < 0 || ctx.RenderRect.position.x > Screen.width || ctx.RenderRect.position.y > Screen.height) return; 
         tempContent.text = ctx.Text;
         tempStyle!.fontSize = ctx.FontSize;
         tempStyle.alignment = ctx.Alignment;
