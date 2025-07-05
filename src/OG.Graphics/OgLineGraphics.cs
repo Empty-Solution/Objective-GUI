@@ -8,8 +8,8 @@ public class OgLineGraphics : OgBaseGraphics<IOgLineGraphicsContext>
 
     public override void ProcessContext(IOgLineGraphicsContext ctx)
     {
-        if(ctx.StartPosition.x < 0.05f || ctx.StartPosition.y < 0.05f || ctx.StartPosition.x > Screen.width || ctx.StartPosition.y > Screen.height) return;
-        if(ctx.EndPosition.x   < 0.05f || ctx.EndPosition.y   < 0.05f || ctx.EndPosition.x   > Screen.width || ctx.EndPosition.y   > Screen.height) return;
+        if((ctx.StartPosition.x < 0.05f || ctx.StartPosition.y < 0.05f || ctx.StartPosition.x > Screen.width || ctx.StartPosition.y > Screen.height) && 
+           ctx.EndPosition.x   < 0.05f || ctx.EndPosition.y   < 0.05f || ctx.EndPosition.x   > Screen.width || ctx.EndPosition.y   > Screen.height) return;
         if(antiAliasingTexture is null)
         {
             antiAliasingTexture = new(1, 3, TextureFormat.RGBA32, 1, true);

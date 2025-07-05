@@ -3,15 +3,21 @@ using UnityEngine;
 namespace OG.Graphics;
 public class OgTextGraphics : OgBaseGraphics<IOgTextGraphicsContext>
 {
-    private static readonly GUIStyle? tempStyle = new()
-    {
-        normal = new()
-    };
-    private static readonly GUIContent tempContent = new();
+    private static          GUIStyle?   tempStyle;
+    private static GUIContent? tempContent;
     public override void ProcessContext(IOgTextGraphicsContext ctx)
     {
         if(ctx.Font is null) return;
-        if(ctx.RenderRect.position.x < 0 || ctx.RenderRect.position.y < 0 || ctx.RenderRect.position.x > Screen.width || ctx.RenderRect.position.y > Screen.height) return; 
+        if (!new Rect(0, 0, Screen.width, Screen.height).Overlaps(ctx.RenderRect))
+            return;
+        
+        tempStyle ??= new()
+        {
+            normal = new()
+        };
+        tempContent ??= new();
+
+
         tempContent.text = ctx.Text;
         tempStyle!.fontSize = ctx.FontSize;
         tempStyle.alignment = ctx.Alignment;
