@@ -27,12 +27,17 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     {
         var rect = ElementRect.Get();
         reason.Enter(rect, Value.Get());
-        _ = ProcessElementsEventForwardWithDelta(reason);
+        reason.Global += new Vector2(0, VisualOffset);
+        _             =  ProcessElementsEventForwardWithDelta(reason);
+        reason.Global -= new Vector2(0, VisualOffset);
         reason.Exit();
         return false;
     }
-    public IDkGetProvider<IDkReadOnlyRange<Vector2>>? Range { get; set; }
-    public float ScrollMultiplier { get; set; } = 3f;
+    public IDkGetProvider<IDkReadOnlyRange<Vector2>>? Range            { get; set; }
+    public float                                      ScrollMultiplier { get; set; } = 3f;
+    public float                                      VisualOffset     { get; set; }
+    public float                                      InputOffset      { get; set; }
+
     protected override bool PreBeginControl(IOgMouseKeyDownEvent reason) =>
         HandleInputWidthDelta(reason) || (IsHovering && !IsInteracting && BeginControl(reason));
     protected override bool PreEndControl(IOgMouseKeyUpEvent reason) => HandleInputWidthDelta(reason) || (IsInteracting && EndControl(reason));
@@ -45,8 +50,10 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
         var rect = ElementRect.Get();
         var value = Value.Get();
         reason.LocalMousePosition -= rect.position - value;
+        reason.LocalMousePosition -= new Vector2(0, InputOffset); 
         bool isUsed = ProcessElementsEventBackwardWithDelta(reason);
         reason.LocalMousePosition += rect.position - value;
+        reason.LocalMousePosition += new Vector2(0, InputOffset); 
         return isUsed;
     }
     protected bool ProcessElementsEventForwardWithDelta(IOgEvent reason)
@@ -70,7 +77,7 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     private bool ProcessElement(IOgEvent reason, Rect rect, TElement element)
     {
         Rect  elementRect = element.ElementRect.Get();
-        float offset      = elementRect.height * 0.5f;
+        float offset      = elementRect.height * 0.7f;
         if(elementRect.yMin + offset < rect.yMin || elementRect.yMax - offset > rect.yMax) return false;
         return element.ProcessEvent(reason);
     }
