@@ -18,7 +18,7 @@ public class OgQuadGraphics : OgBaseGraphics<IOgQuadGraphicsContext>
         if(indicesCount > indices.Length) indices = m_IndicesBuffer = new int[indicesCount * 2];
         ctx.CopyVertices(vertices);
         ctx.CopyIndices(indices);
-        _ = (ctx.Material?.SetPass(0));
+        _ = ctx.Material?.SetPass(0);
         GL.PushMatrix();
         GL.Viewport(ctx.ViewPort);
         GL.MultMatrix(Matrix4x4.TRS(ctx.Position, ctx.Rotation, ctx.Scale));

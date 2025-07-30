@@ -1,6 +1,7 @@
 ﻿using DK.Getting.Abstraction.Generic;
 using OG.Event.Abstraction;
 using OG.Graphics.Contexts;
+using System.IO;
 using UnityEngine;
 namespace OG.Element.Visual;
 public class OgQuadElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter)
@@ -16,14 +17,15 @@ public class OgQuadElement(string name, IOgEventHandlerProvider provider, IDkGet
     {
         m_RenderContext ??= new();
         m_RenderContext.Clear();
+        
         if(Material?.Get() is null) return;
         int verticesCount = m_RenderContext!.VerticesCount;
         FillVertex();
         FillIndices(verticesCount);
         var rect = ElementRect.Get();
-        Material?.Get()?.SetVector("_Radius", Radius);
-        Material?.Get()?.SetFloat("_AspectRatio", rect.width / rect.height);
-        m_RenderContext.Material = Material?.Get();
+        Material.Get()?.SetVector("_Radius", Radius);
+        Material.Get()?.SetFloat("_AspectRatio", rect.width / rect.height);
+        m_RenderContext.Material = Material.Get();
     }
     protected virtual void FillVertex()
     {
