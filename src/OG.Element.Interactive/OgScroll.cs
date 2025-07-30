@@ -14,6 +14,8 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     public OgScroll(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter, IDkFieldProvider<Vector2> value) : base(name, provider,
         rectGetter, value) =>
         provider.Register<IOgMouseWheelEvent>(this);
+
+    private int LastElementsCount = -1;
     public bool Invoke(IOgMouseWheelEvent reason)
     {
         if(!IsHovering) return false;
@@ -22,6 +24,36 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
         if(Equals(value, newValue)) return false;
         _ = Value.Set(newValue);
         return base.Invoke(reason);
+    }
+    public override bool Invoke(IOgLayoutEvent reason)
+    {
+        if(HasLayoutChanged)
+        {
+            LastElementsCount = -1;
+            HasLayoutChanged  = false;
+        }
+        reason.Layout.ParentRect     = ElementRect.Get();
+        reason.Layout.LastLayoutRect = Rect.zero;
+        var parentRect  = ElementRect.Get();
+        parentRect.position += Value.Get();
+        int count = m_Elements.Count;
+        bool reprocess = count != LastElementsCount;
+        LastElementsCount = count;
+        for(int i = 0; i < count; i++)
+        {
+            var element = m_Elements[i];
+            if(!element.IsActive) continue;
+            reason.Layout.RemainingLayoutItems = count - i - 1;
+            var rect = element.ElementRect.Get();
+            if(!reprocess && rect != Rect.zero && !IsRectInsideArea(rect, parentRect))
+            {
+                reason.Layout.LastLayoutRect = rect;
+                continue;
+            }
+            _                                  = element.ProcessEvent(reason);
+            reason.Layout.LastLayoutRect       = element.ElementRect.Get();
+        }
+        return false;
     }
     public override bool Invoke(IOgRenderEvent reason)
     {
@@ -74,11 +106,10 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
                 return true;
         return false;
     }
-    private bool ProcessElement(IOgEvent reason, Rect rect, TElement element)
+    private bool ProcessElement(IOgEvent reason, Rect rect, TElement element) => IsRectInsideArea(element.ElementRect.Get(), rect) && element.ProcessEvent(reason);
+    private bool IsRectInsideArea(Rect rect, Rect areaRect)
     {
-        Rect  elementRect = element.ElementRect.Get();
-        float offset      = elementRect.height * 1.2f;
-        if(elementRect.yMin + offset < rect.yMin || elementRect.yMax - offset > rect.yMax) return false;
-        return element.ProcessEvent(reason);
+        float offset      = rect.height * 1.2f;
+        return !(rect.yMin + offset < areaRect.yMin) && !(rect.yMax - offset > areaRect.yMax);
     }
 }

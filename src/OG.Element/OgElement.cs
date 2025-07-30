@@ -6,11 +6,22 @@ using UnityEngine;
 namespace OG.Element;
 public class OgElement(string name, IOgEventHandlerProvider provider, IDkGetProvider<Rect> rectGetter) : IOgElement
 {
-    public         IOgElement?          Parent      { get; set; }
-    public         IDkGetProvider<Rect> ElementRect => rectGetter;
-    public         string               Name        => name;
-    public         bool                 IsActive    { get; set; } = true;
-    public virtual long                 Order       { get; set; }
+    public bool                 HasLayoutChanged { get; set; }
+    public IOgElement?          Parent           { get; set; }
+    public IDkGetProvider<Rect> ElementRect      => rectGetter;
+    public string               Name             => name;
+
+    public bool IsActive
+    {
+        get;
+        set
+        {
+            HasLayoutChanged = true;
+            field            = value;
+        }
+    } = true;
+
+    public virtual long                 Order            { get; set; }
     public bool ProcessEvent(IOgEvent reason) => IsActive && provider.Handle(reason);
     public virtual void Resort()
     {

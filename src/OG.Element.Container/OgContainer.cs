@@ -61,7 +61,7 @@ public class OgContainer<TElement> : OgElement, IOgContainer<TElement>, IOgEvent
             if(!element.IsActive) continue;
             reason.Layout.RemainingLayoutItems = count - i - 1;
             _ = element.ProcessEvent(reason);
-                reason.Layout.LastLayoutRect = element.ElementRect.Get();
+            reason.Layout.LastLayoutRect = element.ElementRect.Get();
         }
         return false;
     }
