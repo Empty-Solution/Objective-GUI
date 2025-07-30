@@ -77,7 +77,7 @@ public class OgScroll<TElement> : OgInteractableValueElement<TElement, Vector2>,
     private bool ProcessElement(IOgEvent reason, Rect rect, TElement element)
     {
         Rect  elementRect = element.ElementRect.Get();
-        float offset      = elementRect.height * 0.7f;
+        float offset      = elementRect.height * 1.2f;
         if(elementRect.yMin + offset < rect.yMin || elementRect.yMax - offset > rect.yMax) return false;
         return element.ProcessEvent(reason);
     }
