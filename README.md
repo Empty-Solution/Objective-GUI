@@ -113,41 +113,6 @@ ObjectiveGUI uses a layered architecture with SOLID principles:
 
 ## Getting Started
 
-**Basic Element Creation:**
-```csharp
-// Create a button with binding
-var eventProvider = new OgEventHandlerProvider();
-var rectGetter = new OgTransformerRectGetter(() => new Rect(10, 10, 200, 50));
-var buttonText = new DkObservableProperty<string>("Click Me");
-
-var buttonFactory = new OgBindableFactory<string>();
-var button = buttonFactory.Create(new OgBindableFactoryArguments<string>(
-    "MyButton", eventProvider, rectGetter, buttonText));
-
-// Add event handling
-button.EventHandler.AddCallback<IOgClickEvent>(evt => {
-    buttonText.Value = "Clicked!";
-});
-```
-
-**Using Builder Pattern:**
-```csharp
-// Create a container with multiple elements
-var container = new OgElementBuilder()
-    .CreateContainer("MainContainer", new Rect(0, 0, 800, 600))
-    .AddChild(childBuilder => childBuilder
-        .CreateButton("SubmitButton", new Rect(300, 400, 200, 50))
-        .WithText("Submit")
-        .WithClickHandler(() => HandleSubmit())
-    )
-    .AddChild(childBuilder => childBuilder
-        .CreateTextField("NameField", new Rect(300, 300, 200, 40))
-        .WithPlaceholder("Enter your name")
-        .WithBinding(userModel.Name)
-    )
-    .Build();
-```
-
 ## Requirements
 - .NET Framework 4.8
 - Visual Studio 2019 or higher
