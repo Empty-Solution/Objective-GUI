@@ -1,0 +1,45 @@
+name: Build and Publish NuGet
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+    
+    - name: Setting up NuGet auth
+      shell: pwsh
+      run: |
+        dotnet nuget add source https://nuget.pkg.github.com/Empty-Solution/index.json --name github --store-password-in-clear-text
+        dotnet nuget update source github --username ${{ github.actor }} --password ${{ secrets.NUGET_TOKEN }} --store-password-in-clear-text
+    
+    - name: Getting version
+      id: version
+      shell: pwsh
+      run: |
+        if ($env:GITHUB_REF -match "refs/tags/v(.+)") {
+          $VERSION = $matches[1]
+        } else {
+          $VERSION = "1.0.0-alpha"
+        }
+        echo "VERSION=$VERSION" >> $env:GITHUB_OUTPUT
+    
+    - name: Packing and Pushing
+      working-directory: ./src
+      shell: pwsh
+      run: |
+        dotnet pack -p:Version=${{ steps.version.outputs.VERSION }} --configuration Release
+        dotnet nuget push "**/*.nupkg" --source github --api-key ${{ secrets.NUGET_TOKEN }} --skip-duplicate
